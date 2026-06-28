@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T12:03:18.246Z",
+  "last_cycle": "2026-06-28T12:05:40.330Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -35,9 +35,8 @@
   "trade_history_manual": [],
   "pending_contracts": [],
   "ai_keys_bench": {
-    "GEMINI_KEY_1": 1782657030738,
-    "GEMINI_KEY_2": 1782657030738,
-    "GEMINI_KEY_3": 1782657030738
+    "GEMINI_KEY_1": 1782657318870,
+    "GEMINI_KEY_2": 1782657318870
   },
   "logs": [
     {
@@ -312,6 +311,161 @@
       "meta": {
         "symbol": "cryBTCUSD",
         "error": "WS not open (state=3)"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:17.454Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T12:05:17.453Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:17.455Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:05:17.891Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=0Ab7bb8v"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:18.235Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:05:18.319Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T12:05:18.319Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:18.870Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:05:18.870Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_1\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:05:23.758Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_1\" failed — benching 150m",
+      "meta": {
+        "error": "gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:23.758Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_2\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:05:24.588Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_2\" failed — benching 150m",
+      "meta": {
+        "error": "gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:24.588Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_3\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:05:36.943Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_3\"",
+      "meta": {
+        "action": "open",
+        "conf": 0.75
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:36.943Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "btc-up-001",
+        "keyUsed": "GEMINI_KEY_3"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:37.109Z",
+      "level": "error",
+      "msg": "placeMultiplier failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "error": "ContractBuyValidationError: Enter an amount equal to or lower than 9.70."
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:37.110Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T12:05:18.319Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "open",
+        "decision_id": "btc-up-001",
+        "rationale": "Price is consistently above EMA(20) and EMA(50) across M5, M10, and M15 timeframes (e.g., M5 last_close 60323.59 vs EMA20 60253.11). MACD histogram is positive on all timeframes (M5 hist 15.78), confi",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:37.112Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:37.245Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782612600000,
+          "max": 1782648300000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T12:05:39.233Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2121,
+        "bytes": 174395
       }
     }
   ],
