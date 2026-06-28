@@ -162,22 +162,23 @@ check('placeMultiplier retries with clamped stake AND scaled TP/SL on cap error'
             }),
         },
         {
-            label: 'proposal #2 stake=9.70 with proportionally scaled TP/SL',
+            // With 5% safety margin: 9.70 - max(0.05, 9.70*0.05=0.485 floor2→0.48) = 9.22
+            // ratio = 9.22 / 10 = 0.922 → TP/SL should be floor2(21*0.922) = 19.36
+            label: 'proposal #2 stake=9.22 with proportionally scaled TP/SL (5% safety margin)',
             match: (p) => {
                 if (p.proposal !== 1) return false;
-                if (p.amount !== 9.70) return false;
-                // ratio = 9.70 / 10 = 0.97 → TP/SL should be floor2(21*0.97)=20.37
+                if (p.amount !== 9.22) return false;
                 if (!p.limit_order) return false;
-                if (p.limit_order.take_profit !== 20.37) return false;
-                if (p.limit_order.stop_loss   !== 20.37) return false;
+                if (p.limit_order.take_profit !== 19.36) return false;
+                if (p.limit_order.stop_loss   !== 19.36) return false;
                 return true;
             },
             reply: (req_id) => ({
                 req_id, msg_type: 'proposal',
                 proposal: {
-                    id: 'prop-2', ask_price: 9.70, spot: 60230,
+                    id: 'prop-2', ask_price: 9.22, spot: 60230,
                     commission: 0.10,
-                    limit_order: { take_profit: { order_amount: 20.37 }, stop_loss: { order_amount: 20.37 } },
+                    limit_order: { take_profit: { order_amount: 19.36 }, stop_loss: { order_amount: 19.36 } },
                 },
             }),
         },
@@ -188,7 +189,7 @@ check('placeMultiplier retries with clamped stake AND scaled TP/SL on cap error'
                 req_id, msg_type: 'buy',
                 buy: {
                     contract_id: 999111222,
-                    buy_price: 9.70,
+                    buy_price: 9.22,
                     transaction_id: 777,
                     longcode: 'cryBTCUSD MULTUP x200 (auto-scaled smoke)',
                 },
@@ -211,11 +212,11 @@ check('placeMultiplier retries with clamped stake AND scaled TP/SL on cap error'
     const clamp = out.buy._aurelia_stake_clamp;
     assert.ok(clamp, '_aurelia_stake_clamp metadata must be present when clamped');
     assert.strictEqual(clamp.requested_stake, 10);
-    assert.strictEqual(clamp.final_stake,     9.70);
+    assert.strictEqual(clamp.final_stake,     9.22);
     assert.strictEqual(clamp.requested_take_profit, 21);
-    assert.strictEqual(clamp.final_take_profit,     20.37);
+    assert.strictEqual(clamp.final_take_profit,     19.36);
     assert.strictEqual(clamp.requested_stop_loss,   21);
-    assert.strictEqual(clamp.final_stop_loss,       20.37);
+    assert.strictEqual(clamp.final_stop_loss,       19.36);
     assert.strictEqual(scenario.length, 0, 'all scenario steps must be consumed');
 });
 

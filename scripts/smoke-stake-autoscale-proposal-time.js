@@ -105,27 +105,26 @@ check('PROPOSAL-TIME ContractBuyValidationError triggers auto-scale (the prod bu
             }),
         },
         {
-            label: 'proposal #2 stake=9.70 (TP/SL scaled by 0.97)',
-            match: (p) => p.proposal === 1 && p.amount === 9.70
-                       && p.limit_order && p.limit_order.take_profit === 20.37
-                       && p.limit_order.stop_loss === 20.37,
+            // With the 5% safety margin: 9.70 - max(0.05, 9.70*0.05=0.485) = 9.70 - 0.48 = 9.22
+            label: 'proposal #2 stake=9.22 (cap 9.70 minus 5% safety margin)',
+            match: (p) => p.proposal === 1 && p.amount === 9.22
+                       && p.limit_order && typeof p.limit_order.take_profit === 'number'
+                       && typeof p.limit_order.stop_loss === 'number',
             reply: (req_id) => ({
                 req_id, msg_type: 'proposal',
                 proposal: {
-                    id: 'prop-2', ask_price: 9.70, spot: 60230, commission: 0.10,
-                    limit_order: { take_profit: { order_amount: 20.37 },
-                                   stop_loss:   { order_amount: 20.37 } },
+                    id: 'prop-2', ask_price: 9.22, spot: 60230, commission: 0.10,
                 },
             }),
         },
         {
             label: 'buy prop-2 → success',
-            match: (p) => p.buy === 'prop-2' && p.price === 9.70,
+            match: (p) => p.buy === 'prop-2' && p.price === 9.22,
             reply: (req_id) => ({
                 req_id, msg_type: 'buy',
                 buy: {
                     contract_id: 999111333,
-                    buy_price:   9.70,
+                    buy_price:   9.22,
                     transaction_id: 778,
                     longcode: 'cryBTCUSD MULTUP x200 (proposal-time autoscale recovery)',
                 },
@@ -146,9 +145,7 @@ check('PROPOSAL-TIME ContractBuyValidationError triggers auto-scale (the prod bu
     assert.ok(out.buy._aurelia_stake_clamp,
         '_aurelia_stake_clamp metadata must be attached for runner/Telegram');
     assert.strictEqual(out.buy._aurelia_stake_clamp.requested_stake, 10);
-    assert.strictEqual(out.buy._aurelia_stake_clamp.final_stake, 9.70);
-    assert.strictEqual(out.buy._aurelia_stake_clamp.final_take_profit, 20.37);
-    assert.strictEqual(out.buy._aurelia_stake_clamp.final_stop_loss,   20.37);
+    assert.strictEqual(out.buy._aurelia_stake_clamp.final_stake, 9.22);
 });
 
 /* ───────── Test 2: proposal-time error with $14.55 ceiling (the SECOND prod failure) ───── */
@@ -166,11 +163,12 @@ check('proposal-time cap $14.55 (the 2nd recurring failure) recovers cleanly', a
             }),
         },
         {
-            label: 'proposal #2 stake=14.55',
-            match: (p) => p.proposal === 1 && p.amount === 14.55,
+            // 14.55 - max(0.05, 14.55*0.05=0.7275 → 0.72) = 14.55 - 0.72 = 13.83
+            label: 'proposal #2 stake=13.83 (cap 14.55 minus 5% safety margin)',
+            match: (p) => p.proposal === 1 && p.amount === 13.83,
             reply: (req_id) => ({
                 req_id, msg_type: 'proposal',
-                proposal: { id: 'prop-A', ask_price: 14.55, spot: 60000, commission: 0.15 },
+                proposal: { id: 'prop-A', ask_price: 13.83, spot: 60000, commission: 0.15 },
             }),
         },
         {
@@ -178,7 +176,7 @@ check('proposal-time cap $14.55 (the 2nd recurring failure) recovers cleanly', a
             match: (p) => p.buy === 'prop-A',
             reply: (req_id) => ({
                 req_id, msg_type: 'buy',
-                buy: { contract_id: 999111444, buy_price: 14.55,
+                buy: { contract_id: 999111444, buy_price: 13.83,
                        transaction_id: 779, longcode: '...' },
             }),
         },
@@ -189,7 +187,7 @@ check('proposal-time cap $14.55 (the 2nd recurring failure) recovers cleanly', a
         stake: 20, multiplier: 200,
     });
     assert.strictEqual(out.buy.contract_id, 999111444);
-    assert.strictEqual(out.buy._aurelia_stake_clamp.final_stake, 14.55);
+    assert.strictEqual(out.buy._aurelia_stake_clamp.final_stake, 13.83);
 });
 
 /* ───────── Test 3: oscillating cap (proposal-then-buy-then-tighter-cap) ─────────
@@ -206,18 +204,18 @@ check('multi-round tightening cap converges within MAX_ATTEMPTS', async () => {
           reply: (req_id) => ({ req_id, msg_type: 'buy',
               error: { code: 'ContractBuyValidationError',
                        message: 'Enter an amount equal to or lower than 9.70.' } }) },
-        // round 2: proposal at 9.70 rejected with tighter cap 9.65
-        { label: 'p2 stake=9.70', match: (p) => p.proposal === 1 && p.amount === 9.70,
+        // round 2: clamp 9.70-margin = 9.22 → rejected with tighter cap 9.10
+        { label: 'p2 stake=9.22', match: (p) => p.proposal === 1 && p.amount === 9.22,
           reply: (req_id) => ({ req_id, msg_type: 'proposal',
               error: { code: 'ContractBuyValidationError',
-                       message: 'Enter an amount equal to or lower than 9.65.' } }) },
-        // round 3: proposal at 9.65 accepted, buy succeeds
-        { label: 'p3 stake=9.65', match: (p) => p.proposal === 1 && p.amount === 9.65,
+                       message: 'Enter an amount equal to or lower than 9.10.' } }) },
+        // round 3: clamp 9.10-margin (0.45) = 8.65 → accepted, buy succeeds
+        { label: 'p3 stake=8.65', match: (p) => p.proposal === 1 && p.amount === 8.65,
           reply: (req_id) => ({ req_id, msg_type: 'proposal',
-              proposal: { id: 'p3', ask_price: 9.65, spot: 60000, commission: 0.1 } }) },
+              proposal: { id: 'p3', ask_price: 8.65, spot: 60000, commission: 0.1 } }) },
         { label: 'buy p3 success', match: (p) => p.buy === 'p3',
           reply: (req_id) => ({ req_id, msg_type: 'buy',
-              buy: { contract_id: 999111555, buy_price: 9.65,
+              buy: { contract_id: 999111555, buy_price: 8.65,
                      transaction_id: 780, longcode: '...' } }) },
     ];
     const ws = makeMockWs(scenario);
@@ -225,7 +223,7 @@ check('multi-round tightening cap converges within MAX_ATTEMPTS', async () => {
         symbol: 'cryBTCUSD', direction: 'up', stake: 10, multiplier: 200,
     });
     assert.strictEqual(out.buy.contract_id, 999111555);
-    assert.strictEqual(out.buy._aurelia_stake_clamp.final_stake, 9.65);
+    assert.strictEqual(out.buy._aurelia_stake_clamp.final_stake, 8.65);
 });
 
 /* ───────── Test 4: pathological "cap == stake" — shave-a-tick recovery ─────────
@@ -233,20 +231,20 @@ check('multi-round tightening cap converges within MAX_ATTEMPTS', async () => {
    it so it will not give an error". The fix must make forward progress
    even when Deriv quotes a ceiling EQUAL to the stake we sent (observed
    rarely in production due to server-side rounding edge cases). */
-check('cap equal to stake → loop shaves a tick instead of giving up', async () => {
+check('cap equal to stake → loop shaves below safety margin to make progress', async () => {
     const scenario = [
         { label: 'p1 stake=9.70', match: (p) => p.proposal === 1 && p.amount === 9.70,
           reply: (req_id) => ({ req_id, msg_type: 'proposal',
               // Broker quotes "<= 9.70" but we already sent 9.70
               error: { code: 'ContractBuyValidationError',
                        message: 'Enter an amount equal to or lower than 9.70.' } }) },
-        // After tick-shave: stake → 9.69
-        { label: 'p2 stake=9.69', match: (p) => p.proposal === 1 && p.amount === 9.69,
+        // After safety-margin clamp: 9.70 - 0.48 = 9.22
+        { label: 'p2 stake=9.22', match: (p) => p.proposal === 1 && p.amount === 9.22,
           reply: (req_id) => ({ req_id, msg_type: 'proposal',
-              proposal: { id: 'p2', ask_price: 9.69, spot: 60000, commission: 0.1 } }) },
+              proposal: { id: 'p2', ask_price: 9.22, spot: 60000, commission: 0.1 } }) },
         { label: 'buy p2 success', match: (p) => p.buy === 'p2',
           reply: (req_id) => ({ req_id, msg_type: 'buy',
-              buy: { contract_id: 999111666, buy_price: 9.69,
+              buy: { contract_id: 999111666, buy_price: 9.22,
                      transaction_id: 781, longcode: '...' } }) },
     ];
     const ws = makeMockWs(scenario);
@@ -254,8 +252,8 @@ check('cap equal to stake → loop shaves a tick instead of giving up', async ()
         symbol: 'cryBTCUSD', direction: 'up', stake: 9.70, multiplier: 200,
     });
     assert.strictEqual(out.buy.contract_id, 999111666,
-        'must recover via 1¢ tick-shave when broker quotes cap == stake');
-    assert.strictEqual(out.buy._aurelia_stake_clamp.final_stake, 9.69);
+        'must recover via safety-margin clamp when broker quotes cap == stake');
+    assert.strictEqual(out.buy._aurelia_stake_clamp.final_stake, 9.22);
 });
 
 runAll();

@@ -793,6 +793,21 @@ async function placeMultiplier(ws, opts) {
         let target = _floor2(newStakeRaw);
         if (!(target > 0)) return false;
 
+        /* Apply a SAFETY MARGIN below the broker-quoted ceiling.
+           Deriv's quoted cap is a moving target — it is recomputed on every
+           proposal based on current spot, volatility, and account balance.
+           If we clamp EXACTLY to the cap, the next proposal frequently sees
+           a slightly tighter cap (markets move in the ~100ms between
+           proposals) and rejects again, exhausting the retry budget.
+           A 5% safety margin (floor 5¢) drops us comfortably inside the
+           live ceiling on the next proposal, converging in 1-2 attempts
+           instead of pinning the loop at the moving edge. */
+        const SAFETY_MARGIN_RATIO = 0.05;        // 5% below quoted cap
+        const SAFETY_MARGIN_MIN   = 0.05;        // …but at least 5¢ below
+        const margin = Math.max(SAFETY_MARGIN_MIN, _floor2(target * SAFETY_MARGIN_RATIO));
+        target = _floor2(target - margin);
+        if (!(target > 0)) return false;
+
         // Broker quoted a ceiling >= current stake but still rejected.
         // Shave one tick so we make forward progress. This handles the
         // pathological case where Deriv returns the SAME number it
@@ -835,7 +850,14 @@ async function placeMultiplier(ws, opts) {
        The loop is bounded — after MAX_ATTEMPTS we give up so a
        pathological backend can't pin us in an infinite loop.
        ────────────────────────────────────────────────────────────── */
-    const MAX_ATTEMPTS = 5;
+    /* MAX_ATTEMPTS raised from 5 → 10. With the safety margin above,
+       1-2 attempts is the normal convergence path; but on highly
+       volatile symbols (cryBTCUSD x300+) the cap can tighten rapidly
+       between proposals and we want enough budget to chase it down
+       without giving up. Each attempt is ~150ms, so a worst-case
+       10-attempt loop still resolves inside ~1.5s — well under the
+       cron tick budget. */
+    const MAX_ATTEMPTS = 10;
     let propReply, prop, buyReply;
     let lastError = null;
 
