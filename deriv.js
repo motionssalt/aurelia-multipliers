@@ -197,17 +197,86 @@ function _attachHandlers(ws) {
     ws.on('error', (err) => Logger.error('Deriv WS error', { error: err.message }));
 }
 
+/* Defensive guard — strip unexpected top-level keys from sensitive
+   trade requests before they hit the wire.
+
+   Deriv's WebSocket schemas reject unrecognised top-level fields with
+   "Properties not allowed: <field>" (e.g. `underlying_symbol` on a
+   proposal, or `symbol` on a buy/sell/contract_update/POC). The error
+   is rejected synchronously by the schema layer, so an otherwise good
+   trade never opens.
+
+   The current code paths (placeMultiplier / closeMultiplier /
+   reviseMultiplierLimits / getOpenPositionState) were audited by hand
+   and confirmed clean. This guard is belt-and-suspenders: any future
+   call site that accidentally adds a stray top-level field gets it
+   stripped here, with a single warning line so the bug is loud but
+   not fatal. The known-allowed sets below cover every top-level field
+   the four sensitive endpoints accept in our usage; pass-through is
+   used for every other request type. */
+const _ALLOWED_TOP_KEYS = {
+    // Common control fields Deriv always accepts on any request:
+    _common: ['req_id', 'passthrough'],
+    // POST /proposal
+    proposal: [
+        'proposal', 'amount', 'basis', 'contract_type', 'currency',
+        'duration', 'duration_unit', 'symbol', 'multiplier',
+        'limit_order', 'barrier', 'barrier2', 'date_start', 'date_expiry',
+        'product_type', 'cancellation', 'subscribe', 'payout',
+        'trading_period_start', 'selected_tick',
+    ],
+    // POST /buy
+    buy:                    ['buy', 'price', 'parameters', 'subscribe'],
+    // POST /sell
+    sell:                   ['sell', 'price'],
+    // POST /contract_update
+    contract_update:        ['contract_update', 'contract_id', 'limit_order'],
+    // POST /proposal_open_contract
+    proposal_open_contract: ['proposal_open_contract', 'contract_id', 'subscribe'],
+};
+
+function _guardSensitiveRequest(payload) {
+    if (!payload || typeof payload !== 'object') return payload;
+    // Identify the request type by looking for the matching primary key.
+    let kind = null;
+    for (const k of ['proposal', 'buy', 'sell', 'contract_update', 'proposal_open_contract']) {
+        if (Object.prototype.hasOwnProperty.call(payload, k)) { kind = k; break; }
+    }
+    if (!kind) return payload; // not a guarded request type — pass through unchanged
+    const allowed = new Set([..._ALLOWED_TOP_KEYS._common, ..._ALLOWED_TOP_KEYS[kind]]);
+    const cleaned = {};
+    const stripped = [];
+    for (const key of Object.keys(payload)) {
+        if (allowed.has(key)) cleaned[key] = payload[key];
+        else stripped.push(key);
+    }
+    if (stripped.length) {
+        Logger.warn(`Deriv request guard: stripped unexpected top-level field(s) on "${kind}" request`, {
+            kind,
+            stripped,
+            hint: 'These would be rejected by Deriv with "Properties not allowed: ...". ' +
+                  'Move them under the correct nested object (e.g. limit_order) or remove them.',
+        });
+    }
+    return cleaned;
+}
+
 function request(ws, payload, timeoutMs = DEFAULT_TIMEOUT) {
     return new Promise((resolve, reject) => {
         if (ws.readyState !== WebSocket.OPEN) {
             return reject(new Error(`WS not open (state=${ws.readyState})`));
         }
         const id = ws.__reqId++;
-        const body = Object.assign({}, payload, { req_id: id });
+        // Strip any unexpected top-level keys from sensitive trade
+        // requests before they hit the wire. Non-sensitive requests
+        // (ticks_history, balance, contracts_for, ...) pass through
+        // unchanged.
+        const safePayload = _guardSensitiveRequest(payload);
+        const body = Object.assign({}, safePayload, { req_id: id });
         const timer = setTimeout(() => {
             if (ws.__pending.has(id)) {
                 ws.__pending.delete(id);
-                reject(new Error(`request timeout: ${JSON.stringify(payload).slice(0, 80)}`));
+                reject(new Error(`request timeout: ${JSON.stringify(safePayload).slice(0, 80)}`));
             }
         }, timeoutMs);
         ws.__pending.set(id, { resolve, reject, timer });
@@ -354,15 +423,19 @@ async function placeTrade(ws, opts, settleOpts) {
     }
 
     // 1) Proposal
+    // Deriv's proposal schema rejects top-level `underlying_symbol` with
+    // "Properties not allowed: underlying_symbol". The correct field is
+    // `symbol` — confirmed live; the same field is already used by the
+    // Multiplier proposal code below.
     const propReply = await request(ws, {
-        proposal:          1,
-        amount:            stake,
-        basis:             'stake',
-        contract_type:     contractType,
-        currency:          'USD',
-        duration:          duration,
-        duration_unit:     durationUnit,
-        underlying_symbol: symbol,
+        proposal:      1,
+        amount:        stake,
+        basis:         'stake',
+        contract_type: contractType,
+        currency:      'USD',
+        duration:      duration,
+        duration_unit: durationUnit,
+        symbol:        symbol,
     }, 15000);
 
     const prop = propReply.proposal;
@@ -871,5 +944,7 @@ module.exports = {
     // Internal helpers exported for unit-testability:
     _normalizePoc,
     _validateMultiplierOpts,
+    _guardSensitiveRequest,
+    _ALLOWED_TOP_KEYS,
     close,
 };

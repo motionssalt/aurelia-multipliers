@@ -476,8 +476,43 @@ const MAX_RATIONALE_LEN = 400;
         the decision into a hold-with-explanation, so we never ship an
         unsupportable proposal to Deriv in the first place.
    ───────────────────────────────────────────────────────────────── */
+/* Per-symbol multiplier ranges, verified live against Deriv's
+   contracts_for endpoint (see scripts/probe-ranges-full.js). The
+   prior category-based table was wrong for several synthetics —
+   ranges differ symbol-to-symbol even within the "synthetic" family
+   (e.g. R_10 accepts up to 4000, R_100 only up to 400), so we MUST
+   look up per-symbol or Deriv rejects the buy with
+   ContractBuyValidationError before the trade can open.
+
+   The category table is retained as a fallback for symbols we have
+   not probed (e.g. a new symbol added to config.json before someone
+   re-runs scripts/probe-ranges-full.js). When that fallback fires,
+   the AI prompt advertises the conservative intersection so any
+   value the AI picks is at least plausible across categories. */
+const MULTIPLIER_RANGE_BY_SYMBOL = {
+    // --- Synthetics (volatility indices) ---
+    R_10:    [400, 1000, 2000, 3000, 4000],
+    R_25:    [160,  400,  800, 1200, 1600],
+    R_50:    [ 80,  200,  400,  600,  800],
+    R_75:    [ 50,  100,  200,  300,  500],
+    R_100:   [ 40,  100,  200,  300,  400],
+    '1HZ10V':  [400, 1000, 2000, 3000, 4000],
+    '1HZ25V':  [160,  400,  800, 1200, 1600],
+    '1HZ50V':  [ 80,  200,  400,  600,  800],
+    '1HZ75V':  [ 50,  100,  200,  300,  500],
+    '1HZ100V': [ 40,  100,  200,  300,  400],
+    // --- Forex ---
+    frxEURUSD: [100, 200, 300, 500, 800],
+    frxGBPUSD: [100, 200, 300, 500, 800],
+    frxUSDJPY: [100, 200, 300, 500, 800],
+    frxXAUUSD: [100, 200, 300, 500, 800],
+    // --- Crypto ---
+    cryBTCUSD: [100, 200, 300, 500, 800],
+    cryETHUSD: [100, 200, 300, 500, 800],
+};
+
 const MULTIPLIER_RANGE_BY_CATEGORY = {
-    synthetic: [40, 100, 200, 300, 400],     // R_*, 1HZ*V
+    synthetic: [40, 100, 200, 300, 400],     // R_*, 1HZ*V  (conservative)
     forex:     [100, 200, 300, 500, 800],    // frx*
     crypto:    [100, 200, 300, 500, 800],    // cry*
 };
@@ -491,6 +526,9 @@ function _categoryFor(symbol) {
 }
 
 function _validMultipliersFor(symbol) {
+    if (typeof symbol === 'string' && MULTIPLIER_RANGE_BY_SYMBOL[symbol]) {
+        return MULTIPLIER_RANGE_BY_SYMBOL[symbol];
+    }
     const cat = _categoryFor(symbol);
     return cat ? MULTIPLIER_RANGE_BY_CATEGORY[cat] : null;
 }
@@ -936,15 +974,14 @@ function _buildMultiplierPrompt(aiInput, config) {
         '    stake * siblings should also fit within session.capital_remaining = ' +
             String(aiInput && aiInput.session && aiInput.session.capital_remaining) + '.',
         '  • multiplier must be a POSITIVE INTEGER drawn from the EXACT per-symbol set',
-        '    below (verified against Deriv contracts_for; values OUTSIDE this set are',
-        '    rejected by Deriv with ContractBuyValidationError and the trade DOES NOT open):',
-        '      synthetic (R_*, 1HZ*V) : ' + MULTIPLIER_RANGE_BY_CATEGORY.synthetic.join(', '),
-        '      forex     (frx*)       : ' + MULTIPLIER_RANGE_BY_CATEGORY.forex.join(', '),
-        '      crypto    (cry*)       : ' + MULTIPLIER_RANGE_BY_CATEGORY.crypto.join(', '),
+        '    below (verified live against Deriv contracts_for; values OUTSIDE this set are',
+        '    rejected by Deriv with ContractBuyValidationError and the trade DOES NOT open).',
+        '    Ranges differ symbol-to-symbol even within the same category — do NOT assume',
+        '    a synthetic-wide or category-wide set:',
         '    Current symbol: ' + String(aiInput && aiInput.symbol) +
             (_validMultipliersFor(aiInput && aiInput.symbol)
-                ? ' → use only: ' + _validMultipliersFor(aiInput && aiInput.symbol).join(', ')
-                : ' (unknown category — pick a value common to all three rows)'),
+                ? ' → valid multipliers: ' + _validMultipliersFor(aiInput && aiInput.symbol).join(', ')
+                : ' (no per-symbol range on file — pick a conservative value common across categories: 100, 200, 300)'),
         '  • close[].contract_id and revise[].contract_id MUST be one of the contract_ids',
         '    that appear in payload.open_siblings on THIS tick. Open contract_ids right',
         '    now: ' + (openCidList.length ? openCidList.join(', ') : '(none — only hold/open are meaningful)') + '.',
@@ -965,6 +1002,42 @@ function _buildMultiplierPrompt(aiInput, config) {
             String(aiInput && aiInput.symbol) + '. just_closed (this tick): ' +
             (aiInput && aiInput.just_closed ? aiInput.just_closed.length : 0) + '.',
         '',
+        'RATIONALE QUALITY (this is enforced — vague rationales waste a decision cycle)',
+        '  Your `rationale` MUST cite specific indicator readings and chart features that',
+        '  are actually present in TICK INPUT below. Be concrete, not generic.',
+        '  REQUIRED:',
+        '    • Name each indicator you are reacting to BY NAME (RSI, MACD, Bollinger Bands,',
+        '      EMA(20)/EMA(50), Stochastics, ATR, support/resistance level, etc.) — not',
+        '      "momentum indicators" or "oscillators".',
+        '    • Cite the actual NUMBERS from the input data: current RSI value, MACD',
+        '      histogram sign, distance from upper/lower Bollinger Band, current spot vs.',
+        '      a named EMA, recent high/low, etc. Do not invent numbers — only use values',
+        '      that appear in TICK INPUT.',
+        '    • If you are citing a candlestick / chart pattern, name it specifically',
+        '      (e.g. "Bullish Engulfing", "Morning Star", "Hammer", "Double Top") rather',
+        '      than "bullish signal".',
+        '    • State a clear causal chain: indicator state → pattern/context → conclusion.',
+        '  Still keep it to 2-3 sentences. Concrete, not longer.',
+        '',
+        '  STYLE REFERENCE (illustrative only — the symbol, direction, and numbers below',
+        '  are NOT literal targets, just an example of the quality bar):',
+        '    "1HZ25V • CALL • 15 USD • 30m',
+        '     Why: Strong bearish trend exhausted, with price at lower Bollinger Band and',
+        '     oversold RSI/Stochastics across all timeframes. Multiple bullish reversal',
+        '     candle patterns (Morning Star, Bullish Engulfing, Hammer) indicate a high',
+        '     probability of a bullish bounce."',
+        '  What makes the example good: it names which Bollinger Band, which oscillators,',
+        '  cites specific candle patterns by name, and chains them into a conclusion —',
+        '  all in two sentences.',
+        '',
+        '  BAD examples (do NOT emit these — they will be flagged as low quality):',
+        '    • "initiating a new MULTUP trade with a moderate stake to establish a market presence"',
+        '    • "bullish signals suggest upward movement"',
+        '    • "indicators are favourable; opening a position"',
+        '',
+        '  For "hold" / "skip", still name the specific reason ("RSI 52, no Bollinger Band',
+        '  contact, no candle pattern — no edge") rather than "no clear setup".',
+        '',
         'RETURN STRICT JSON ONLY (no markdown fences, no commentary). Schema:',
         _MULTIPLIER_SCHEMA_HINT,
         '',
@@ -976,7 +1049,7 @@ function _buildMultiplierPrompt(aiInput, config) {
 const _MULTIPLIER_SCHEMA_HINT = JSON.stringify({
     action:      '"hold" | "skip" | "close" | "open" | "revise" | "multi"',
     decision_id: 'string (short opaque id you choose, e.g. "dec-7f02b1")',
-    rationale:   'short string (<=400 chars) explaining the reasoning',
+    rationale:   '2-3 sentences (<=400 chars). MUST name specific indicators (RSI, MACD, Bollinger Bands, EMA, named candle patterns, S/R levels) and cite actual numbers from TICK INPUT. No invented values. No generic phrases like bullish signals or momentum is favourable.',
     confidence:  'number 0..1 (optional; below min_confidence => treated as hold)',
     close: [
         { contract_id: 'number (must be in open_siblings)', reason: 'optional string' },
@@ -1012,6 +1085,7 @@ module.exports = {
     _buildMultiplierPrompt,
     MAX_OPEN_SIBLINGS_PER_DECISION,
     MULTIPLIER_RANGE_BY_CATEGORY,
+    MULTIPLIER_RANGE_BY_SYMBOL,
     _categoryFor,
     _validMultipliersFor,
 };
