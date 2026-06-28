@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T11:25:25.752Z",
+  "last_cycle": "2026-06-28T11:28:33.903Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -79,6 +79,58 @@
       "msg": "AI declined manual trade",
       "meta": {
         "rationale": "Session capital remaining is 0, cannot place any trade."
+      }
+    },
+    {
+      "ts": "2026-06-28T11:27:35.256Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T11:27:35.256Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T11:27:35.258Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T11:27:35.776Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=u44LIP16"
+      }
+    },
+    {
+      "ts": "2026-06-28T11:27:36.064Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T11:27:47.522Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T11:28:33.362Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "trade",
+        "symbol": "frxUSDCHF",
+        "conf": 0.88
+      }
+    },
+    {
+      "ts": "2026-06-28T11:28:33.363Z",
+      "level": "info",
+      "msg": "AI declined manual trade",
+      "meta": {
+        "rationale": "Price is at extreme overbought levels across multiple timeframes with bearish MACD divergence on M10/M15, suggesting a pullback."
       }
     }
   ],
