@@ -1743,6 +1743,30 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
     // (Shape documented above next to askMultiplierDecisionStub.)
     const exposure = State.aggregateSiblingExposure(state, symbol);
     const canOpenNew = cycleRunning && sessionActive;
+
+    // --- 4a. Market data slice (FIX: was missing — caused the AI to
+    // report "No market data ... is available in the TICK INPUT" on every
+    // tick because aiInput previously contained only contract / exposure
+    // metadata, no candles or indicators. We reuse the existing
+    // Payload.buildSymbolSlice() helper that the binary-cycle path already
+    // uses; it returns {symbol, timeframes:{M5,M10,M15}, volatility_proxy_atr14_m5}
+    // with full OHLC + RSI/EMA/MACD/BB/ATR/ADX/Stoch/Keltner/Donchian/Ichimoku
+    // + support_resistance + candle_patterns — exactly what the multiplier
+    // prompt's RATIONALE QUALITY section demands the AI cite by name. A
+    // failure here must NOT block the tick (P/L polling, settlement, and
+    // risk enforcement above already ran); we degrade to a clearly-marked
+    // error block so the AI can hold safely.)
+    let marketSlice = null;
+    let marketError = null;
+    try {
+        marketSlice = await Payload.buildSymbolSlice(ws, symbol);
+    } catch (e) {
+        marketError = e && e.message ? e.message : String(e);
+        Logger.warn('Multiplier cycle: failed to build market slice — AI will see error block', {
+            symbol, error: marketError,
+        });
+    }
+
     const aiInput = {
         cycle_id:     cycleId,
         symbol,
@@ -1799,6 +1823,19 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
                   : !sess.active       ? 'session not active'
                   : null,
         },
+        // FIX: market data block — the AI prompt requires the rationale to
+        // cite specific indicator readings (RSI, MACD, Bollinger Bands,
+        // EMA, candle patterns, S/R levels) by NAME with actual NUMBERS
+        // from this payload. Without it the AI (correctly) responds with
+        // "no market data available in TICK INPUT" on every tick. The
+        // slice mirrors the per-symbol shape used by the binary path.
+        market: marketSlice
+            ? {
+                symbol:                     marketSlice.symbol,
+                timeframes:                 marketSlice.timeframes,
+                volatility_proxy_atr14_m5:  marketSlice.volatility_proxy_atr14_m5,
+            }
+            : { error: marketError || 'market_slice_unavailable' },
     };
 
     // --- 5. Call the AI decision function (Part 2b: real call) ---------
