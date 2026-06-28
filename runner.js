@@ -91,6 +91,63 @@ function isSyntheticSymbol(sym) {
 function isCryptoSymbol(sym) {
     return typeof sym === 'string' && /^cry[A-Z]/.test(sym);
 }
+
+/* ──────────────────────────────────────────────────────────────
+   v4 FIX: pre-flight TP/SL range probe (multiplier cycle + manual)
+   ──────────────────────────────────────────────────────────────
+   Sends a TP/SL-LESS proposal for each valid multiplier on `symbol`
+   to discover the LIVE validation_params (stake / take_profit /
+   stop_loss min-max ranges Deriv will accept right now). Result
+   injected into aiInput.tp_sl_ranges so the AI can size TP/SL inside
+   the live range from the start, eliminating the
+      "ContractBuyValidationError: Enter an amount equal to or
+       lower than 8.59"
+   class of OPEN FAILED.
+
+   Ranges depend on stake × multiplier × spot, so we probe at a
+   REPRESENTATIVE stake (config.stake.absolute_min) — the AI gets
+   the SHAPE of the constraint and rescales its suggestion. The
+   downstream placeMultiplier step does the final authoritative
+   clamp using the actual outgoing stake (so even if the AI scales
+   imperfectly, we don't fail open).
+
+   Best-effort: a failure (timeout, WS hiccup, symbol temporarily
+   unavailable) is logged but does NOT block the tick. The AI sees
+   `tp_sl_ranges: null` and falls back to its default sizing rules.
+   ────────────────────────────────────────────────────────────── */
+async function _probeTpSlRanges(ws, config, state, symbol) {
+    try {
+        const validMults = AIClient.MULTIPLIER_RANGE_BY_SYMBOL[symbol]
+            || (AIClient.MULTIPLIER_RANGE_BY_CATEGORY[
+                   typeof symbol === 'string' && symbol.startsWith('frx') ? 'forex'
+                 : typeof symbol === 'string' && symbol.startsWith('cry') ? 'crypto'
+                 : 'synthetic'
+               ] || [100]);
+        const probeStake = Number((config.stake && config.stake.absolute_min) || 1);
+        const probes = {};
+        for (const m of validMults) {
+            // Probe only MULTUP — MULTUP and MULTDOWN share identical
+            // validation_params at the same spot, so probing both would
+            // just double the WS bandwidth without adding information.
+            const r = await Deriv.probeMultiplierRanges(ws, {
+                symbol,
+                direction:  'up',
+                stake:      probeStake,
+                multiplier: m,
+                currency:   (state && state.currency) || 'USD',
+            });
+            if (r) probes[String(m)] = r;
+        }
+        if (!Object.keys(probes).length) return null;
+        return { probe_stake: probeStake, by_multiplier: probes };
+    } catch (e) {
+        Logger.warn('_probeTpSlRanges failed (non-fatal)', {
+            symbol, error: e && e.message ? e.message : String(e),
+        });
+        return null;
+    }
+}
+
 function isSymbolEnabled(sym, config) {
     if (!sym || !config || !config.symbols) return false;
     const fx  = config.symbols.forex      || {};
@@ -1797,6 +1854,12 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         });
     }
 
+    // v4 fix: pre-flight TP/SL range probe. Gated on canOpenNew — if we
+    // can't open new positions this tick, the probe is wasted bandwidth.
+    const tpSlRanges = canOpenNew
+        ? await _probeTpSlRanges(ws, config, state, symbol)
+        : null;
+
     const aiInput = {
         cycle_id:     cycleId,
         symbol,
@@ -1866,6 +1929,23 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
                 volatility_proxy_atr14_m5:  marketSlice.volatility_proxy_atr14_m5,
             }
             : { error: marketError || 'market_slice_unavailable' },
+        /* v4 fix: live TP/SL valid ranges per multiplier, probed against
+           Deriv's proposal endpoint THIS tick. Shape:
+             tp_sl_ranges: {
+               probe_stake: <USD used in probe>,
+               by_multiplier: {
+                 "100": { ranges: { stake:{min,max}, take_profit:{min,max}, stop_loss:{min,max} },
+                          spot, ask_price, commission },
+                 "200": { ... },
+                 ...
+               }
+             } | null
+           The AI's `open.take_profit` and `open.stop_loss` MUST land
+           inside the ranges for the multiplier it picks (TP/SL scale
+           linearly with stake — so if the AI picks a stake different
+           from probe_stake, it should scale the bounds by
+           (open.stake / probe_stake) before sizing TP/SL). */
+        tp_sl_ranges: tpSlRanges,
     };
 
     // --- 5. Call the AI decision function (Part 2b: real call) ---------
@@ -2169,6 +2249,9 @@ async function runManual(ws, config, state, connOpts) {
         Logger.warn('Manual scan: failed to build market slice', { symbol, error: marketError });
     }
 
+    // v4 fix: live TP/SL range probe (manual path always allowed to open).
+    const tpSlRanges = await _probeTpSlRanges(ws, config, state, symbol);
+
     // --- 4. Assemble aiInput in the SAME shape as the cycle ----------
     const exposure = State.aggregateSiblingExposure(state, symbol);
     const sess     = state.cycle_session || {};
@@ -2237,6 +2320,7 @@ async function runManual(ws, config, state, connOpts) {
                 volatility_proxy_atr14_m5:  marketSlice.volatility_proxy_atr14_m5,
             }
             : { error: marketError || 'market_slice_unavailable' },
+        tp_sl_ranges: tpSlRanges,                  // v4 fix: see cycle path comment
     };
 
     // --- 5. Call the multiplier-aware AI decision --------------------

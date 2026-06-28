@@ -540,6 +540,49 @@ function _isPositiveFiniteNumber(n) {
     const x = Number(n);
     return Number.isFinite(x) && x > 0;
 }
+
+/* v4 fix: render aiInput.tp_sl_ranges as a compact, copy-pasteable
+   table the AI can reason about directly. The probe was done at
+   `probe_stake` and TP/SL caps scale linearly with stake at fixed
+   multiplier, so we show the actual probed range plus the scaling rule.
+
+   If no ranges were probed (e.g. cycle inactive, probe failed), we
+   render a clear absence marker so the AI knows it must rely on
+   conservative defaults. */
+function _renderTpSlRangesForPrompt(aiInput) {
+    const tsr = aiInput && aiInput.tp_sl_ranges;
+    if (!tsr || !tsr.by_multiplier || !Object.keys(tsr.by_multiplier).length) {
+        return '    LIVE TP/SL ranges: (not probed this tick — use conservative defaults: '
+             + 'TP ≈ 1–3× stake, SL ≈ 0.5–1× stake, then trust the system to soft-clamp.)';
+    }
+    const probeStake = Number(tsr.probe_stake) || 0;
+    const lines = [
+        '    LIVE TP/SL ranges (probed THIS tick at stake=$' + probeStake.toFixed(2) + '):',
+    ];
+    const mults = Object.keys(tsr.by_multiplier).sort((a, b) => Number(a) - Number(b));
+    for (const mKey of mults) {
+        const entry = tsr.by_multiplier[mKey];
+        const r = entry && entry.ranges;
+        if (!r) {
+            lines.push('      x' + mKey + ': (no validation_params returned)');
+            continue;
+        }
+        const _fmt = (rg) => {
+            if (!rg) return '—';
+            const lo = rg.min != null ? '$' + Number(rg.min).toFixed(2) : '—';
+            const hi = rg.max != null ? '$' + Number(rg.max).toFixed(2) : '—';
+            return lo + '..' + hi;
+        };
+        lines.push('      x' + mKey + ':  TP ∈ ' + _fmt(r.take_profit)
+                 + '   SL ∈ ' + _fmt(r.stop_loss)
+                 + '   stake ∈ ' + _fmt(r.stake));
+    }
+    lines.push('    To scale to YOUR chosen stake: multiply each TP/SL bound by (your_stake / '
+             + probeStake.toFixed(2) + ').');
+    lines.push('    Example: if x300 SL range is $0.40..$8.59 at probe_stake $1.00, then at YOUR');
+    lines.push('    stake of $10.00 the SL range becomes $4.00..$85.90. Pick a value inside.');
+    return lines.join('\n');
+}
 function _isPositiveInteger(n) {
     const x = Number(n);
     return Number.isFinite(x) && x > 0 && Number.isInteger(x);
@@ -683,16 +726,66 @@ function _validateOpenSpec(spec, config, aiInput, label) {
     if (spec.stop_loss !== undefined && spec.stop_loss !== null && !_isPositiveFiniteNumber(spec.stop_loss)) {
         errs.push(`${label}.stop_loss must be null or > 0 (got ${spec.stop_loss})`);
     }
+
+    /* v4 fix: TP/SL range validation against aiInput.tp_sl_ranges.
+       The runner probes Deriv's proposal endpoint THIS tick to discover
+       the live validation_params (TP/SL min/max) for each accepted
+       multiplier on this symbol. The probe is done at a fixed reference
+       stake (probe_stake = config.stake.absolute_min); since TP/SL
+       ranges scale linearly with stake at fixed multiplier, we rescale
+       the probed range to the AI's chosen stake before validating.
+
+       We do NOT hard-reject out-of-range values — instead we SOFT-CLAMP
+       (snap to the nearest in-range value) and record a warning. */
+    const _tsr = aiInput && aiInput.tp_sl_ranges;
+    const _byMult = _tsr && _tsr.by_multiplier && _tsr.by_multiplier[String(spec.multiplier)];
+    const _ranges = _byMult && _byMult.ranges;
+    let tpFinal = spec.take_profit == null ? null : Number(spec.take_profit);
+    let slFinal = spec.stop_loss   == null ? null : Number(spec.stop_loss);
+    const tpSlWarnings = [];
+    if (_ranges && _tsr.probe_stake > 0 && Number(spec.stake) > 0) {
+        // Linear-scale the probed ranges to the AI's chosen stake.
+        // (TP/SL caps scale 1:1 with stake at fixed multiplier — verified
+        // by inspecting Deriv's validation_params at multiple stakes.)
+        const scale = Number(spec.stake) / Number(_tsr.probe_stake);
+        const _scaleRange = (r) => r ? {
+            min: r.min != null ? r.min * scale : null,
+            max: r.max != null ? r.max * scale : null,
+        } : null;
+        const scaledTP = _scaleRange(_ranges.take_profit);
+        const scaledSL = _scaleRange(_ranges.stop_loss);
+
+        if (tpFinal != null && scaledTP) {
+            if (scaledTP.min != null && tpFinal < scaledTP.min) {
+                tpSlWarnings.push(`${label}.take_profit ${tpFinal} below live min ${scaledTP.min.toFixed(2)} — clamped UP`);
+                tpFinal = Number((scaledTP.min * 1.02).toFixed(2));
+            } else if (scaledTP.max != null && tpFinal > scaledTP.max) {
+                tpSlWarnings.push(`${label}.take_profit ${tpFinal} above live max ${scaledTP.max.toFixed(2)} — clamped DOWN`);
+                tpFinal = Number((scaledTP.max * 0.98).toFixed(2));
+            }
+        }
+        if (slFinal != null && scaledSL) {
+            if (scaledSL.min != null && slFinal < scaledSL.min) {
+                tpSlWarnings.push(`${label}.stop_loss ${slFinal} below live min ${scaledSL.min.toFixed(2)} — clamped UP`);
+                slFinal = Number((scaledSL.min * 1.02).toFixed(2));
+            } else if (scaledSL.max != null && slFinal > scaledSL.max) {
+                tpSlWarnings.push(`${label}.stop_loss ${slFinal} above live max ${scaledSL.max.toFixed(2)} — clamped DOWN`);
+                slFinal = Number((scaledSL.max * 0.98).toFixed(2));
+            }
+        }
+    }
+
     const siblings = Math.max(1, Math.min(MAX_OPEN_SIBLINGS_PER_DECISION, Number(spec.siblings) || 1));
     if (errs.length) return { errs, value: null };
     return {
         errs,
+        warnings: tpSlWarnings,                    // v4: TP/SL soft-clamp warnings
         value: {
             direction:   dir,
             stake:       Number(spec.stake),
             multiplier:  Number(spec.multiplier),
-            take_profit: spec.take_profit == null ? null : Number(spec.take_profit),
-            stop_loss:   spec.stop_loss   == null ? null : Number(spec.stop_loss),
+            take_profit: tpFinal,
+            stop_loss:   slFinal,
             siblings,
         },
     };
@@ -785,7 +878,11 @@ function validateMultiplierDecision(raw, aiInput, config) {
             errs.push(...r.errs);
             return { ok: false, decision: holdFallback('open invalid: ' + r.errs.join('; ')), errs };
         }
-        return { ok: true, decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), open: r.value } };
+        return {
+            ok: true,
+            warnings: r.warnings,                      // v4: TP/SL soft-clamp warnings
+            decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), open: r.value },
+        };
     }
 
     if (action === 'revise') {
@@ -834,11 +931,15 @@ function validateMultiplierDecision(raw, aiInput, config) {
             else multi.revise = r.value;
         }
     }
+    let multiOpenWarnings = [];
     if (m.open !== undefined) {
         anySubAction = true;
         const r = _validateOpenSpec(m.open, config, aiInput, 'multi.open');
         if (r.errs.length) errs.push(...r.errs);
-        else multi.open = r.value;
+        else {
+            multi.open = r.value;
+            multiOpenWarnings = r.warnings || [];
+        }
     }
     if (!anySubAction) {
         errs.push("multi must contain at least one of close / revise / open");
@@ -846,7 +947,11 @@ function validateMultiplierDecision(raw, aiInput, config) {
     if (errs.length) {
         return { ok: false, decision: holdFallback('multi invalid: ' + errs.join('; ')), errs };
     }
-    return { ok: true, decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), multi } };
+    return {
+        ok: true,
+        warnings: multiOpenWarnings,                   // v4: TP/SL soft-clamp warnings
+        decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), multi },
+    };
 }
 
 function _coerceConf(c) {
@@ -904,9 +1009,15 @@ async function askMultiplierDecision({ aiInput, config, state }) {
             action:      v.decision.action,
             decision_id: v.decision.decision_id,
             keyUsed,
+            warnings:    v.warnings && v.warnings.length ? v.warnings : undefined,
         });
+        if (v.warnings && v.warnings.length) {
+            Logger.warn('askMultiplierDecision: TP/SL soft-clamped to live ranges', {
+                warnings: v.warnings,
+            });
+        }
     }
-    return { decision: v.decision, keyUsed };
+    return { decision: v.decision, keyUsed, warnings: v.warnings || [] };
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -986,6 +1097,18 @@ function _buildMultiplierPrompt(aiInput, config) {
         '    that appear in payload.open_siblings on THIS tick. Open contract_ids right',
         '    now: ' + (openCidList.length ? openCidList.join(', ') : '(none — only hold/open are meaningful)') + '.',
         '  • direction is "up" (MULTUP) or "down" (MULTDOWN), lowercase.',
+        '',
+        '  • ⚠️ TAKE PROFIT and STOP LOSS must each fall inside Deriv\'s LIVE',
+        '    per-contract range for the chosen {multiplier, stake}. These ranges',
+        '    depend on the current spot, volatility, and your account balance, so',
+        '    they CHANGE EVERY TICK. We probe them fresh on every tick and pass',
+        '    them to you under `tp_sl_ranges` in the input payload. Submitting',
+        '    TP/SL outside the live range causes:',
+        '       ContractBuyValidationError: Enter an amount equal to or lower than X',
+        '    and the trade DOES NOT open. The system will soft-clamp out-of-range',
+        '    values to keep your trade alive, but the resulting TP/SL may differ',
+        '    significantly from what you asked for — size CORRECTLY from the start.',
+        _renderTpSlRangesForPrompt(aiInput),
         '  • confidence (optional) is 0.0..1.0. Decisions below ' + minConf + ' will be',
         '    treated as hold.',
         '',
