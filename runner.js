@@ -2155,14 +2155,21 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         if (chartBuf) {
             // Telegram sendPhoto caption cap = 1024 chars. The HTML in
             // `msg` is almost always shorter than that for typical
-            // ticks; truncate only as a defensive fallback. We trim
-            // back to a safe budget and append an ellipsis so the
-            // recipient knows there was more.
+            // ticks. If it isn't, we do NOT blind-slice the string —
+            // that risks cutting an HTML tag or entity in half (e.g.
+            // mid-`<blockquote>`), which makes Telegram reject the
+            // whole message with a parse error and the user gets
+            // nothing at all. Instead, send the chart with no caption
+            // and follow up with the full message as a separate plain
+            // send() — the user still gets every word, just as two
+            // messages instead of one.
             const CAPTION_CAP = 1024;
-            const caption = msg.length <= CAPTION_CAP
-                ? msg
-                : (msg.slice(0, CAPTION_CAP - 12) + '\n<i>…trimmed</i>');
-            await Telegram.sendPhoto(chartBuf, caption);
+            if (msg.length <= CAPTION_CAP) {
+                await Telegram.sendPhoto(chartBuf, msg);
+            } else {
+                await Telegram.sendPhoto(chartBuf, null);
+                await Telegram.send(msg);
+            }
         } else {
             // Chart unavailable — fall back to text-only so the
             // notification still goes out.
@@ -2473,11 +2480,17 @@ async function runManual(ws, config, state, connOpts) {
         }
 
         if (chartBuf) {
+            // See cron-path note above: never blind-slice HTML, or
+            // Telegram may reject the message outright. Send the
+            // chart with no caption and the full message separately
+            // when it would exceed the caption cap.
             const CAPTION_CAP = 1024;
-            const caption = msg.length <= CAPTION_CAP
-                ? msg
-                : (msg.slice(0, CAPTION_CAP - 12) + '\n<i>…trimmed</i>');
-            await Telegram.sendPhoto(chartBuf, caption);
+            if (msg.length <= CAPTION_CAP) {
+                await Telegram.sendPhoto(chartBuf, msg);
+            } else {
+                await Telegram.sendPhoto(chartBuf, null);
+                await Telegram.send(msg);
+            }
         } else {
             await Telegram.send(msg);
         }

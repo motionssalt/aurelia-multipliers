@@ -634,7 +634,8 @@ const templates = {
             current floating P/L / live TP/SL for each.
          5. Aggregate exposure for the symbol: count, total stake at risk,
             total floating P/L, plus session realised + halt status.
-         6. Rationale (truncated to 280 chars) and decision_id footer.
+         6. Rationale (full text, no truncation — see footer note) and
+            decision_id footer.
 
        Input shape (all fields optional unless noted; missing fields are
        gracefully omitted from the message):
@@ -927,14 +928,21 @@ const templates = {
         // visually-distinct quoted/highlighted block (vertical accent bar +
         // indented body, as shown in the spec screenshot). Telegram's HTML
         // parser accepts <blockquote> natively; the text inside still needs
-        // to be entity-escaped. We keep the 280-char cap so the message
-        // never blows past Telegram's caption limit when piggy-backed onto
-        // sendPhoto.
+        // to be entity-escaped.
+        //
+        // NOTE: we deliberately do NOT truncate here. The 1024-char
+        // Telegram *caption* limit (only relevant when this message is
+        // piggy-backed onto sendPhoto) is already enforced once, at the
+        // call site in runner.js (CAPTION_CAP), which trims the *whole*
+        // rendered message and falls back to a plain-text send() when a
+        // chart isn't available. Truncating the rationale a second time
+        // here — independently, and far below that real limit — was
+        // cutting the AI's reasoning off mid-sentence even on ticks where
+        // the full message had plenty of room left.
         const rationale = decision && decision.rationale ? String(decision.rationale).trim() : '';
         if (rationale) {
-            const truncated = rationale.length > 280 ? rationale.slice(0, 277) + '…' : rationale;
             lines.push('');
-            lines.push(`<blockquote>${_esc(truncated)}</blockquote>`);
+            lines.push(`<blockquote>${_esc(rationale)}</blockquote>`);
         }
         if (decision && decision.decision_id) {
             lines.push(`<code>id=${_esc(decision.decision_id)}</code>`);
