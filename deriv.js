@@ -875,29 +875,71 @@ function _floor2(n) {
     return (Math.abs(x - rounded) < 1e-6 ? rounded : Math.floor(x)) / 100;
 }
 
-/* Scale TP/SL proportionally when stake is clamped down by Deriv.
-   Multiplier TP/SL are absolute USD profit/loss thresholds, NOT
-   ratios — but Deriv enforces per-contract max_take_profit /
-   max_stop_loss limits that scale with stake. When we shrink the
-   stake by ratio R, we shrink the limit_order amounts by the same R
-   so they stay inside the new ceiling.
+/* v5 fix — removed `_scaleLimitOrder` (and the entire stake-auto-scale
+   retry loop). v1–v3 of this module incorrectly responded to the
+   `"Enter an amount equal to or lower than X"` error by shrinking the
+   STAKE and proportionally scaling TP/SL. That was a misdiagnosis —
+   Deriv reuses the same error wording for stake / take_profit /
+   stop_loss caps, and in the cryBTCUSD ×200/×300 reproduction the cap
+   that was being violated was the STOP_LOSS, not the stake. Shrinking
+   the stake never made the loop converge because the SL was still
+   out of range relative to the new (smaller) stake too — the loop
+   exhausted its 10-attempt budget and bubbled up
+   "stake auto-scale exhausted after 10 attempts". v5 replaces that
+   logic with an authoritative pre-flight probe of
+   `validation_params.{stake,take_profit,stop_loss}` plus a clamp of
+   the outgoing limit_order BEFORE the buy is even attempted, so the
+   broker never has a reason to raise the cap error in the first
+   place. See TP_SL_RANGE_FIX_V5.md for the full rationale. */
 
-   Returns a new limit_order object or undefined if input was undefined.
-   Skips fields that are already null (=cancel sentinel) or undefined. */
-function _scaleLimitOrder(limit_order, ratio) {
-    if (!limit_order || !(ratio > 0) || ratio >= 1) return limit_order;
-    const out = {};
-    if (limit_order.take_profit != null) {
-        const tp = Number(limit_order.take_profit) * ratio;
-        out.take_profit = Math.max(0.01, _floor2(tp));
-    }
-    if (limit_order.stop_loss != null) {
-        const sl = Number(limit_order.stop_loss) * ratio;
-        out.stop_loss = Math.max(0.01, _floor2(sl));
-    }
-    return out;
-}
+/* placeMultiplier — proposal → buy for a MULTUP/MULTDOWN contract.
 
+   ──────────────────────────────────────────────────────────────────────
+   v5 redesign (the REAL fix for the cryBTCUSD ×200/×300 OPEN FAILED bug)
+   ──────────────────────────────────────────────────────────────────────
+
+   The legacy v1–v3 implementation treated the broker error
+      "Enter an amount equal to or lower than X"
+   as ALWAYS being a stake cap, and shrank the stake (proportionally
+   scaling TP/SL) inside a 10-attempt retry loop. That diagnosis was
+   incorrect: Deriv uses the IDENTICAL error wording for three caps
+   (stake / take_profit / stop_loss) and on cryBTCUSD ×200/×300 the
+   actual offender was the STOP_LOSS range. Shrinking the stake
+   never resolved the SL-range violation, so the loop chewed through
+   its budget and bubbled up:
+        "placeMultiplier: stake auto-scale exhausted after 10 attempts"
+
+   v5 removes the loop entirely and replaces it with the authoritative
+   pre-flight clamp:
+
+      1.  Build the limit_order from the caller's TP/SL (if any).
+      2.  Send a TP/SL-LESS proposal at the actual stake to read the
+          live `validation_params.{stake,take_profit,stop_loss}` for
+          *this* {symbol, direction, stake, multiplier, spot} tuple.
+      3.  If the caller's stake is already above `vp.stake.max`, the
+          trade is fundamentally too large — we DO NOT silently shrink
+          it (that would spend less of the user's money than they
+          sized for and hide a real risk-management issue). We throw
+          a clean `StakeAboveMax` error and let the runner surface it.
+      4.  Clamp the limit_order's take_profit and stop_loss into the
+          live `vp.take_profit` and `vp.stop_loss` ranges (with a
+          2 % safety inset inside the band — Deriv recomputes the
+          range each tick, so landing on the boundary is fragile).
+      5.  Send the REAL proposal (now including the in-range
+          limit_order). If Deriv STILL echoes a tighter
+          validation_params on this second proposal, re-clamp once
+          and send a third proposal. We re-clamp at most twice; if
+          the third proposal still rejects we surface the broker
+          error verbatim — that means the live range has tightened
+          beyond what we can satisfy and the user should resize.
+      6.  Buy.
+
+   There is no `_applyClamp`, no `_scaleLimitOrder`, no
+   `_handleStakeCapError` legacy fallback, no MAX_ATTEMPTS. The caller's
+   stake is RESPECTED; only TP/SL are adjusted. If the buy fails it
+   fails with the broker's real reason, not a manufactured
+   "auto-scale exhausted" message.
+*/
 async function placeMultiplier(ws, opts) {
     const errs = _validateMultiplierOpts(opts);
     if (errs.length) throw new Error('placeMultiplier: ' + errs.join('; '));
@@ -905,308 +947,186 @@ async function placeMultiplier(ws, opts) {
     const symbol     = opts.symbol;
     const dir        = String(opts.direction).toLowerCase();
     const contractType = dir === 'up' ? 'MULTUP' : 'MULTDOWN';
-    const requestedStake = Number(opts.stake);   // original AI/runner stake — used to detect clamping later
-    let   stake      = requestedStake;            // mutable: may be clamped down on Deriv-side rejection
+    const stake      = Number(opts.stake);    // v5: IMMUTABLE — never auto-scaled
     const multiplier = Number(opts.multiplier);
     const currency   = opts.currency || 'USD';
 
-    // Build limit_order only if at least one of TP/SL is supplied.
-    // Deriv's proposal accepts a partial limit_order (just TP, just SL,
-    // or both) — verified live; the proposal reply only echoes back
-    // the fields you set.
-    // NB: `limit_order` is now MUTABLE so the auto-scale loop below can
-    // shrink TP/SL proportionally when stake is clamped down. Deriv's
-    // per-contract max_take_profit / max_stop_loss scale with stake, so
-    // a $21 TP that was valid at $10 stake may be rejected at $9.70.
+    // Build the initial limit_order. Mutable across the (very short)
+    // re-clamp path, but ONLY tp/sl are touched — never the stake.
     let limit_order;
-    if (opts.takeProfit != null || opts.stopLoss != null) {
+    const requestedTP = opts.takeProfit != null ? Number(opts.takeProfit) : null;
+    const requestedSL = opts.stopLoss   != null ? Number(opts.stopLoss)   : null;
+    if (requestedTP != null || requestedSL != null) {
         limit_order = {};
-        if (opts.takeProfit != null) limit_order.take_profit = Number(opts.takeProfit);
-        if (opts.stopLoss   != null) limit_order.stop_loss   = Number(opts.stopLoss);
+        if (requestedTP != null) limit_order.take_profit = requestedTP;
+        if (requestedSL != null) limit_order.stop_loss   = requestedSL;
     }
 
-    /* Build the proposal request from the *current* stake. Re-invoked
-       inside the retry loop below so each attempt picks up the latest
-       clamped amount (and matching scaled TP/SL). */
-    const buildProposalReq = () => {
+    // Track adjustments so the runner / Telegram can render a soft
+    // "TP/SL clamped" subline instead of a silent surprise.
+    const tpSlAdjustments = { take_profit: null, stop_loss: null };
+    const _recordAdj = (clampResult) => {
+        if (!clampResult || !clampResult.changed) return;
+        if (clampResult.adjustments.take_profit) {
+            tpSlAdjustments.take_profit = clampResult.adjustments.take_profit;
+        }
+        if (clampResult.adjustments.stop_loss) {
+            tpSlAdjustments.stop_loss = clampResult.adjustments.stop_loss;
+        }
+    };
+
+    /* Helper: build the proposal request from the *current* stake and
+       limit_order. Pass `withLimitOrder=false` for the initial probe
+       proposal — we want validation_params for the unconstrained
+       contract so we can size TP/SL into the live range. */
+    const buildProposalReq = (withLimitOrder = true) => {
         const req = {
-            proposal:         1,
-            amount:           stake,
-            basis:            'stake',
-            contract_type:    contractType,
+            proposal:          1,
+            amount:            stake,
+            basis:             'stake',
+            contract_type:     contractType,
             currency,
-            underlying_symbol: symbol, // ← Deriv's unified schema uses `underlying_symbol`
-                                       //   (the legacy `symbol` field is now rejected).
+            underlying_symbol: symbol,
             multiplier,
         };
-        if (limit_order) req.limit_order = limit_order;
+        if (withLimitOrder && limit_order) req.limit_order = limit_order;
         return req;
     };
 
-    const ABS_MIN_STAKE = 0.35; // matches config.stake.absolute_min default
+    /* ────────────────────────────────────────────────────────────────
+       Step 1 — probe proposal: TP/SL-less, just to read the live
+       validation_params at our actual stake. This single round-trip
+       gives us the AUTHORITATIVE ranges — no guessing, no retrying.
+       ──────────────────────────────────────────────────────────────── */
+    let probeReply;
+    try {
+        probeReply = await request(ws, buildProposalReq(false), 15000);
+    } catch (e) {
+        // The probe proposal carries no limit_order, so any error here
+        // is either a stake-out-of-range or a genuine transport/auth
+        // failure. Bubble up untouched — there is nothing to clamp.
+        throw e;
+    }
+    const probeProp = probeReply && probeReply.proposal;
+    if (!probeProp || !probeProp.id) {
+        throw new Error('placeMultiplier probe: no proposal id returned');
+    }
+    const probeVp = _parseValidationParams(probeProp);
 
-    /* Helper: apply a stake clamp + proportionally scale TP/SL.
-       Mutates the outer `stake` and `limit_order`.
-
-       The broker may quote its ceiling AT OR BELOW the current stake.
-       We always clamp DOWN to `target` (never up). If `target == stake`
-       (the broker quoted exactly what we sent, but still rejected),
-       we shave one tick (1¢) to break the impasse — better than
-       bubbling up an unrecoverable error to the user.
-
-       Returns true on success, false only when the broker's cap is
-       genuinely below our configured ABS_MIN_STAKE (in which case the
-       trade cannot be honoured at all and the caller surfaces a clean
-       explanatory error). */
-    const _applyClamp = (newStakeRaw, reason) => {
-        let target = _floor2(newStakeRaw);
-        if (!(target > 0)) return false;
-
-        /* Apply a SAFETY MARGIN below the broker-quoted ceiling.
-           Deriv's quoted cap is a moving target — it is recomputed on every
-           proposal based on current spot, volatility, and account balance.
-           If we clamp EXACTLY to the cap, the next proposal frequently sees
-           a slightly tighter cap (markets move in the ~100ms between
-           proposals) and rejects again, exhausting the retry budget.
-           A 5% safety margin (floor 5¢) drops us comfortably inside the
-           live ceiling on the next proposal, converging in 1-2 attempts
-           instead of pinning the loop at the moving edge. */
-        const SAFETY_MARGIN_RATIO = 0.05;        // 5% below quoted cap
-        const SAFETY_MARGIN_MIN   = 0.05;        // …but at least 5¢ below
-        const margin = Math.max(SAFETY_MARGIN_MIN, _floor2(target * SAFETY_MARGIN_RATIO));
-        target = _floor2(target - margin);
-        if (!(target > 0)) return false;
-
-        // Broker quoted a ceiling >= current stake but still rejected.
-        // Shave one tick so we make forward progress. This handles the
-        // pathological case where Deriv returns the SAME number it
-        // received (rare but observed) or rounds ambiguously.
-        if (target >= stake) {
-            target = _floor2(stake - 0.01);
-            if (!(target > 0)) return false;
-        }
-
-        if (target < ABS_MIN_STAKE) {
-            // Broker's cap is below our configured minimum stake. Bumping
-            // UP to ABS_MIN_STAKE would still violate the broker's ceiling,
-            // so we cannot honour this trade at all.
-            return false;
-        }
-        const ratio = target / stake;
-        const prevLO = limit_order ? { ...limit_order } : undefined;
-        limit_order = _scaleLimitOrder(limit_order, ratio);
-        Logger.warn('placeMultiplier: auto-scaling stake', {
-            symbol, multiplier,
-            from_stake: stake, to_stake: target,
-            ratio: Number(ratio.toFixed(4)),
-            from_limit_order: prevLO,
-            to_limit_order:   limit_order,
-            reason,
-        });
-        stake = target;
-        return true;
-    };
-
-    /* ──────────────────────────────────────────────────────────────
-       Auto-scale retry loop.
-       Each iteration:
-         1. Request a fresh proposal (proposal IDs are single-use).
-         2. If validation_params.max_stake is present and < stake,
-            clamp + restart the loop (re-propose at the new stake).
-         3. Attempt buy. On ContractBuyValidationError that advertises
-            a per-contract ceiling, clamp + restart.
-         4. On any other error, bubble up untouched.
-       The loop is bounded — after MAX_ATTEMPTS we give up so a
-       pathological backend can't pin us in an infinite loop.
-       ────────────────────────────────────────────────────────────── */
-    /* MAX_ATTEMPTS raised from 5 → 10. With the safety margin above,
-       1-2 attempts is the normal convergence path; but on highly
-       volatile symbols (cryBTCUSD x300+) the cap can tighten rapidly
-       between proposals and we want enough budget to chase it down
-       without giving up. Each attempt is ~150ms, so a worst-case
-       10-attempt loop still resolves inside ~1.5s — well under the
-       cron tick budget. */
-    const MAX_ATTEMPTS = 10;
-    let propReply, prop, buyReply;
-    let lastError = null;
-
-    /* Shared handler for cap errors raised by EITHER the proposal step
-       OR the buy step. Deriv enforces three independent caps
-       (stake / take_profit / stop_loss) and uses the SAME error
-       wording for all three, so the numeric ceiling in the message
-       alone is ambiguous.
-
-       Disambiguation strategy (v4 fix):
-         1. If we have just-received validation_params on `prop`,
-            consult them. If our current limit_order.take_profit is
-            above vp.take_profit.max, clamp it; same for stop_loss;
-            same for stake. This is the AUTHORITATIVE source.
-         2. If validation_params didn't help (absent, or all our
-            values are already inside), fall back to interpreting the
-            error as a stake cap (legacy behaviour, still correct in
-            ~85% of observed cases).
-
-       Returns:
-         • 'retry'  → caller should `continue` the outer loop (clamp applied).
-         • 'throw'  → caller should rethrow the original error (not recoverable).
-         •  string  → caller should throw a new Error with this message. */
-    const _handleStakeCapError = (e) => {
-        const msg = (e && e.message) ? String(e.message) : '';
-        const capped  = _extractMaxStakeFromError(msg);
-        const floored = _extractMinStakeFromError(msg);
-
-        if (capped) {
-            // Step 1: Try to disambiguate via validation_params from
-            // the most recent proposal (if any). This is the v4
-            // improvement — we now correctly attribute the cap to
-            // stake / TP / SL based on what's actually out of range.
-            const vp = _parseValidationParams(prop);
-            if (vp && limit_order) {
-                const clamp = _applyTpSlRanges(limit_order, vp);
-                if (clamp.changed) {
-                    Logger.warn('placeMultiplier: cap error — attributed to TP/SL via validation_params', {
-                        symbol, multiplier, stake,
-                        cap_in_error: capped,
-                        adjustments:  clamp.adjustments,
-                    });
-                    limit_order = clamp.limit_order;
-                    return 'retry';
-                }
-            }
-            // Step 2: legacy fallback — treat as stake cap.
-            if (_applyClamp(capped, 'cap error (treated as stake)')) {
-                return 'retry';
-            }
-            return (
-                `placeMultiplier: cannot satisfy cap ${capped} (below absolute min ${ABS_MIN_STAKE}) ` +
-                `for ${symbol} x${multiplier}`
+    /* Step 2 — explicit stake-range check. If the caller's stake is
+       genuinely outside vp.stake.{min,max}, we surface a clean error
+       INSTEAD of silently rewriting the user's stake (which the v1–v3
+       loop did and was the root cause of the user's complaint). */
+    if (probeVp && probeVp.stake) {
+        const { min: sMin, max: sMax } = probeVp.stake;
+        if (sMax != null && stake > sMax) {
+            throw new Error(
+                `placeMultiplier: stake ${stake} above broker max ${sMax} ` +
+                `for ${symbol} ×${multiplier} (range $${sMin ?? '?'}–$${sMax}). ` +
+                'Resize the trade or pick a lower multiplier.'
             );
         }
-
-        if (floored && floored > stake) {
-            // Stake was BELOW Deriv's per-contract minimum (rare).
-            // We do NOT silently bump UP — that would spend more of
-            // the user's money than they sized for. Surface clean.
-            return (
-                `placeMultiplier: stake ${stake} below Deriv min ${floored} for ${symbol} x${multiplier}`
+        if (sMin != null && stake < sMin) {
+            throw new Error(
+                `placeMultiplier: stake ${stake} below broker min ${sMin} ` +
+                `for ${symbol} ×${multiplier}.`
             );
         }
+    }
 
-        return 'throw'; // not a stake-cap error → bubble up untouched
-    };
+    /* Step 3 — clamp the OUTGOING limit_order into the live ranges
+       BEFORE we send the real proposal. This is the entire fix:
+       Deriv will see in-range values and accept the buy without ever
+       raising the cap error. */
+    if (limit_order && probeVp) {
+        const clamp = _applyTpSlRanges(limit_order, probeVp);
+        if (clamp.changed) {
+            Logger.warn('placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)', {
+                symbol, multiplier, stake,
+                adjustments: clamp.adjustments,
+                vp: probeVp,
+            });
+            limit_order = clamp.limit_order;
+            _recordAdj(clamp);
+        }
+    }
 
-    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-        // 1) Proposal — wrapped in try/catch because Deriv may enforce
-        //    the per-contract stake ceiling AT PROPOSAL TIME on some
-        //    symbol/multiplier combinations (e.g. cryBTCUSD x200).
-        //    Without this wrapper a proposal-time ContractBuyValidationError
-        //    bubbles straight up to the runner as OPEN FAILED, bypassing
-        //    the auto-scale loop entirely. This was the original bug.
+    /* ────────────────────────────────────────────────────────────────
+       Step 4 — REAL proposal with the (now in-range) limit_order.
+       In the overwhelming majority of cases this is the only proposal
+       that matters; the probe + clamp above guarantees the broker's
+       validators are satisfied at submission time.
+
+       Edge case: between the probe and the real proposal (~100ms on
+       a healthy WS) Deriv may have re-computed the range due to spot
+       movement on a volatile symbol. If the new vp shows our clamped
+       values now fall outside, we re-clamp once and re-propose. We do
+       this at most ONCE — a second tightening within ~200ms means the
+       trade is in a regime our chosen TP/SL cannot satisfy at all, and
+       we surface the broker error verbatim instead of looping.
+       ──────────────────────────────────────────────────────────────── */
+    const MAX_RECLAMP = 1; // single re-clamp; no stake auto-scale, ever
+    let prop, propReply;
+    for (let reclamp = 0; reclamp <= MAX_RECLAMP; reclamp++) {
         try {
-            propReply = await request(ws, buildProposalReq(), 15000);
+            propReply = await request(ws, buildProposalReq(true), 15000);
         } catch (e) {
-            lastError = e;
-            const verdict = _handleStakeCapError(e);
-            if (verdict === 'retry') continue;
-            if (verdict === 'throw') throw e;
-            throw new Error(verdict);
+            // No retry — the broker's reason is the source of truth.
+            // (The probe already ruled out stake-range issues, so this
+            // is almost certainly a transient WS issue or a true
+            // validator failure on an edge symbol.)
+            throw e;
         }
         prop = propReply && propReply.proposal;
         if (!prop || !prop.id) {
-            throw new Error(`placeMultiplier proposal (attempt ${attempt}): no id returned`);
+            throw new Error('placeMultiplier proposal: no id returned');
         }
-
-        /* 1b) Pre-emptive clamp from proposal.validation_params.
-               Deriv's validation_params block (per the official schema)
-               returns three independent ranges for multiplier contracts:
-                 • stake       = { min, max }   — per-contract stake bounds
-                 • take_profit = { min, max }   — per-contract TP bounds
-                 • stop_loss   = { min, max }   — per-contract SL bounds
-               All three depend on stake × multiplier × current spot, so
-               they shift between proposals. We clamp our outgoing
-               values into each range BEFORE sending the buy. This is
-               the v4 fix — previously we only looked at max_stake, but
-               the live error
-                  "Enter an amount equal to or lower than 8.59"
-               on a $10 stake / $23 TP / $22 SL trade was actually the
-               TP (or SL) range, not the stake. The user verified this
-               by opening the same contract on Deriv's main platform.
-
-               Schema: https://developers.deriv.com/schemas/proposal_response.schema.json
-               (search: validation_params, take_profit, stop_loss). */
         const vp = _parseValidationParams(prop);
 
-        // 1b.i) Stake clamp — honours validation_params.stake.max if present.
-        //       (Old code looked for `max_stake` which is NOT in the schema;
-        //       the real field is `validation_params.stake.max`. We retain
-        //       the legacy lookup as a fallback for safety.)
-        const vpStakeMax = (vp && vp.stake && vp.stake.max != null)
-            ? Number(vp.stake.max)
-            : (prop.validation_params && Number(prop.validation_params.max_stake));
-        if (Number.isFinite(vpStakeMax) && vpStakeMax > 0 && stake > vpStakeMax) {
-            if (_applyClamp(vpStakeMax, 'proposal.validation_params.stake.max')) {
-                continue; // re-propose with new stake + scaled TP/SL
-            }
-            // _applyClamp refused — fall through; Deriv will give us the authoritative error.
-        }
-
-        // 1b.ii) TP / SL clamp — the NEW logic. Forces our limit_order
-        //         take_profit and stop_loss into the live ranges quoted
-        //         by the broker for this proposal. If either was out of
-        //         range, we re-propose so the broker sees the corrected
-        //         values (we do NOT just send the buy with stale
-        //         limit_order — the proposal id is bound to its inputs).
-        if (limit_order && vp) {
+        // Re-clamp once if the live range has tightened relative to
+        // the probe (rare on a calm market, possible on cryBTCUSD).
+        if (reclamp < MAX_RECLAMP && limit_order && vp) {
             const clamp = _applyTpSlRanges(limit_order, vp);
             if (clamp.changed) {
-                Logger.warn('placeMultiplier: clamping TP/SL into validation_params ranges', {
+                Logger.warn('placeMultiplier: range tightened between probe and proposal — re-clamping', {
                     symbol, multiplier, stake,
                     adjustments: clamp.adjustments,
                 });
                 limit_order = clamp.limit_order;
-                continue; // re-propose with the in-range limit_order
+                _recordAdj(clamp);
+                continue; // re-propose with the tightened values
             }
         }
 
-        Logger.trade(`Multiplier proposal accepted ${symbol} ${contractType} x${multiplier} (attempt ${attempt})`, {
+        Logger.trade(`Multiplier proposal accepted ${symbol} ${contractType} ×${multiplier}`, {
             stake,
-            ask_price:  prop.ask_price,
-            spot:       prop.spot,
-            commission: prop.commission,
-            limit_order: prop.limit_order,
+            ask_price:         prop.ask_price,
+            spot:              prop.spot,
+            commission:        prop.commission,
+            limit_order:       prop.limit_order,
             validation_params: vp,
+            reclamp_iterations: reclamp,
         });
-
-        // 2) Buy at the quoted ask_price.
-        try {
-            buyReply = await request(ws, {
-                buy:   prop.id,
-                price: Number(prop.ask_price),
-            }, 15000);
-            break; // ← success, exit retry loop
-        } catch (e) {
-            lastError = e;
-            const verdict = _handleStakeCapError(e);
-            if (verdict === 'retry') continue;
-            if (verdict === 'throw') throw e;
-            throw new Error(verdict);
-        }
+        break;
     }
 
-    if (!buyReply) {
-        // Exhausted MAX_ATTEMPTS without a successful buy. Bubble up
-        // the most recent error (or a generic one) so the runner shows
-        // a clean OPEN FAILED instead of a silent hang.
-        const tail = lastError && lastError.message ? lastError.message : 'unknown error';
-        throw new Error(`placeMultiplier: stake auto-scale exhausted after ${MAX_ATTEMPTS} attempts (last: ${tail})`);
+    /* ────────────────────────────────────────────────────────────────
+       Step 5 — BUY at the quoted ask_price. No retry on this step
+       either: any error here is either a genuine race (handled by
+       higher-level retries in the runner) or a real validation failure
+       that the user must see verbatim.
+       ──────────────────────────────────────────────────────────────── */
+    let buyReply;
+    try {
+        buyReply = await request(ws, {
+            buy:   prop.id,
+            price: Number(prop.ask_price),
+        }, 15000);
+    } catch (e) {
+        throw e;
     }
-    const buy = buyReply.buy;
-    // Belt-and-suspenders verification of the buy reply. request() above
-    // already converts any explicit data.error into a thrown rejection,
-    // but we additionally insist on the buy reply LOOKING like a real
-    // accepted contract — a numeric contract_id AND a numeric buy_price.
-    // Treating a malformed-but-error-free reply as success was part of
-    // the failure-detection gap that hid earlier rejections.
+
+    const buy = buyReply && buyReply.buy;
     if (!buy || buy.contract_id == null) {
         throw new Error('placeMultiplier buy: reply missing contract_id (raw=' +
             JSON.stringify(buyReply).slice(0, 240) + ')');
@@ -1216,35 +1136,46 @@ async function placeMultiplier(ws, opts) {
         throw new Error('placeMultiplier buy: reply has no valid buy_price (got ' +
             JSON.stringify(buy.buy_price) + '), refusing to treat as success');
     }
-    const wasClamped = requestedStake !== stake;
+
+    const tpAdjusted = tpSlAdjustments.take_profit != null;
+    const slAdjusted = tpSlAdjustments.stop_loss   != null;
+    const wasClamped = tpAdjusted || slAdjusted;
+
     Logger.trade(`Multiplier placed: contract_id=${buy.contract_id}`, {
         symbol,
-        direction:      dir,
-        contract_type:  contractType,
+        direction:        dir,
+        contract_type:    contractType,
         multiplier,
-        stake,                     // reflects the clamped value if a retry happened
-        requested_stake: requestedStake,
-        clamped:        wasClamped,
+        stake,
         final_limit_order: limit_order,
-        transaction_id: buy.transaction_id,
-        longcode:       buy.longcode,
+        tp_sl_clamped:    wasClamped,
+        transaction_id:   buy.transaction_id,
+        longcode:         buy.longcode,
     });
 
-    // Expose clamping metadata on the returned `buy` so the runner can
-    // surface a soft-warning "stake auto-scaled from $X to $Y" subline
-    // in the Telegram tick summary instead of OPEN FAILED.
+    /* v5 metadata — TP/SL clamping only. The legacy
+       `_aurelia_stake_clamp` shape is preserved for the runner /
+       Telegram template, but `requested_stake === final_stake` is now
+       always true (stake is never auto-scaled). The TP/SL fields
+       reflect the actual pre-flight clamp. */
     buy._aurelia_stake_clamp = wasClamped
         ? {
-            requested_stake: requestedStake,
-            final_stake:     stake,
-            requested_take_profit: opts.takeProfit != null ? Number(opts.takeProfit) : null,
-            requested_stop_loss:   opts.stopLoss   != null ? Number(opts.stopLoss)   : null,
+            requested_stake:       stake,   // never changed in v5
+            final_stake:           stake,
+            requested_take_profit: requestedTP,
+            requested_stop_loss:   requestedSL,
             final_take_profit:     limit_order && limit_order.take_profit != null ? limit_order.take_profit : null,
             final_stop_loss:       limit_order && limit_order.stop_loss   != null ? limit_order.stop_loss   : null,
+            // New in v5 — lets downstream consumers know the adjustment
+            // was on TP/SL only (the stake was untouched).
+            kind: 'tp_sl_clamp',
+            adjustments: {
+                take_profit: tpSlAdjustments.take_profit,
+                stop_loss:   tpSlAdjustments.stop_loss,
+            },
         }
         : null;
 
-    // No settlement polling — Multipliers stay open indefinitely.
     return { proposal: prop, buy };
 }
 

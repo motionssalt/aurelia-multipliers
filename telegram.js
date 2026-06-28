@@ -724,10 +724,16 @@ const templates = {
                 if (okIds.length) {
                     subLines.push(`Opened    : ✅ ${okIds.map(id => `<code>${_esc(id)}</code>`).join(', ')}`);
                 }
-                // Soft-warning subline: broker auto-scaled the stake (and
-                // proportionally TP/SL) to fit the live per-contract
-                // ceiling. The trade DID open — we just want the user to
-                // know the size differs from what the AI requested.
+                // Soft-warning subline. Two shapes are possible:
+                //   v1–v3 legacy: broker auto-scaled the STAKE (and TP/SL
+                //                 proportionally) — distinguished by
+                //                 `requested_stake !== final_stake`.
+                //   v5 current:   pre-flight clamp of TP/SL into the
+                //                 live `validation_params` ranges; the
+                //                 stake is unchanged and `kind === 'tp_sl_clamp'`.
+                // The trade DID open in both cases — we just want the user
+                // to know what the broker accepted differs from what was
+                // requested, and on which dimension.
                 if (autoscaled.length) {
                     for (const a of autoscaled) {
                         const c = a.stake_autoscaled || {};
@@ -737,9 +743,17 @@ const templates = {
                         const slFrag = (c.requested_stop_loss != null && c.final_stop_loss != null && c.requested_stop_loss !== c.final_stop_loss)
                             ? ` · SL ${_money(c.requested_stop_loss)}→${_money(c.final_stop_loss)}`
                             : '';
-                        subLines.push(
-                            `🔧 <i>Stake auto-scaled by broker: ${_money(c.requested_stake)} → ${_money(c.final_stake)}${tpFrag}${slFrag}</i>`
-                        );
+                        const stakeChanged = (c.requested_stake != null && c.final_stake != null && c.requested_stake !== c.final_stake);
+                        const isTpSlOnly   = (c.kind === 'tp_sl_clamp') || (!stakeChanged && (tpFrag || slFrag));
+                        if (isTpSlOnly) {
+                            subLines.push(
+                                `🔧 <i>TP/SL clamped into broker range${tpFrag}${slFrag}</i>`
+                            );
+                        } else {
+                            subLines.push(
+                                `🔧 <i>Stake auto-scaled by broker: ${_money(c.requested_stake)} → ${_money(c.final_stake)}${tpFrag}${slFrag}</i>`
+                            );
+                        }
                     }
                 }
                 if (failed.length) {

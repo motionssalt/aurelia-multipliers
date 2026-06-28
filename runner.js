@@ -1275,18 +1275,19 @@ async function openSibling(ws, config, state, symbol, decision, openSpec, cycleI
                 continue;
             }
 
-            /* Deriv may have auto-clamped our stake (and proportionally
-               our TP/SL) at the proposal/buy stage. `placed.buy._aurelia_stake_clamp`
-               is populated by deriv.placeMultiplier when that happened.
-               We MUST use the post-clamp values everywhere downstream:
-                 • capital_remaining deduction — otherwise we over-deduct
-                 • sibling record (stake, TP, SL) — otherwise the position
-                   tracker thinks the trade has a TP/SL the broker never
-                   accepted, causing settlement/PnL math to drift.
-               If no clamp happened the field is null and the original
-               values are used verbatim. */
+            /* v5: Deriv's `placeMultiplier` no longer auto-scales the
+               stake. If anything was adjusted, it was the TP/SL being
+               clamped INTO the live `validation_params` ranges before
+               the buy was sent (so the broker never raised a cap
+               error in the first place). `placed.buy._aurelia_stake_clamp`
+               is populated when that pre-flight clamp made a change;
+               `kind: 'tp_sl_clamp'` distinguishes the v5 shape from
+               the legacy v1–v3 stake-scaling shape. We still use the
+               post-clamp TP/SL for the sibling record (the broker
+               accepted those values, not the originals) but the stake
+               is now ALWAYS equal to what the caller requested. */
             const clamp = placed.buy._aurelia_stake_clamp || null;
-            const effectiveStake = clamp ? clamp.final_stake : stake;
+            const effectiveStake = stake; // v5: never modified by deriv.js
             const effectiveTP    = clamp
                 ? clamp.final_take_profit
                 : (openSpec.take_profit != null ? Number(openSpec.take_profit) : null);
@@ -1323,11 +1324,13 @@ async function openSibling(ws, config, state, symbol, decision, openSpec, cycleI
             State.addSiblingPosition(state, symbol, rec);
             const resultEntry = { contract_id: contractId };
             if (clamp) {
-                // Surface auto-scale event for the Telegram tick summary.
-                // Telegram.multiplierTickSummary inspects `stake_autoscaled`
-                // on each result to render a soft-warning subline.
+                // v5: Surface TP/SL clamp event for the Telegram tick
+                // summary. The field name `stake_autoscaled` is retained
+                // for backwards compatibility with the Telegram template
+                // (which already keys on it), but the rendered subline
+                // now describes a TP/SL clamp rather than stake scaling.
                 resultEntry.stake_autoscaled = clamp;
-                Logger.warn('open: stake auto-scaled by broker', {
+                Logger.warn('open: TP/SL clamped into broker range (v5 pre-flight)', {
                     symbol, multiplier: mult, ...clamp,
                 });
             }
