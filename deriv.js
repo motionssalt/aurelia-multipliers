@@ -778,14 +778,30 @@ async function placeMultiplier(ws, opts) {
 
     /* Helper: apply a stake clamp + proportionally scale TP/SL.
        Mutates the outer `stake` and `limit_order`.
-       Returns true on success, false if the clamp would either:
-         • push the stake AT OR ABOVE the current stake (no-op), or
-         • require going below the configured ABS_MIN_STAKE floor
-           (we refuse to silently bump UP above the broker's cap;
-            the caller should surface a clean error in that case). */
+
+       The broker may quote its ceiling AT OR BELOW the current stake.
+       We always clamp DOWN to `target` (never up). If `target == stake`
+       (the broker quoted exactly what we sent, but still rejected),
+       we shave one tick (1¢) to break the impasse — better than
+       bubbling up an unrecoverable error to the user.
+
+       Returns true on success, false only when the broker's cap is
+       genuinely below our configured ABS_MIN_STAKE (in which case the
+       trade cannot be honoured at all and the caller surfaces a clean
+       explanatory error). */
     const _applyClamp = (newStakeRaw, reason) => {
-        const target = _floor2(newStakeRaw);
-        if (!(target > 0) || target >= stake) return false;
+        let target = _floor2(newStakeRaw);
+        if (!(target > 0)) return false;
+
+        // Broker quoted a ceiling >= current stake but still rejected.
+        // Shave one tick so we make forward progress. This handles the
+        // pathological case where Deriv returns the SAME number it
+        // received (rare but observed) or rounds ambiguously.
+        if (target >= stake) {
+            target = _floor2(stake - 0.01);
+            if (!(target > 0)) return false;
+        }
+
         if (target < ABS_MIN_STAKE) {
             // Broker's cap is below our configured minimum stake. Bumping
             // UP to ABS_MIN_STAKE would still violate the broker's ceiling,
@@ -823,9 +839,68 @@ async function placeMultiplier(ws, opts) {
     let propReply, prop, buyReply;
     let lastError = null;
 
+    /* Shared handler for stake-cap errors raised by EITHER the proposal
+       step OR the buy step. Deriv has been observed to enforce the
+       per-contract stake ceiling at proposal time as well as at buy
+       time (depending on symbol / multiplier / liquidity conditions),
+       so we cannot assume the error only originates from the buy.
+
+       Returns:
+         • 'retry'  → caller should `continue` the outer loop (clamp applied).
+         • 'throw'  → caller should rethrow the original error (not recoverable).
+         •  string  → caller should throw a new Error with this message
+                       (recoverable in principle but the broker's ceiling
+                       is below our configured floor — clean explanation). */
+    const _handleStakeCapError = (e) => {
+        const msg = (e && e.message) ? String(e.message) : '';
+        const capped  = _extractMaxStakeFromError(msg);
+        const floored = _extractMinStakeFromError(msg);
+
+        if (capped) {
+            // Recoverable: Deriv told us the live ceiling. Clamp and
+            // re-propose. The new proposal is at the safe stake, and
+            // TP/SL are scaled by the same ratio so they don't
+            // independently trip limit_order validation.
+            // NB: We pass `capped` even if `capped >= stake` — the
+            // clamp helper now shaves a tick in that pathological case
+            // rather than refusing, so we always make forward progress.
+            if (_applyClamp(capped, 'stake cap error')) {
+                return 'retry';
+            }
+            return (
+                `placeMultiplier: cannot satisfy stake cap ${capped} (below absolute min ${ABS_MIN_STAKE}) ` +
+                `for ${symbol} x${multiplier}`
+            );
+        }
+
+        if (floored && floored > stake) {
+            // Stake was BELOW Deriv's per-contract minimum (rare).
+            // We do NOT silently bump UP — that would spend more of
+            // the user's money than they sized for. Surface clean.
+            return (
+                `placeMultiplier: stake ${stake} below Deriv min ${floored} for ${symbol} x${multiplier}`
+            );
+        }
+
+        return 'throw'; // not a stake-cap error → bubble up untouched
+    };
+
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
-        // 1) Proposal
-        propReply = await request(ws, buildProposalReq(), 15000);
+        // 1) Proposal — wrapped in try/catch because Deriv may enforce
+        //    the per-contract stake ceiling AT PROPOSAL TIME on some
+        //    symbol/multiplier combinations (e.g. cryBTCUSD x200).
+        //    Without this wrapper a proposal-time ContractBuyValidationError
+        //    bubbles straight up to the runner as OPEN FAILED, bypassing
+        //    the auto-scale loop entirely. This was the original bug.
+        try {
+            propReply = await request(ws, buildProposalReq(), 15000);
+        } catch (e) {
+            lastError = e;
+            const verdict = _handleStakeCapError(e);
+            if (verdict === 'retry') continue;
+            if (verdict === 'throw') throw e;
+            throw new Error(verdict);
+        }
         prop = propReply && propReply.proposal;
         if (!prop || !prop.id) {
             throw new Error(`placeMultiplier proposal (attempt ${attempt}): no id returned`);
@@ -861,38 +936,10 @@ async function placeMultiplier(ws, opts) {
             break; // ← success, exit retry loop
         } catch (e) {
             lastError = e;
-            const msg = (e && e.message) ? String(e.message) : '';
-            const capped  = _extractMaxStakeFromError(msg);
-            const floored = _extractMinStakeFromError(msg);
-
-            if (capped && capped < stake) {
-                // Recoverable: Deriv told us the live ceiling. Clamp and
-                // re-propose. The new proposal is at the safe stake, and
-                // TP/SL are scaled by the same ratio so they don't
-                // independently trip limit_order validation.
-                if (_applyClamp(capped, 'buy ContractBuyValidationError')) {
-                    continue;
-                }
-                // Couldn't clamp meaningfully — the broker's cap is below
-                // our configured absolute minimum stake, so honouring this
-                // trade is impossible. Surface a clean explanatory error.
-                throw new Error(
-                    `placeMultiplier: cannot satisfy stake cap ${capped} (below absolute min ${ABS_MIN_STAKE}) ` +
-                    `for ${symbol} x${multiplier}`
-                );
-            }
-
-            if (floored && floored > stake) {
-                // Stake was BELOW Deriv's per-contract minimum (rare).
-                // We do NOT silently bump UP — that would spend more of
-                // the user's money than they sized for. Surface clean.
-                throw new Error(
-                    `placeMultiplier: stake ${stake} below Deriv min ${floored} for ${symbol} x${multiplier}`
-                );
-            }
-
-            // Not a recoverable stake-cap error — bubble up untouched.
-            throw e;
+            const verdict = _handleStakeCapError(e);
+            if (verdict === 'retry') continue;
+            if (verdict === 'throw') throw e;
+            throw new Error(verdict);
         }
     }
 
