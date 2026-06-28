@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T15:50:18.850Z",
+  "last_cycle": "2026-06-28T15:55:20.348Z",
   "balance": 9956.54,
   "currency": "USD",
   "account_mode": "demo",
@@ -1422,6 +1422,61 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-28T15:50:18.848Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-28T15:55:19.217Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T15:55:19.217Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:55:19.219Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T15:55:19.803Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=MBBl4ING"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:55:20.241Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T15:55:20.347Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T15:55:20.347Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T15:55:20.347Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:55:20.347Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T15:55:20.347Z",
         "symbol": "cryBTCUSD",
         "cycle_running": false,
         "halted": false,
