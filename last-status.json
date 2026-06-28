@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T06:36:35.383Z",
+  "last_cycle": "2026-06-28T06:40:29.863Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -34,7 +34,9 @@
   "trade_history_cycle": [],
   "trade_history_manual": [],
   "pending_contracts": [],
-  "ai_keys_bench": {},
+  "ai_keys_bench": {
+    "GEMINI_KEY_1": 1782637822101
+  },
   "logs": [
     {
       "ts": "2026-06-28T06:35:20.641Z",
@@ -204,6 +206,135 @@
       "meta": {
         "ms": 1878,
         "bytes": 168009
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:21.471Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T06:40:21.471Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:21.472Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:40:21.874Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=tdEHWLgo"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:22.048Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:40:22.100Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T06:40:22.100Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:22.101Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:40:22.278Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_1\" failed — benching 150m",
+      "meta": {
+        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:26.660Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_2\"",
+      "meta": {
+        "action": "open",
+        "conf": 0.7
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:26.661Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "init-btc-up-001",
+        "keyUsed": "GEMINI_KEY_2"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:26.697Z",
+      "level": "error",
+      "msg": "placeMultiplier failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "error": "InputValidationFailed: Input validation failed: Properties not allowed: symbol."
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:26.698Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T06:40:22.100Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "open",
+        "decision_id": "init-btc-up-001",
+        "rationale": "No open positions and 'can_open_new' is true. Initiating a new MULTUP position on cryBTCUSD with moderate stake and multiplier to establish market exposure.",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:26.699Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:26.804Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782593100000,
+          "max": 1782628800000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T06:40:28.933Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2234,
+        "bytes": 177195
       }
     }
   ],
