@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T17:05:13.243Z",
+  "last_cycle": "2026-06-28T17:10:16.374Z",
   "balance": 9956.54,
   "currency": "USD",
   "account_mode": "demo",
@@ -39,78 +39,6 @@
     "GEMINI_KEY_2": 1782668317357
   },
   "logs": [
-    {
-      "ts": "2026-06-28T13:20:34.001Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-28T13:20:19.829Z",
-        "symbol": "cryBTCUSD",
-        "decision_action": "hold",
-        "decision_id": "btc-hold-0628-v1",
-        "rationale": "Price is below EMA20 and EMA50 on M5, M10, M15 timeframes, with negative MACD histograms (-24.43 M5, -25.27 M10, -20.06 M15), indicating a bearish trend. However, the price (60067.38) is near the lowe",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": 0,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-28T13:20:34.003Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-28T13:20:34.082Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782617100000,
-          "max": 1782652800000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T13:20:36.293Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2290,
-        "bytes": 173089
-      }
-    },
-    {
-      "ts": "2026-06-28T15:08:36.058Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-28T15:08:36.057Z"
-      }
-    },
-    {
-      "ts": "2026-06-28T15:08:36.059Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T15:08:36.469Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=wdE04Blc"
-      }
-    },
     {
       "ts": "2026-06-28T15:08:36.659Z",
       "level": "network",
@@ -1781,6 +1709,61 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-28T17:05:13.241Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-28T17:10:15.725Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T17:10:15.725Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T17:10:15.727Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T17:10:16.214Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=9ZbTMJL1"
+      }
+    },
+    {
+      "ts": "2026-06-28T17:10:16.340Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T17:10:16.373Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T17:10:16.373Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T17:10:16.373Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T17:10:16.374Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T17:10:16.373Z",
         "symbol": "cryBTCUSD",
         "cycle_running": false,
         "halted": false,
