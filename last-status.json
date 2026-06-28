@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T11:59:28.403Z",
+  "last_cycle": "2026-06-28T12:53:21.694Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -23,7 +23,13 @@
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {},
-  "cycle_open_siblings_summary": null,
+  "cycle_open_siblings_summary": {
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
+    "total_floating_pnl": null,
+    "per_symbol": []
+  },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [],
   "trade_history_manual": [],
@@ -184,6 +190,96 @@
       "meta": {
         "rationale": "Extreme overbought conditions (Stoch, RSI), price well above upper BB and resistance across multiple timeframes, with M15 MACD bearish divergence."
       }
+    },
+    {
+      "ts": "2026-06-28T12:53:06.793Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T12:53:06.793Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:53:06.794Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:53:07.213Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=xBBrmDqh"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:53:07.352Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:53:07.400Z",
+      "level": "info",
+      "msg": "Manual scan tick",
+      "meta": {
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:53:07.651Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:53:18.746Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "hold"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:53:18.747Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "btc-hold-0628",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:53:18.748Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T12:53:18.867Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782615300000,
+          "max": 1782651000000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T12:53:20.738Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1990,
+        "bytes": 177552
+      }
     }
   ],
   "daily_stats": {
@@ -208,5 +304,6 @@
     "pnl": 0
   },
   "_notified_halt_reason": null,
-  "_notified_session_summary": null
+  "_notified_session_summary": null,
+  "chart_windows": {}
 }
