@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T19:45:35.486Z",
-  "balance": 9953.34,
+  "last_cycle": "2026-06-28T19:50:36.870Z",
+  "balance": 9952.53,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -32,11 +32,11 @@
         "entry_spot": 59400.602,
         "entry_time": "2026-06-28T19:45:31.000Z",
         "take_profit": 20,
-        "stop_loss": 9.53,
-        "floating_pnl": null,
-        "floating_pnl_pct": null,
-        "current_spot": null,
-        "last_polled_at": null,
+        "stop_loss": -9.53,
+        "floating_pnl": 0.88,
+        "floating_pnl_pct": 8.8,
+        "current_spot": 59349.07,
+        "last_polled_at": "2026-06-28T19:50:19.431Z",
         "cycle_id": "2026-06-28T19:45:16.450Z",
         "decision_id": "btc-trend-flip-001",
         "sibling_index": 0,
@@ -50,14 +50,14 @@
     "symbols": 1,
     "positions": 1,
     "total_stake": 10,
-    "total_floating_pnl": null,
+    "total_floating_pnl": 0.88,
     "per_symbol": [
       {
         "symbol": "cryBTCUSD",
         "count": 1,
         "total_stake": 10,
-        "total_floating_pnl": null,
-        "net_position": 10,
+        "total_floating_pnl": 0.88,
+        "net_position": 10.88,
         "direction_mix": {
           "up": 0,
           "down": 1
@@ -293,187 +293,6 @@
     "GEMINI_KEY_1": 1782683421701
   },
   "logs": [
-    {
-      "ts": "2026-06-28T19:05:23.278Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T19:05:23.475Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-28T19:05:23.475Z",
-        "symbol": "cryBTCUSD"
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:24.227Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 100,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:24.335Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:24.441Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 300,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:24.552Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 500,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:24.661Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 800,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:24.663Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T19:05:24.663Z",
-      "level": "warn",
-      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_1\" anyway",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T19:05:24.915Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_1\" failed — benching 150m",
-      "meta": {
-        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:24.915Z",
-      "level": "warn",
-      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_2\" anyway",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T19:05:25.103Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_2\" failed — benching 150m",
-      "meta": {
-        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:25.104Z",
-      "level": "warn",
-      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_3\" anyway",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T19:05:25.303Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_3\" failed — benching 150m",
-      "meta": {
-        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:25.303Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key env \"OPENAI_KEY_1\" not set — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T19:05:25.303Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:25.304Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-28T19:05:23.475Z",
-        "symbol": "cryBTCUSD",
-        "decision_action": "hold",
-        "decision_id": "provider-fail-2026-06-28T19:05:23.475Z",
-        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing detail",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -1.25,
-        "floating_pnl": 2.84,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:25.305Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782643500000,
-          "max": 1782679200000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T19:05:25.454Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782643500000,
-          "max": 1782679200000,
-          "justOpened": false
-        }
-      }
-    },
     {
       "ts": "2026-06-28T19:05:28.731Z",
       "level": "info",
@@ -2710,6 +2529,200 @@
       "meta": {
         "ms": 2043,
         "bytes": 169424
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:18.596Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T19:50:18.596Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:18.598Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:50:19.018Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=WmvTj14u"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:19.257Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:50:19.333Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T19:50:19.333Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:19.864Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 100,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:19.946Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 200,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:20.023Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:20.107Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 500,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:20.243Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 800,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:20.245Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:50:33.719Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_4\"",
+      "meta": {
+        "action": "revise",
+        "conf": 0.7
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:33.719Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "revise",
+        "decision_id": "btc-rev-sl-001",
+        "keyUsed": "GEMINI_KEY_4"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:33.720Z",
+      "level": "trade",
+      "msg": "Revising multiplier limits contract_id=3559801939",
+      "meta": {
+        "limit_order": {
+          "stop_loss": 0.5
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:33.816Z",
+      "level": "error",
+      "msg": "AI revise failed",
+      "meta": {
+        "contract_id": 3559801939,
+        "error": "LimitOrderAmountTooLow: Enter an amount equal to or higher than 0.81."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:33.816Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T19:50:19.333Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "revise",
+        "decision_id": "btc-rev-sl-001",
+        "rationale": "The existing 'down' position (contract_id 3559801939) is profitable at +0.88 USD. While M5, M10, and M15 EMAs and MACD histogram indicate a strong bearish trend, the M15 RSI (27.56) and Stochastics (K",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": 5.99,
+        "floating_pnl": 0.88,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:33.817Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782646500000,
+          "max": 1782682200000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:33.934Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782646500000,
+          "max": 1782682200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T19:50:35.712Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1895,
+        "bytes": 171415
       }
     }
   ],
