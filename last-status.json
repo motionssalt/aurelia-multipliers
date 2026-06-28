@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T15:00:27.115Z",
+  "last_cycle": "2026-06-28T15:05:44.323Z",
   "balance": 9956.54,
   "currency": "USD",
   "account_mode": "demo",
@@ -35,382 +35,10 @@
   "trade_history_manual": [],
   "pending_contracts": [],
   "ai_keys_bench": {
-    "GEMINI_KEY_1": 1782667821867,
-    "GEMINI_KEY_2": 1782667821867,
-    "GEMINI_KEY_3": 1782667821867
+    "GEMINI_KEY_1": 1782668125220,
+    "GEMINI_KEY_2": 1782668125220
   },
   "logs": [
-    {
-      "ts": "2026-06-28T14:15:15.334Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T14:15:15.364Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-28T14:15:15.364Z",
-        "symbol": "cryBTCUSD"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:15.573Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T14:15:34.775Z",
-      "level": "info",
-      "msg": "AI decision via gemini key \"GEMINI_KEY_2\"",
-      "meta": {
-        "action": "open",
-        "conf": 0.65
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:34.776Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "btc-d-001",
-        "keyUsed": "GEMINI_KEY_2"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:34.920Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 10,
-        "to_stake": 9.22,
-        "ratio": 0.922,
-        "from_limit_order": {
-          "take_profit": 23,
-          "stop_loss": 22
-        },
-        "to_limit_order": {
-          "take_profit": 21.2,
-          "stop_loss": 20.28
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.032Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 9.22,
-        "to_stake": 8.5,
-        "ratio": 0.9219,
-        "from_limit_order": {
-          "take_profit": 21.2,
-          "stop_loss": 20.28
-        },
-        "to_limit_order": {
-          "take_profit": 19.54,
-          "stop_loss": 18.69
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.163Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 8.5,
-        "to_stake": 7.83,
-        "ratio": 0.9212,
-        "from_limit_order": {
-          "take_profit": 19.54,
-          "stop_loss": 18.69
-        },
-        "to_limit_order": {
-          "take_profit": 17.99,
-          "stop_loss": 17.21
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.249Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 7.83,
-        "to_stake": 7.22,
-        "ratio": 0.9221,
-        "from_limit_order": {
-          "take_profit": 17.99,
-          "stop_loss": 17.21
-        },
-        "to_limit_order": {
-          "take_profit": 16.58,
-          "stop_loss": 15.86
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.307Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 7.22,
-        "to_stake": 6.65,
-        "ratio": 0.9211,
-        "from_limit_order": {
-          "take_profit": 16.58,
-          "stop_loss": 15.86
-        },
-        "to_limit_order": {
-          "take_profit": 15.27,
-          "stop_loss": 14.6
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.368Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 6.65,
-        "to_stake": 6.13,
-        "ratio": 0.9218,
-        "from_limit_order": {
-          "take_profit": 15.27,
-          "stop_loss": 14.6
-        },
-        "to_limit_order": {
-          "take_profit": 14.07,
-          "stop_loss": 13.45
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.414Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 6.13,
-        "to_stake": 5.66,
-        "ratio": 0.9233,
-        "from_limit_order": {
-          "take_profit": 14.07,
-          "stop_loss": 13.45
-        },
-        "to_limit_order": {
-          "take_profit": 12.99,
-          "stop_loss": 12.41
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.555Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 5.66,
-        "to_stake": 5.22,
-        "ratio": 0.9223,
-        "from_limit_order": {
-          "take_profit": 12.99,
-          "stop_loss": 12.41
-        },
-        "to_limit_order": {
-          "take_profit": 11.98,
-          "stop_loss": 11.44
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.664Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 5.22,
-        "to_stake": 4.81,
-        "ratio": 0.9215,
-        "from_limit_order": {
-          "take_profit": 11.98,
-          "stop_loss": 11.44
-        },
-        "to_limit_order": {
-          "take_profit": 11.03,
-          "stop_loss": 10.54
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.724Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 4.81,
-        "to_stake": 4.44,
-        "ratio": 0.9231,
-        "from_limit_order": {
-          "take_profit": 11.03,
-          "stop_loss": 10.54
-        },
-        "to_limit_order": {
-          "take_profit": 10.18,
-          "stop_loss": 9.72
-        },
-        "reason": "stake cap error"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.725Z",
-      "level": "error",
-      "msg": "placeMultiplier failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "error": "placeMultiplier: stake auto-scale exhausted after 10 attempts (last: ContractBuyValidationError: Enter an amount equal to or lower than 4.67.)"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.725Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-28T14:15:15.364Z",
-        "symbol": "cryBTCUSD",
-        "decision_action": "open",
-        "decision_id": "btc-d-001",
-        "rationale": "M5 Stochastics are highly overbought (K=89.72, D=78.15), indicating a potential pullback. This aligns with the bearish momentum seen on M10 and M15 timeframes, where MACD histograms are negative (-12.",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": 0,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.727Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:35.807Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782620400000,
-          "max": 1782656100000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T14:15:37.728Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2001,
-        "bytes": 174299
-      }
-    },
-    {
-      "ts": "2026-06-28T14:20:20.105Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-28T14:20:20.105Z"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:20:20.107Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T14:20:20.573Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=grn7NFnO"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:20:20.907Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T14:20:21.005Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-28T14:20:21.005Z",
-        "symbol": "cryBTCUSD"
-      }
-    },
-    {
-      "ts": "2026-06-28T14:20:21.454Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T14:20:30.987Z",
-      "level": "info",
-      "msg": "AI decision via gemini key \"GEMINI_KEY_2\"",
-      "meta": {
-        "action": "open",
-        "conf": 0.75
-      }
-    },
-    {
-      "ts": "2026-06-28T14:20:30.988Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "btc-down-001",
-        "keyUsed": "GEMINI_KEY_2"
-      }
-    },
     {
       "ts": "2026-06-28T14:20:31.244Z",
       "level": "warn",
@@ -2707,6 +2335,371 @@
       "meta": {
         "ms": 2141,
         "bytes": 177286
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:23.529Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T15:05:23.529Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:23.531Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T15:05:24.017Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=47IgoogV"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:24.641Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T15:05:24.745Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T15:05:24.745Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:25.220Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T15:05:25.220Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_1\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T15:05:25.466Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_1\" failed — benching 150m",
+      "meta": {
+        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:25.467Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_2\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T15:05:25.645Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_2\" failed — benching 150m",
+      "meta": {
+        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:25.646Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_3\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T15:05:39.232Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_3\"",
+      "meta": {
+        "action": "open",
+        "conf": 0.7
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:39.233Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "btc-down-001",
+        "keyUsed": "GEMINI_KEY_3"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:39.416Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 10,
+        "to_stake": 9.22,
+        "ratio": 0.922,
+        "from_limit_order": {
+          "take_profit": 23,
+          "stop_loss": 22
+        },
+        "to_limit_order": {
+          "take_profit": 21.2,
+          "stop_loss": 20.28
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:39.595Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 9.22,
+        "to_stake": 8.5,
+        "ratio": 0.9219,
+        "from_limit_order": {
+          "take_profit": 21.2,
+          "stop_loss": 20.28
+        },
+        "to_limit_order": {
+          "take_profit": 19.54,
+          "stop_loss": 18.69
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:39.706Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 8.5,
+        "to_stake": 7.83,
+        "ratio": 0.9212,
+        "from_limit_order": {
+          "take_profit": 19.54,
+          "stop_loss": 18.69
+        },
+        "to_limit_order": {
+          "take_profit": 17.99,
+          "stop_loss": 17.21
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:39.876Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 7.83,
+        "to_stake": 7.22,
+        "ratio": 0.9221,
+        "from_limit_order": {
+          "take_profit": 17.99,
+          "stop_loss": 17.21
+        },
+        "to_limit_order": {
+          "take_profit": 16.58,
+          "stop_loss": 15.86
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.043Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 7.22,
+        "to_stake": 6.65,
+        "ratio": 0.9211,
+        "from_limit_order": {
+          "take_profit": 16.58,
+          "stop_loss": 15.86
+        },
+        "to_limit_order": {
+          "take_profit": 15.27,
+          "stop_loss": 14.6
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.255Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 6.65,
+        "to_stake": 6.13,
+        "ratio": 0.9218,
+        "from_limit_order": {
+          "take_profit": 15.27,
+          "stop_loss": 14.6
+        },
+        "to_limit_order": {
+          "take_profit": 14.07,
+          "stop_loss": 13.45
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.369Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 6.13,
+        "to_stake": 5.66,
+        "ratio": 0.9233,
+        "from_limit_order": {
+          "take_profit": 14.07,
+          "stop_loss": 13.45
+        },
+        "to_limit_order": {
+          "take_profit": 12.99,
+          "stop_loss": 12.41
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.548Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 5.66,
+        "to_stake": 5.22,
+        "ratio": 0.9223,
+        "from_limit_order": {
+          "take_profit": 12.99,
+          "stop_loss": 12.41
+        },
+        "to_limit_order": {
+          "take_profit": 11.98,
+          "stop_loss": 11.44
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.665Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 5.22,
+        "to_stake": 4.81,
+        "ratio": 0.9215,
+        "from_limit_order": {
+          "take_profit": 11.98,
+          "stop_loss": 11.44
+        },
+        "to_limit_order": {
+          "take_profit": 11.03,
+          "stop_loss": 10.54
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.775Z",
+      "level": "warn",
+      "msg": "placeMultiplier: auto-scaling stake",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "from_stake": 4.81,
+        "to_stake": 4.44,
+        "ratio": 0.9231,
+        "from_limit_order": {
+          "take_profit": 11.03,
+          "stop_loss": 10.54
+        },
+        "to_limit_order": {
+          "take_profit": 10.18,
+          "stop_loss": 9.72
+        },
+        "reason": "stake cap error"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.775Z",
+      "level": "error",
+      "msg": "placeMultiplier failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "error": "placeMultiplier: stake auto-scale exhausted after 10 attempts (last: ContractBuyValidationError: Enter an amount equal to or lower than 4.67.)"
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.776Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T15:05:24.745Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "open",
+        "decision_id": "btc-down-001",
+        "rationale": "The last close (60067.665) is below the EMA(20) and EMA(50) across M5, M10, and M15 timeframes, indicating a bearish trend. MACD histogram is negative in all timeframes (M5: -3.11, M10: -12.42, M15: -",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.777Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:40.932Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782623400000,
+          "max": 1782659100000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T15:05:43.097Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2320,
+        "bytes": 178672
       }
     }
   ],
