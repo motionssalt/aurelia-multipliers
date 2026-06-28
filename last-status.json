@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T05:25:19.551Z",
+  "last_cycle": "2026-06-28T05:30:32.714Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -274,6 +274,117 @@
       "meta": {
         "ms": 2220,
         "bytes": 163582
+      }
+    },
+    {
+      "ts": "2026-06-28T05:30:24.416Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T05:30:24.415Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:30:24.417Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:30:24.908Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=HDSPbwGq"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:30:25.243Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:30:25.356Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T05:30:25.356Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:30:25.358Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:30:27.903Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "hold"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:30:27.903Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "dec-halted-no-open",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:30:27.904Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T05:30:25.356Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "hold",
+        "decision_id": "dec-halted-no-open",
+        "rationale": "Session is halted due to capital exhaustion and there are no open positions to manage. Cannot open new positions.",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": true,
+        "halt_reason": "capital exhausted",
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T05:30:27.905Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T05:30:28.085Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782588900000,
+          "max": 1782624600000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T05:30:31.349Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 3444,
+        "bytes": 181232
       }
     }
   ],
