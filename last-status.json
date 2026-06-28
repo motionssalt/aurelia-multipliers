@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T13:19:10.623Z",
+  "last_cycle": "2026-06-28T13:20:37.230Z",
   "balance": 9883.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -441,6 +441,117 @@
       "meta": {
         "ms": 1972,
         "bytes": 174379
+      }
+    },
+    {
+      "ts": "2026-06-28T13:20:19.370Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T13:20:19.370Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T13:20:19.372Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T13:20:19.701Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=t43Bv5x3"
+      }
+    },
+    {
+      "ts": "2026-06-28T13:20:19.799Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T13:20:19.829Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T13:20:19.829Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T13:20:20.019Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T13:20:34.000Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_2\"",
+      "meta": {
+        "action": "hold"
+      }
+    },
+    {
+      "ts": "2026-06-28T13:20:34.001Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "btc-hold-0628-v1",
+        "keyUsed": "GEMINI_KEY_2"
+      }
+    },
+    {
+      "ts": "2026-06-28T13:20:34.001Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T13:20:19.829Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "hold",
+        "decision_id": "btc-hold-0628-v1",
+        "rationale": "Price is below EMA20 and EMA50 on M5, M10, M15 timeframes, with negative MACD histograms (-24.43 M5, -25.27 M10, -20.06 M15), indicating a bearish trend. However, the price (60067.38) is near the lowe",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T13:20:34.003Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T13:20:34.082Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782617100000,
+          "max": 1782652800000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T13:20:36.293Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2290,
+        "bytes": 173089
       }
     }
   ],
