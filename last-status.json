@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T21:05:18.887Z",
+  "last_cycle": "2026-06-28T21:10:22.345Z",
   "balance": 9963.13,
   "currency": "USD",
   "account_mode": "demo",
@@ -313,79 +313,6 @@
     "GEMINI_KEY_1": 1782686423697
   },
   "logs": [
-    {
-      "ts": "2026-06-28T19:45:16.798Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T19:45:16.831Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 300,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T19:45:16.863Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 500,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T19:45:16.903Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 800,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T19:45:16.905Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T19:45:31.511Z",
-      "level": "info",
-      "msg": "AI decision via gemini key \"GEMINI_KEY_4\"",
-      "meta": {
-        "action": "multi",
-        "conf": 0.75
-      }
-    },
-    {
-      "ts": "2026-06-28T19:45:31.512Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "multi",
-        "decision_id": "btc-trend-flip-001",
-        "keyUsed": "GEMINI_KEY_4"
-      }
-    },
     {
       "ts": "2026-06-28T19:45:31.588Z",
       "level": "trade",
@@ -2242,6 +2169,61 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-28T21:05:18.885Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-28T21:10:21.703Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T21:10:21.703Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T21:10:21.705Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T21:10:22.104Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=l9Bgr2wI"
+      }
+    },
+    {
+      "ts": "2026-06-28T21:10:22.294Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T21:10:22.344Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T21:10:22.344Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T21:10:22.344Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T21:10:22.344Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T21:10:22.344Z",
         "symbol": "cryBTCUSD",
         "cycle_running": false,
         "halted": false,
