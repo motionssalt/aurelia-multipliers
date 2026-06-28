@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": null,
-  "balance": 0,
+  "last_cycle": "2026-06-28T06:20:24.864Z",
+  "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -18,20 +18,156 @@
     "pnl": 0,
     "win_streak": 0,
     "loss_streak": 0,
-    "halted": false,
-    "halt_reason": null
+    "halted": true,
+    "halt_reason": "capital exhausted"
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {},
-  "cycle_open_siblings_summary": null,
+  "cycle_open_siblings_summary": {
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
+    "total_floating_pnl": null,
+    "per_symbol": []
+  },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [],
   "trade_history_manual": [],
   "pending_contracts": [],
   "ai_keys_bench": {},
-  "logs": [],
+  "logs": [
+    {
+      "ts": "2026-06-28T06:20:15.342Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T06:20:15.342Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:20:15.343Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:20:15.867Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=d46hDNIC"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:20:16.185Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:20:16.257Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T06:20:16.257Z",
+        "symbol": "R_10"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:20:16.258Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:20:18.365Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "hold"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:20:18.366Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "hold-inactive-session-no-open",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:20:18.366Z",
+      "level": "warn",
+      "msg": "Aggregate risk breached — force-closing all open siblings",
+      "meta": {
+        "symbol": "R_10",
+        "realised": 0,
+        "floating": 0,
+        "combined": 0,
+        "reason": "capital exhausted"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:20:18.367Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T06:20:16.257Z",
+        "symbol": "R_10",
+        "decision_action": "hold",
+        "decision_id": "hold-inactive-session-no-open",
+        "rationale": "Session is not active and there are no open positions. Cannot open new positions, and no existing positions to manage. Defaulting to hold.",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": true,
+        "halt_reason": "capital exhausted",
+        "risk_breach": "capital"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:20:18.368Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for R_10 @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T06:20:18.496Z",
+      "level": "info",
+      "msg": "[chart] no cached Chromium found - installing now (first chart request)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:20:21.758Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782591900000,
+          "max": 1782627600000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T06:20:23.763Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 5395,
+        "bytes": 166916
+      }
+    }
+  ],
   "daily_stats": {
-    "date": null,
+    "date": "2026-06-28",
     "trades": 0,
     "wins": 0,
     "losses": 0,
@@ -40,15 +176,17 @@
   },
   "daily_history": [],
   "manual_session": {
-    "date": null,
-    "active": false,
-    "capital_start": 0,
-    "capital_remaining": 0,
+    "date": "2026-06-28",
+    "active": true,
+    "capital_start": 200,
+    "capital_remaining": 200,
     "take_profit": 20,
     "stop_loss": 20,
     "trades": 0,
     "wins": 0,
     "losses": 0,
     "pnl": 0
-  }
+  },
+  "_notified_session_summary": "unknown",
+  "chart_windows": {}
 }
