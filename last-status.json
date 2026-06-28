@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T12:05:40.330Z",
+  "last_cycle": "2026-06-28T12:10:30.291Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -466,6 +466,127 @@
       "meta": {
         "ms": 2121,
         "bytes": 174395
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:14.126Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T12:10:14.125Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:14.127Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:10:14.429Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=5z6kF0ih"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:14.556Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:10:14.594Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T12:10:14.594Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:14.798Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:10:26.925Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_3\"",
+      "meta": {
+        "action": "open",
+        "conf": 0.75
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:26.925Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "cryBTCUSD-up-001",
+        "keyUsed": "GEMINI_KEY_3"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:26.973Z",
+      "level": "error",
+      "msg": "placeMultiplier failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "error": "ContractBuyValidationError: Enter an amount equal to or lower than 14.55."
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:26.974Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T12:10:14.594Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "open",
+        "decision_id": "cryBTCUSD-up-001",
+        "rationale": "The M5, M10, and M15 timeframes show strong bullish momentum, with price above EMA20 and EMA50, and MACD histogram positive (M5: 12.43, M10: 11.70, M15: 6.40). ADX plusDi is significantly above minusD",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:26.975Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:27.053Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782612900000,
+          "max": 1782648600000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T12:10:29.135Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2160,
+        "bytes": 174086
       }
     }
   ],
