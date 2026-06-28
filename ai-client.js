@@ -217,6 +217,48 @@ async function _callProvider(provider, { keyValue, prompt, timeoutMs }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   Preflight: for every enabled provider, verify at least one of its
+   key_registry env var names resolves to a non-empty value. Logs a
+   clear warning per provider that has NONE resolvable, so a future
+   name mismatch shows up immediately in logs instead of silently
+   degrading to "all providers failed."
+   ───────────────────────────────────────────────────────────────── */
+function _preflightKeyCheck(config) {
+    const providers = (config.ai && Array.isArray(config.ai.providers)) ? config.ai.providers : [];
+    for (const p of providers) {
+        if (!p || p.enabled === false) continue;
+        const name = String(p.name || '').toLowerCase();
+        // Gemini is handled separately via config.ai.key_registry
+        if (name === 'gemini') continue;
+        const registry = Array.isArray(p.key_registry) && p.key_registry.length > 0
+            ? p.key_registry
+            : (p.key_env ? [p.key_env] : []);
+        if (!registry.length) {
+            Logger.warn(`Provider "${name}" has no key_registry or key_env configured`);
+            continue;
+        }
+        const anyResolved = registry.some(k => !!process.env[k]);
+        if (!anyResolved) {
+            Logger.warn(
+                `Provider "${name}" key_registry env vars NONE resolvable: ` +
+                `${registry.join(', ')} — provider will be skipped until secrets are wired.`
+            );
+        }
+    }
+    // Also check Gemini (top-level key_registry)
+    const geminiRegistry = (config.ai && config.ai.key_registry) || [];
+    if (geminiRegistry.length > 0) {
+        const anyGemini = geminiRegistry.some(k => !!process.env[k]);
+        if (!anyGemini) {
+            Logger.warn(
+                `Gemini key_registry env vars NONE resolvable: ` +
+                `${geminiRegistry.join(', ')} — Stage 1 will be skipped.`
+            );
+        }
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Public: ask the AI for a structured trading decision.
    Returns { decision, keyUsed }. Mutates state.ai_keys_bench on failures.
 
@@ -226,6 +268,8 @@ async function _callProvider(provider, { keyValue, prompt, timeoutMs }) {
         skipping disabled ones and ones with no env key.
    ───────────────────────────────────────────────────────────────── */
 async function askDecision({ payload, config, state, prompt, schemaHint }) {
+    _preflightKeyCheck(config);
+
     const registry = (config.ai && config.ai.key_registry) || [];
     const benchMin = (config.ai && config.ai.bench_minutes) || DEFAULT_BENCH_MINUTES;
     const timeoutMs = (config.ai && config.ai.timeout_ms) || DEFAULT_TIMEOUT_MS;
@@ -845,6 +889,9 @@ function validateMultiplierDecision(raw, aiInput, config) {
     // Common fields
     const decision_id = String(raw.decision_id || `dec-${cycleId.replace(/[^0-9A-Za-z]/g, '').slice(-12)}`).slice(0, 64);
     const rationale   = String(raw.rationale || '').slice(0, MAX_RATIONALE_LEN);
+    // Fix #1: multi-symbol mode — the AI may explicitly return which
+    // symbol it wants to trade. Pass it through so the runner can switch.
+    const chosenSymbol = (raw.symbol && typeof raw.symbol === 'string') ? raw.symbol : undefined;
 
     // Build the set of contract_ids the AI is allowed to reference.
     const openContractIds = new Set();
@@ -869,7 +916,7 @@ function validateMultiplierDecision(raw, aiInput, config) {
             errs.push(...r.errs);
             return { ok: false, decision: holdFallback('close[] invalid: ' + r.errs.join('; ')), errs };
         }
-        return { ok: true, decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), close: r.value } };
+        return { ok: true, decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), close: r.value, symbol: chosenSymbol } };
     }
 
     if (action === 'open') {
@@ -881,7 +928,7 @@ function validateMultiplierDecision(raw, aiInput, config) {
         return {
             ok: true,
             warnings: r.warnings,                      // v4: TP/SL soft-clamp warnings
-            decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), open: r.value },
+            decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), open: r.value, symbol: chosenSymbol },
         };
     }
 
@@ -895,7 +942,7 @@ function validateMultiplierDecision(raw, aiInput, config) {
             errs.push(...r.errs);
             return { ok: false, decision: holdFallback('revise[] invalid: ' + r.errs.join('; ')), errs };
         }
-        return { ok: true, decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), revise: r.value } };
+        return { ok: true, decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), revise: r.value, symbol: chosenSymbol } };
     }
 
     // action === 'multi'
@@ -950,7 +997,7 @@ function validateMultiplierDecision(raw, aiInput, config) {
     return {
         ok: true,
         warnings: multiOpenWarnings,                   // v4: TP/SL soft-clamp warnings
-        decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), multi },
+        decision: { action, decision_id, rationale, confidence: _coerceConf(raw.confidence), multi, symbol: chosenSymbol },
     };
 }
 
@@ -1093,6 +1140,16 @@ function _buildMultiplierPrompt(aiInput, config) {
             (_validMultipliersFor(aiInput && aiInput.symbol)
                 ? ' → valid multipliers: ' + _validMultipliersFor(aiInput && aiInput.symbol).join(', ')
                 : ' (no per-symbol range on file — pick a conservative value common across categories: 100, 200, 300)'),
+        // Fix #1: multi-symbol candidate guidance
+        (aiInput && Array.isArray(aiInput.candidates) && aiInput.candidates.length > 0)
+            ? '  • MULTI-SYMBOL MODE: you are being shown ' + aiInput.candidates.length + ' candidate symbols this tick. ' +
+              'Each candidate has its own market data in TICK INPUT under `candidates[]`. ' +
+              'Compare the setups and pick the ONE with the strongest edge. ' +
+              'Return your chosen symbol in the top-level `symbol` field of your JSON response ' +
+              '(e.g., "symbol": "cryBTCUSD"). The runner will switch to that symbol for execution. ' +
+              'If you choose "hold" or "skip", the symbol field is ignored. ' +
+              'Candidate list: ' + aiInput.candidates.map(c => c.symbol || c).join(', ') + '.'
+            : '  • SINGLE-SYMBOL MODE: you are trading only ' + String(aiInput && aiInput.symbol) + ' this tick.',
         '  • close[].contract_id and revise[].contract_id MUST be one of the contract_ids',
         '    that appear in payload.open_siblings on THIS tick. Open contract_ids right',
         '    now: ' + (openCidList.length ? openCidList.join(', ') : '(none — only hold/open are meaningful)') + '.',
@@ -1171,6 +1228,7 @@ function _buildMultiplierPrompt(aiInput, config) {
 
 const _MULTIPLIER_SCHEMA_HINT = JSON.stringify({
     action:      '"hold" | "skip" | "close" | "open" | "revise" | "multi"',
+    symbol:      'string (REQUIRED in multi-symbol mode — pick the best candidate from candidates[]; ignored for hold/skip)',
     decision_id: 'string (short opaque id you choose, e.g. "dec-7f02b1")',
     rationale:   '2-3 sentences (<=400 chars). MUST name specific indicators (RSI, MACD, Bollinger Bands, EMA, named candle patterns, S/R levels) and cite actual numbers from TICK INPUT. No invented values. No generic phrases like bullish signals or momentum is favourable.',
     confidence:  'number 0..1 (optional; below min_confidence => treated as hold)',

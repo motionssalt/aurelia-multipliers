@@ -164,7 +164,7 @@ async function handleMessage(msg, env) {
     }
     const cfg = await ghReadJSON(env, 'config.json');
     const st  = await ghReadJSON(env, 'last-status.json').catch(() => ({}));
-    return tgSend(env, renderMenu(cfg, st), { reply_markup: KB.mainMenu() });
+    return tgSend(env, renderMenu(cfg, st), { reply_markup: KB.mainMenu(cfg, st) });
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -209,6 +209,20 @@ async function handleCommand(cmd, args, env) {
         case '/startcycle': {
             const cfg = await ghReadJSON(env, 'config.json');
             const st  = await ghReadJSON(env, 'last-status.json').catch(() => ({}));
+            const hadActive = !!(st.cycle_session && st.cycle_session.active);
+            const wasRunning = cfg.cycle.running === true;
+            // If already running → no-op
+            if (hadActive && wasRunning) {
+                return tgSend(env, '▶️ Cycle is already running.');
+            }
+            // If active but paused → resume (preserve stats)
+            if (hadActive && !wasRunning) {
+                cfg.cycle.running = true;
+                await ghWriteJSON(env, 'config.json', cfg, 'bot: resume cycle');
+                await dispatchWorkflow(env, { task: 'cycle' });
+                return tgSend(env, '▶️ Cycle resumed.');
+            }
+            // No active session → start fresh
             await startCycleSession(env, cfg, st);
             await dispatchWorkflow(env, { task: 'cycle' });
             return tgSend(env, `▶️ Cycle started — capital $${cfg.cycle.session.capital}, TP $${cfg.cycle.session.take_profit}, SL $${cfg.cycle.session.stop_loss}.`);
@@ -218,6 +232,13 @@ async function handleCommand(cmd, args, env) {
             cfg.cycle.running = false;
             await ghWriteJSON(env, 'config.json', cfg, 'bot: pause cycle');
             return tgSend(env, '⏸️ Cycle paused.');
+        }
+        case '/resetcycle': {
+            const cfg = await ghReadJSON(env, 'config.json');
+            const st  = await ghReadJSON(env, 'last-status.json').catch(() => ({}));
+            await startCycleSession(env, cfg, st);
+            await dispatchWorkflow(env, { task: 'cycle' });
+            return tgSend(env, `🔁 Cycle reset — capital $${cfg.cycle.session.capital}, TP $${cfg.cycle.session.take_profit}, SL $${cfg.cycle.session.stop_loss}.`);
         }
 
         case '/setcapital':
@@ -335,15 +356,15 @@ async function handleCallback(cb, env) {
     const st  = await ghReadJSON(env, 'last-status.json').catch(() => ({}));
 
     /* ── Navigation ───────────────────────────────────────────── */
-    if (data === 'menu')         return tgEdit(env, cb, renderMenu(cfg, st),       KB.mainMenu());
+    if (data === 'menu')         return tgEdit(env, cb, renderMenu(cfg, st),       KB.mainMenu(cfg, st));
     if (data === 'status')       return tgEdit(env, cb, renderStatus(cfg, st),     KB.statusScreen());
-    if (data === 'help')         return tgEdit(env, cb, helpText(),                KB.mainMenu());
+    if (data === 'help')         return tgEdit(env, cb, helpText(),                KB.mainMenu(cfg, st));
 
     /* ── Settings home + sub-screens ──────────────────────────── */
     if (data === 'set:open' || data === 'settings')
         return tgEdit(env, cb, renderSettingsHome(cfg), KB.settings(cfg));
     if (data === 'set:cycle')
-        return tgEdit(env, cb, renderCycle(cfg),        KB.cycleSettings(cfg));
+        return tgEdit(env, cb, renderCycle(cfg),        KB.cycleSettings(cfg, st));
     if (data === 'set:symbols')
         return tgEdit(env, cb, renderSymbolsHome(cfg),  KB.symbolsHome(cfg));
     if (data === 'set:symbols:fx')
@@ -368,22 +389,40 @@ async function handleCallback(cb, env) {
     /* ── Cycle actions ───────────────────────────────────────── */
     if (data === 'scan_now') {
         await dispatchManual(env, { action: 'trade_now' });
-        return tgEdit(env, cb, '🤖 Manual AI scan queued — watch the chat.', KB.mainMenu());
+        return tgEdit(env, cb, '🤖 Manual AI scan queued — watch the chat.', KB.mainMenu(cfg, st));
     }
     if (data === 'cycle_start') {
+        const hadActive = !!(st.cycle_session && st.cycle_session.active);
+        const wasRunning = cfg.cycle.running === true;
+        let msg = '▶️ Cycle started.';
+        if (hadActive && wasRunning) {
+            msg = '▶️ Cycle is already running.';
+        } else if (hadActive && !wasRunning) {
+            cfg.cycle.running = true;
+            await ghWriteJSON(env, 'config.json', cfg, 'bot: resume cycle');
+            msg = '▶️ Cycle resumed.';
+        } else {
+            await startCycleSession(env, cfg, st);
+        }
+        if (!(hadActive && wasRunning)) {
+            await dispatchWorkflow(env, { task: 'cycle' });
+        }
+        return tgEdit(env, cb, msg, KB.mainMenu(cfg, st));
+    }
+    if (data === 'cycle_reset') {
         await startCycleSession(env, cfg, st);
         await dispatchWorkflow(env, { task: 'cycle' });
-        return tgEdit(env, cb, '▶️ Cycle started.', KB.mainMenu());
+        return tgEdit(env, cb, `🔁 Cycle reset — capital $${cfg.cycle.session.capital}, TP $${cfg.cycle.session.take_profit}, SL $${cfg.cycle.session.stop_loss}.`, KB.mainMenu(cfg, st));
     }
     if (data === 'cycle_pause') {
         cfg.cycle.running = false;
         await ghWriteJSON(env, 'config.json', cfg, 'bot: pause cycle');
-        return tgEdit(env, cb, '⏸️ Cycle paused.', KB.mainMenu());
+        return tgEdit(env, cb, '⏸️ Cycle paused.', KB.mainMenu(cfg, st));
     }
     if (data === 'syn_toggle') {
         cfg.syn_enabled = !cfg.syn_enabled;
         await ghWriteJSON(env, 'config.json', cfg, `bot: SYN ${cfg.syn_enabled}`);
-        return tgEdit(env, cb, `Synthetics: <b>${cfg.syn_enabled ? 'ON' : 'OFF'}</b>`, KB.mainMenu());
+        return tgEdit(env, cb, `Synthetics: <b>${cfg.syn_enabled ? 'ON' : 'OFF'}</b>`, KB.mainMenu(cfg, st));
     }
     if (data === 'frx_toggle') {
         // FRX master gate — mirrors syn_enabled. Default treats undefined
@@ -408,7 +447,7 @@ async function handleCallback(cb, env) {
         }
         cfg.account.mode = 'demo';
         await ghWriteJSON(env, 'config.json', cfg, 'bot: mode demo');
-        return tgEdit(env, cb, '🟡 Switched to <b>DEMO</b>.', KB.mainMenu());
+        return tgEdit(env, cb, '🟡 Switched to <b>DEMO</b>.', KB.mainMenu(cfg, st));
     }
 
     /* ── Adjust numeric cycle params via +/- buttons ─────────── */
@@ -422,7 +461,7 @@ async function handleCallback(cb, env) {
         if (field === 'sl')  newCfg.cycle.session.stop_loss   = Math.max(0, Number(newCfg.cycle.session.stop_loss) + delta);
         if (field === 'iv')  newCfg.cycle.interval_seconds    = Math.max(10, Math.floor(Number(newCfg.cycle.interval_seconds) + delta));
         await ghWriteJSON(env, 'config.json', newCfg, `bot: cycle ${field} ${delta>=0?'+':''}${delta}`);
-        return tgEdit(env, cb, renderCycle(newCfg), KB.cycleSettings(newCfg));
+        return tgEdit(env, cb, renderCycle(newCfg), KB.cycleSettings(newCfg, st));
     }
 
     /* ── Adjust AI params via +/- buttons ────────────────────── */
@@ -647,7 +686,7 @@ async function handleCallback(cb, env) {
             `📈 Chart for <code>${escapeHtml(sym)}</code> ${tf} queued.`);
         return tgEdit(env, cb,
             `📈 Chart for <b>${escapeHtml(sym)}</b> <code>${tf}</code> queued.`,
-            KB.mainMenu());
+            KB.mainMenu(cfg, st));
     }
 
     /* ── Logs ────────────────────────────────────────────────── */
@@ -658,7 +697,7 @@ async function handleCallback(cb, env) {
             KB.logs(Number(page) || 1, filter || 'all'));
     }
 
-    return tgEdit(env, cb, renderMenu(cfg, st), KB.mainMenu());
+    return tgEdit(env, cb, renderMenu(cfg, st), KB.mainMenu(cfg, st));
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -1107,13 +1146,26 @@ function kb(rows) {
 }
 
 const KB = {
-    mainMenu: () => kb([
-        [{ text: '📊 Status',     data: 'status' },      { text: '🤖 Scan Now',    data: 'scan_now' }],
-        [{ text: '▶️ Start Cycle', data: 'cycle_start' }, { text: '⏸️ Pause Cycle', data: 'cycle_pause' }],
-        [{ text: '⚙️ Settings',   data: 'set:open' },    { text: '📈 Chart',       data: 'chart' }],
-        [{ text: '🎛️ SYN',        data: 'syn_toggle' },  { text: '🔄 Mode',        data: 'mode_toggle' }],
-        [{ text: '📋 Logs',        data: 'logs:1:all' },  { text: '❓ Help',         data: 'help' }],
-    ]),
+    mainMenu: (cfg, st) => {
+        const hasActive = !!(st && st.cycle_session && st.cycle_session.active);
+        const isRunning = !!(cfg && cfg.cycle && cfg.cycle.running);
+        // Build state-aware cycle action row
+        let cycleRow;
+        if (isRunning) {
+            cycleRow = [{ text: '⏸️ Pause Cycle', data: 'cycle_pause' }];
+        } else if (hasActive) {
+            cycleRow = [{ text: '▶️ Resume Cycle', data: 'cycle_start' }, { text: '🔁 Reset Cycle', data: 'cycle_reset' }];
+        } else {
+            cycleRow = [{ text: '▶️ Start Cycle', data: 'cycle_start' }];
+        }
+        return kb([
+            [{ text: '📊 Status',  data: 'status' },      { text: '🤖 Scan Now',    data: 'scan_now' }],
+            cycleRow,
+            [{ text: '⚙️ Settings', data: 'set:open' },   { text: '📈 Chart',       data: 'chart' }],
+            [{ text: '🎛️ SYN',     data: 'syn_toggle' }, { text: '🔄 Mode',        data: 'mode_toggle' }],
+            [{ text: '📋 Logs',     data: 'logs:1:all' }, { text: '❓ Help',        data: 'help' }],
+        ]);
+    },
     statusScreen: () => kb([
         [{ text: '🔄 Refresh', data: 'status' }, { text: '🏠 Menu', data: 'menu' }],
     ]),
@@ -1128,23 +1180,40 @@ const KB = {
     ]),
 
     /* Cycle adjuster */
-    cycleSettings: (cfg) => kb([
-        [{ text: '— Capital',       data: 'cyc:cap:-10' },
-         { text: `$${fmt2(cfg.cycle.session.capital)}`, data: 'set:cycle' },
-         { text: '+ Capital',       data: 'cyc:cap:10'  }],
-        [{ text: '— TP $',          data: 'cyc:tp:-1' },
-         { text: `$${fmt2(cfg.cycle.session.take_profit)}`, data: 'set:cycle' },
-         { text: '+ TP $',          data: 'cyc:tp:1' }],
-        [{ text: '— SL $',          data: 'cyc:sl:-1' },
-         { text: `$${fmt2(cfg.cycle.session.stop_loss)}`, data: 'set:cycle' },
-         { text: '+ SL $',          data: 'cyc:sl:1' }],
-        [{ text: '— Interval',      data: 'cyc:iv:-15' },
-         { text: `${cfg.cycle.interval_seconds || 0}s`, data: 'set:cycle' },
-         { text: '+ Interval',      data: 'cyc:iv:15' }],
-        [{ text: '▶️ Start',         data: 'cycle_start' },
-         { text: '⏸️ Pause',         data: 'cycle_pause' }],
-        [{ text: '⬅️ Settings',     data: 'set:open' }],
-    ]),
+    cycleSettings: (cfg, st) => {
+        const hasActive = !!(st && st.cycle_session && st.cycle_session.active);
+        const isRunning = !!(cfg && cfg.cycle && cfg.cycle.running);
+        // State-aware cycle action row
+        let actionRow;
+        if (isRunning) {
+            actionRow = [{ text: '⏸️ Pause Cycle', data: 'cycle_pause' }];
+        } else if (hasActive) {
+            actionRow = [
+                { text: '▶️ Resume Cycle', data: 'cycle_start' },
+                { text: '🔁 Reset Cycle',   data: 'cycle_reset' },
+            ];
+        } else {
+            actionRow = [
+                { text: '▶️ Start Cycle',  data: 'cycle_start' },
+            ];
+        }
+        return kb([
+            [{ text: '— Capital',       data: 'cyc:cap:-10' },
+             { text: `$${fmt2(cfg.cycle.session.capital)}`, data: 'set:cycle' },
+             { text: '+ Capital',       data: 'cyc:cap:10'  }],
+            [{ text: '— TP $',          data: 'cyc:tp:-1' },
+             { text: `$${fmt2(cfg.cycle.session.take_profit)}`, data: 'set:cycle' },
+             { text: '+ TP $',          data: 'cyc:tp:1' }],
+            [{ text: '— SL $',          data: 'cyc:sl:-1' },
+             { text: `$${fmt2(cfg.cycle.session.stop_loss)}`, data: 'set:cycle' },
+             { text: '+ SL $',          data: 'cyc:sl:1' }],
+            [{ text: '— Interval',      data: 'cyc:iv:-15' },
+             { text: `${cfg.cycle.interval_seconds || 0}s`, data: 'set:cycle' },
+             { text: '+ Interval',      data: 'cyc:iv:15' }],
+            actionRow,
+            [{ text: '⬅️ Settings',     data: 'set:open' }],
+        ]);
+    },
 
     /* AI adjuster */
     aiSettings: (cfg) => {

@@ -1247,7 +1247,7 @@ async function closeMultiplier(ws, contractId, opts) {
  *   @param {number|null|undefined} changes.stopLoss
  * @returns {object} contract_update reply body
  */
-async function reviseMultiplierLimits(ws, contractId, changes) {
+async function reviseMultiplierLimits(ws, contractId, changes, currency = 'USD') {
     const cid = Number(contractId);
     if (!Number.isFinite(cid) || cid <= 0) {
         throw new Error('reviseMultiplierLimits: invalid contractId');
@@ -1258,7 +1258,7 @@ async function reviseMultiplierLimits(ws, contractId, changes) {
     if (!hasTP && !hasSL) {
         throw new Error('reviseMultiplierLimits: nothing to update (pass takeProfit and/or stopLoss)');
     }
-    const limit_order = {};
+    let limit_order = {};
     if (hasTP) {
         const tp = c.takeProfit;
         if (tp !== null && (!Number.isFinite(Number(tp)) || Number(tp) <= 0)) {
@@ -1274,6 +1274,51 @@ async function reviseMultiplierLimits(ws, contractId, changes) {
         limit_order.stop_loss = (sl === null) ? null : Number(sl);
     }
 
+    /* ── TP/SL clamp against live broker ranges ──
+       Fetch the contract details to know symbol/direction/stake/multiplier,
+       then probe live validation_params and clamp before contract_update.
+       Mirrors the same pattern used in placeMultiplier(). */
+    let tpSlClamped = false;
+    let tpSlAdjustments = {};
+    try {
+        const pocReply = await request(ws, {
+            proposal_open_contract: 1,
+            contract_id:            cid,
+        }, 15000);
+        const contract = pocReply.proposal_open_contract;
+        if (contract && contract.underlying && contract.contract_type) {
+            const direction = contract.contract_type === 'MULTUP' ? 'up' : 'down';
+            const stake     = Number(contract.buy_price);
+            const mult      = Number(contract.multiplier);
+            const symbol    = String(contract.underlying);
+            if (Number.isFinite(stake) && stake > 0 && Number.isFinite(mult) && mult > 0) {
+                // Probe live ranges (no TP/SL in this proposal)
+                const probe = await probeMultiplierRanges(ws, {
+                    symbol, direction, stake, multiplier: mult, currency,
+                });
+                if (probe && probe.ranges) {
+                    const applied = _applyTpSlRanges(limit_order, probe.ranges);
+                    if (applied.changed) {
+                        tpSlClamped = true;
+                        tpSlAdjustments = applied.adjustments;
+                        Logger.warn('reviseMultiplierLimits: TP/SL clamped to broker live range', {
+                            contract_id: cid,
+                            adjustments: applied.adjustments,
+                        });
+                    }
+                    limit_order = applied.limit_order;
+                }
+            }
+        }
+    } catch (probeErr) {
+        // If we can't fetch ranges, still attempt the raw revise (same as old
+        // behavior) but log the probe failure so operators know clamping was
+        // skipped this tick.
+        Logger.warn('reviseMultiplierLimits: TP/SL range probe failed, sending raw values', {
+            contract_id: cid, error: probeErr && probeErr.message,
+        });
+    }
+
     Logger.trade(`Revising multiplier limits contract_id=${cid}`, { limit_order });
     const reply = await request(ws, {
         contract_update: 1,
@@ -1285,6 +1330,9 @@ async function reviseMultiplierLimits(ws, contractId, changes) {
         take_profit: cu.take_profit ? cu.take_profit.order_amount : undefined,
         stop_loss:   cu.stop_loss   ? cu.stop_loss.order_amount   : undefined,
     });
+    // Attach clamp metadata so caller can surface adjustments in Telegram.
+    cu.tp_sl_clamped      = tpSlClamped;
+    cu.tp_sl_adjustments  = tpSlAdjustments;
     return cu;
 }
 

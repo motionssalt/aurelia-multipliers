@@ -820,10 +820,6 @@ async function runCycle(ws, config, state, connOpts) {
 /* ─────────────────────────────────────────────────────────────────
    Resolve the single "active symbol" for this multiplier tick.
 
-   Multi-symbol concurrency is explicitly OUT OF SCOPE for this part
-   (per the Part 2a spec). We pick ONE symbol per tick and operate
-   only on its siblings.
-
    Resolution order (first match wins):
      1. config.cycle.active_symbol — explicit override, if set & enabled.
      2. The symbol with the most open siblings (sticky — once a symbol
@@ -865,17 +861,41 @@ function resolveActiveSymbol(config, state) {
             if (on) return sym;
         }
     }
-    // MERGE FIX (Part 3b ↔ Part 2a): add a third sweep for crypto so
-    // a session can actually pick `cryBTCUSD`/`cryETHUSD` when only
-    // the crypto pool is enabled. Matches the opt-in default Part 3b
-    // chose for `cry_enabled` (defaults to false → only included when
-    // operator explicitly turns it on, mirroring the synthetics gate).
     if (config && config.cry_enabled === true) {
         for (const [sym, on] of Object.entries(syms.crypto || {})) {
             if (on) return sym;
         }
     }
     return null;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   Build the list of ALL enabled symbols across whichever pools are
+   turned on. Used by the multi-symbol candidate scan when no symbol
+   is "sticky" (no open siblings) and there's no active_symbol override.
+
+   Returns an array of symbol strings, in pool order:
+   synthetics → forex → crypto. Empty array if nothing is enabled.
+   ───────────────────────────────────────────────────────────────── */
+function resolveCandidates(config) {
+    const syms = (config && config.symbols) || {};
+    const out = [];
+    if (config && config.syn_enabled !== false) {
+        for (const [sym, on] of Object.entries(syms.synthetics || {})) {
+            if (on) out.push(sym);
+        }
+    }
+    if (config && config.frx_enabled !== false) {
+        for (const [sym, on] of Object.entries(syms.forex || {})) {
+            if (on) out.push(sym);
+        }
+    }
+    if (config && config.cry_enabled === true) {
+        for (const [sym, on] of Object.entries(syms.crypto || {})) {
+            if (on) out.push(sym);
+        }
+    }
+    return out;
 }
 
 /* ─────────────────────────────────────────────────────────────────
@@ -1469,7 +1489,12 @@ async function executeReviseList(ws, state, symbol, reviseArr) {
             continue;
         }
         try {
-            const cu = await Deriv.reviseMultiplierLimits(ws, cid, changes);
+            const currency = state.currency || 'USD';
+            const cu = await Deriv.reviseMultiplierLimits(ws, cid, changes, currency);
+            // Use the ACTUAL values Deriv accepted (from contract_update
+            // reply), not the AI-requested ones. If the values were clamped
+            // to fit the broker's live range, this records the clamped
+            // values so state and Telegram always reflect reality.
             const patch = {};
             if (Object.prototype.hasOwnProperty.call(changes, 'takeProfit')) {
                 patch.take_profit = changes.takeProfit === null
@@ -1482,7 +1507,14 @@ async function executeReviseList(ws, state, symbol, reviseArr) {
                     : (cu.stop_loss ? Math.abs(Number(cu.stop_loss.order_amount)) : Number(changes.stopLoss));
             }
             State.updateSiblingPosition(state, symbol, cid, patch);
-            out.push({ contract_id: cid, revised: patch });
+            const reviseEntry = { contract_id: cid, revised: patch };
+            // Surface clamp adjustments so Telegram templates can
+            // display "TP/SL adjusted to fit broker's live range."
+            if (cu.tp_sl_clamped && cu.tp_sl_adjustments) {
+                reviseEntry.tp_sl_clamped = true;
+                reviseEntry.tp_sl_adjustments = cu.tp_sl_adjustments;
+            }
+            out.push(reviseEntry);
         } catch (e) {
             Logger.error('AI revise failed', { contract_id: cid, error: e.message });
             out.push({ contract_id: cid, error: e.message });
@@ -1685,6 +1717,22 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
     const cycleId = new Date().toISOString();
     const sess = state.cycle_session || {};
 
+    // --- Overlap guard -------------------------------------------------
+    // If the previous tick finished less than interval_seconds ago, this
+    // tick is almost certainly an overlapping job (slow prior tick,
+    // duplicate cron dispatch, or manual /scan landing in the same
+    // window). Skip cleanly — no AI call, no Telegram send.
+    const intervalMs = 1000 * ((config.cycle && config.cycle.interval_seconds) || 90);
+    const lastCycleTs = state.last_cycle ? new Date(state.last_cycle).getTime() : 0;
+    if (lastCycleTs && (Date.now() - lastCycleTs) < intervalMs) {
+        Logger.info('Multiplier cycle: overlap guard — previous tick too recent, skipping', {
+            cycle_id: cycleId,
+            ms_since_last: Date.now() - lastCycleTs,
+            interval_ms: intervalMs,
+        });
+        return ws;
+    }
+
     // --- Pre-flight gates ----------------------------------------------
     // We DO run the tick even if the session is halted, but only to
     // settle / book any siblings that closed server-side since last
@@ -1710,13 +1758,66 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         cycleRunning,
     };
 
-    // --- Resolve the single active symbol for this tick ----------------
-    const symbol = resolveActiveSymbol(config, state);
-    if (!symbol) {
+    // --- Resolve the active symbol for this tick ---------------------
+    // Multi-symbol candidate scan (Fix #1): when there is NO sticky
+    // symbol (no open siblings) and NO explicit override, we build a
+    // candidate list from ALL enabled symbols, fetch market data for
+    // each, and let the AI pick the best setup. When a symbol IS
+    // sticky (has open siblings) or an override is set, we keep the
+    // existing single-symbol behavior.
+    const resolvedSymbol = resolveActiveSymbol(config, state);
+    if (!resolvedSymbol) {
         Logger.info('Multiplier cycle: no enabled symbol available');
         return ws;
     }
-    Logger.info('Multiplier cycle tick', { cycle_id: cycleId, symbol });
+
+    // Determine if we should run multi-candidate mode:
+    //   - no override
+    //   - no open siblings on ANY symbol (not sticky)
+    const hasOverride = !!(config && config.cycle && config.cycle.active_symbol);
+    const anyOpenSiblings = State.countOpenSiblings(state) > 0;
+    const useMultiCandidate = !hasOverride && !anyOpenSiblings;
+
+    let symbol = resolvedSymbol;
+    let candidateSlices = null;
+    let candidateSymbols = [];
+
+    if (useMultiCandidate) {
+        candidateSymbols = resolveCandidates(config);
+        // Always include the resolvedSymbol (first enabled) to ensure
+        // we have at least one candidate, but the full list lets the AI
+        // compare setups across pools.
+        if (candidateSymbols.length === 0) candidateSymbols = [resolvedSymbol];
+
+        Logger.info('Multiplier cycle: multi-candidate scan', {
+            cycle_id: cycleId,
+            candidates: candidateSymbols,
+        });
+
+        // Fetch market data for ALL candidates in parallel.
+        candidateSlices = [];
+        const sliceResults = await Promise.all(
+            candidateSymbols.map(async (sym) => {
+                try {
+                    const slice = await Payload.buildSymbolSlice(ws, sym);
+                    return { symbol: sym, slice, error: null };
+                } catch (e) {
+                    return { symbol: sym, slice: null, error: e.message };
+                }
+            })
+        );
+        for (const r of sliceResults) {
+            if (r.slice) candidateSlices.push(r);
+            else {
+                candidateSlices.push({
+                    symbol: r.symbol,
+                    error: r.error || 'market_slice_unavailable',
+                });
+            }
+        }
+    }
+
+    Logger.info('Multiplier cycle tick', { cycle_id: cycleId, symbol, multi_candidate: useMultiCandidate });
 
     // --- 1. Read open siblings for this symbol -------------------------
     const persisted = State.getOpenSiblings(state, symbol);
@@ -1951,6 +2052,17 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         tp_sl_ranges: tpSlRanges,
     };
 
+    // Fix #1: in multi-candidate mode, attach all candidate market slices
+    // so the AI can compare setups and pick the best symbol.
+    if (useMultiCandidate && candidateSlices && candidateSlices.length > 0) {
+        aiInput.candidates = candidateSlices.map(c => ({
+            symbol:                     c.symbol || c.slice && c.slice.symbol,
+            timeframes:                 c.slice && c.slice.timeframes || undefined,
+            volatility_proxy_atr14_m5:  c.slice && c.slice.volatility_proxy_atr14_m5 || undefined,
+            error:                      c.error || undefined,
+        }));
+    }
+
     // --- 5. Call the AI decision function (Part 2b: real call) ---------
     let decision;
     try {
@@ -1958,6 +2070,32 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
     } catch (e) {
         Logger.error('askMultiplierDecisionStub failed', { error: e.message });
         decision = { action: 'hold', decision_id: 'ai-error', rationale: e.message };
+    }
+
+    // Fix #1: in multi-candidate mode, the AI explicitly returns which
+    // symbol it wants to trade. Switch to that symbol for execution.
+    // (If the AI omits symbol or returns an invalid one, fall back to
+    // the resolved symbol — we never let a bad AI response crash the tick.)
+    if (useMultiCandidate && decision.symbol && typeof decision.symbol === 'string') {
+        const chosen = decision.symbol;
+        if (candidateSymbols.includes(chosen)) {
+            if (chosen !== symbol) {
+                symbol = chosen;
+                Logger.info('Multiplier cycle: AI chose symbol from candidates', {
+                    cycle_id: cycleId, ai_chosen: symbol, candidates: candidateSymbols,
+                });
+                // Re-aggregate exposure for the chosen symbol (there should
+                // be no open siblings in multi-candidate mode, but we do
+                // this defensively so downstream code sees the right state).
+                const chosenSibs = State.getOpenSiblings(state, symbol);
+                exposure.symbol = symbol;
+                exposure.count = chosenSibs.length;
+            }
+        } else {
+            Logger.warn('Multiplier cycle: AI returned symbol not in candidate list — ignoring', {
+                ai_chosen: chosen, candidates: candidateSymbols, fallback: symbol,
+            });
+        }
     }
 
     // Part 2c: snapshot the pre-action open siblings so the Telegram
@@ -2653,6 +2791,7 @@ module.exports = {
     // Multiplier cycle path (Part 2a + 2b):
     runMultiplierCycle,
     resolveActiveSymbol,
+    resolveCandidates,
     askMultiplierDecisionStub,
     inferCloseReason,
     realizeClosedSibling,
