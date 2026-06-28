@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T20:35:13.379Z",
+  "last_cycle": "2026-06-28T20:40:17.345Z",
   "balance": 9963.13,
   "currency": "USD",
   "account_mode": "demo",
@@ -313,133 +313,6 @@
     "GEMINI_KEY_1": 1782686423697
   },
   "logs": [
-    {
-      "ts": "2026-06-28T19:35:14.449Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T19:35:28.469Z",
-      "level": "info",
-      "msg": "AI decision via gemini key \"GEMINI_KEY_4\"",
-      "meta": {
-        "action": "multi",
-        "conf": 0.85
-      }
-    },
-    {
-      "ts": "2026-06-28T19:35:28.470Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "multi",
-        "decision_id": "btc-bear-flip-001",
-        "keyUsed": "GEMINI_KEY_4"
-      }
-    },
-    {
-      "ts": "2026-06-28T19:35:28.524Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3558429919",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-28T19:35:28.589Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3558429919",
-      "meta": {
-        "sold_for": 10.81,
-        "balance_after": 9959.12,
-        "transaction_id": 6988301419
-      }
-    },
-    {
-      "ts": "2026-06-28T19:35:28.718Z",
-      "level": "warn",
-      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "stake": 10,
-        "adjustments": {
-          "stop_loss": {
-            "from": 10,
-            "to": 9.53,
-            "range": {
-              "min": 0.81,
-              "max": 9.7
-            },
-            "reason": "validation_params.stop_loss"
-          }
-        },
-        "vp": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 485
-          },
-          "stop_loss": {
-            "min": 0.81,
-            "max": 9.7
-          }
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T19:35:28.820Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted cryBTCUSD MULTDOWN ×200",
-      "meta": {
-        "stake": 10,
-        "ask_price": 10,
-        "spot": 59555.002,
-        "commission": 0.5,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-9.53",
-            "order_amount": -9.53,
-            "order_date": 1782675328,
-            "value": "59823.044"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-10.00",
-            "order_amount": -10,
-            "order_date": 1782675328,
-            "value": "59837.472"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "20.00",
-            "order_amount": 20,
-            "order_date": 1782675328,
-            "value": "58916.517"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 485
-          },
-          "stop_loss": {
-            "min": 0.81,
-            "max": 9.7
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
     {
       "ts": "2026-06-28T19:35:28.954Z",
       "level": "trade",
@@ -2512,6 +2385,61 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-28T20:35:13.377Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-28T20:40:16.644Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T20:40:16.644Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T20:40:16.646Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T20:40:17.090Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=5L7T3m0A"
+      }
+    },
+    {
+      "ts": "2026-06-28T20:40:17.284Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T20:40:17.343Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T20:40:17.343Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T20:40:17.343Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T20:40:17.344Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T20:40:17.343Z",
         "symbol": "cryBTCUSD",
         "cycle_running": false,
         "halted": false,
