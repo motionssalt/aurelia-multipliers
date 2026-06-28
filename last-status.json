@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": null,
-  "balance": 0,
+  "last_cycle": "2026-06-28T11:42:54.634Z",
+  "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -29,9 +29,61 @@
   "trade_history_manual": [],
   "pending_contracts": [],
   "ai_keys_bench": {},
-  "logs": [],
+  "logs": [
+    {
+      "ts": "2026-06-28T11:42:37.949Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T11:42:37.949Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T11:42:37.951Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T11:42:38.721Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=o31F7q7b"
+      }
+    },
+    {
+      "ts": "2026-06-28T11:42:39.041Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T11:42:50.180Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T11:42:54.159Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "skip",
+        "conf": 0
+      }
+    },
+    {
+      "ts": "2026-06-28T11:42:54.160Z",
+      "level": "info",
+      "msg": "AI declined manual trade",
+      "meta": {
+        "rationale": "Session capital remaining is 0, cannot place a trade."
+      }
+    }
+  ],
   "daily_stats": {
-    "date": null,
+    "date": "2026-06-28",
     "trades": 0,
     "wins": 0,
     "losses": 0,
@@ -40,10 +92,10 @@
   },
   "daily_history": [],
   "manual_session": {
-    "date": null,
-    "active": false,
-    "capital_start": 0,
-    "capital_remaining": 0,
+    "date": "2026-06-28",
+    "active": true,
+    "capital_start": 200,
+    "capital_remaining": 200,
     "take_profit": 20,
     "stop_loss": 20,
     "trades": 0,
