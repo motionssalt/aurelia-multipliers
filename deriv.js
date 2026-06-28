@@ -615,7 +615,21 @@ async function placeMultiplier(ws, opts) {
         price: Number(prop.ask_price),
     }, 15000);
     const buy = buyReply.buy;
-    if (!buy || !buy.contract_id) throw new Error('placeMultiplier buy: no contract_id');
+    // Belt-and-suspenders verification of the buy reply. request() above
+    // already converts any explicit data.error into a thrown rejection,
+    // but we additionally insist on the buy reply LOOKING like a real
+    // accepted contract — a numeric contract_id AND a numeric buy_price.
+    // Treating a malformed-but-error-free reply as success was part of
+    // the failure-detection gap that hid earlier rejections.
+    if (!buy || buy.contract_id == null) {
+        throw new Error('placeMultiplier buy: reply missing contract_id (raw=' +
+            JSON.stringify(buyReply).slice(0, 240) + ')');
+    }
+    const _buyPrice = Number(buy.buy_price);
+    if (!Number.isFinite(_buyPrice) || _buyPrice <= 0) {
+        throw new Error('placeMultiplier buy: reply has no valid buy_price (got ' +
+            JSON.stringify(buy.buy_price) + '), refusing to treat as success');
+    }
     Logger.trade(`Multiplier placed: contract_id=${buy.contract_id}`, {
         symbol,
         direction:      dir,

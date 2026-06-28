@@ -238,7 +238,7 @@ function sib(id) {
                 multi: {
                     close:  [{ contract_id: 123 }],
                     revise: [{ contract_id: 456, take_profit: 8 }],
-                    open:   { direction: 'down', stake: 10, multiplier: 50, take_profit: 5, stop_loss: 5, siblings: 2 },
+                    open:   { direction: 'down', stake: 10, multiplier: 100, take_profit: 5, stop_loss: 5, siblings: 2 },
                 },
             },
             sampleAiInput({ open_siblings: [sib(123), sib(456)] }), config);

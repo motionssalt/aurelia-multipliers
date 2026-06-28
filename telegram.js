@@ -675,7 +675,21 @@ const templates = {
 
         const lines = [];
         // ── 1. Header ──────────────────────────────────────────────────
-        lines.push(`${_actionHeader(action)} — <b>${_esc(symbol)}</b> ${badge}${conf}`);
+        // For the 'open' action specifically, downgrade the header from
+        // the celebratory "🆕 OPEN" to a clearly-failed marker when EVERY
+        // attempted sibling errored at Deriv — otherwise we lie to the
+        // user about what actually happened on the platform.
+        let headerAction = action;
+        if (action === 'open') {
+            const dets = (executed && Array.isArray(executed.details)) ? executed.details : [];
+            const anySuccess = dets.some(d => d && d.contract_id != null && !d.error);
+            const anyFailure = dets.some(d => d && d.error);
+            if (anyFailure && !anySuccess) headerAction = 'open_failed';
+        }
+        const headerLabel = headerAction === 'open_failed'
+            ? '⚠️ <b>OPEN FAILED</b>'
+            : _actionHeader(headerAction);
+        lines.push(`${headerLabel} — <b>${_esc(symbol)}</b> ${badge}${conf}`);
 
         // ── 2. Decision-specific body ──────────────────────────────────
         // Build a lookup of pre-action siblings by contract_id so the
@@ -685,12 +699,40 @@ const templates = {
             if (s && s.contract_id != null) preById.set(Number(s.contract_id), s);
         }
 
-        function _renderOpenSpec(spec) {
+        function _renderOpenSpec(spec, execDetails) {
             const subLines = [];
             const sibCount = Math.max(1, Number(spec.siblings) || 1);
             subLines.push(`Direction : ${_multDirection(spec.direction)} ×${Number(spec.multiplier) || '?'}`);
             subLines.push(`Stake     : ${_money(spec.stake)}${sibCount > 1 ? ` × ${sibCount} siblings` : ''}`);
             subLines.push(`TP / SL   : ${_limitStr(spec.take_profit)} / ${_limitStr(spec.stop_loss)}`);
+
+            // Honest execution outcome — was the open ACTUALLY accepted
+            // by Deriv? Before this fix the template rendered the spec
+            // unconditionally, so a rejected proposal/buy still produced
+            // a "🆕 OPEN" message and the user (and the next tick's AI)
+            // both believed a position had been opened. We now consult
+            // executed.details directly:
+            //   { contract_id }            → success per sibling
+            //   { error: '<reason>' }      → buy/proposal failed at Deriv
+            // Mixed batches are possible (one sibling succeeds, the next
+            // fails after capital drained) — list each line individually.
+            const dets = Array.isArray(execDetails) ? execDetails : [];
+            if (dets.length) {
+                const okIds   = dets.filter(d => d && d.contract_id != null && !d.error).map(d => d.contract_id);
+                const failed  = dets.filter(d => d && d.error);
+                if (okIds.length) {
+                    subLines.push(`Opened    : ✅ ${okIds.map(id => `<code>${_esc(id)}</code>`).join(', ')}`);
+                }
+                if (failed.length) {
+                    subLines.push(`⚠️ <b>Trade attempt failed</b> (×${failed.length}):`);
+                    for (const f of failed) {
+                        subLines.push(`  • <code>${_esc(String(f.error).slice(0, 200))}</code>`);
+                    }
+                }
+                if (!okIds.length && !failed.length) {
+                    subLines.push(`⚠️ <i>Trade attempt produced no result — see logs.</i>`);
+                }
+            }
             return subLines;
         }
 
@@ -741,7 +783,7 @@ const templates = {
         }
 
         if (action === 'open' && decision.open) {
-            lines.push(..._renderOpenSpec(decision.open));
+            lines.push(..._renderOpenSpec(decision.open, executed && executed.details));
         } else if (action === 'close' && Array.isArray(decision.close)) {
             lines.push('Closing   :');
             lines.push(..._renderCloseList(decision.close, executed && executed.details));
@@ -764,7 +806,7 @@ const templates = {
             }
             if (decision.multi.open) {
                 lines.push('Opening   :');
-                lines.push(..._renderOpenSpec(decision.multi.open));
+                lines.push(..._renderOpenSpec(decision.multi.open, detailsByPhase.open));
             }
         }
         // 'hold' / 'skip' / unknown → no decision body, just the rationale

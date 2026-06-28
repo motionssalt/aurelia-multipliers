@@ -461,6 +461,40 @@ const _DEFAULT_SCHEMA = JSON.stringify({
 const MAX_OPEN_SIBLINGS_PER_DECISION = 4;
 const MAX_RATIONALE_LEN = 400;
 
+/* ─────────────────────────────────────────────────────────────────
+   Per-symbol-category VALID MULTIPLIER SET — verified live against
+   Deriv's contracts_for endpoint (see deriv.js header comment block
+   under "MULTIPLIERS — contract engine"). Sending a value outside
+   this set causes Deriv to reject the proposal with:
+     { error: { code: 'ContractBuyValidationError',
+                message: 'Multiplier is not in acceptable range. Accepts ...' } }
+   That used to silently fail downstream (the runner caught the throw
+   but the Telegram template still rendered an "OPEN" message keyed
+   off decision.open alone), so we now harden BOTH ends:
+     1) the prompt advertises the correct per-category set to the AI;
+     2) the validator rejects out-of-range values up front and rewrites
+        the decision into a hold-with-explanation, so we never ship an
+        unsupportable proposal to Deriv in the first place.
+   ───────────────────────────────────────────────────────────────── */
+const MULTIPLIER_RANGE_BY_CATEGORY = {
+    synthetic: [40, 100, 200, 300, 400],     // R_*, 1HZ*V
+    forex:     [100, 200, 300, 500, 800],    // frx*
+    crypto:    [100, 200, 300, 500, 800],    // cry*
+};
+
+function _categoryFor(symbol) {
+    if (typeof symbol !== 'string') return null;
+    if (symbol.startsWith('frx')) return 'forex';
+    if (symbol.startsWith('cry')) return 'crypto';
+    if (symbol.startsWith('R_') || /^1HZ\d+V$/.test(symbol)) return 'synthetic';
+    return null;
+}
+
+function _validMultipliersFor(symbol) {
+    const cat = _categoryFor(symbol);
+    return cat ? MULTIPLIER_RANGE_BY_CATEGORY[cat] : null;
+}
+
 function _isPlainObject(o) {
     return o && typeof o === 'object' && !Array.isArray(o);
 }
@@ -594,6 +628,15 @@ function _validateOpenSpec(spec, config, aiInput, label) {
     }
     if (!_isPositiveInteger(spec.multiplier)) {
         errs.push(`${label}.multiplier must be a positive integer (got ${spec.multiplier})`);
+    } else {
+        // Cross-check against the per-symbol-category set verified live
+        // against Deriv's contracts_for. Out-of-range values were the
+        // root cause of the silent-failure bug — catch them BEFORE we
+        // ship a doomed proposal to Deriv.
+        const validSet = _validMultipliersFor(aiInput && aiInput.symbol);
+        if (validSet && !validSet.includes(Number(spec.multiplier))) {
+            errs.push(`${label}.multiplier ${spec.multiplier} not in Deriv's accepted set for ${aiInput.symbol} (${validSet.join(', ')})`);
+        }
     }
     // TP/SL: null/undefined OK (= no limit), otherwise > 0.
     if (spec.take_profit !== undefined && spec.take_profit !== null && !_isPositiveFiniteNumber(spec.take_profit)) {
@@ -892,10 +935,16 @@ function _buildMultiplierPrompt(aiInput, config) {
         '  • stake (USD per sibling) must satisfy: ' + stakeMin + ' <= stake <= ' + stakeMax + '.',
         '    stake * siblings should also fit within session.capital_remaining = ' +
             String(aiInput && aiInput.session && aiInput.session.capital_remaining) + '.',
-        '  • multiplier must be a POSITIVE INTEGER (typical valid values per Deriv',
-        '    contracts_for: 5, 10, 15, 20, 25, 50, 75, 100, 150, 200, 300, 400; the',
-        '    EXACT valid set depends on the symbol — pick a conservative common value',
-        '    if unsure, the runner will surface a clean error if Deriv rejects it).',
+        '  • multiplier must be a POSITIVE INTEGER drawn from the EXACT per-symbol set',
+        '    below (verified against Deriv contracts_for; values OUTSIDE this set are',
+        '    rejected by Deriv with ContractBuyValidationError and the trade DOES NOT open):',
+        '      synthetic (R_*, 1HZ*V) : ' + MULTIPLIER_RANGE_BY_CATEGORY.synthetic.join(', '),
+        '      forex     (frx*)       : ' + MULTIPLIER_RANGE_BY_CATEGORY.forex.join(', '),
+        '      crypto    (cry*)       : ' + MULTIPLIER_RANGE_BY_CATEGORY.crypto.join(', '),
+        '    Current symbol: ' + String(aiInput && aiInput.symbol) +
+            (_validMultipliersFor(aiInput && aiInput.symbol)
+                ? ' → use only: ' + _validMultipliersFor(aiInput && aiInput.symbol).join(', ')
+                : ' (unknown category — pick a value common to all three rows)'),
         '  • close[].contract_id and revise[].contract_id MUST be one of the contract_ids',
         '    that appear in payload.open_siblings on THIS tick. Open contract_ids right',
         '    now: ' + (openCidList.length ? openCidList.join(', ') : '(none — only hold/open are meaningful)') + '.',
@@ -962,4 +1011,7 @@ module.exports = {
     // Exposed for unit tests / smoke tests:
     _buildMultiplierPrompt,
     MAX_OPEN_SIBLINGS_PER_DECISION,
+    MULTIPLIER_RANGE_BY_CATEGORY,
+    _categoryFor,
+    _validMultipliersFor,
 };
