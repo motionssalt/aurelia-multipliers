@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T12:15:40.554Z",
+  "last_cycle": "2026-06-28T12:20:48.912Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -708,6 +708,127 @@
       "meta": {
         "ms": 2455,
         "bytes": 176126
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:22.619Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T12:20:22.619Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:22.621Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:20:23.160Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=9IwwwiG3"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:23.454Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:20:23.551Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T12:20:23.551Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:23.946Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T12:20:45.249Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_3\"",
+      "meta": {
+        "action": "open",
+        "conf": 0.6
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:45.250Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "btc-up-01",
+        "keyUsed": "GEMINI_KEY_3"
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:45.359Z",
+      "level": "error",
+      "msg": "placeMultiplier failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:45.360Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T12:20:23.551Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "open",
+        "decision_id": "btc-up-01",
+        "rationale": "M5 Stochastics K line at 26.57 is approaching oversold territory. The last two M5 candles show a long lower wick (low 60167.764) followed by a small body (close 60173.232), indicating potential buying",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:45.361Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:45.518Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782613500000,
+          "max": 1782649200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T12:20:47.571Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2210,
+        "bytes": 174607
       }
     }
   ],
