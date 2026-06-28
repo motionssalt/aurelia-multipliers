@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T08:25:17.322Z",
+  "last_cycle": "2026-06-28T08:30:26.468Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -39,83 +39,6 @@
     "GEMINI_KEY_3": 1782639021215
   },
   "logs": [
-    {
-      "ts": "2026-06-28T06:36:32.457Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "initial-R10-up",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-28T06:36:32.504Z",
-      "level": "error",
-      "msg": "placeMultiplier failed",
-      "meta": {
-        "symbol": "R_10",
-        "error": "InputValidationFailed: Input validation failed: Properties not allowed: symbol."
-      }
-    },
-    {
-      "ts": "2026-06-28T06:36:32.505Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-28T06:36:28.483Z",
-        "symbol": "R_10",
-        "decision_action": "open",
-        "decision_id": "initial-R10-up",
-        "rationale": "No open positions on R_10. Initiating a new MULTUP trade with a moderate stake and multiplier to establish a market presence.",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": 0,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-28T06:36:32.506Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for R_10 @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-28T06:36:32.626Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782592800000,
-          "max": 1782628500000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T06:36:34.384Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1878,
-        "bytes": 168009
-      }
-    },
-    {
-      "ts": "2026-06-28T06:40:21.471Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-28T06:40:21.471Z"
-      }
-    },
     {
       "ts": "2026-06-28T06:40:21.472Z",
       "level": "network",
@@ -1728,6 +1651,61 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-28T08:25:17.320Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-28T08:30:25.492Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T08:30:25.492Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T08:30:25.494Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T08:30:26.063Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=BrBtUndj"
+      }
+    },
+    {
+      "ts": "2026-06-28T08:30:26.370Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T08:30:26.466Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T08:30:26.467Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T08:30:26.466Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T08:30:26.467Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T08:30:26.466Z",
         "symbol": "cryBTCUSD",
         "cycle_running": false,
         "halted": false,
