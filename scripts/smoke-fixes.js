@@ -3,7 +3,9 @@
  * Offline verification harness for the four code-side fixes applied in
  * this patch:
  *   Fix 1: per-symbol multiplier lookup table
- *   Fix 2: placeTrade now uses `symbol` (not `underlying_symbol`)
+ *   Fix 2: placeTrade / placeMultiplier now use `underlying_symbol`
+ *          under Deriv's unified proposal schema (2025+); the legacy
+ *          `symbol` field is rejected as "Properties not allowed".
  *   Fix 3: defensive request guard strips unknown top-level fields
  *   Fix 5: rationale prompt now demands specific indicators
  *
@@ -100,27 +102,53 @@ check('R_10 multiplier=1000 (valid under new table) is ACCEPTED', () => {
     assert.strictEqual(out.decision.open.multiplier, 1000);
 });
 
-console.log('\n--- Fix 2: placeTrade uses `symbol` (not `underlying_symbol`) ---');
-check('deriv.js no longer SENDS underlying_symbol (comments referencing it are fine)', () => {
+console.log('\n--- Fix 2: placeTrade / placeMultiplier use `underlying_symbol` (unified Deriv schema, 2025+) ---');
+check('deriv.js no longer SENDS top-level `symbol:` in proposal payloads', () => {
     const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'deriv.js'), 'utf8');
     // Strip out comments before scanning, so the historical-bug notes
     // documenting the fix do not trigger a false positive.
     const codeOnly = src
         .replace(/\/\*[\s\S]*?\*\//g, '')   // block comments
         .replace(/(^|[^:])\/\/.*$/gm, '$1'); // line comments (avoid http://)
-    assert(!/underlying_symbol/.test(codeOnly),
-        'deriv.js still contains underlying_symbol in non-comment code');
+    // Look at each block that contains `proposal: 1` (a proposal payload
+    // literal) and assert it does NOT also carry a bare `symbol:` or the
+    // shorthand `symbol,` key. We scan a small window after each
+    // `proposal: 1` so we don't accidentally flag unrelated `symbol`
+    // usages elsewhere in deriv.js (Logger metadata, getOpenPositionState
+    // return objects, function parameters, etc.).
+    const re = /proposal\s*:\s*1[\s\S]{0,800}?\}/g;
+    let m;
+    while ((m = re.exec(codeOnly)) !== null) {
+        const block = m[0];
+        const bad = /[{,]\s*symbol\s*[:,]/.test(block);
+        assert(!bad,
+            'deriv.js still has a proposal payload that includes top-level `symbol`. ' +
+            'Deriv\u2019s unified schema rejects it with "Properties not allowed: symbol". ' +
+            'Offending block:\n' + block.slice(0, 300));
+    }
+});
+check('deriv.js DOES send `underlying_symbol` (the unified-schema field)', () => {
+    const src = require('fs').readFileSync(require('path').join(__dirname, '..', 'deriv.js'), 'utf8');
+    const codeOnly = src
+        .replace(/\/\*[\s\S]*?\*\//g, '')
+        .replace(/(^|[^:])\/\/.*$/gm, '$1');
+    assert(/underlying_symbol\s*:/.test(codeOnly),
+        'deriv.js no longer sends underlying_symbol in any proposal payload');
 });
 
 console.log('\n--- Fix 3: defensive request guard ---');
-check('guard strips underlying_symbol on a proposal request', () => {
+check('guard strips the LEGACY `symbol` field on a proposal request', () => {
+    // Under the unified Deriv schema, `symbol` at the top level of a
+    // proposal is rejected with "Properties not allowed: symbol". The
+    // guard MUST strip it so any stray call-site cannot poison a trade.
     const out = Deriv._guardSensitiveRequest({
         proposal: 1, amount: 1, basis: 'stake', contract_type: 'CALL',
-        currency: 'USD', duration: 15, duration_unit: 'm', symbol: 'R_10',
-        underlying_symbol: 'R_10',          // \u2190 unknown, should be stripped
+        currency: 'USD', duration: 15, duration_unit: 'm',
+        underlying_symbol: 'R_10',  // ← the correct field, must survive
+        symbol: 'R_10',             // ← legacy field, must be stripped
     });
-    assert(!('underlying_symbol' in out), 'underlying_symbol survived');
-    assert.strictEqual(out.symbol, 'R_10');
+    assert(!('symbol' in out), 'legacy `symbol` survived on proposal request');
+    assert.strictEqual(out.underlying_symbol, 'R_10');
 });
 check('guard strips symbol on a buy request', () => {
     const out = Deriv._guardSensitiveRequest({
@@ -156,7 +184,7 @@ check('guard passes through non-sensitive requests unchanged', () => {
 check('guard preserves all legitimate proposal fields', () => {
     const input = {
         proposal: 1, amount: 1, basis: 'stake', contract_type: 'MULTUP',
-        currency: 'USD', symbol: 'R_10', multiplier: 1000,
+        currency: 'USD', underlying_symbol: 'R_10', multiplier: 1000,
         limit_order: { take_profit: 2, stop_loss: 5 },
     };
     const out = Deriv._guardSensitiveRequest(input);

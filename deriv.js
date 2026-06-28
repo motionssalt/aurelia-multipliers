@@ -201,29 +201,37 @@ function _attachHandlers(ws) {
    trade requests before they hit the wire.
 
    Deriv's WebSocket schemas reject unrecognised top-level fields with
-   "Properties not allowed: <field>" (e.g. `underlying_symbol` on a
-   proposal, or `symbol` on a buy/sell/contract_update/POC). The error
-   is rejected synchronously by the schema layer, so an otherwise good
-   trade never opens.
+   "Properties not allowed: <field>". The error is rejected synchronously
+   by the schema layer, so an otherwise good trade never opens.
 
-   The current code paths (placeMultiplier / closeMultiplier /
-   reviseMultiplierLimits / getOpenPositionState) were audited by hand
-   and confirmed clean. This guard is belt-and-suspenders: any future
-   call site that accidentally adds a stray top-level field gets it
-   stripped here, with a single warning line so the bug is loud but
-   not fatal. The known-allowed sets below cover every top-level field
-   the four sensitive endpoints accept in our usage; pass-through is
-   used for every other request type. */
+   ⚠️ Schema migration (2025+): Deriv unified its proposal endpoint and
+   RENAMED `symbol` → `underlying_symbol`. The fields `product_type`,
+   `date_start`, and `trading_period_start` were REMOVED. Sending
+   `symbol` now yields:
+       "InputValidationFailed: Properties not allowed: symbol."
+   See:
+     • https://developers.deriv.com/schemas/proposal_request.schema.json
+     • https://developers.deriv.com/comparison/proposal/
+   The allow-lists below reflect the current schema.
+
+   This guard is belt-and-suspenders: any future call site that
+   accidentally adds a stray top-level field gets it stripped here,
+   with a single warning line so the bug is loud but not fatal. The
+   known-allowed sets below cover every top-level field the five
+   sensitive endpoints accept in our usage; pass-through is used for
+   every other request type. */
 const _ALLOWED_TOP_KEYS = {
     // Common control fields Deriv always accepts on any request:
     _common: ['req_id', 'passthrough'],
-    // POST /proposal
+    // POST /proposal — NEW schema: uses `underlying_symbol` (NOT `symbol`).
+    // `product_type`, `date_start`, `trading_period_start` are no longer
+    // accepted by the unified endpoint and are deliberately omitted here.
     proposal: [
         'proposal', 'amount', 'basis', 'contract_type', 'currency',
-        'duration', 'duration_unit', 'symbol', 'multiplier',
-        'limit_order', 'barrier', 'barrier2', 'date_start', 'date_expiry',
-        'product_type', 'cancellation', 'subscribe', 'payout',
-        'trading_period_start', 'selected_tick',
+        'duration', 'duration_unit', 'underlying_symbol', 'multiplier',
+        'limit_order', 'barrier', 'barrier2', 'date_expiry',
+        'cancellation', 'subscribe', 'payout', 'selected_tick',
+        'growth_rate', 'payout_per_point',
     ],
     // POST /buy
     buy:                    ['buy', 'price', 'parameters', 'subscribe'],
@@ -423,19 +431,19 @@ async function placeTrade(ws, opts, settleOpts) {
     }
 
     // 1) Proposal
-    // Deriv's proposal schema rejects top-level `underlying_symbol` with
-    // "Properties not allowed: underlying_symbol". The correct field is
-    // `symbol` — confirmed live; the same field is already used by the
-    // Multiplier proposal code below.
+    // Deriv's unified proposal schema (2025+) requires `underlying_symbol`.
+    // Sending top-level `symbol` is rejected with
+    //   "InputValidationFailed: Properties not allowed: symbol."
+    // Schema: https://developers.deriv.com/schemas/proposal_request.schema.json
     const propReply = await request(ws, {
-        proposal:      1,
-        amount:        stake,
-        basis:         'stake',
-        contract_type: contractType,
-        currency:      'USD',
-        duration:      duration,
-        duration_unit: durationUnit,
-        symbol:        symbol,
+        proposal:         1,
+        amount:           stake,
+        basis:            'stake',
+        contract_type:    contractType,
+        currency:         'USD',
+        duration:         duration,
+        duration_unit:    durationUnit,
+        underlying_symbol: symbol,
     }, 15000);
 
     const prop = propReply.proposal;
@@ -528,11 +536,14 @@ function close(ws) {
 
    • Contract types are 'MULTUP' / 'MULTDOWN' (uppercase). Verified via
      contracts_for on R_100, 1HZ100V, frxEURUSD, cryBTCUSD.
-   • The proposal request uses `symbol` (NOT `underlying_symbol`) for
-     multiplier proposals — same key the public WS examples use, and
-     also what the legacy binary path effectively maps to. The required
-     fields are: proposal=1, amount, basis='stake', contract_type,
-     currency, symbol, multiplier. limit_order is OPTIONAL.
+   • The proposal request uses `underlying_symbol` (NOT `symbol`) under
+     the unified Deriv API (2025+). Earlier versions of this code used
+     `symbol`; that now returns
+        "InputValidationFailed: Properties not allowed: symbol."
+     and aborts every open. Required fields are: proposal=1, amount,
+     basis='stake', contract_type, currency, underlying_symbol,
+     multiplier. limit_order is OPTIONAL.
+     Schema: https://developers.deriv.com/schemas/proposal_request.schema.json
    • The integer `multiplier` parameter must be one of the values in
      the contracts_for `multiplier_range`. Verified ranges (USD basic):
         – synthetics  (R_*, 1HZ*V) : [40, 100, 200, 300, 400]
@@ -659,12 +670,13 @@ async function placeMultiplier(ws, opts) {
     }
 
     const proposalReq = {
-        proposal:      1,
-        amount:        stake,
-        basis:         'stake',
-        contract_type: contractType,
+        proposal:         1,
+        amount:           stake,
+        basis:            'stake',
+        contract_type:    contractType,
         currency,
-        symbol,                 // ← Deriv uses `symbol` here (not underlying_symbol)
+        underlying_symbol: symbol, // ← Deriv's unified schema uses `underlying_symbol`
+                                   //   (the legacy `symbol` field is now rejected).
         multiplier,
     };
     if (limit_order) proposalReq.limit_order = limit_order;
