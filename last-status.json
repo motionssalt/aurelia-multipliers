@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": null,
-  "balance": 0,
+  "last_cycle": "2026-06-28T06:35:21.723Z",
+  "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -23,15 +23,71 @@
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {},
-  "cycle_open_siblings_summary": null,
+  "cycle_open_siblings_summary": {
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
+    "total_floating_pnl": null,
+    "per_symbol": []
+  },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [],
   "trade_history_manual": [],
   "pending_contracts": [],
   "ai_keys_bench": {},
-  "logs": [],
+  "logs": [
+    {
+      "ts": "2026-06-28T06:35:20.641Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T06:35:20.641Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:35:20.643Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:35:21.206Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=vYPdE8ks"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:35:21.614Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:35:21.722Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T06:35:21.722Z",
+        "symbol": "R_10"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:35:21.722Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T06:35:21.722Z",
+        "symbol": "R_10",
+        "cycle_running": true,
+        "halted": false,
+        "session_active": false
+      }
+    }
+  ],
   "daily_stats": {
-    "date": null,
+    "date": "2026-06-28",
     "trades": 0,
     "wins": 0,
     "losses": 0,
@@ -40,10 +96,10 @@
   },
   "daily_history": [],
   "manual_session": {
-    "date": null,
-    "active": false,
-    "capital_start": 0,
-    "capital_remaining": 0,
+    "date": "2026-06-28",
+    "active": true,
+    "capital_start": 200,
+    "capital_remaining": 200,
     "take_profit": 20,
     "stop_loss": 20,
     "trades": 0,
