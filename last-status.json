@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T17:15:14.566Z",
+  "last_cycle": "2026-06-28T17:20:16.433Z",
   "balance": 9956.54,
   "currency": "USD",
   "account_mode": "demo",
@@ -39,102 +39,6 @@
     "GEMINI_KEY_2": 1782668317357
   },
   "logs": [
-    {
-      "ts": "2026-06-28T15:08:37.358Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T15:08:37.541Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_2\" failed — benching 150m",
-      "meta": {
-        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
-      }
-    },
-    {
-      "ts": "2026-06-28T15:08:48.688Z",
-      "level": "info",
-      "msg": "AI decision via gemini key \"GEMINI_KEY_3\"",
-      "meta": {
-        "action": "open",
-        "conf": 0.85
-      }
-    },
-    {
-      "ts": "2026-06-28T15:08:48.689Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "cryBTCUSD-open-bull-bounce-1",
-        "keyUsed": "GEMINI_KEY_3"
-      }
-    },
-    {
-      "ts": "2026-06-28T15:08:49.025Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 20,
-        "to_stake": 18.43,
-        "ratio": 0.9215,
-        "from_limit_order": {
-          "take_profit": 40,
-          "stop_loss": 20
-        },
-        "to_limit_order": {
-          "take_profit": 36.86,
-          "stop_loss": 18.43
-        },
-        "reason": "cap error (treated as stake)"
-      }
-    },
-    {
-      "ts": "2026-06-28T15:08:49.198Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 18.43,
-        "to_stake": 16.99,
-        "ratio": 0.9219,
-        "from_limit_order": {
-          "take_profit": 36.86,
-          "stop_loss": 18.43
-        },
-        "to_limit_order": {
-          "take_profit": 33.98,
-          "stop_loss": 16.99
-        },
-        "reason": "cap error (treated as stake)"
-      }
-    },
-    {
-      "ts": "2026-06-28T15:08:49.267Z",
-      "level": "warn",
-      "msg": "placeMultiplier: auto-scaling stake",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "from_stake": 16.99,
-        "to_stake": 15.66,
-        "ratio": 0.9217,
-        "from_limit_order": {
-          "take_profit": 33.98,
-          "stop_loss": 16.99
-        },
-        "to_limit_order": {
-          "take_profit": 31.32,
-          "stop_loss": 15.66
-        },
-        "reason": "cap error (treated as stake)"
-      }
-    },
     {
       "ts": "2026-06-28T15:08:49.333Z",
       "level": "warn",
@@ -1745,6 +1649,61 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-28T17:15:14.564Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-28T17:20:15.998Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T17:20:15.998Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T17:20:16.000Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T17:20:16.284Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=rCCv9tY6"
+      }
+    },
+    {
+      "ts": "2026-06-28T17:20:16.395Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T17:20:16.431Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T17:20:16.432Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T17:20:16.431Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T17:20:16.432Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T17:20:16.431Z",
         "symbol": "cryBTCUSD",
         "cycle_running": false,
         "halted": false,
