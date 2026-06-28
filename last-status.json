@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T09:25:13.616Z",
+  "last_cycle": "2026-06-28T09:30:21.418Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -39,78 +39,6 @@
     "GEMINI_KEY_3": 1782639021215
   },
   "logs": [
-    {
-      "ts": "2026-06-28T07:05:22.047Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-28T07:05:18.536Z",
-        "symbol": "cryBTCUSD",
-        "decision_action": "open",
-        "decision_id": "open-initial-btc-up",
-        "rationale": "No open positions. Initiating a small MULTUP position on cryBTCUSD to begin trading, using default TP/SL from session settings.",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": 0,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-28T07:05:22.048Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-28T07:05:22.185Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782594600000,
-          "max": 1782630300000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T07:05:24.020Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1972,
-        "bytes": 175720
-      }
-    },
-    {
-      "ts": "2026-06-28T07:10:14.438Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-28T07:10:14.438Z"
-      }
-    },
-    {
-      "ts": "2026-06-28T07:10:14.440Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T07:10:14.765Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=UI9Nh3Pn"
-      }
-    },
     {
       "ts": "2026-06-28T07:10:14.871Z",
       "level": "network",
@@ -1623,6 +1551,61 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-28T09:25:13.614Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-28T09:30:20.892Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T09:30:20.892Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T09:30:20.894Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T09:30:21.279Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=HzRFsPRD"
+      }
+    },
+    {
+      "ts": "2026-06-28T09:30:21.389Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T09:30:21.417Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T09:30:21.417Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T09:30:21.417Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T09:30:21.418Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T09:30:21.417Z",
         "symbol": "cryBTCUSD",
         "cycle_running": false,
         "halted": false,
