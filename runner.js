@@ -1217,26 +1217,46 @@ async function openSibling(ws, config, state, symbol, decision, openSpec, cycleI
                 results.push({ error: 'placeMultiplier returned no contract_id' });
                 continue;
             }
-            // Deduct stake from capital_remaining as a provisional hold
-            // (mirrors the binary placeAndSettle pattern). realizeClosedSibling
-            // adds back (stake + pnl) on close.
+
+            /* Deriv may have auto-clamped our stake (and proportionally
+               our TP/SL) at the proposal/buy stage. `placed.buy._aurelia_stake_clamp`
+               is populated by deriv.placeMultiplier when that happened.
+               We MUST use the post-clamp values everywhere downstream:
+                 • capital_remaining deduction — otherwise we over-deduct
+                 • sibling record (stake, TP, SL) — otherwise the position
+                   tracker thinks the trade has a TP/SL the broker never
+                   accepted, causing settlement/PnL math to drift.
+               If no clamp happened the field is null and the original
+               values are used verbatim. */
+            const clamp = placed.buy._aurelia_stake_clamp || null;
+            const effectiveStake = clamp ? clamp.final_stake : stake;
+            const effectiveTP    = clamp
+                ? clamp.final_take_profit
+                : (openSpec.take_profit != null ? Number(openSpec.take_profit) : null);
+            const effectiveSL    = clamp
+                ? clamp.final_stop_loss
+                : (openSpec.stop_loss   != null ? Number(openSpec.stop_loss)   : null);
+
+            // Deduct (effective) stake from capital_remaining as a
+            // provisional hold (mirrors the binary placeAndSettle pattern).
+            // realizeClosedSibling adds back (stake + pnl) on close.
             if (state.cycle_session) {
                 state.cycle_session.capital_remaining = Number(
-                    ((state.cycle_session.capital_remaining || 0) - stake).toFixed(2)
+                    ((state.cycle_session.capital_remaining || 0) - effectiveStake).toFixed(2)
                 );
             }
             // Persist sibling via the State helper.
             const rec = State.makeSiblingRecord({
                 contract_id:   contractId,
-                stake,
+                stake:         effectiveStake,
                 multiplier:    mult,
                 direction:     dir,
                 entry_spot:    placed.proposal && placed.proposal.spot,
                 entry_time:    placed.proposal && placed.proposal.date_start
                                   ? new Date(Number(placed.proposal.date_start) * 1000).toISOString()
                                   : undefined,
-                take_profit:   openSpec.take_profit != null ? Number(openSpec.take_profit) : null,
-                stop_loss:     openSpec.stop_loss   != null ? Number(openSpec.stop_loss)   : null,
+                take_profit:   effectiveTP,
+                stop_loss:     effectiveSL,
                 cycle_id:      cycleId,
                 decision_id:   decision.decision_id || null,
                 sibling_index: i,
@@ -1244,7 +1264,17 @@ async function openSibling(ws, config, state, symbol, decision, openSpec, cycleI
                 rationale:     decision.rationale  || null,
             });
             State.addSiblingPosition(state, symbol, rec);
-            results.push({ contract_id: contractId });
+            const resultEntry = { contract_id: contractId };
+            if (clamp) {
+                // Surface auto-scale event for the Telegram tick summary.
+                // Telegram.multiplierTickSummary inspects `stake_autoscaled`
+                // on each result to render a soft-warning subline.
+                resultEntry.stake_autoscaled = clamp;
+                Logger.warn('open: stake auto-scaled by broker', {
+                    symbol, multiplier: mult, ...clamp,
+                });
+            }
+            results.push(resultEntry);
         } catch (e) {
             Logger.error('placeMultiplier failed', { symbol, error: e.message });
             results.push({ error: e.message });

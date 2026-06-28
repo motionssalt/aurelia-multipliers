@@ -718,10 +718,29 @@ const templates = {
             // fails after capital drained) — list each line individually.
             const dets = Array.isArray(execDetails) ? execDetails : [];
             if (dets.length) {
-                const okIds   = dets.filter(d => d && d.contract_id != null && !d.error).map(d => d.contract_id);
-                const failed  = dets.filter(d => d && d.error);
+                const okIds      = dets.filter(d => d && d.contract_id != null && !d.error).map(d => d.contract_id);
+                const failed     = dets.filter(d => d && d.error);
+                const autoscaled = dets.filter(d => d && d.stake_autoscaled);
                 if (okIds.length) {
                     subLines.push(`Opened    : ✅ ${okIds.map(id => `<code>${_esc(id)}</code>`).join(', ')}`);
+                }
+                // Soft-warning subline: broker auto-scaled the stake (and
+                // proportionally TP/SL) to fit the live per-contract
+                // ceiling. The trade DID open — we just want the user to
+                // know the size differs from what the AI requested.
+                if (autoscaled.length) {
+                    for (const a of autoscaled) {
+                        const c = a.stake_autoscaled || {};
+                        const tpFrag = (c.requested_take_profit != null && c.final_take_profit != null && c.requested_take_profit !== c.final_take_profit)
+                            ? ` · TP ${_money(c.requested_take_profit)}→${_money(c.final_take_profit)}`
+                            : '';
+                        const slFrag = (c.requested_stop_loss != null && c.final_stop_loss != null && c.requested_stop_loss !== c.final_stop_loss)
+                            ? ` · SL ${_money(c.requested_stop_loss)}→${_money(c.final_stop_loss)}`
+                            : '';
+                        subLines.push(
+                            `🔧 <i>Stake auto-scaled by broker: ${_money(c.requested_stake)} → ${_money(c.final_stake)}${tpFrag}${slFrag}</i>`
+                        );
+                    }
                 }
                 if (failed.length) {
                     subLines.push(`⚠️ <b>Trade attempt failed</b> (×${failed.length}):`);

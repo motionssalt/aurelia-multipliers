@@ -677,6 +677,58 @@ function _extractMinStakeFromError(message) {
     return Number.isFinite(n) && n > 0 ? n : null;
 }
 
+/* Classify whether an error message indicates a stake-cap problem that
+   we can recover from by re-proposing at a lower stake.
+   Deriv emits several wordings for this class of error — we accept any
+   of them as long as a numeric ceiling can be extracted. The list is
+   intentionally permissive: false positives just trigger a harmless
+   re-propose loop that will fail again, while false negatives let a
+   recoverable error bubble up as OPEN FAILED (the regression we are
+   fixing). */
+function _isStakeCapError(message) {
+    if (typeof message !== 'string') return false;
+    return /ContractBuyValidationError|InvalidStake|stake|amount/i.test(message)
+        && /equal\s+to\s+or\s+lower\s+than\s+[0-9]/i.test(message);
+}
+
+/* Floor a number to 2 decimal places.
+   Deriv quotes caps with 2-decimal precision (e.g. "9.70"), but JS
+   floating-point can turn `9.70 * 100` into `969.9999…`, which then
+   floors to 9.69 — losing a cent against the broker's stated ceiling
+   for no good reason. Snap to the nearest 2-decimal grid first; only
+   floor if the value is *meaningfully* above the grid point. */
+function _floor2(n) {
+    const x = Number(n) * 100;
+    const rounded = Math.round(x);
+    // If the floating-point error is tiny (<1e-6 of a cent), the
+    // mathematically-correct value IS the rounded one. Otherwise we
+    // genuinely need to truncate downward.
+    return (Math.abs(x - rounded) < 1e-6 ? rounded : Math.floor(x)) / 100;
+}
+
+/* Scale TP/SL proportionally when stake is clamped down by Deriv.
+   Multiplier TP/SL are absolute USD profit/loss thresholds, NOT
+   ratios — but Deriv enforces per-contract max_take_profit /
+   max_stop_loss limits that scale with stake. When we shrink the
+   stake by ratio R, we shrink the limit_order amounts by the same R
+   so they stay inside the new ceiling.
+
+   Returns a new limit_order object or undefined if input was undefined.
+   Skips fields that are already null (=cancel sentinel) or undefined. */
+function _scaleLimitOrder(limit_order, ratio) {
+    if (!limit_order || !(ratio > 0) || ratio >= 1) return limit_order;
+    const out = {};
+    if (limit_order.take_profit != null) {
+        const tp = Number(limit_order.take_profit) * ratio;
+        out.take_profit = Math.max(0.01, _floor2(tp));
+    }
+    if (limit_order.stop_loss != null) {
+        const sl = Number(limit_order.stop_loss) * ratio;
+        out.stop_loss = Math.max(0.01, _floor2(sl));
+    }
+    return out;
+}
+
 async function placeMultiplier(ws, opts) {
     const errs = _validateMultiplierOpts(opts);
     if (errs.length) throw new Error('placeMultiplier: ' + errs.join('; '));
@@ -684,7 +736,8 @@ async function placeMultiplier(ws, opts) {
     const symbol     = opts.symbol;
     const dir        = String(opts.direction).toLowerCase();
     const contractType = dir === 'up' ? 'MULTUP' : 'MULTDOWN';
-    let   stake      = Number(opts.stake);   // mutable: may be clamped down on Deriv-side rejection
+    const requestedStake = Number(opts.stake);   // original AI/runner stake — used to detect clamping later
+    let   stake      = requestedStake;            // mutable: may be clamped down on Deriv-side rejection
     const multiplier = Number(opts.multiplier);
     const currency   = opts.currency || 'USD';
 
@@ -692,6 +745,10 @@ async function placeMultiplier(ws, opts) {
     // Deriv's proposal accepts a partial limit_order (just TP, just SL,
     // or both) — verified live; the proposal reply only echoes back
     // the fields you set.
+    // NB: `limit_order` is now MUTABLE so the auto-scale loop below can
+    // shrink TP/SL proportionally when stake is clamped down. Deriv's
+    // per-contract max_take_profit / max_stop_loss scale with stake, so
+    // a $21 TP that was valid at $10 stake may be rejected at $9.70.
     let limit_order;
     if (opts.takeProfit != null || opts.stopLoss != null) {
         limit_order = {};
@@ -700,8 +757,8 @@ async function placeMultiplier(ws, opts) {
     }
 
     /* Build the proposal request from the *current* stake. Re-invoked
-       inside the retry loop below so the second attempt picks up the
-       clamped amount. */
+       inside the retry loop below so each attempt picks up the latest
+       clamped amount (and matching scaled TP/SL). */
     const buildProposalReq = () => {
         const req = {
             proposal:         1,
@@ -717,90 +774,134 @@ async function placeMultiplier(ws, opts) {
         return req;
     };
 
-    // 1) Proposal
     const ABS_MIN_STAKE = 0.35; // matches config.stake.absolute_min default
-    let propReply = await request(ws, buildProposalReq(), 15000);
-    let prop = propReply && propReply.proposal;
-    if (!prop || !prop.id) throw new Error('placeMultiplier proposal: no id returned');
 
-    /* Pre-emptive clamp: the proposal reply sometimes carries
-       `validation_params.max_stake` advertising the live ceiling. If
-       our stake is above it, re-propose at the ceiling immediately so
-       we never even send the doomed buy. Best-effort — absent field
-       just means Deriv didn't volunteer the cap up front. */
-    const vpMax = prop.validation_params && Number(prop.validation_params.max_stake);
-    if (Number.isFinite(vpMax) && vpMax > 0 && stake > vpMax) {
-        const clamped = Math.max(ABS_MIN_STAKE, Math.floor(vpMax * 100) / 100);
-        Logger.warn('placeMultiplier: stake above proposal.validation_params.max_stake, clamping', {
-            symbol, multiplier, requested: stake, max_stake: vpMax, clamped,
+    /* Helper: apply a stake clamp + proportionally scale TP/SL.
+       Mutates the outer `stake` and `limit_order`.
+       Returns true on success, false if the clamp would either:
+         • push the stake AT OR ABOVE the current stake (no-op), or
+         • require going below the configured ABS_MIN_STAKE floor
+           (we refuse to silently bump UP above the broker's cap;
+            the caller should surface a clean error in that case). */
+    const _applyClamp = (newStakeRaw, reason) => {
+        const target = _floor2(newStakeRaw);
+        if (!(target > 0) || target >= stake) return false;
+        if (target < ABS_MIN_STAKE) {
+            // Broker's cap is below our configured minimum stake. Bumping
+            // UP to ABS_MIN_STAKE would still violate the broker's ceiling,
+            // so we cannot honour this trade at all.
+            return false;
+        }
+        const ratio = target / stake;
+        const prevLO = limit_order ? { ...limit_order } : undefined;
+        limit_order = _scaleLimitOrder(limit_order, ratio);
+        Logger.warn('placeMultiplier: auto-scaling stake', {
+            symbol, multiplier,
+            from_stake: stake, to_stake: target,
+            ratio: Number(ratio.toFixed(4)),
+            from_limit_order: prevLO,
+            to_limit_order:   limit_order,
+            reason,
         });
-        stake = clamped;
+        stake = target;
+        return true;
+    };
+
+    /* ──────────────────────────────────────────────────────────────
+       Auto-scale retry loop.
+       Each iteration:
+         1. Request a fresh proposal (proposal IDs are single-use).
+         2. If validation_params.max_stake is present and < stake,
+            clamp + restart the loop (re-propose at the new stake).
+         3. Attempt buy. On ContractBuyValidationError that advertises
+            a per-contract ceiling, clamp + restart.
+         4. On any other error, bubble up untouched.
+       The loop is bounded — after MAX_ATTEMPTS we give up so a
+       pathological backend can't pin us in an infinite loop.
+       ────────────────────────────────────────────────────────────── */
+    const MAX_ATTEMPTS = 5;
+    let propReply, prop, buyReply;
+    let lastError = null;
+
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+        // 1) Proposal
         propReply = await request(ws, buildProposalReq(), 15000);
         prop = propReply && propReply.proposal;
-        if (!prop || !prop.id) throw new Error('placeMultiplier proposal (clamped): no id returned');
-    }
+        if (!prop || !prop.id) {
+            throw new Error(`placeMultiplier proposal (attempt ${attempt}): no id returned`);
+        }
 
-    Logger.trade(`Multiplier proposal accepted ${symbol} ${contractType} x${multiplier}`, {
-        stake,
-        ask_price:  prop.ask_price,
-        spot:       prop.spot,
-        commission: prop.commission,
-        limit_order: prop.limit_order,
-    });
-
-    // 2) Buy at the quoted ask_price. Multiplier contracts charge a
-    //    commission baked into ask_price, so we pay exactly that.
-    //
-    //    Deriv occasionally accepts a proposal and only rejects the
-    //    subsequent buy with ContractBuyValidationError when the stake
-    //    would exceed the per-contract ceiling for our balance +
-    //    multiplier (e.g. "Enter an amount equal to or lower than
-    //    19.40"). We harden this leg by parsing that message and
-    //    retrying ONCE with the advertised ceiling — the per-trade
-    //    ceiling for a given {symbol, multiplier, balance} tuple is
-    //    stable within a tick, so one retry is enough.
-    let buyReply;
-    try {
-        buyReply = await request(ws, {
-            buy:   prop.id,
-            price: Number(prop.ask_price),
-        }, 15000);
-    } catch (e) {
-        const msg = (e && e.message) ? String(e.message) : '';
-        const capped  = _extractMaxStakeFromError(msg);
-        const floored = _extractMinStakeFromError(msg);
-        if (capped && capped >= ABS_MIN_STAKE && capped < stake) {
-            // Deriv reports the cap with 2 decimals already; floor to
-            // be strictly safe against floating-point fuzz.
-            const newStake = Math.floor(capped * 100) / 100;
-            Logger.warn('placeMultiplier: buy rejected by stake cap, retrying once with clamped stake', {
-                symbol, multiplier, requested: stake, max_stake: capped, clamped: newStake,
-                original_error: msg.slice(0, 240),
-            });
-            stake = newStake;
-            // Re-propose: the original proposal.id is single-use; we
-            // need a fresh proposal at the new stake before buying.
-            propReply = await request(ws, buildProposalReq(), 15000);
-            prop = propReply && propReply.proposal;
-            if (!prop || !prop.id) {
-                throw new Error('placeMultiplier proposal (retry after stake clamp): no id returned');
+        // 1b) Pre-emptive clamp from proposal.validation_params.max_stake.
+        //     If Deriv volunteers the ceiling here, clamp and re-propose
+        //     BEFORE sending the doomed buy. Best-effort — field is
+        //     absent on many symbols.
+        const vpMax = prop.validation_params && Number(prop.validation_params.max_stake);
+        if (Number.isFinite(vpMax) && vpMax > 0 && stake > vpMax) {
+            if (_applyClamp(vpMax, 'proposal.validation_params.max_stake')) {
+                continue; // re-propose with new stake + scaled TP/SL
             }
+            // _applyClamp refused (e.g. would clamp below ABS_MIN_STAKE) —
+            // fall through to buy, Deriv will give us the authoritative error.
+        }
+
+        Logger.trade(`Multiplier proposal accepted ${symbol} ${contractType} x${multiplier} (attempt ${attempt})`, {
+            stake,
+            ask_price:  prop.ask_price,
+            spot:       prop.spot,
+            commission: prop.commission,
+            limit_order: prop.limit_order,
+        });
+
+        // 2) Buy at the quoted ask_price.
+        try {
             buyReply = await request(ws, {
                 buy:   prop.id,
                 price: Number(prop.ask_price),
             }, 15000);
-        } else if (floored && floored > stake) {
-            // The stake was BELOW Deriv's per-contract minimum (rare in
-            // practice because config.stake.absolute_min defaults to
-            // 0.35, but multiplier minimums can be higher). We do NOT
-            // silently bump UP — that would spend more of the user's
-            // money than they sized for. Surface a clean error with
-            // the live min so the caller knows what threshold was hit.
-            throw new Error(`placeMultiplier: stake ${stake} below Deriv min ${floored} for ${symbol} x${multiplier}`);
-        } else {
+            break; // ← success, exit retry loop
+        } catch (e) {
+            lastError = e;
+            const msg = (e && e.message) ? String(e.message) : '';
+            const capped  = _extractMaxStakeFromError(msg);
+            const floored = _extractMinStakeFromError(msg);
+
+            if (capped && capped < stake) {
+                // Recoverable: Deriv told us the live ceiling. Clamp and
+                // re-propose. The new proposal is at the safe stake, and
+                // TP/SL are scaled by the same ratio so they don't
+                // independently trip limit_order validation.
+                if (_applyClamp(capped, 'buy ContractBuyValidationError')) {
+                    continue;
+                }
+                // Couldn't clamp meaningfully — the broker's cap is below
+                // our configured absolute minimum stake, so honouring this
+                // trade is impossible. Surface a clean explanatory error.
+                throw new Error(
+                    `placeMultiplier: cannot satisfy stake cap ${capped} (below absolute min ${ABS_MIN_STAKE}) ` +
+                    `for ${symbol} x${multiplier}`
+                );
+            }
+
+            if (floored && floored > stake) {
+                // Stake was BELOW Deriv's per-contract minimum (rare).
+                // We do NOT silently bump UP — that would spend more of
+                // the user's money than they sized for. Surface clean.
+                throw new Error(
+                    `placeMultiplier: stake ${stake} below Deriv min ${floored} for ${symbol} x${multiplier}`
+                );
+            }
+
             // Not a recoverable stake-cap error — bubble up untouched.
             throw e;
         }
+    }
+
+    if (!buyReply) {
+        // Exhausted MAX_ATTEMPTS without a successful buy. Bubble up
+        // the most recent error (or a generic one) so the runner shows
+        // a clean OPEN FAILED instead of a silent hang.
+        const tail = lastError && lastError.message ? lastError.message : 'unknown error';
+        throw new Error(`placeMultiplier: stake auto-scale exhausted after ${MAX_ATTEMPTS} attempts (last: ${tail})`);
     }
     const buy = buyReply.buy;
     // Belt-and-suspenders verification of the buy reply. request() above
@@ -818,17 +919,33 @@ async function placeMultiplier(ws, opts) {
         throw new Error('placeMultiplier buy: reply has no valid buy_price (got ' +
             JSON.stringify(buy.buy_price) + '), refusing to treat as success');
     }
+    const wasClamped = requestedStake !== stake;
     Logger.trade(`Multiplier placed: contract_id=${buy.contract_id}`, {
         symbol,
         direction:      dir,
         contract_type:  contractType,
         multiplier,
         stake,                     // reflects the clamped value if a retry happened
-        requested_stake: Number(opts.stake),
-        clamped:        Number(opts.stake) !== stake,
+        requested_stake: requestedStake,
+        clamped:        wasClamped,
+        final_limit_order: limit_order,
         transaction_id: buy.transaction_id,
         longcode:       buy.longcode,
     });
+
+    // Expose clamping metadata on the returned `buy` so the runner can
+    // surface a soft-warning "stake auto-scaled from $X to $Y" subline
+    // in the Telegram tick summary instead of OPEN FAILED.
+    buy._aurelia_stake_clamp = wasClamped
+        ? {
+            requested_stake: requestedStake,
+            final_stake:     stake,
+            requested_take_profit: opts.takeProfit != null ? Number(opts.takeProfit) : null,
+            requested_stop_loss:   opts.stopLoss   != null ? Number(opts.stopLoss)   : null,
+            final_take_profit:     limit_order && limit_order.take_profit != null ? limit_order.take_profit : null,
+            final_stop_loss:       limit_order && limit_order.stop_loss   != null ? limit_order.stop_loss   : null,
+        }
+        : null;
 
     // No settlement polling — Multipliers stay open indefinitely.
     return { proposal: prop, buy };
