@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T06:20:24.864Z",
+  "last_cycle": "2026-06-28T06:25:20.782Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -164,6 +164,117 @@
         "ms": 5395,
         "bytes": 166916
       }
+    },
+    {
+      "ts": "2026-06-28T06:25:14.426Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T06:25:14.426Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:25:14.428Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:25:14.862Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=NGhyiL9Y"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:25:14.954Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:25:15.392Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T06:25:15.392Z",
+        "symbol": "R_10"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:25:15.393Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:25:17.787Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "hold"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:25:17.788Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "hold-halted-no-open-R10",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:25:17.789Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T06:25:15.392Z",
+        "symbol": "R_10",
+        "decision_action": "hold",
+        "decision_id": "hold-halted-no-open-R10",
+        "rationale": "Session is halted due to capital exhaustion and no positions are currently open. Cannot open new positions, and there's nothing to close or revise. Holding.",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": true,
+        "halt_reason": "capital exhausted",
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T06:25:17.790Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for R_10 @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T06:25:17.869Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782592200000,
+          "max": 1782627900000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T06:25:19.930Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2140,
+        "bytes": 166769
+      }
     }
   ],
   "daily_stats": {
@@ -188,5 +299,6 @@
     "pnl": 0
   },
   "_notified_session_summary": "unknown",
-  "chart_windows": {}
+  "chart_windows": {},
+  "_notified_halt_reason": "capital exhausted"
 }
