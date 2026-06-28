@@ -1,0 +1,125 @@
+{
+  "enabled": true,
+  "account": {
+    "mode": "demo",
+    "real_id": "",
+    "demo_id": ""
+  },
+  "symbols": {
+    "forex": {
+      "frxEURUSD": true,
+      "frxGBPUSD": true,
+      "frxUSDJPY": true,
+      "frxAUDUSD": true,
+      "frxUSDCAD": true,
+      "frxUSDCHF": true,
+      "frxNZDUSD": true,
+      "frxEURJPY": true,
+      "frxEURGBP": true,
+      "frxGBPJPY": true,
+      "frxAUDJPY": true,
+      "frxEURAUD": true,
+      "frxEURCAD": true,
+      "frxEURCHF": true,
+      "frxXAUUSD": true
+    },
+    "synthetics": {
+      "R_10": true,
+      "R_25": true,
+      "R_50": true,
+      "R_75": true,
+      "R_100": true,
+      "1HZ10V": true,
+      "1HZ25V": true,
+      "1HZ50V": true,
+      "1HZ75V": true,
+      "1HZ100V": true
+    },
+    "crypto": {
+      "cryBTCUSD": true,
+      "cryETHUSD": true
+    }
+  },
+  "frx_enabled": false,
+  "syn_enabled": true,
+  "cry_enabled": false,
+  "cycle": {
+    "running": true,
+    "engine": "multipliers",
+    "interval_seconds": 60,
+    "active_symbol": null,
+    "session": {
+      "capital": 1000,
+      "take_profit": 20,
+      "stop_loss": 20
+    }
+  },
+  "manual": {
+    "capital": 200,
+    "take_profit": 20,
+    "stop_loss": 20
+  },
+  "ai": {
+    "model": "gemini-2.5-flash",
+    "key_registry": [
+      "GEMINI_KEY_7",
+      "GEMINI_KEY_1",
+      "GEMINI_KEY_2",
+      "GEMINI_KEY_3"
+    ],
+    "providers": [
+      {
+        "name": "gemini",
+        "key_env": "",
+        "model": "gemini-2.5-flash",
+        "enabled": true
+      },
+      {
+        "name": "openai",
+        "key_env": "OPENAI_API_KEY",
+        "model": "gpt-4o-mini",
+        "enabled": true,
+        "key_registry": [
+          "OPENAI_KEY_1"
+        ]
+      },
+      {
+        "name": "grok",
+        "key_env": "XAI_API_KEY",
+        "model": "grok-2-latest",
+        "enabled": false,
+        "key_registry": []
+      },
+      {
+        "name": "claude",
+        "key_env": "ANTHROPIC_API_KEY",
+        "model": "claude-3-5-sonnet-latest",
+        "enabled": false,
+        "key_registry": []
+      }
+    ],
+    "max_history_entries": 12,
+    "bench_minutes": 150,
+    "min_confidence": 0.55
+  },
+  "stake": {
+    "absolute_min": 0.35,
+    "absolute_max": 10000
+  },
+  "expiry": {
+    "min_seconds": 900
+  },
+  "payout": {
+    "enabled": true,
+    "min_threshold": 0.7,
+    "per_symbol": {}
+  },
+  "daily_summary": {
+    "enabled": true,
+    "reset_on_send": true
+  },
+  "telegram": {
+    "timezone": "UTC",
+    "log_page_size": 10
+  }
+}
