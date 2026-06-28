@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T20:10:29.536Z",
+  "last_cycle": "2026-06-28T20:15:17.493Z",
   "balance": 9963.13,
   "currency": "USD",
   "account_mode": "demo",
@@ -313,81 +313,6 @@
     "GEMINI_KEY_1": 1782686423697
   },
   "logs": [
-    {
-      "ts": "2026-06-28T19:25:31.282Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-28T19:25:15.614Z",
-        "symbol": "cryBTCUSD",
-        "decision_action": "close",
-        "decision_id": "cryBTCUSD-close-risky-profit",
-        "rationale": "The open 'up' position has a floating profit of 1.77 USD, but the stop_out_distance_pct is critically low at 0.57%, indicating high risk of forced liquidation. Despite M15 RSI (30.62) and Stochastics ",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": 1.77,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-28T19:25:31.283Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": {
-          "min": 1782645900000,
-          "max": 1782681600000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T19:25:31.402Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782639000000,
-          "max": 1782674700000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T19:25:33.216Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1933,
-        "bytes": 160105
-      }
-    },
-    {
-      "ts": "2026-06-28T19:30:22.059Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-28T19:30:22.059Z"
-      }
-    },
-    {
-      "ts": "2026-06-28T19:30:22.061Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T19:30:22.436Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=gtapLB1S"
-      }
-    },
     {
       "ts": "2026-06-28T19:30:22.661Z",
       "level": "network",
@@ -2694,6 +2619,61 @@
       "meta": {
         "ms": 2246,
         "bytes": 158175
+      }
+    },
+    {
+      "ts": "2026-06-28T20:15:17.011Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T20:15:17.011Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T20:15:17.013Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T20:15:17.365Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=EVu0FuL8"
+      }
+    },
+    {
+      "ts": "2026-06-28T20:15:17.463Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T20:15:17.492Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T20:15:17.492Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T20:15:17.492Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T20:15:17.492Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T20:15:17.492Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
       }
     }
   ],
