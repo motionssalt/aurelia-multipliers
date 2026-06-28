@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T11:28:33.903Z",
+  "last_cycle": "2026-06-28T11:30:26.912Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -23,7 +23,13 @@
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {},
-  "cycle_open_siblings_summary": null,
+  "cycle_open_siblings_summary": {
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
+    "total_floating_pnl": null,
+    "per_symbol": []
+  },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [],
   "trade_history_manual": [],
@@ -132,6 +138,117 @@
       "meta": {
         "rationale": "Price is at extreme overbought levels across multiple timeframes with bearish MACD divergence on M10/M15, suggesting a pullback."
       }
+    },
+    {
+      "ts": "2026-06-28T11:30:18.595Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T11:30:18.594Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T11:30:18.596Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T11:30:18.977Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=I2nMVwJs"
+      }
+    },
+    {
+      "ts": "2026-06-28T11:30:19.162Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T11:30:19.199Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T11:30:19.199Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T11:30:19.200Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T11:30:23.757Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "hold"
+      }
+    },
+    {
+      "ts": "2026-06-28T11:30:23.758Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "hold-no-data-001",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-28T11:30:23.758Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T11:30:19.199Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "hold",
+        "decision_id": "hold-no-data-001",
+        "rationale": "No market data (RSI, MACD, Bollinger Bands, EMA, candle patterns, S/R levels) is available in the TICK INPUT to formulate a directional thesis or identify a trading edge at this time.",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T11:30:23.759Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T11:30:23.833Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782610500000,
+          "max": 1782646200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T11:30:25.876Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2117,
+        "bytes": 174104
+      }
     }
   ],
   "daily_stats": {
@@ -156,5 +273,6 @@
     "pnl": 0
   },
   "_notified_halt_reason": null,
-  "_notified_session_summary": null
+  "_notified_session_summary": null,
+  "chart_windows": {}
 }
