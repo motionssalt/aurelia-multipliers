@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T06:35:21.723Z",
+  "last_cycle": "2026-06-28T06:36:35.383Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -84,6 +84,127 @@
         "halted": false,
         "session_active": false
       }
+    },
+    {
+      "ts": "2026-06-28T06:36:27.548Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T06:36:27.547Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:36:27.549Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:36:28.027Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=ouRapiXu"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:36:28.363Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:36:28.483Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T06:36:28.483Z",
+        "symbol": "R_10"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:36:28.484Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T06:36:32.456Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "open",
+        "conf": 0.75
+      }
+    },
+    {
+      "ts": "2026-06-28T06:36:32.457Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "initial-R10-up",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-28T06:36:32.504Z",
+      "level": "error",
+      "msg": "placeMultiplier failed",
+      "meta": {
+        "symbol": "R_10",
+        "error": "InputValidationFailed: Input validation failed: Properties not allowed: symbol."
+      }
+    },
+    {
+      "ts": "2026-06-28T06:36:32.505Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T06:36:28.483Z",
+        "symbol": "R_10",
+        "decision_action": "open",
+        "decision_id": "initial-R10-up",
+        "rationale": "No open positions on R_10. Initiating a new MULTUP trade with a moderate stake and multiplier to establish a market presence.",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T06:36:32.506Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for R_10 @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T06:36:32.626Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782592800000,
+          "max": 1782628500000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T06:36:34.384Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1878,
+        "bytes": 168009
+      }
     }
   ],
   "daily_stats": {
@@ -108,5 +229,6 @@
     "pnl": 0
   },
   "_notified_halt_reason": null,
-  "_notified_session_summary": null
+  "_notified_session_summary": null,
+  "chart_windows": {}
 }
