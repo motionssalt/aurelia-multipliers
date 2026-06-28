@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T19:15:21.292Z",
+  "last_cycle": "2026-06-28T19:20:37.135Z",
   "balance": 9956.81,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,7 +9,7 @@
     "active": true,
     "started_at": "2026-06-28T18:11:15.197Z",
     "capital_start": 1020,
-    "capital_remaining": 1030.27,
+    "capital_remaining": 1015.27,
     "take_profit": 23,
     "stop_loss": 22,
     "trades": 4,
@@ -23,14 +23,47 @@
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {
-    "cryBTCUSD": []
+    "cryBTCUSD": [
+      {
+        "contract_id": 3557499359,
+        "stake": 15,
+        "multiplier": 200,
+        "direction": "up",
+        "entry_spot": 59423.467,
+        "entry_time": "2026-06-28T19:20:33.000Z",
+        "take_profit": 22.5,
+        "stop_loss": 14.29,
+        "floating_pnl": null,
+        "floating_pnl_pct": null,
+        "current_spot": null,
+        "last_polled_at": null,
+        "cycle_id": "2026-06-28T19:20:20.644Z",
+        "decision_id": "cryBTCUSD-multup-bounce-01",
+        "sibling_index": 0,
+        "sibling_count": 1,
+        "rationale": "Price (59418.331) is at the M5 lower Bollinger Band (59422.332) and near the M10/M15 lower bands, while RSI is oversold across M5 (37.05), M10 (34.25), and M15 (27.78). Stochastics are also deeply oversold on M5 (K=1.127, D=12.379), indicating extreme oversold conditions at the 59378.649 support level, suggesting a bullish bounce.",
+        "opened_at": "2026-06-28T19:20:33.809Z"
+      }
+    ]
   },
   "cycle_open_siblings_summary": {
-    "symbols": 0,
-    "positions": 0,
-    "total_stake": 0,
+    "symbols": 1,
+    "positions": 1,
+    "total_stake": 15,
     "total_floating_pnl": null,
-    "per_symbol": []
+    "per_symbol": [
+      {
+        "symbol": "cryBTCUSD",
+        "count": 1,
+        "total_stake": 15,
+        "total_floating_pnl": null,
+        "net_position": 15,
+        "direction_mix": {
+          "up": 1,
+          "down": 0
+        }
+      }
+    ]
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -151,296 +184,11 @@
   ],
   "pending_contracts": [],
   "ai_keys_bench": {
-    "GEMINI_KEY_2": 1782683114719,
-    "GEMINI_KEY_3": 1782683114719,
-    "GEMINI_KEY_1": 1782683114719,
-    "GEMINI_KEY_4": 1782683114719
+    "GEMINI_KEY_2": 1782683421701,
+    "GEMINI_KEY_3": 1782683421701,
+    "GEMINI_KEY_1": 1782683421701
   },
   "logs": [
-    {
-      "ts": "2026-06-28T18:30:41.634Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "hold",
-        "decision_id": "btc-hld-01",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-28T18:30:41.634Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-28T18:30:17.546Z",
-        "symbol": "cryBTCUSD",
-        "decision_action": "hold",
-        "decision_id": "btc-hld-01",
-        "rationale": "M15 price (59605.473) remains below EMA20 (59762.52) and EMA50 (59946.88), with MACD histogram at -14.75, indicating a continued bearish trend. While M5 MACD histogram is positive (18.90), M5 Stochast",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -0.17,
-        "floating_pnl": -0.76,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-28T18:30:41.635Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782642300000,
-          "max": 1782678000000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T18:30:41.736Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782642300000,
-          "max": 1782678000000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T18:30:43.865Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2230,
-        "bytes": 163335
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:17.351Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-28T18:35:17.351Z"
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:17.353Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T18:35:17.747Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=AVm3QsLK"
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:18.003Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T18:35:18.076Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-28T18:35:18.075Z",
-        "symbol": "cryBTCUSD"
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:18.683Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 100,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:18.764Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:18.844Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 300,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:18.922Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 500,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:19.006Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 800,
-        "stake": 0.35,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:19.008Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T18:35:33.097Z",
-      "level": "info",
-      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
-      "meta": {
-        "action": "close",
-        "conf": 0.7
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:33.098Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "close",
-        "decision_id": "btc-cl-01",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:33.251Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3552476419",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:33.370Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3552476419",
-      "meta": {
-        "sold_for": 9.75,
-        "balance_after": 9956.12,
-        "transaction_id": 6978223619
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:33.371Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-28T18:35:18.075Z",
-        "symbol": "cryBTCUSD",
-        "decision_action": "close",
-        "decision_id": "btc-cl-01",
-        "rationale": "The existing down position is at a critical stop_out_distance_pct (0.009969). Despite M15 MACD histogram at -16.43 supporting the downtrend, M5 MACD (16.25) is positive and M5/M15 Stochastics (M5 K=69",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -0.42,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:33.372Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": {
-          "min": 1782642300000,
-          "max": 1782678000000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:33.498Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782636000000,
-          "max": 1782671700000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-28T18:35:36.762Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 3390,
-        "bytes": 160541
-      }
-    },
-    {
-      "ts": "2026-06-28T18:40:14.214Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-28T18:40:14.214Z"
-      }
-    },
-    {
-      "ts": "2026-06-28T18:40:14.216Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T18:40:14.667Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=3LmvYmVn"
-      }
-    },
-    {
-      "ts": "2026-06-28T18:40:14.807Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
     {
       "ts": "2026-06-28T18:40:14.840Z",
       "level": "info",
@@ -2228,6 +1976,357 @@
         "ms": 2261,
         "bytes": 160633
       }
+    },
+    {
+      "ts": "2026-06-28T19:20:19.692Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T19:20:19.691Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:19.694Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:20:20.185Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=47c4AUpA"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:20.516Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:20:20.644Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T19:20:20.644Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:21.233Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 100,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:21.354Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 200,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:21.467Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:21.583Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 500,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:21.699Z",
+      "level": "warn",
+      "msg": "probeMultiplierRanges failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 800,
+        "stake": 0.35,
+        "direction": "up",
+        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:21.701Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:20:21.701Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_1\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:20:21.956Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_1\" failed — benching 150m",
+      "meta": {
+        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:21.956Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_2\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:20:22.155Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_2\" failed — benching 150m",
+      "meta": {
+        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:22.155Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_3\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:20:22.331Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_3\" failed — benching 150m",
+      "meta": {
+        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:22.332Z",
+      "level": "warn",
+      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_4\" anyway",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T19:20:33.274Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_4\"",
+      "meta": {
+        "action": "open",
+        "conf": 0.75
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:33.275Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "cryBTCUSD-multup-bounce-01",
+        "keyUsed": "GEMINI_KEY_4"
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:33.459Z",
+      "level": "warn",
+      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 200,
+        "stake": 15,
+        "adjustments": {
+          "stop_loss": {
+            "from": 15,
+            "to": 14.29,
+            "range": {
+              "min": 1.21,
+              "max": 14.55
+            },
+            "reason": "validation_params.stop_loss"
+          }
+        },
+        "vp": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 727.5
+          },
+          "stop_loss": {
+            "min": 1.21,
+            "max": 14.55
+          }
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:33.643Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted cryBTCUSD MULTUP ×200",
+      "meta": {
+        "stake": 15,
+        "ask_price": 15,
+        "spot": 59423.467,
+        "commission": 0.75,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-14.29",
+            "order_amount": -14.29,
+            "order_date": 1782674433,
+            "value": "59156.120"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-15.00",
+            "order_amount": -15,
+            "order_date": 1782674433,
+            "value": "59141.621"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "22.50",
+            "order_amount": 22.5,
+            "order_date": 1782674433,
+            "value": "59907.388"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 727.5
+          },
+          "stop_loss": {
+            "min": 1.21,
+            "max": 14.55
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:33.808Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3557499359",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "direction": "up",
+        "contract_type": "MULTUP",
+        "multiplier": 200,
+        "stake": 15,
+        "final_limit_order": {
+          "take_profit": 22.5,
+          "stop_loss": 14.29
+        },
+        "tp_sl_clamped": true,
+        "transaction_id": 6985583439,
+        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in BTC/USD, multiplied by 2910, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:33.809Z",
+      "level": "warn",
+      "msg": "open: TP/SL clamped into broker range (v5 pre-flight)",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 200,
+        "requested_stake": 15,
+        "final_stake": 15,
+        "requested_take_profit": 22.5,
+        "requested_stop_loss": 15,
+        "final_take_profit": 22.5,
+        "final_stop_loss": 14.29,
+        "kind": "tp_sl_clamp",
+        "adjustments": {
+          "take_profit": null,
+          "stop_loss": {
+            "from": 15,
+            "to": 14.29,
+            "range": {
+              "min": 1.21,
+              "max": 14.55
+            },
+            "reason": "validation_params.stop_loss"
+          }
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:33.810Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T19:20:20.644Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "open",
+        "decision_id": "cryBTCUSD-multup-bounce-01",
+        "rationale": "Price (59418.331) is at the M5 lower Bollinger Band (59422.332) and near the M10/M15 lower bands, while RSI is oversold across M5 (37.05), M10 (34.25), and M15 (27.78). Stochastics are also deeply ove",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": 0.27,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:33.811Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:33.988Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782645900000,
+          "max": 1782681600000,
+          "justOpened": true
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T19:20:35.809Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1998,
+        "bytes": 170475
+      }
     }
   ],
   "daily_stats": {
@@ -2260,5 +2359,10 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {}
+  "chart_windows": {
+    "cryBTCUSD": {
+      "min": 1782645900000,
+      "max": 1782681600000
+    }
+  }
 }
