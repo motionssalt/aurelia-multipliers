@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T05:35:18.822Z",
+  "last_cycle": "2026-06-28T05:40:23.463Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -548,6 +548,124 @@
       "meta": {
         "ms": 1950,
         "bytes": 181168
+      }
+    },
+    {
+      "ts": "2026-06-28T05:40:14.892Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T05:40:14.892Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:40:14.893Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:40:15.274Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=wDF1Yjti"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:40:15.402Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:40:15.430Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:40:15.430Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T05:40:15.430Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:40:15.431Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:40:19.126Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "hold",
+        "conf": 1
+      }
+    },
+    {
+      "ts": "2026-06-28T05:40:19.127Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "AURELIA-H-1",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:40:19.127Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T05:40:15.430Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "hold",
+        "decision_id": "AURELIA-H-1",
+        "rationale": "Session is halted (can_open_new=false) and there are no open positions to manage. Holding is the appropriate action.",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": true,
+        "halt_reason": "capital exhausted",
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T05:40:19.128Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T05:40:20.315Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782589500000,
+          "max": 1782625200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T05:40:22.644Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 3516,
+        "bytes": 179194
       }
     }
   ],
