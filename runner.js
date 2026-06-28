@@ -1689,6 +1689,56 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         }
     }
 
+    // --- 3b. Idle short-circuit ----------------------------------------
+    // If the cycle is paused or the session is halted (canOpenNew would
+    // be false no matter what the AI says) AND polling found zero open
+    // siblings AND nothing closed this tick, there is genuinely nothing
+    // for the AI to decide — every action branch is gated off. Calling
+    // the (billed) AI provider and firing a Telegram tick message would
+    // both be pure noise every 5 minutes for as long as the bot sits
+    // paused-and-empty. Skip them.
+    //
+    // We still must give Part 3c's session-summary logic a chance to
+    // fire here, because the tick on which the session *first* drains
+    // to zero open siblings while paused/halted is exactly the
+    // transition that maybeSendSessionSummary() latches onto. Calling
+    // it before the early-return is safe: it is internally latched on
+    // state._notified_session_summary, so subsequent idle ticks are a
+    // no-op.
+    //
+    // Polling/settlement above this point is untouched and runs every
+    // tick regardless of pause state — that's the actual safety
+    // behavior the existing tick-while-paused design was built around.
+    const openSiblingCount = State.getOpenSiblings(state, symbol).length;
+    const idleAndPaused =
+        (!cycleRunning || sess.halted || !sessionActive)
+        && openSiblingCount === 0
+        && justClosed.length === 0;
+    if (idleAndPaused) {
+        Logger.info('Multiplier cycle: paused/halted with no open siblings — skipping AI call', {
+            cycle_id:      cycleId,
+            symbol,
+            cycle_running: cycleRunning,
+            halted:        !!sess.halted,
+            session_active: !!sess.active,
+        });
+        // Keep the exposure summary fresh so any UI/state consumers
+        // see consistent values (no-op in practice — nothing mutated).
+        state[State.SUMMARY_KEY] = State.aggregateAllExposure(state);
+        // Give Part 3c a chance to fire on the genuine transition tick
+        // (e.g. session just paused-and-drained or halted-and-drained).
+        // With zero open siblings, enforceAggregateRisk cannot breach,
+        // so riskBreached is always false on this path.
+        try {
+            await maybeSendSessionSummary(state, config, sessionEntrySnapshot, {
+                symbol, riskBreached: false, riskReason: null,
+            });
+        } catch (e) {
+            Logger.warn('session summary send failed', { error: e.message });
+        }
+        return ws;
+    }
+
     // --- 4. Assemble AI input payload ----------------------------------
     // (Shape documented above next to askMultiplierDecisionStub.)
     const exposure = State.aggregateSiblingExposure(state, symbol);
