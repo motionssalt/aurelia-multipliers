@@ -97,6 +97,7 @@ jobs:
             const lines = [];
             for (const [k, v] of Object.entries(all)) {
               if (k.startsWith('GEMINI_KEY_')) lines.push(k + '=' + v);
+              if (k.startsWith('OPENAI_KEY_')) lines.push(k + '=' + v);
             }
             require('fs').writeFileSync('.gemini.env', lines.join('\n'));
           "
