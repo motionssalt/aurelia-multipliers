@@ -2084,67 +2084,290 @@ async function runManual(ws, config, state, connOpts) {
         } catch (e) {
             await Telegram.send(`Chart failed: <code>${e.message}</code>`);
         }
-        return;
+        return ws;
     }
 
-    // Default manual action: ask AI to scan + place ONE trade now.
-    let payload;
-    try { payload = await Payload.buildDecisionPayload(ws, config, state); }
-    catch (e) {
-        Logger.error('Manual payload build failed', { error: e.message });
-        await Telegram.send(`⚠️ Manual scan failed: <code>${e.message}</code>`);
-        return;
+    /* Default manual action ("scan" / "trade_now"): run a multiplier-
+       aware scan, post the AI's rationale (highlighted via blockquote
+       in the tick-summary template) WITH a fresh chart, and — if the AI
+       returns an actionable open — place the multiplier through the
+       same executor path the cycle uses.
+
+       Previously this path went through AIClient.askDecision (the
+       binary CALL/PUT prompt) which always returns action:"trade" or
+       action:"skip". The validator then declined virtually every
+       multiplier-shaped decision because the binary prompt is much
+       more conservative AND the action shapes don't match (the
+       multiplier AI uses open/close/revise/hold/multi, not
+       trade/skip). End result: "AI declined" on essentially every
+       manual scan, and never a chart attached. */
+
+    // --- 1. Resolve symbol (operator override > sticky > config) ------
+    const symbol =
+        (inputPayload.symbol && typeof inputPayload.symbol === 'string')
+            ? inputPayload.symbol
+            : resolveActiveSymbol(config, state);
+    if (!symbol) {
+        await Telegram.send('⚠️ Manual scan: no enabled symbol available.');
+        return ws;
+    }
+    Logger.info('Manual scan tick', { symbol });
+
+    // --- 2. Snapshot the live state of any open siblings ON THIS symbol
+    // so the AI sees what's already in play. Manual trades happen
+    // *outside* the cycle session but they share the symbol's sibling
+    // book, so showing them is the right thing.
+    const persisted = State.getOpenSiblings(state, symbol);
+    const polled = [];
+    for (const sib of persisted) {
+        try {
+            const r = await pollSibling(ws, sib);
+            polled.push(r);
+        } catch (e) {
+            Logger.warn('Manual scan: pollSibling failed', { contract_id: sib.contract_id, error: e.message });
+            polled.push({ sibling: sib, error: e.message });
+        }
     }
 
+    // --- 3. Market data slice (same helper the cycle uses) -----------
+    let marketSlice = null;
+    let marketError = null;
+    try {
+        marketSlice = await Payload.buildSymbolSlice(ws, symbol);
+    } catch (e) {
+        marketError = e && e.message ? e.message : String(e);
+        Logger.warn('Manual scan: failed to build market slice', { symbol, error: marketError });
+    }
+
+    // --- 4. Assemble aiInput in the SAME shape as the cycle ----------
+    const exposure = State.aggregateSiblingExposure(state, symbol);
+    const sess     = state.cycle_session || {};
+    // Manual trades are explicit user requests: open-gate ON regardless
+    // of cycle pause/halt. openSibling still enforces per-symbol enable
+    // + stake floor downstream.
+    const cycleId = `manual-${new Date().toISOString()}`;
+    const aiInput = {
+        cycle_id:     cycleId,
+        symbol,
+        balance:      state.balance,
+        currency:     state.currency,
+        account_mode: state.account_mode,
+        manual:       true,
+        session: {
+            active:            !!sess.active,
+            capital_start:     Number(sess.capital_start || 0),
+            capital_remaining: Number(sess.capital_remaining || (state.balance || 0)),
+            take_profit:       Number(sess.take_profit || 0),
+            stop_loss:         Number(sess.stop_loss   || 0),
+            pnl:               Number(sess.pnl || 0),
+            trades:            Number(sess.trades || 0),
+            wins:              Number(sess.wins   || 0),
+            losses:            Number(sess.losses || 0),
+            win_streak:        Number(sess.win_streak  || 0),
+            loss_streak:       Number(sess.loss_streak || 0),
+            halted:            !!sess.halted,
+            halt_reason:       sess.halt_reason || null,
+        },
+        exposure,
+        open_siblings: polled.filter(p => p && (p.poc != null || !p.error)).map(p => ({
+            contract_id:        p.sibling.contract_id,
+            stake:              p.sibling.stake,
+            multiplier:         p.sibling.multiplier,
+            direction:          p.sibling.direction,
+            entry_spot:         p.sibling.entry_spot,
+            entry_time:         p.sibling.entry_time,
+            opened_at:          p.sibling.opened_at,
+            current_spot:       p.poc ? p.poc.current_spot      : p.sibling.current_spot,
+            floating_pnl:       p.poc ? p.poc.profit             : p.sibling.floating_pnl,
+            floating_pnl_pct:   p.poc ? p.poc.profit_percentage  : p.sibling.floating_pnl_pct,
+            bid_price:          p.poc ? p.poc.bid_price          : null,
+            buy_price:          p.poc ? p.poc.buy_price          : null,
+            is_open:            p.poc ? p.poc.is_open            : true,
+            is_valid_to_sell:   p.poc ? p.poc.is_valid_to_sell   : false,
+            is_valid_to_cancel: p.poc ? p.poc.is_valid_to_cancel : false,
+            take_profit:        p.poc && p.poc.take_profit ? { amount: p.poc.take_profit.amount, value: p.poc.take_profit.value } : null,
+            stop_loss:          p.poc && p.poc.stop_loss   ? { amount: p.poc.stop_loss.amount,   value: p.poc.stop_loss.value   } : null,
+            stop_out:           p.poc && p.poc.stop_out    ? { amount: p.poc.stop_out.amount,    value: p.poc.stop_out.value    } : null,
+            stop_out_distance_pct: p.stop_out_distance_pct,
+            cycle_id:       p.sibling.cycle_id      || null,
+            decision_id:    p.sibling.decision_id   || null,
+            sibling_index:  p.sibling.sibling_index,
+            sibling_count:  p.sibling.sibling_count,
+            rationale:      p.sibling.rationale     || null,
+        })),
+        just_closed: [],
+        gates: {
+            can_open_new: true,                 // manual override — user is explicitly asking
+            reason:       null,
+        },
+        market: marketSlice
+            ? {
+                symbol:                     marketSlice.symbol,
+                timeframes:                 marketSlice.timeframes,
+                volatility_proxy_atr14_m5:  marketSlice.volatility_proxy_atr14_m5,
+            }
+            : { error: marketError || 'market_slice_unavailable' },
+    };
+
+    // --- 5. Call the multiplier-aware AI decision --------------------
     let decision;
     try {
-        const r = await AIClient.askDecision({ payload, config, state });
+        const r = await AIClient.askMultiplierDecision({ aiInput, config, state });
         decision = r.decision;
     } catch (e) {
-        Logger.error('Manual AI decision failed', { error: e.message });
-        await Telegram.send(`⚠️ Manual AI call failed: <code>${e.message}</code>`);
-        return;
+        Logger.error('Manual askMultiplierDecision threw', { error: e.message });
+        decision = { action: 'hold', decision_id: 'ai-error', rationale: `AI call failed: ${e.message}` };
     }
 
-    const v = validateDecision(decision, config, state, { manual: true });
-    if (!v.ok) {
-        Logger.warn('Invalid manual decision', { errs: v.errs });
-        await Telegram.send(`⚠️ Manual decision rejected: ${v.errs.join('; ')}`);
-        return;
-    }
-    if (v.skip) {
-        Logger.info('AI declined manual trade', { rationale: decision.rationale });
-        await Telegram.send(`🤖 AI declined: <i>${(decision.rationale || v.reason || 'no high-confidence setup').slice(0,200)}</i>`);
-        return;
+    // Pre-action snapshot for the tick-summary template (matches the
+    // cycle path's shape so revise old→new rendering still works).
+    const preActionSiblings = aiInput.open_siblings.map(s => ({
+        contract_id: s.contract_id,
+        stake:       s.stake,
+        multiplier:  s.multiplier,
+        direction:   s.direction,
+        take_profit: s.take_profit ? Number(s.take_profit.amount) : null,
+        stop_loss:   s.stop_loss   ? Number(s.stop_loss.amount)   : null,
+        floating_pnl:     s.floating_pnl,
+        floating_pnl_pct: s.floating_pnl_pct,
+        current_spot:     s.current_spot,
+        entry_spot:       s.entry_spot,
+        sibling_index:    s.sibling_index,
+        sibling_count:    s.sibling_count,
+    }));
+
+    // --- 6. Execute the decision (open / close / revise / multi / hold) --
+    const executed = { action: decision.action, details: [] };
+    try {
+        if (decision.action === 'open' && decision.open) {
+            executed.details = executed.details.concat(
+                await executeOpenSpec(ws, config, state, symbol, decision, decision.open, cycleId, aiInput, /*canOpenNew*/ true)
+            );
+            // Track the placed manual trade in state.trade_history_manual
+            // so the rest of the daily-stats pipeline still sees it. Each
+            // detail with a contract_id is a successful placement; rest
+            // are errors that were already surfaced by the executor.
+            state.trade_history_manual = state.trade_history_manual || [];
+            for (const d of executed.details) {
+                if (d && d.contract_id) {
+                    state.trade_history_manual.push({
+                        ts:          new Date().toISOString(),
+                        symbol,
+                        contract_id: d.contract_id,
+                        path:        'manual',
+                        decision_id: decision.decision_id || null,
+                        rationale:   decision.rationale   || null,
+                    });
+                }
+            }
+        } else if (decision.action === 'close' && Array.isArray(decision.close)) {
+            executed.details = executed.details.concat(
+                await executeCloseList(ws, config, state, symbol, decision.close)
+            );
+        } else if (decision.action === 'revise' && Array.isArray(decision.revise)) {
+            executed.details = executed.details.concat(
+                await executeReviseList(ws, state, symbol, decision.revise)
+            );
+        } else if (decision.action === 'multi' && decision.multi) {
+            if (Array.isArray(decision.multi.close) && decision.multi.close.length) {
+                const out = await executeCloseList(ws, config, state, symbol, decision.multi.close);
+                executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'close' }, d)));
+            }
+            if (Array.isArray(decision.multi.revise) && decision.multi.revise.length) {
+                const out = await executeReviseList(ws, state, symbol, decision.multi.revise);
+                executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'revise' }, d)));
+            }
+            if (decision.multi.open) {
+                const out = await executeOpenSpec(ws, config, state, symbol, decision, decision.multi.open, cycleId, aiInput, /*canOpenNew*/ true);
+                executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'open' }, d)));
+            }
+        } else {
+            // 'hold' / 'skip' / unrecognised — no side-effects, but we
+            // still want to emit the chart + rationale so the user can
+            // SEE why the AI declined (was: silent "AI declined: ..."
+            // text-only, no chart).
+            executed.details.push({ note: decision.action === 'hold' || decision.action === 'skip'
+                ? decision.action
+                : `unrecognised action '${decision.action}', treating as hold` });
+        }
+    } catch (e) {
+        Logger.error('Manual decision execution failed', { error: e.message, action: decision.action });
+        executed.details.push({ error: `execution failed: ${e.message}` });
     }
 
-    // Payout-threshold filter (manual trades are also subject to it)
-    const pay = await checkPayoutThreshold(ws, v.normalised, config);
-    if (!pay.ok) {
-        const msg = `payout ${(pay.ratio * 100).toFixed(1)}% < threshold ${(pay.threshold * 100).toFixed(0)}%`;
-        Logger.info('Manual trade blocked by payout filter', { symbol: v.normalised.symbol, ratio: pay.ratio, threshold: pay.threshold });
-        await Telegram.send(`🛑 Manual trade skipped (<code>${v.normalised.symbol}</code>): ${msg}`);
-        return;
-    }
+    // Refresh exposure summary after any executor mutations.
+    state[State.SUMMARY_KEY] = State.aggregateAllExposure(state);
 
-    const { record, ws: freshWs } = await placeAndSettle(
-        ws, v.normalised, config, state, { cycle: false, connOpts });
-    ws = freshWs || ws;
-    state.trade_history_manual = state.trade_history_manual || [];
-    state.trade_history_manual.push(record);
-
-    if (record.settled) {
-        applyManualSettlement(state, record);
-        applyDailyStat(state, record);
-    } else if (record.contract_id) {
-        state.pending_contracts.push({
-            contract_id: record.contract_id,
-            path:        'manual',
-            symbol:      record.symbol,
-            placed_at:   record.ts,
-            expiry_sec:  record.expiry_sec,
+    // --- 7. Build tick-summary message + chart and ship via Telegram -
+    try {
+        const postActionSiblings = State.getOpenSiblings(state, symbol);
+        const postExposure       = State.aggregateSiblingExposure(state, symbol);
+        const msg = Telegram.templates.multiplierTickSummary({
+            symbol,
+            mode:          state.account_mode,
+            cycleId,
+            decision,
+            executed,
+            justClosed:    [],
+            openSiblings:  postActionSiblings,
+            preActionSiblings,
+            exposure:      postExposure,
+            session:       state.cycle_session || {},
+            riskBreach:    null,
+            balance:       state.balance,
+            currency:      state.currency,
         });
+
+        // Render chart. Manual scan ALWAYS attaches a chart — the prior
+        // implementation never did, which is the main visibility gap
+        // the user called out.
+        state.chart_windows = state.chart_windows || {};
+        let chartBuf = null, nextWindow = null;
+        try {
+            const out = await Chart.renderMultiplierSnapshot({
+                ws,
+                symbol,
+                tf:           '5m',
+                openSiblings: postActionSiblings,
+                chartWindow:  state.chart_windows[symbol] || null,
+            });
+            if (out && out.buffer && out.buffer.length > 1024) {
+                chartBuf   = out.buffer;
+                nextWindow = out.nextWindow;
+            }
+        } catch (e) {
+            Logger.warn('Manual scan: chart render failed, falling back to generateChart', { symbol, error: e.message });
+        }
+        // Final fallback: plain generateChart so we still send a picture
+        // even if the multiplier-snapshot variant failed.
+        if (!chartBuf) {
+            try {
+                const buf = await Chart.generateChart(ws, symbol, '5m');
+                if (buf && buf.length > 1024) chartBuf = buf;
+            } catch (e) {
+                Logger.warn('Manual scan: generateChart fallback also failed', { symbol, error: e.message });
+            }
+        }
+
+        if (postActionSiblings.length === 0) {
+            delete state.chart_windows[symbol];
+        } else if (nextWindow && Number.isFinite(nextWindow.min) && Number.isFinite(nextWindow.max)) {
+            state.chart_windows[symbol] = { min: nextWindow.min, max: nextWindow.max };
+        }
+
+        if (chartBuf) {
+            const CAPTION_CAP = 1024;
+            const caption = msg.length <= CAPTION_CAP
+                ? msg
+                : (msg.slice(0, CAPTION_CAP - 12) + '\n<i>…trimmed</i>');
+            await Telegram.sendPhoto(chartBuf, caption);
+        } else {
+            await Telegram.send(msg);
+        }
+    } catch (e) {
+        Logger.warn('Manual scan: Telegram send failed', { error: e.message });
     }
+
     return ws;
 }
 

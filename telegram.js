@@ -889,11 +889,19 @@ const templates = {
         }
 
         // ── 6. Footer: rationale + decision_id ────────────────────────
+        // The AI rationale is the single most important piece of context on
+        // every tick — wrap it in a Telegram <blockquote> so it renders as a
+        // visually-distinct quoted/highlighted block (vertical accent bar +
+        // indented body, as shown in the spec screenshot). Telegram's HTML
+        // parser accepts <blockquote> natively; the text inside still needs
+        // to be entity-escaped. We keep the 280-char cap so the message
+        // never blows past Telegram's caption limit when piggy-backed onto
+        // sendPhoto.
         const rationale = decision && decision.rationale ? String(decision.rationale).trim() : '';
         if (rationale) {
             const truncated = rationale.length > 280 ? rationale.slice(0, 277) + '…' : rationale;
             lines.push('');
-            lines.push(`<i>${_esc(truncated)}</i>`);
+            lines.push(`<blockquote>${_esc(truncated)}</blockquote>`);
         }
         if (decision && decision.decision_id) {
             lines.push(`<code>id=${_esc(decision.decision_id)}</code>`);
