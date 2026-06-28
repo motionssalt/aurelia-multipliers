@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T05:42:59.608Z",
+  "last_cycle": "2026-06-28T05:45:21.694Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -787,6 +787,127 @@
       "meta": {
         "ms": 3643,
         "bytes": 181645
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:14.660Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T05:45:14.660Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:14.662Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:45:15.044Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=aEfQhkum"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:15.175Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:45:15.215Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T05:45:15.215Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:15.216Z",
+      "level": "warn",
+      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T05:45:18.633Z",
+      "level": "info",
+      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "open",
+        "conf": 0.6
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:18.634Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "dec-initial-open-btc",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:18.647Z",
+      "level": "error",
+      "msg": "placeMultiplier failed",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "error": "InputValidationFailed: Input validation failed: Properties not allowed: symbol."
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:18.648Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-28T05:45:15.215Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "open",
+        "decision_id": "dec-initial-open-btc",
+        "rationale": "No open positions. Initiating a new MULTUP position on cryBTCUSD with conservative stake and multiplier, using session default TP/SL.",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:18.649Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:18.746Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782589800000,
+          "max": 1782625500000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-28T05:45:20.699Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2050,
+        "bytes": 179195
       }
     }
   ],
