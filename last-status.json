@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-28T08:15:17.876Z",
+  "last_cycle": "2026-06-28T08:20:17.603Z",
   "balance": 9933.27,
   "currency": "USD",
   "account_mode": "demo",
@@ -39,55 +39,6 @@
     "GEMINI_KEY_3": 1782639021215
   },
   "logs": [
-    {
-      "ts": "2026-06-28T06:35:20.641Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-28T06:35:20.641Z"
-      }
-    },
-    {
-      "ts": "2026-06-28T06:35:20.643Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T06:35:21.206Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=vYPdE8ks"
-      }
-    },
-    {
-      "ts": "2026-06-28T06:35:21.614Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T06:35:21.722Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-28T06:35:21.722Z",
-        "symbol": "R_10"
-      }
-    },
-    {
-      "ts": "2026-06-28T06:35:21.722Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-28T06:35:21.722Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": false,
-        "session_active": false
-      }
-    },
     {
       "ts": "2026-06-28T06:36:27.548Z",
       "level": "info",
@@ -1719,6 +1670,61 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-28T08:15:17.874Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-28T08:20:17.050Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-28T08:20:17.050Z"
+      }
+    },
+    {
+      "ts": "2026-06-28T08:20:17.052Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T08:20:17.450Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=GIr4YvDT"
+      }
+    },
+    {
+      "ts": "2026-06-28T08:20:17.572Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T08:20:17.601Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-28T08:20:17.601Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-28T08:20:17.601Z",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-28T08:20:17.602Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-28T08:20:17.601Z",
         "symbol": "cryBTCUSD",
         "cycle_running": false,
         "halted": false,
