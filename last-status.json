@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T23:35:20.959Z",
+  "last_cycle": "2026-06-29T23:40:23.383Z",
   "balance": 9974.76,
   "currency": "USD",
   "account_mode": "demo",
@@ -615,83 +615,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-29T21:50:22.121Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" failed — flagged",
-      "meta": {
-        "error": "gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
-      }
-    },
-    {
-      "ts": "2026-06-29T21:50:23.815Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" failed — flagged",
-      "meta": {
-        "error": "gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
-      }
-    },
-    {
-      "ts": "2026-06-29T21:50:23.816Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
-      }
-    },
-    {
-      "ts": "2026-06-29T21:50:23.817Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T21:50:15.943Z",
-        "symbol": "R_25",
-        "decision_action": "hold",
-        "decision_id": "provider-fail-2026-06-29T21:50:15.943Z",
-        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usu",
-        "executed_count": 1,
-        "just_closed": 1,
-        "open_now": 0,
-        "session_pnl": -3.18,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T21:50:23.818Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for R_25 @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": {
-          "min": 1782741000000,
-          "max": 1782776700000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T21:50:23.920Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782734100000,
-          "max": 1782769800000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T21:50:26.117Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2299,
-        "bytes": 148094
-      }
-    },
     {
       "ts": "2026-06-29T21:55:13.853Z",
       "level": "info",
@@ -2821,6 +2744,76 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T23:35:20.470Z",
+        "symbol": "R_10",
+        "cycle_running": true,
+        "halted": true,
+        "session_active": false
+      }
+    },
+    {
+      "ts": "2026-06-29T23:40:20.878Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T23:40:20.878Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T23:40:20.880Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T23:40:22.777Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Y9fkbQDP"
+      }
+    },
+    {
+      "ts": "2026-06-29T23:40:22.957Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T23:40:23.013Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T23:40:23.013Z",
+        "candidates": [
+          "R_10",
+          "R_25",
+          "R_50",
+          "R_75",
+          "R_100",
+          "1HZ10V",
+          "1HZ25V",
+          "1HZ50V",
+          "1HZ75V",
+          "1HZ100V"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T23:40:23.381Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T23:40:23.013Z",
+        "symbol": "R_10",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T23:40:23.382Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T23:40:23.013Z",
         "symbol": "R_10",
         "cycle_running": true,
         "halted": true,
