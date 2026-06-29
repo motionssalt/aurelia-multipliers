@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T00:35:24.156Z",
+  "last_cycle": "2026-06-29T00:40:18.367Z",
   "balance": 9946.35,
   "currency": "USD",
   "account_mode": "demo",
@@ -340,69 +340,6 @@
     "OPENAI_KEY_2": 1782698422733
   },
   "logs": [
-    {
-      "ts": "2026-06-28T22:25:14.293Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=9IIjsHeq"
-      }
-    },
-    {
-      "ts": "2026-06-28T22:25:14.418Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T22:25:14.452Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T22:25:14.453Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-28T22:25:14.452Z",
-        "symbol": "cryBTCUSD"
-      }
-    },
-    {
-      "ts": "2026-06-28T22:25:14.453Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-28T22:25:14.452Z",
-        "symbol": "cryBTCUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-28T22:30:21.759Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-28T22:30:21.759Z"
-      }
-    },
-    {
-      "ts": "2026-06-28T22:30:21.761Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T22:30:22.240Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=u4BdltJi"
-      }
-    },
     {
       "ts": "2026-06-28T22:30:22.549Z",
       "level": "network",
@@ -2212,6 +2149,74 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T00:35:23.756Z",
+        "symbol": "cryBTCUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-29T00:40:17.622Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T00:40:17.622Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T00:40:17.624Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T00:40:17.965Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=bgJfhMnh"
+      }
+    },
+    {
+      "ts": "2026-06-29T00:40:18.061Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T00:40:18.097Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T00:40:18.098Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T00:40:18.097Z",
+        "candidates": [
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T00:40:18.366Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T00:40:18.097Z",
+        "symbol": "cryBTCUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T00:40:18.366Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T00:40:18.097Z",
         "symbol": "cryBTCUSD",
         "cycle_running": false,
         "halted": false,
