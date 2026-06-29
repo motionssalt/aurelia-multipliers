@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T22:50:20.814Z",
+  "last_cycle": "2026-06-29T22:55:21.177Z",
   "balance": 9974.76,
   "currency": "USD",
   "account_mode": "demo",
@@ -615,135 +615,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-29T21:30:32.546Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted R_50 MULTDOWN ×400",
-      "meta": {
-        "stake": 5,
-        "ask_price": 5,
-        "spot": 86.2347,
-        "commission": 0.38,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-2.50",
-            "order_amount": -2.5,
-            "order_date": 1782768632,
-            "value": "86.3223"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-5.00",
-            "order_amount": -5,
-            "order_date": 1782768632,
-            "value": "86.4334"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "5.00",
-            "order_amount": 5,
-            "order_date": 1782768632,
-            "value": "85.9888"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 1000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 242.5
-          },
-          "stop_loss": {
-            "min": 0.54,
-            "max": 4.85
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:32.621Z",
-      "level": "trade",
-      "msg": "Multiplier placed: contract_id=3667198719",
-      "meta": {
-        "symbol": "R_50",
-        "direction": "down",
-        "contract_type": "MULTDOWN",
-        "multiplier": 400,
-        "stake": 5,
-        "final_limit_order": {
-          "take_profit": 5,
-          "stop_loss": 2.5
-        },
-        "tp_sl_clamped": false,
-        "transaction_id": 7194935199,
-        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in Volatility 50 Index, multiplied by 1940, minus commissions."
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:32.622Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T21:30:18.139Z",
-        "symbol": "R_50",
-        "decision_action": "multi",
-        "decision_id": "r50-bear-reversal-001",
-        "rationale": "The existing UP position is at -25% floating P/L, with stop_out_distance_pct at a critical 0.19%, indicating imminent liquidation. M5, M10, and M15 ADX minusDi are all above 30 (33.07, 31.28, 33.45 re",
-        "executed_count": 2,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -0.85,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:32.624Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for R_50 @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782739800000,
-          "max": 1782775500000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:32.724Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782739800000,
-          "max": 1782775500000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:34.576Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1952,
-        "bytes": 176357
-      }
-    },
-    {
-      "ts": "2026-06-29T21:35:19.123Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T21:35:19.123Z"
-      }
-    },
     {
       "ts": "2026-06-29T21:35:19.125Z",
       "level": "network",
@@ -2977,6 +2848,76 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T22:50:20.350Z",
+        "symbol": "R_10",
+        "cycle_running": true,
+        "halted": true,
+        "session_active": false
+      }
+    },
+    {
+      "ts": "2026-06-29T22:55:19.743Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T22:55:19.743Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T22:55:19.745Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T22:55:20.224Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Cm1PHk1K"
+      }
+    },
+    {
+      "ts": "2026-06-29T22:55:20.565Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T22:55:20.672Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T22:55:20.672Z",
+        "candidates": [
+          "R_10",
+          "R_25",
+          "R_50",
+          "R_75",
+          "R_100",
+          "1HZ10V",
+          "1HZ25V",
+          "1HZ50V",
+          "1HZ75V",
+          "1HZ100V"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T22:55:21.176Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T22:55:20.672Z",
+        "symbol": "R_10",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T22:55:21.176Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T22:55:20.672Z",
         "symbol": "R_10",
         "cycle_running": true,
         "halted": true,
