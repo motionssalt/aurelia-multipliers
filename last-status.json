@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T02:20:19.848Z",
+  "last_cycle": "2026-06-29T02:25:18.047Z",
   "balance": 9952.45,
   "currency": "USD",
   "account_mode": "demo",
@@ -342,70 +342,6 @@
     "OPENAI_KEY_4": 1782698933111
   },
   "logs": [
-    {
-      "ts": "2026-06-28T23:35:20.635Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T23:35:20.636Z",
-      "level": "warn",
-      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_1\" anyway",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T23:35:20.903Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_1\" failed ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ benching 150m",
-      "meta": {
-        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
-      }
-    },
-    {
-      "ts": "2026-06-28T23:35:20.904Z",
-      "level": "warn",
-      "msg": "All keys benched; trying least-recently-benched \"GEMINI_KEY_2\" anyway",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T23:35:26.404Z",
-      "level": "info",
-      "msg": "AI decision via gemini key \"GEMINI_KEY_2\"",
-      "meta": {
-        "action": "close",
-        "symbol": "cryBTCUSD",
-        "conf": 0.95
-      }
-    },
-    {
-      "ts": "2026-06-28T23:35:26.405Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "close",
-        "decision_id": "risk-exit-001",
-        "keyUsed": "GEMINI_KEY_2"
-      }
-    },
-    {
-      "ts": "2026-06-28T23:35:26.519Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3575036339",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-28T23:35:26.643Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3575036339",
-      "meta": {
-        "sold_for": 2.25,
-        "balance_after": 9946.35,
-        "transaction_id": 7020071819
-      }
-    },
     {
       "ts": "2026-06-28T23:35:26.644Z",
       "level": "info",
@@ -2136,6 +2072,89 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T02:20:19.483Z",
+        "symbol": "frxEURUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-29T02:25:16.413Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T02:25:16.412Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:25:16.414Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:25:16.783Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=kHT6mBmb"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:25:16.904Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:25:16.937Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:25:16.937Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T02:25:16.937Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T02:25:18.046Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T02:25:16.937Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T02:25:18.046Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T02:25:16.937Z",
         "symbol": "frxEURUSD",
         "cycle_running": false,
         "halted": false,
