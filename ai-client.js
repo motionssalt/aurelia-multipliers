@@ -235,11 +235,43 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
         case 'cloudflare':
         case 'workers-ai': {
             const accountId = _resolveCloudflareAccountId(provider, keyName);
-            return _callOpenAICompat({
-                keyValue, model, prompt, timeoutMs,
-                endpoint: `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/ai/v1/chat/completions`,
-                providerName: 'cloudflare',
-            });
+            // Use /ai/run/{model} (native endpoint) — the OpenAI-compat gateway
+            // /ai/v1/chat/completions does not support all CF models and returns
+            // an empty body for unsupported ones, causing "returned empty text".
+            const f = await _fetch();
+            const ctl = new AbortController();
+            const t = setTimeout(() => ctl.abort(), timeoutMs || DEFAULT_TIMEOUT_MS);
+            let res;
+            try {
+                res = await f(
+                    `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/ai/run/${encodeURIComponent(model)}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type':  'application/json',
+                            'Authorization': `Bearer ${keyValue}`,
+                        },
+                        body: JSON.stringify({
+                            messages: [{ role: 'user', content: prompt }],
+                        }),
+                        signal: ctl.signal,
+                    }
+                );
+            } finally { clearTimeout(t); }
+            if (!res.ok) {
+                const txt = await res.text().catch(() => '');
+                const err = new Error(`cloudflare ${res.status}: ${txt.slice(0, 200)}`);
+                err.status = res.status;
+                throw err;
+            }
+            const json = await res.json();
+            // Native endpoint wraps in { result: { response, choices } }
+            const text =
+                (json.result && json.result.response) ||
+                (((json.result && json.result.choices || json.choices || [])[0] || {}).message || {}).content ||
+                '';
+            if (!text) throw new Error('cloudflare returned empty text');
+            return String(text).trim();
         }
         default:
             throw new Error(`unknown AI provider "${provider.name}"`);
