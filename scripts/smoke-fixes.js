@@ -74,7 +74,7 @@ check('R_10 multiplier=300 (was valid under old synthetic table) is now REJECTED
                 take_profit: null, stop_loss: null, siblings: 1 },
     };
     const out = AI.validateMultiplierDecision(raw, aiInput,
-        { stake: { absolute_min: 0.35, absolute_max: 10000 } });
+        { stake: { absolute_min: 1, absolute_max: 10000 } });
     assert.strictEqual(out.ok, false, 'expected validation failure');
     assert(out.errs.some(e => /multiplier 300 not in/i.test(e)),
         `errs did not mention multiplier rejection: ${JSON.stringify(out.errs)}`);
@@ -96,7 +96,7 @@ check('R_10 multiplier=1000 (valid under new table) is ACCEPTED', () => {
                 take_profit: null, stop_loss: null, siblings: 1 },
     };
     const out = AI.validateMultiplierDecision(raw, aiInput,
-        { stake: { absolute_min: 0.35, absolute_max: 10000 } });
+        { stake: { absolute_min: 1, absolute_max: 10000 } });
     assert.strictEqual(out.ok, true,
         `expected validation pass, got errs=${JSON.stringify(out.errs)}`);
     assert.strictEqual(out.decision.open.multiplier, 1000);
@@ -195,7 +195,7 @@ console.log('\n--- Fix 5: rationale prompt now demands specific indicators ---')
 check('prompt contains RATIONALE QUALITY section', () => {
     const prompt = AI._buildMultiplierPrompt(
         { symbol: 'R_10', cycle_id: 'x', session: {}, open_siblings: [], gates: {} },
-        { stake: { absolute_min: 0.35, absolute_max: 10000 } });
+        { stake: { absolute_min: 1, absolute_max: 10000 } });
     assert(/RATIONALE QUALITY/.test(prompt), 'RATIONALE QUALITY section missing');
     assert(/Bollinger Band/.test(prompt), 'No mention of Bollinger Bands');
     assert(/Morning Star|Bullish Engulfing|Hammer/.test(prompt),

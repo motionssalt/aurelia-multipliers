@@ -37,7 +37,7 @@ check('validator rejects multiplier=50 on cryBTCUSD (out of Deriv set)', () => {
         session: { capital_remaining: 1000 },
     };
     const config = {
-        stake: { absolute_min: 0.35, absolute_max: 10000 },
+        stake: { absolute_min: 1, absolute_max: 10000 },
         ai:    { min_confidence: 0 },
     };
     const raw = {
@@ -69,7 +69,7 @@ check('validator rejects multiplier=75 on cryBTCUSD', () => {
         session: { capital_remaining: 1000 },
     };
     const config = {
-        stake: { absolute_min: 0.35, absolute_max: 10000 },
+        stake: { absolute_min: 1, absolute_max: 10000 },
         ai:    { min_confidence: 0 },
     };
     const r = AIClient.validateMultiplierDecision({
@@ -88,7 +88,7 @@ check('validator ACCEPTS multiplier=100 on cryBTCUSD (in Deriv set)', () => {
         session: { capital_remaining: 1000 },
     };
     const config = {
-        stake: { absolute_min: 0.35, absolute_max: 10000 },
+        stake: { absolute_min: 1, absolute_max: 10000 },
         ai:    { min_confidence: 0 },
     };
     const r = AIClient.validateMultiplierDecision({
@@ -108,7 +108,7 @@ check('validator rejects multiplier=400 on cryBTCUSD (400 is synthetic-only)', (
         session: { capital_remaining: 1000 },
     };
     const config = {
-        stake: { absolute_min: 0.35, absolute_max: 10000 },
+        stake: { absolute_min: 1, absolute_max: 10000 },
         ai:    { min_confidence: 0 },
     };
     const r = AIClient.validateMultiplierDecision({
@@ -127,7 +127,7 @@ check('validator ACCEPTS multiplier=40 on R_100 (synthetic-only value)', () => {
         session: { capital_remaining: 1000 },
     };
     const config = {
-        stake: { absolute_min: 0.35, absolute_max: 10000 },
+        stake: { absolute_min: 1, absolute_max: 10000 },
         ai:    { min_confidence: 0 },
     };
     const r = AIClient.validateMultiplierDecision({

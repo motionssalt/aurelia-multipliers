@@ -156,7 +156,7 @@ function freshConfig(overrides) {
         syn_enabled: true,
         cycle: { running: true, engine: 'multipliers', interval_seconds: 60,
                  session: { capital: 1000, take_profit: 20, stop_loss: 20 } },
-        stake: { absolute_min: 0.35, absolute_max: 10000 },
+        stake: { absolute_min: 1, absolute_max: 10000 },
         expiry: { min_seconds: 900 },
         ai: { min_confidence: 0 },
         payout: { enabled: false },

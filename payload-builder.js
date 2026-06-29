@@ -147,7 +147,7 @@ async function buildDecisionPayload(ws, config, state) {
             frx_enabled:  config.frx_enabled !== false,
             syn_enabled:  !!config.syn_enabled,
             min_expiry_seconds: (config.expiry && config.expiry.min_seconds) || 900,
-            stake_floor:   (config.stake && config.stake.absolute_min) || 0.35,
+            stake_floor:   (config.stake && config.stake.absolute_min) || 1,
             stake_ceiling: (config.stake && config.stake.absolute_max) || 10000,
         },
         symbols: slices,

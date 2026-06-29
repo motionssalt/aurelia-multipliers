@@ -717,7 +717,7 @@ function _validateOpenSpec(spec, config, aiInput, label) {
         errs.push(`${label}.stake must be a positive finite number (got ${spec.stake})`);
     } else {
         const stake = Number(spec.stake);
-        const min = (config.stake && config.stake.absolute_min) || 0.35;
+        const min = (config.stake && config.stake.absolute_min) || 1;
         const max = (config.stake && config.stake.absolute_max) || 10000;
         if (stake < min) errs.push(`${label}.stake ${stake} < stake.absolute_min ${min}`);
         if (stake > max) errs.push(`${label}.stake ${stake} > stake.absolute_max ${max}`);
@@ -1051,7 +1051,7 @@ async function askMultiplierDecision({ aiInput, config, state }) {
    is the highest-leverage piece of the system to get right.
    ───────────────────────────────────────────────────────────────── */
 function _buildMultiplierPrompt(aiInput, config) {
-    const stakeMin = (config && config.stake && config.stake.absolute_min) || 0.35;
+    const stakeMin = (config && config.stake && config.stake.absolute_min) || 1;
     const stakeMax = (config && config.stake && config.stake.absolute_max) || 10000;
     const minConf  = (config && config.ai && config.ai.min_confidence) || 0;
     const openCount = (aiInput && Array.isArray(aiInput.open_siblings)) ? aiInput.open_siblings.length : 0;

@@ -74,7 +74,7 @@ async function buildPatchedAiInput(symbol) {
 (async () => {
     const aiInput = await buildPatchedAiInput('cryBTCUSD');
     const prompt  = AIClient._buildMultiplierPrompt(aiInput, {
-        stake: { absolute_min: 0.35, absolute_max: 10000 },
+        stake: { absolute_min: 1, absolute_max: 10000 },
         ai:    { min_confidence: 0 },
     });
 

@@ -6,7 +6,7 @@
    CLAMP that the runner applies AFTER the AI returns a stake.
 
    Clamping rules (hard, non-negotiable):
-     • min  : config.stake.absolute_min   (default 0.35)
+     • min  : config.stake.absolute_min   (default 1)
      • max  : config.stake.absolute_max   (default 10000)
      • 2 decimal places
      • never exceed remaining session capital (cycle path only)
@@ -26,7 +26,7 @@
 function _round2(n) { return Math.round(Number(n) * 100) / 100; }
 
 function clampStake(stakeRaw, config, opts) {
-    const min = (config.stake && config.stake.absolute_min) || 0.35;
+    const min = (config.stake && config.stake.absolute_min) || 1;
     const max = (config.stake && config.stake.absolute_max) || 10000;
     let s = Number(stakeRaw);
     if (!Number.isFinite(s) || s <= 0) s = min;
