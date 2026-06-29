@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T02:45:27.701Z",
+  "last_cycle": "2026-06-29T02:50:38.031Z",
   "balance": 9947.1,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,15 +9,15 @@
     "active": true,
     "started_at": "2026-06-29T02:37:28.879Z",
     "capital_start": 20,
-    "capital_remaining": 16.65,
+    "capital_remaining": 21.12,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 1,
+    "trades": 2,
     "wins": 0,
-    "losses": 1,
-    "pnl": -0.35,
+    "losses": 2,
+    "pnl": -0.88,
     "win_streak": 0,
-    "loss_streak": 1,
+    "loss_streak": 2,
     "halted": false,
     "halt_reason": null
   },
@@ -25,47 +25,14 @@
   "cycle_open_siblings": {
     "cryBTCUSD": [],
     "frxEURUSD": [],
-    "frxEURGBP": [
-      {
-        "contract_id": 3583444239,
-        "stake": 5,
-        "multiplier": 300,
-        "direction": "up",
-        "entry_spot": 0.86252,
-        "entry_time": "2026-06-29T02:40:56.000Z",
-        "take_profit": 5,
-        "stop_loss": -2,
-        "floating_pnl": -0.62,
-        "floating_pnl_pct": -12.4,
-        "current_spot": 0.8625,
-        "last_polled_at": "2026-06-29T02:45:18.020Z",
-        "cycle_id": "2026-06-29T02:40:18.007Z",
-        "decision_id": "eurgbp-bull-rev-1",
-        "sibling_index": 0,
-        "sibling_count": 1,
-        "rationale": "Price is at the lower Bollinger Band on M5 (0.862458), M10 (0.862447), and M15 (0.862449). Stochastics are deeply oversold on M10 (K: 13.04, D: 7.97) and M15 (K: 13.04, D: 16.66). The M10 timeframe also shows a 'Morning Star' candle pattern, indicating a strong bullish reversal signal.",
-        "opened_at": "2026-06-29T02:40:56.549Z"
-      }
-    ]
+    "frxEURGBP": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 1,
-    "positions": 1,
-    "total_stake": 5,
-    "total_floating_pnl": -0.62,
-    "per_symbol": [
-      {
-        "symbol": "frxEURGBP",
-        "count": 1,
-        "total_stake": 5,
-        "total_floating_pnl": -0.62,
-        "net_position": 4.38,
-        "direction_mix": {
-          "up": 1,
-          "down": 0
-        }
-      }
-    ]
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
+    "total_floating_pnl": null,
+    "per_symbol": []
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -380,6 +347,32 @@
       "opened_at": "2026-06-29T02:36:00.499Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-29T02:37:28.879Z"
+    },
+    {
+      "ts": "2026-06-29T02:50:34.888Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxEURGBP",
+      "contract_id": 3583444239,
+      "direction": "up",
+      "stake": 5,
+      "multiplier": 300,
+      "take_profit": 5,
+      "stop_loss": -2,
+      "outcome": "loss",
+      "pnl": -0.53,
+      "entry": 0.86252,
+      "exit": 0.86255,
+      "close_reason": "Original bullish thesis invalidated and low stop-out distance.",
+      "settled": true,
+      "cycle_id": "2026-06-29T02:40:18.007Z",
+      "decision_id": "eurgbp-bull-rev-1",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "Price is at the lower Bollinger Band on M5 (0.862458), M10 (0.862447), and M15 (0.862449). Stochastics are deeply oversold on M10 (K: 13.04, D: 7.97) and M15 (K: 13.04, D: 16.66). The M10 timeframe also shows a 'Morning Star' candle pattern, indicating a strong bullish reversal signal.",
+      "opened_at": "2026-06-29T02:40:56.549Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-29T02:37:28.879Z"
     }
   ],
   "trade_history_manual": [
@@ -402,133 +395,15 @@
   ],
   "pending_contracts": [],
   "ai_keys_bench": {
-    "GEMINI_KEY_1": 1782701119355,
     "OPENAI_KEY_1": 1782701119355,
     "OPENAI_KEY_2": 1782701119355,
-    "GEMINI_KEY_2": 1782701119355,
     "OPENAI_KEY_3": 1782701119355,
     "OPENAI_KEY_4": 1782701119355,
     "GEMINI_KEY_3": 1782701119355,
-    "GEMINI_KEY_4": 1782701119355
+    "GEMINI_KEY_4": 1782701119355,
+    "GEMINI_KEY_1": 1782701420722
   },
   "logs": [
-    {
-      "ts": "2026-06-29T01:35:24.211Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1948,
-        "bytes": 175006
-      }
-    },
-    {
-      "ts": "2026-06-29T01:39:09.291Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T01:39:09.291Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T01:39:09.293Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T01:39:09.804Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=lVyK4bDS"
-      }
-    },
-    {
-      "ts": "2026-06-29T01:39:10.023Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T01:39:10.087Z",
-      "level": "info",
-      "msg": "Manual scan tick",
-      "meta": {
-        "symbol": "cryBTCUSD"
-      }
-    },
-    {
-      "ts": "2026-06-29T01:39:11.044Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T01:39:11.044Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T01:39:11.045Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "No AI providers configured with keys"
-      }
-    },
-    {
-      "ts": "2026-06-29T01:39:11.046Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-29T01:39:11.154Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782661200000,
-          "max": 1782696900000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T01:39:12.971Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1925,
-        "bytes": 175734
-      }
-    },
-    {
-      "ts": "2026-06-29T01:40:19.982Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T01:40:19.981Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T01:40:19.984Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T01:40:20.346Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=KVzsu5lc"
-      }
-    },
     {
       "ts": "2026-06-29T01:40:20.549Z",
       "level": "network",
@@ -2468,20 +2343,168 @@
         "ms": 1927,
         "bytes": 124099
       }
+    },
+    {
+      "ts": "2026-06-29T02:50:19.395Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T02:50:19.395Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:19.397Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:50:19.791Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=XE3f8E4w"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:19.887Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:50:19.916Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T02:50:19.916Z",
+        "symbol": "frxEURGBP",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:20.722Z",
+      "level": "warn",
+      "msg": "All keys flagged; clearing oldest flag and retrying \"GEMINI_KEY_1\"",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:50:20.858Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:34.755Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_2\"",
+      "meta": {
+        "action": "close",
+        "symbol": "frxEURGBP"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:34.756Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "close",
+        "decision_id": "eurgbp-close-failed-bull-1",
+        "keyUsed": "GEMINI_KEY_2"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:34.815Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3583444239",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:34.888Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3583444239",
+      "meta": {
+        "sold_for": 4.47,
+        "balance_after": 9951.57,
+        "transaction_id": 7035857179
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:34.889Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T02:50:19.916Z",
+        "symbol": "frxEURGBP",
+        "decision_action": "close",
+        "decision_id": "eurgbp-close-failed-bull-1",
+        "rationale": "The original bullish thesis is no longer supported: current price (0.86255) is above the M5 (0.862443), M10 (0.862438), and M15 (0.86244) lower Bollinger Bands, and the M10 'Morning Star' candle patte",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -0.88,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:34.890Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURGBP @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": {
+          "min": 1782682800000,
+          "max": 1782708000000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:34.954Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782492634000,
+          "max": 1782701400000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T02:50:37.095Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2205,
+        "bytes": 134494
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-29",
-    "trades": 1,
+    "trades": 2,
     "wins": 0,
-    "losses": 1,
-    "pnl": -0.35,
+    "losses": 2,
+    "pnl": -0.88,
     "by_symbol": {
       "frxEURUSD": {
         "trades": 1,
         "wins": 0,
         "losses": 1,
         "pnl": -0.35
+      },
+      "frxEURGBP": {
+        "trades": 1,
+        "wins": 0,
+        "losses": 1,
+        "pnl": -0.53
       }
     }
   },
@@ -2509,10 +2532,5 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {
-    "frxEURGBP": {
-      "min": 1782682800000,
-      "max": 1782708000000
-    }
-  }
+  "chart_windows": {}
 }
