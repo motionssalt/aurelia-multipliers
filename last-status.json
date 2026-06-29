@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T16:26:30.751Z",
+  "last_cycle": "2026-06-29T16:30:08.207Z",
   "balance": 9976.33,
   "currency": "USD",
   "account_mode": "demo",
@@ -33,11 +33,11 @@
         "entry_spot": 1.1425,
         "entry_time": "2026-06-29T16:23:55.000Z",
         "take_profit": 4.94,
-        "stop_loss": 1.5,
-        "floating_pnl": null,
-        "floating_pnl_pct": null,
-        "current_spot": null,
-        "last_polled_at": null,
+        "stop_loss": 0.5,
+        "floating_pnl": -0.18,
+        "floating_pnl_pct": -3.6,
+        "current_spot": 1.14235,
+        "last_polled_at": "2026-06-29T16:29:48.917Z",
         "cycle_id": "manual-2026-06-29T16:23:46.498Z",
         "decision_id": "dec-9b3f7a",
         "sibling_index": 0,
@@ -51,14 +51,14 @@
     "symbols": 1,
     "positions": 1,
     "total_stake": 5,
-    "total_floating_pnl": null,
+    "total_floating_pnl": -0.18,
     "per_symbol": [
       {
         "symbol": "frxEURUSD",
         "count": 1,
         "total_stake": 5,
-        "total_floating_pnl": null,
-        "net_position": 5,
+        "total_floating_pnl": -0.18,
+        "net_position": 4.82,
         "direction_mix": {
           "up": 0,
           "down": 1
@@ -384,137 +384,6 @@
     "OPENAI_KEY_4": 1782698933111
   },
   "logs": [
-    {
-      "ts": "2026-06-29T15:28:14.170Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:28:14.170Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:28:14.170Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:28:14.170Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:28:16.884Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" key \"CLOUDFLARE_KEY_1\" failed â flagged",
-      "meta": {
-        "error": "cloudflare returned empty text"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:28:16.884Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: cloudflare returned empty text"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:28:16.885Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-29T15:28:16.973Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782711000000,
-          "max": 1782746700000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T15:28:19.039Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2154,
-        "bytes": 147969
-      }
-    },
-    {
-      "ts": "2026-06-29T15:30:21.281Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T15:30:21.281Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:30:21.282Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:30:21.692Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=iKptkzYV"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:30:21.831Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:30:21.861Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:30:21.862Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T15:30:21.861Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
     {
       "ts": "2026-06-29T15:30:22.375Z",
       "level": "info",
@@ -2158,6 +2027,148 @@
         "cycle_id": "2026-06-29T16:26:30.750Z",
         "ms_since_last": 73221,
         "interval_ms": 90000
+      }
+    },
+    {
+      "ts": "2026-06-29T16:29:47.660Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T16:29:47.659Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:29:47.661Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:29:48.320Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=MQ3tmBAl"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:29:48.667Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:29:48.777Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T16:29:48.777Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-29T16:29:50.426Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:29:50.426Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:30:04.719Z",
+      "level": "info",
+      "msg": "AI decision via \"cloudflare\" key \"CLOUDFLARE_KEY_1\"",
+      "meta": {
+        "action": "revise",
+        "symbol": "frxEURUSD",
+        "conf": 0.72
+      }
+    },
+    {
+      "ts": "2026-06-29T16:30:04.720Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "revise",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "CLOUDFLARE_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:30:04.875Z",
+      "level": "trade",
+      "msg": "Revising multiplier limits contract_id=3642232599",
+      "meta": {
+        "limit_order": {
+          "stop_loss": 0.5
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:30:05.038Z",
+      "level": "trade",
+      "msg": "Multiplier limits revised contract_id=3642232599",
+      "meta": {
+        "take_profit": 4.94,
+        "stop_loss": -0.5
+      }
+    },
+    {
+      "ts": "2026-06-29T16:30:05.039Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T16:29:48.777Z",
+        "symbol": "frxEURUSD",
+        "decision_action": "revise",
+        "decision_id": "dec-7f02b1",
+        "rationale": "M15 shows a shooting star bearish reversal, RSI 67.96 overbought and price just below the upper Bollinger Band (1.14235 vs 1.142884). These signals favor further downside, so we tighten the down‑posit",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": 0,
+        "floating_pnl": -0.18,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T16:30:05.040Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782721500000,
+          "max": 1782757200000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:30:05.209Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782721500000,
+          "max": 1782757200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:30:06.990Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1950,
+        "bytes": 139372
       }
     }
   ],
