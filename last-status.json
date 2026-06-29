@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T12:55:15.676Z",
-  "balance": 9951.57,
+  "last_cycle": "2026-06-29T13:00:22.888Z",
+  "balance": 9931.57,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -404,87 +404,6 @@
     "OPENAI_KEY_1": 1782732622407
   },
   "logs": [
-    {
-      "ts": "2026-06-29T11:15:19.947Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T11:15:19.947Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T11:15:20.489Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T11:15:19.947Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T11:15:21.373Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T11:15:21.373Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENAI_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T11:15:21.650Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" failed — flagged",
-      "meta": {
-        "error": "openai 429: {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/gu"
-      }
-    },
-    {
-      "ts": "2026-06-29T11:15:21.847Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" failed — flagged",
-      "meta": {
-        "error": "openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
-      }
-    },
-    {
-      "ts": "2026-06-29T11:15:22.019Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" failed — flagged",
-      "meta": {
-        "error": "openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
-      }
-    },
-    {
-      "ts": "2026-06-29T11:15:22.169Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" failed — flagged",
-      "meta": {
-        "error": "openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
-      }
-    },
     {
       "ts": "2026-06-29T11:15:22.170Z",
       "level": "warn",
@@ -2449,6 +2368,89 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T12:55:15.159Z",
+        "symbol": "frxEURUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-29T13:00:20.960Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T13:00:20.959Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T13:00:20.961Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T13:00:21.395Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=tCpOqSrX"
+      }
+    },
+    {
+      "ts": "2026-06-29T13:00:21.531Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T13:00:21.582Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T13:00:21.583Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T13:00:21.582Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T13:00:22.887Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T13:00:21.582Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T13:00:22.887Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T13:00:21.582Z",
         "symbol": "frxEURUSD",
         "cycle_running": false,
         "halted": false,
