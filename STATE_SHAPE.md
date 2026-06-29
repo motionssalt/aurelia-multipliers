@@ -87,7 +87,31 @@ Authoritative shape, produced by `state.makeSiblingRecord()`:
   "sibling_index": 0,                       // 0-based within the decision
   "sibling_count": 4,                       // total siblings in the decision
   "rationale":     "Oversold bounce setup; splitting into 4 to allow staged exits.",
-  "opened_at":     "2026-06-27T03:43:41.690Z"  // ISO string
+  "opened_at":     "2026-06-27T03:43:41.690Z",  // ISO string
+
+  // Audit trail of every TP/SL revise attempt against this contract,
+  // appended to by runner.executeReviseList (ok / clamped / failed)
+  // and by the per-tick poll (reverted). FIFO-capped at
+  // state.MAX_REVISION_HISTORY entries (default 20). Forwarded into
+  // aiInput.open_siblings[].revision_history every tick so the AI
+  // can avoid retrying an identical losing revision.
+  "revision_history": [
+    {
+      "ts":          "2026-06-27T03:48:12.330Z",
+      "outcome":     "failed",                // 'ok' | 'clamped' | 'reverted' | 'failed'
+      "requested":   { "stop_loss": 1.20 },   // what the AI asked for
+      "error":       "Enter an amount equal to or lower than 8.59.",
+      "decision_id": "dec-9c11b0"
+    },
+    {
+      "ts":          "2026-06-27T03:53:14.880Z",
+      "outcome":     "clamped",
+      "requested":   { "stop_loss": 1.20 },
+      "applied":     { "stop_loss": 4.00 },   // what the broker actually accepted
+      "clamp_adjustments": { "stop_loss": { "reason": "below_min", "min": 4.00 } },
+      "decision_id": "dec-a7f432"
+    }
+  ]
 }
 ```
 
@@ -115,6 +139,7 @@ A sibling record is considered **well-formed** if at minimum it has:
 | `floating_pnl`, `floating_pnl_pct`, `current_spot`, `last_polled_at` | first POC poll | every tick that polls this contract | Cached so cycle-aggregate views don't have to re-poll. May lag the live value by up to one tick. |
 | `cycle_id`, `decision_id`, `sibling_index`, `sibling_count`, `rationale` | open | never | Audit trail. Used by Part 3's daily/session summary. |
 | `opened_at` | open | never | Local timestamp; distinct from `entry_time` which may come from the Deriv reply. |
+| `revision_history` | open (`[]`) | after each TP/SL revise attempt AND on detection of broker-side TP/SL drift between ticks | FIFO-capped at `MAX_REVISION_HISTORY` entries. Surfaced to the AI prompt so it does not retry an identical revise that has already failed / been clamped / been reverted. See `state.appendRevisionAttempt()`. |
 
 ### Concurrency / consistency rules
 
