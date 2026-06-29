@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T17:25:23.425Z",
+  "last_cycle": "2026-06-29T17:30:25.910Z",
   "balance": 9979.61,
   "currency": "USD",
   "account_mode": "demo",
@@ -33,10 +33,10 @@
         "entry_time": "2026-06-29T16:55:47.000Z",
         "take_profit": 6,
         "stop_loss": -0.2,
-        "floating_pnl": 0.91,
-        "floating_pnl_pct": 91,
-        "current_spot": 60411.225,
-        "last_polled_at": "2026-06-29T17:25:18.833Z",
+        "floating_pnl": 1.12,
+        "floating_pnl_pct": 112,
+        "current_spot": 60537.429,
+        "last_polled_at": "2026-06-29T17:30:21.317Z",
         "cycle_id": "2026-06-29T16:55:14.437Z",
         "decision_id": "dec-9f3c2a",
         "sibling_index": 0,
@@ -52,14 +52,14 @@
     "symbols": 1,
     "positions": 1,
     "total_stake": 1,
-    "total_floating_pnl": 0.91,
+    "total_floating_pnl": 1.12,
     "per_symbol": [
       {
         "symbol": "cryBTCUSD",
         "count": 1,
         "total_stake": 1,
-        "total_floating_pnl": 0.91,
-        "net_position": 1.91,
+        "total_floating_pnl": 1.12,
+        "net_position": 2.12,
         "direction_mix": {
           "up": 1,
           "down": 0
@@ -461,302 +461,9 @@
     "GEMINI_KEY_2": 1782698933111,
     "OPENAI_KEY_3": 1782698933111,
     "OPENAI_KEY_4": 1782698933111,
-    "CLOUDFLARE_KEY_1": 1782753919976
+    "CLOUDFLARE_KEY_1": 1782754222502
   },
   "logs": [
-    {
-      "ts": "2026-06-29T16:35:32.858Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3642232599",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T16:35:32.984Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3642232599",
-      "meta": {
-        "sold_for": 4.8,
-        "balance_after": 9981.13,
-        "transaction_id": 7148968139
-      }
-    },
-    {
-      "ts": "2026-06-29T16:35:32.985Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T16:35:22.043Z",
-        "symbol": "frxEURUSD",
-        "decision_action": "close",
-        "decision_id": "dec-3a7f9c",
-        "rationale": "M15 RSI 68.73 and Stoch 85.56 indicate strong overbought conditions; price sits just below the upper Bollinger Band (1.142786) and is above EMA20 (1.141527) and EMA50 (1.140557). The open MULTDOWN has",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -0.2,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T16:35:32.987Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": {
-          "min": 1782721500000,
-          "max": 1782757200000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T16:35:33.106Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782715200000,
-          "max": 1782750900000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T16:35:34.999Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2012,
-        "bytes": 144471
-      }
-    },
-    {
-      "ts": "2026-06-29T16:38:20.413Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T16:38:20.413Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T16:38:20.415Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:38:20.905Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=DjwCVe9x"
-      }
-    },
-    {
-      "ts": "2026-06-29T16:38:21.159Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:38:21.272Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T16:38:21.272Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T16:38:21.854Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T16:38:21.272Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T16:38:23.125Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:38:23.125Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:39:00.390Z",
-      "level": "info",
-      "msg": "AI decision via \"cloudflare\" key \"CLOUDFLARE_KEY_1\"",
-      "meta": {
-        "action": "open",
-        "symbol": "frxGBPJPY",
-        "conf": 0.78
-      }
-    },
-    {
-      "ts": "2026-06-29T16:39:00.392Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "dec-7f3b9a",
-        "keyUsed": "CLOUDFLARE_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-29T16:39:00.392Z",
-      "level": "info",
-      "msg": "Multiplier cycle: AI chose symbol from candidates",
-      "meta": {
-        "cycle_id": "2026-06-29T16:38:21.272Z",
-        "ai_chosen": "frxGBPJPY",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T16:39:00.763Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted frxGBPJPY MULTDOWN ×100",
-      "meta": {
-        "stake": 5,
-        "ask_price": 5,
-        "spot": 214.594,
-        "commission": 0.12,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-0.50",
-            "order_amount": -0.5,
-            "order_date": 1782751140,
-            "value": "214.698"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-5.00",
-            "order_amount": -5,
-            "order_date": 1782751140,
-            "value": "216.689"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "5.00",
-            "order_amount": 5,
-            "order_date": 1782751140,
-            "value": "212.264"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 242.5
-          },
-          "stop_loss": {
-            "min": 0.28,
-            "max": 4.85
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T16:39:00.925Z",
-      "level": "trade",
-      "msg": "Multiplier placed: contract_id=3643569979",
-      "meta": {
-        "symbol": "frxGBPJPY",
-        "direction": "down",
-        "contract_type": "MULTDOWN",
-        "multiplier": 100,
-        "stake": 5,
-        "final_limit_order": {
-          "take_profit": 5,
-          "stop_loss": 0.5
-        },
-        "tp_sl_clamped": false,
-        "transaction_id": 7149542019,
-        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in GBP/JPY, multiplied by 485, minus commissions."
-      }
-    },
-    {
-      "ts": "2026-06-29T16:39:00.926Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T16:38:21.272Z",
-        "symbol": "frxGBPJPY",
-        "decision_action": "open",
-        "decision_id": "dec-7f3b9a",
-        "rationale": "GBPJPY M5 shows a bearish engulfing candle pattern, MACD histogram -0.006 (negative) and RSI 57.5 (moderately overbought) indicating a potential reversal down; ADX 28.73 confirms a strong trend, and E",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -0.2,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T16:39:00.928Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxGBPJPY @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": null
-      }
-    },
     {
       "ts": "2026-06-29T16:39:01.059Z",
       "level": "info",
@@ -2458,6 +2165,173 @@
       "meta": {
         "ms": 1974,
         "bytes": 163437
+      }
+    },
+    {
+      "ts": "2026-06-29T17:30:20.227Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T17:30:20.227Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T17:30:20.229Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:20.715Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=4xHoHruS"
+      }
+    },
+    {
+      "ts": "2026-06-29T17:30:21.006Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:21.092Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T17:30:21.092Z",
+        "symbol": "cryBTCUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_3\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.502Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:30:22.782Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" key \"CLOUDFLARE_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (84121d64-"
+      }
+    },
+    {
+      "ts": "2026-06-29T17:30:22.782Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "All AI providers/keys failed; last error: cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (84121d64-"
+      }
+    },
+    {
+      "ts": "2026-06-29T17:30:22.783Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T17:30:21.092Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "hold",
+        "decision_id": "provider-fail-2026-06-29T17:30:21.092Z",
+        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -0.72,
+        "floating_pnl": 1.12,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T17:30:22.784Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782723600000,
+          "max": 1782759300000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T17:30:22.909Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782723600000,
+          "max": 1782759300000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T17:30:24.771Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1987,
+        "bytes": 165107
       }
     }
   ],
