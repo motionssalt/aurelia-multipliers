@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T01:39:13.946Z",
-  "balance": 9962.45,
+  "last_cycle": "2026-06-29T01:40:20.607Z",
+  "balance": 9952.45,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -340,47 +340,6 @@
     "OPENAI_KEY_2": 1782698422733
   },
   "logs": [
-    {
-      "ts": "2026-06-28T22:25:14.293Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=9IIjsHeq"
-      }
-    },
-    {
-      "ts": "2026-06-28T22:25:14.418Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T22:25:14.452Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T22:25:14.453Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-28T22:25:14.452Z",
-        "symbol": "cryBTCUSD"
-      }
-    },
-    {
-      "ts": "2026-06-28T22:25:14.453Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings ÃÂ¢ÃÂÃÂ skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-28T22:25:14.452Z",
-        "symbol": "cryBTCUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
     {
       "ts": "2026-06-28T22:30:21.759Z",
       "level": "info",
@@ -2218,6 +2177,44 @@
       "meta": {
         "ms": 1925,
         "bytes": 175734
+      }
+    },
+    {
+      "ts": "2026-06-29T01:40:19.982Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T01:40:19.981Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T01:40:19.984Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T01:40:20.346Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=KVzsu5lc"
+      }
+    },
+    {
+      "ts": "2026-06-29T01:40:20.549Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T01:40:20.606Z",
+      "level": "info",
+      "msg": "Multiplier cycle: overlap guard — previous tick too recent, skipping",
+      "meta": {
+        "cycle_id": "2026-06-29T01:40:20.606Z",
+        "ms_since_last": 66660,
+        "interval_ms": 90000
       }
     }
   ],
