@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T23:50:19.804Z",
+  "last_cycle": "2026-06-29T23:55:21.869Z",
   "balance": 9974.76,
   "currency": "USD",
   "account_mode": "demo",
@@ -615,78 +615,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-29T21:55:34.760Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T21:55:14.403Z",
-        "symbol": "R_25",
-        "decision_action": "open",
-        "decision_id": "r25-multdown-overbought",
-        "rationale": "R_25 M5 RSI is 73.61 and Stoch_K is 100.0, indicating extremely overbought conditions. The price (2668.036) is also at the upper Bollinger Band (2668.908) on M5, suggesting a high probability of a bea",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -3.18,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T21:55:34.761Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for R_25 @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-29T21:55:34.839Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782741600000,
-          "max": 1782777300000,
-          "justOpened": true
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T21:55:38.040Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 3279,
-        "bytes": 157228
-      }
-    },
-    {
-      "ts": "2026-06-29T22:00:18.286Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T22:00:18.285Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T22:00:18.288Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T22:00:18.635Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=8BZttiSp"
-      }
-    },
     {
       "ts": "2026-06-29T22:00:18.778Z",
       "level": "network",
@@ -2767,6 +2695,76 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T23:50:19.277Z",
+        "symbol": "R_10",
+        "cycle_running": true,
+        "halted": true,
+        "session_active": false
+      }
+    },
+    {
+      "ts": "2026-06-29T23:55:20.437Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T23:55:20.437Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T23:55:20.439Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T23:55:20.888Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=wZbey0A1"
+      }
+    },
+    {
+      "ts": "2026-06-29T23:55:21.251Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T23:55:21.356Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T23:55:21.356Z",
+        "candidates": [
+          "R_10",
+          "R_25",
+          "R_50",
+          "R_75",
+          "R_100",
+          "1HZ10V",
+          "1HZ25V",
+          "1HZ50V",
+          "1HZ75V",
+          "1HZ100V"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T23:55:21.867Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T23:55:21.356Z",
+        "symbol": "R_10",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T23:55:21.868Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T23:55:21.356Z",
         "symbol": "R_10",
         "cycle_running": true,
         "halted": true,
