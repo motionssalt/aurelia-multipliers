@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T03:45:25.873Z",
+  "last_cycle": "2026-06-29T03:50:31.739Z",
   "balance": 9951.57,
   "currency": "USD",
   "account_mode": "demo",
@@ -395,171 +395,15 @@
   ],
   "pending_contracts": [],
   "ai_keys_bench": {
-    "OPENAI_KEY_2": 1782704721594,
-    "OPENAI_KEY_3": 1782704721594,
-    "OPENAI_KEY_4": 1782704721594,
+    "OPENAI_KEY_2": 1782705027277,
+    "OPENAI_KEY_3": 1782705027277,
+    "OPENAI_KEY_4": 1782705027277,
     "GEMINI_KEY_3": 1782701119355,
     "GEMINI_KEY_4": 1782701119355,
     "GEMINI_KEY_1": 1782701420722,
-    "OPENAI_KEY_1": 1782704721594
+    "OPENAI_KEY_1": 1782705027277
   },
   "logs": [
-    {
-      "ts": "2026-06-29T02:50:19.791Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=XE3f8E4w"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:19.887Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T02:50:19.916Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T02:50:19.916Z",
-        "symbol": "frxEURGBP",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:20.722Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"GEMINI_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T02:50:20.858Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" failed — flagged",
-      "meta": {
-        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:34.755Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_2\"",
-      "meta": {
-        "action": "close",
-        "symbol": "frxEURGBP"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:34.756Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "close",
-        "decision_id": "eurgbp-close-failed-bull-1",
-        "keyUsed": "GEMINI_KEY_2"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:34.815Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3583444239",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:34.888Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3583444239",
-      "meta": {
-        "sold_for": 4.47,
-        "balance_after": 9951.57,
-        "transaction_id": 7035857179
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:34.889Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T02:50:19.916Z",
-        "symbol": "frxEURGBP",
-        "decision_action": "close",
-        "decision_id": "eurgbp-close-failed-bull-1",
-        "rationale": "The original bullish thesis is no longer supported: current price (0.86255) is above the M5 (0.862443), M10 (0.862438), and M15 (0.86244) lower Bollinger Bands, and the M10 'Morning Star' candle patte",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -0.88,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:34.890Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURGBP @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": {
-          "min": 1782682800000,
-          "max": 1782708000000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:34.954Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782492634000,
-          "max": 1782701400000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T02:50:37.095Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2205,
-        "bytes": 134494
-      }
-    },
-    {
-      "ts": "2026-06-29T02:55:14.366Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T02:55:14.366Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:55:14.368Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T02:55:14.768Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=EcH81MUh"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:55:14.902Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T02:55:14.933Z",
       "level": "info",
@@ -2367,6 +2211,173 @@
       "meta": {
         "ms": 1940,
         "bytes": 137900
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:24.538Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T03:50:24.538Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:24.540Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T03:50:25.024Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=srNc6ohM"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:25.337Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T03:50:25.444Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T03:50:25.444Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:25.958Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T03:50:25.444Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:27.277Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T03:50:27.277Z",
+      "level": "warn",
+      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENAI_KEY_1\"",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T03:50:27.605Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "openai 429: {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/gu"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:27.819Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" failed — flagged",
+      "meta": {
+        "error": "openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:28.010Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" failed — flagged",
+      "meta": {
+        "error": "openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:28.209Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" failed — flagged",
+      "meta": {
+        "error": "openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:28.209Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "All AI providers/keys failed; last error: openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:28.210Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T03:50:25.444Z",
+        "symbol": "frxEURUSD",
+        "decision_action": "hold",
+        "decision_id": "provider-fail-2026-06-29T03:50:25.444Z",
+        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*******************************************************",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -0.88,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:28.211Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:28.381Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782496228000,
+          "max": 1782705000000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T03:50:30.567Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2356,
+        "bytes": 138053
       }
     }
   ],
