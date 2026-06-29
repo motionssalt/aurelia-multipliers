@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T16:40:14.866Z",
+  "last_cycle": "2026-06-29T16:45:35.791Z",
   "balance": 9976.13,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,15 +9,15 @@
     "active": true,
     "started_at": "2026-06-29T16:29:27.461Z",
     "capital_start": 20,
-    "capital_remaining": 19.8,
+    "capital_remaining": 19.43,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 1,
+    "trades": 2,
     "wins": 0,
-    "losses": 1,
-    "pnl": -0.2,
+    "losses": 2,
+    "pnl": -0.57,
     "win_streak": 0,
-    "loss_streak": 1,
+    "loss_streak": 2,
     "halted": false,
     "halt_reason": null
   },
@@ -27,24 +27,24 @@
     "frxEURUSD": [],
     "frxGBPJPY": [
       {
-        "contract_id": 3643569979,
+        "contract_id": 3644098739,
         "stake": 5,
-        "multiplier": 100,
-        "direction": "down",
-        "entry_spot": 214.594,
-        "entry_time": "2026-06-29T16:39:00.000Z",
-        "take_profit": 5,
-        "stop_loss": 0.5,
+        "multiplier": 200,
+        "direction": "up",
+        "entry_spot": 214.639,
+        "entry_time": "2026-06-29T16:45:30.000Z",
+        "take_profit": 4.94,
+        "stop_loss": 1,
         "floating_pnl": null,
         "floating_pnl_pct": null,
         "current_spot": null,
         "last_polled_at": null,
-        "cycle_id": "2026-06-29T16:38:21.272Z",
-        "decision_id": "dec-7f3b9a",
+        "cycle_id": "2026-06-29T16:45:17.465Z",
+        "decision_id": "dec-9f2c3a",
         "sibling_index": 0,
         "sibling_count": 1,
-        "rationale": "GBPJPY M5 shows a bearish engulfing candle pattern, MACD histogram -0.006 (negative) and RSI 57.5 (moderately overbought) indicating a potential reversal down; ADX 28.73 confirms a strong trend, and EMA20 (214.565) stays above EMA50 (214.429) supporting the down move.",
-        "opened_at": "2026-06-29T16:39:00.926Z"
+        "rationale": "M5 RSI 60.74 and Stoch K 78 (overbought) with price 214.635 just below the upper Bollinger (214.704) and above EMA20 (214.579) which sits above EMA50 (214.445) show bullish pressure; M10 displays a bullish engulfing candle and RSI 67.6, while ADX 28.8 confirms a moderate uptrend. These bullish signals conflict with the current down position, so we close the losing MULTDOWN and open a new MULTUP.",
+        "opened_at": "2026-06-29T16:45:31.251Z"
       }
     ]
   },
@@ -61,8 +61,8 @@
         "total_floating_pnl": null,
         "net_position": 5,
         "direction_mix": {
-          "up": 0,
-          "down": 1
+          "up": 1,
+          "down": 0
         }
       }
     ]
@@ -380,6 +380,32 @@
       "opened_at": "2026-06-29T16:23:55.730Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-29T16:29:27.461Z"
+    },
+    {
+      "ts": "2026-06-29T16:45:30.760Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxGBPJPY",
+      "contract_id": 3643569979,
+      "direction": "down",
+      "stake": 5,
+      "multiplier": 100,
+      "take_profit": 5,
+      "stop_loss": -0.5,
+      "outcome": "loss",
+      "pnl": -0.37,
+      "entry": 214.594,
+      "exit": 214.639,
+      "close_reason": "down position losing as market turns bullish",
+      "settled": true,
+      "cycle_id": "2026-06-29T16:38:21.272Z",
+      "decision_id": "dec-7f3b9a",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "GBPJPY M5 shows a bearish engulfing candle pattern, MACD histogram -0.006 (negative) and RSI 57.5 (moderately overbought) indicating a potential reversal down; ADX 28.73 confirms a strong trend, and EMA20 (214.565) stays above EMA50 (214.429) supporting the down move.",
+      "opened_at": "2026-06-29T16:39:00.926Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-29T16:29:27.461Z"
     }
   ],
   "trade_history_manual": [
@@ -411,140 +437,6 @@
     "OPENAI_KEY_4": 1782698933111
   },
   "logs": [
-    {
-      "ts": "2026-06-29T15:50:41.094Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:41.175Z",
-      "level": "info",
-      "msg": "Manual scan tick",
-      "meta": {
-        "symbol": "frxEURUSD"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:50:42.510Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 â provider will be skipped until secrets are wired.",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:42.510Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 â provider will be skipped until secrets are wired.",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:42.510Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_3\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:42.510Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:42.511Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:42.511Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:42.511Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:42.511Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:42.511Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:42.511Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:45.875Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" key \"CLOUDFLARE_KEY_1\" failed â flagged",
-      "meta": {
-        "error": "cloudflare returned empty text"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:50:45.875Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: cloudflare returned empty text"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:50:45.876Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-29T15:50:46.004Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782712500000,
-          "max": 1782748200000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T15:50:47.789Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1913,
-        "bytes": 158073
-      }
-    },
-    {
-      "ts": "2026-06-29T15:55:16.855Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T15:55:16.855Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:55:16.857Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T15:55:17.424Z",
       "level": "network",
@@ -2242,20 +2134,298 @@
         "ms_since_last": 70870,
         "interval_ms": 90000
       }
+    },
+    {
+      "ts": "2026-06-29T16:45:16.743Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T16:45:16.743Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:16.745Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:45:17.216Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=rsEHco0R"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:17.397Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:45:17.465Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T16:45:17.465Z",
+        "symbol": "frxGBPJPY",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:18.638Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:45:18.638Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:45:30.553Z",
+      "level": "info",
+      "msg": "AI decision via \"cloudflare\" key \"CLOUDFLARE_KEY_1\"",
+      "meta": {
+        "action": "multi",
+        "symbol": "frxGBPJPY",
+        "conf": 0.78
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:30.554Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "multi",
+        "decision_id": "dec-9f2c3a",
+        "keyUsed": "CLOUDFLARE_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:30.654Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3643569979",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:30.760Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3643569979",
+      "meta": {
+        "sold_for": 4.63,
+        "balance_after": 9980.76,
+        "transaction_id": 7150572379
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:30.914Z",
+      "level": "warn",
+      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
+      "meta": {
+        "symbol": "frxGBPJPY",
+        "multiplier": 200,
+        "stake": 5,
+        "adjustments": {
+          "take_profit": {
+            "from": 3,
+            "to": 4.94,
+            "range": {
+              "min": 0.1,
+              "max": 242.5
+            },
+            "reason": "validation_params.take_profit"
+          }
+        },
+        "vp": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 242.5
+          },
+          "stop_loss": {
+            "min": 0.39,
+            "max": 4.85
+          }
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:31.060Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted frxGBPJPY MULTUP ×200",
+      "meta": {
+        "stake": 5,
+        "ask_price": 5,
+        "spot": 214.639,
+        "commission": 0.23,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-1.00",
+            "order_amount": -1,
+            "order_date": 1782751530,
+            "value": "214.501"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-5.00",
+            "order_amount": -5,
+            "order_date": 1782751530,
+            "value": "213.616"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "4.94",
+            "order_amount": 4.94,
+            "order_date": 1782751530,
+            "value": "215.817"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 242.5
+          },
+          "stop_loss": {
+            "min": 0.39,
+            "max": 4.85
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:31.251Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3644098739",
+      "meta": {
+        "symbol": "frxGBPJPY",
+        "direction": "up",
+        "contract_type": "MULTUP",
+        "multiplier": 200,
+        "stake": 5,
+        "final_limit_order": {
+          "take_profit": 4.94,
+          "stop_loss": 1
+        },
+        "tp_sl_clamped": true,
+        "transaction_id": 7150573439,
+        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in GBP/JPY, multiplied by 970, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:31.251Z",
+      "level": "warn",
+      "msg": "open: TP/SL clamped into broker range (v5 pre-flight)",
+      "meta": {
+        "symbol": "frxGBPJPY",
+        "multiplier": 200,
+        "requested_stake": 5,
+        "final_stake": 5,
+        "requested_take_profit": 3,
+        "requested_stop_loss": 1,
+        "final_take_profit": 4.94,
+        "final_stop_loss": 1,
+        "kind": "tp_sl_clamp",
+        "adjustments": {
+          "take_profit": {
+            "from": 3,
+            "to": 4.94,
+            "range": {
+              "min": 0.1,
+              "max": 242.5
+            },
+            "reason": "validation_params.take_profit"
+          },
+          "stop_loss": null
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:31.252Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T16:45:17.465Z",
+        "symbol": "frxGBPJPY",
+        "decision_action": "multi",
+        "decision_id": "dec-9f2c3a",
+        "rationale": "M5 RSI 60.74 and Stoch K 78 (overbought) with price 214.635 just below the upper Bollinger (214.704) and above EMA20 (214.579) which sits above EMA50 (214.445) show bullish pressure; M10 displays a bu",
+        "executed_count": 2,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -0.57,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:31.253Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxGBPJPY @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782722400000,
+          "max": 1782758100000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:31.365Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782722400000,
+          "max": 1782758100000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:45:34.367Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 3114,
+        "bytes": 158517
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-29",
-    "trades": 1,
+    "trades": 2,
     "wins": 0,
-    "losses": 1,
-    "pnl": -0.2,
+    "losses": 2,
+    "pnl": -0.57,
     "by_symbol": {
       "frxEURUSD": {
         "trades": 1,
         "wins": 0,
         "losses": 1,
         "pnl": -0.2
+      },
+      "frxGBPJPY": {
+        "trades": 1,
+        "wins": 0,
+        "losses": 1,
+        "pnl": -0.37
       }
     }
   },
