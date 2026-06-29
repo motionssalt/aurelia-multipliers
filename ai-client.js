@@ -1102,6 +1102,90 @@ async function askMultiplierDecision({ aiInput, config, state }) {
     return { decision: v.decision, keyUsed, warnings: v.warnings || [] };
 }
 
+/* Fix: multi-symbol initial-determination scan.
+   When the AI is given multiple candidate symbols this tick, the
+   per-candidate market data lives inside the JSON dump at
+   aiInput.candidates[].timeframes — but in practice the AI keeps
+   anchoring on the single top-level aiInput.symbol/aiInput.market
+   pair and never actually compares the other candidates. The rationale
+   field then only cites indicators for the first enabled symbol.
+
+   To force a real scan across ALL enabled symbols, we emit a compact
+   per-candidate snapshot of the headline M5 indicators directly into
+   the prompt body (NOT just inside the giant JSON dump). The AI now
+   physically sees side-by-side rows like:
+
+     • frxEURUSD   spot=1.0821  M5 RSI=47.0  MACD_hist=-0.00002
+                   BB %B=0.45   EMA20-vs-50=below  ATR14=0.00038
+     • cryBTCUSD   spot=68241.5 M5 RSI=63.2  MACD_hist=+12.4
+                   BB %B=0.78   EMA20-vs-50=above  ATR14=185.30
+     ...
+
+   This makes it impossible for the AI to silently skip candidates.
+
+   Returns a multi-line string suitable for joining into the prompt, or
+   null if there is nothing to render (single-symbol mode, no candidates,
+   or every candidate errored out).
+   ───────────────────────────────────────────────────────────────── */
+function _renderCandidateSnapshot(aiInput) {
+    const cands = aiInput && Array.isArray(aiInput.candidates) ? aiInput.candidates : null;
+    if (!cands || cands.length === 0) return null;
+
+    const rows = [];
+    for (const c of cands) {
+        const sym = c && (c.symbol || (c.slice && c.slice.symbol));
+        if (!sym) continue;
+        if (c && c.error) {
+            rows.push('     • ' + sym + '   (market data unavailable: ' + String(c.error) + ')');
+            continue;
+        }
+        const tf = (c && c.timeframes) || {};
+        const m5 = tf.M5 || {};
+        const ind = m5.indicators || {};
+        // Pull the headline numbers the rationale-quality contract
+        // demands the AI cite. Missing fields render as "n/a" so the
+        // AI does not invent values.
+        const fmt = (v, dp) => {
+            if (v == null || !Number.isFinite(Number(v))) return 'n/a';
+            const n = Number(v);
+            const d = (dp == null) ? (Math.abs(n) >= 100 ? 1 : Math.abs(n) >= 1 ? 2 : 5) : dp;
+            return n.toFixed(d);
+        };
+        const spot = (m5.candles && m5.candles.length) ? m5.candles[m5.candles.length - 1].c : null;
+        const rsi  = ind.rsi_14;
+        const macdHist = ind.macd && (ind.macd.histogram != null ? ind.macd.histogram : ind.macd.hist);
+        const bbPctB   = ind.bollinger && ind.bollinger.percent_b;
+        const ema20    = ind.ema_20;
+        const ema50    = ind.ema_50;
+        const emaCmp   = (ema20 != null && ema50 != null)
+            ? (Number(ema20) > Number(ema50) ? 'above' : Number(ema20) < Number(ema50) ? 'below' : 'cross')
+            : 'n/a';
+        const atr14    = ind.atr_14;
+        const stochK   = ind.stochastic && ind.stochastic.k;
+
+        rows.push(
+            '     • ' + sym +
+            '   spot=' + fmt(spot) +
+            '  M5 RSI=' + fmt(rsi, 1) +
+            '  MACD_hist=' + fmt(macdHist) +
+            '  BB %B=' + fmt(bbPctB, 2) +
+            '  EMA20-vs-50=' + emaCmp +
+            '  ATR14=' + fmt(atr14) +
+            '  Stoch_K=' + fmt(stochK, 1)
+        );
+    }
+    if (rows.length === 0) return null;
+
+    return [
+        '  • CANDIDATE SCAN — M5 indicator snapshot for ALL ' + cands.length + ' enabled symbols',
+        '    this tick. You MUST evaluate every row below before choosing a symbol. Do',
+        '    NOT default to the first symbol; the runner has no preference between them.',
+        '    Full per-timeframe indicator/candle/S-R data for each candidate is in TICK',
+        '    INPUT under `candidates[]` — reference those numbers in your rationale.',
+        ...rows,
+    ].join('\n');
+}
+
 /* ─────────────────────────────────────────────────────────────────
    Multiplier prompt — explains the sibling-position concept and the
    exact JSON schema the AI must emit. Kept verbose on purpose: this
@@ -1171,20 +1255,43 @@ function _buildMultiplierPrompt(aiInput, config) {
         '    rejected by Deriv with ContractBuyValidationError and the trade DOES NOT open).',
         '    Ranges differ symbol-to-symbol even within the same category — do NOT assume',
         '    a synthetic-wide or category-wide set:',
-        '    Current symbol: ' + String(aiInput && aiInput.symbol) +
-            (_validMultipliersFor(aiInput && aiInput.symbol)
+        // Fix: in multi-candidate mode we MUST list valid multipliers for EVERY
+        // candidate, not just the first one — otherwise the AI is implicitly
+        // nudged to pick whatever symbol the prompt happens to highlight.
+        ((aiInput && Array.isArray(aiInput.candidates) && aiInput.candidates.length > 0)
+            ? aiInput.candidates.map(c => {
+                const sym = (c && c.symbol) || (c && c.slice && c.slice.symbol);
+                const set = _validMultipliersFor(sym);
+                return '      - ' + sym + (set
+                    ? ' → valid multipliers: ' + set.join(', ')
+                    : ' (no per-symbol range on file — pick a conservative value common across categories: 100, 200, 300)');
+              }).join('\n')
+            : '    Current symbol: ' + String(aiInput && aiInput.symbol) +
+              (_validMultipliersFor(aiInput && aiInput.symbol)
                 ? ' → valid multipliers: ' + _validMultipliersFor(aiInput && aiInput.symbol).join(', ')
-                : ' (no per-symbol range on file — pick a conservative value common across categories: 100, 200, 300)'),
-        // Fix #1: multi-symbol candidate guidance
+                : ' (no per-symbol range on file — pick a conservative value common across categories: 100, 200, 300)')),
+        // Fix #1: multi-symbol candidate guidance — strengthened wording so
+        // the AI cannot silently default to the first enabled symbol.
         (aiInput && Array.isArray(aiInput.candidates) && aiInput.candidates.length > 0)
-            ? '  • MULTI-SYMBOL MODE: you are being shown ' + aiInput.candidates.length + ' candidate symbols this tick. ' +
-              'Each candidate has its own market data in TICK INPUT under `candidates[]`. ' +
-              'Compare the setups and pick the ONE with the strongest edge. ' +
-              'Return your chosen symbol in the top-level `symbol` field of your JSON response ' +
-              '(e.g., "symbol": "cryBTCUSD"). The runner will switch to that symbol for execution. ' +
-              'If you choose "hold" or "skip", the symbol field is ignored. ' +
-              'Candidate list: ' + aiInput.candidates.map(c => c.symbol || c).join(', ') + '.'
+            ? '  • MULTI-SYMBOL MODE: ' + aiInput.candidates.length + ' candidate symbols are in play this tick — ' +
+              aiInput.candidates.map(c => c.symbol || c).join(', ') + '. ' +
+              'You MUST evaluate ALL of them before deciding; the top-level `aiInput.symbol` ' +
+              'and `aiInput.market` fields are just a runner-side fallback and carry NO ' +
+              'preference — treat every candidate as equally eligible. Per-candidate market ' +
+              'data (timeframes, indicators, S/R, candle patterns) lives in TICK INPUT under ' +
+              '`candidates[]`. Compare the setups across ALL candidates and pick the ONE with ' +
+              'the strongest edge. Your rationale MUST cite indicator numbers from the ' +
+              'CHOSEN symbol\'s candidates[] entry — not the top-level market block — and ' +
+              'briefly note WHY the other candidates were rejected (e.g. "BTCUSD M5 RSI 47 ' +
+              'neutral vs ETHUSD RSI 72 overbought"). Return your chosen symbol in the ' +
+              'top-level `symbol` field of your JSON response (e.g., "symbol": "cryBTCUSD"). ' +
+              'The runner will switch to that symbol for execution. If you choose "hold" or ' +
+              '"skip", the symbol field is ignored.'
             : '  • SINGLE-SYMBOL MODE: you are trading only ' + String(aiInput && aiInput.symbol) + ' this tick.',
+        // Fix: inline per-candidate indicator snapshot so the AI literally
+        // sees all symbols' headline numbers next to the instructions, not
+        // buried inside the giant JSON dump where they get ignored.
+        _renderCandidateSnapshot(aiInput),
         '  • close[].contract_id and revise[].contract_id MUST be one of the contract_ids',
         '    that appear in payload.open_siblings on THIS tick. Open contract_ids right',
         '    now: ' + (openCidList.length ? openCidList.join(', ') : '(none — only hold/open are meaningful)') + '.',
@@ -1298,6 +1405,7 @@ module.exports = {
     askPostMortem,
     validateMultiplierDecision,
     // Exposed for unit tests / smoke tests:
+    _renderCandidateSnapshot,
     _buildMultiplierPrompt,
     MAX_OPEN_SIBLINGS_PER_DECISION,
     MULTIPLIER_RANGE_BY_CATEGORY,
