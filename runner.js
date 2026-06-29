@@ -1518,7 +1518,7 @@ async function executeOpenSpec(ws, config, state, symbol, decision, openSpec, cy
     return openSibling(ws, config, state, symbol, decision, openSpec, cycleId);
 }
 
-async function executeReviseList(ws, state, symbol, reviseArr) {
+async function executeReviseList(ws, state, symbol, reviseArr, decisionId) {
     const out = [];
     for (const r of reviseArr) {
         const cid = Number(r.contract_id);
@@ -1535,6 +1535,12 @@ async function executeReviseList(ws, state, symbol, reviseArr) {
             out.push({ contract_id: cid, skipped: 'no-op revise' });
             continue;
         }
+        // Snapshot the AI-requested values BEFORE the call so we can
+        // attribute them in the revision history audit log regardless of
+        // outcome (success, clamp, or throw).
+        const requested = {};
+        if (Object.prototype.hasOwnProperty.call(changes, 'takeProfit')) requested.take_profit = changes.takeProfit;
+        if (Object.prototype.hasOwnProperty.call(changes, 'stopLoss'))   requested.stop_loss   = changes.stopLoss;
         try {
             const currency = state.currency || 'USD';
             const cu = await Deriv.reviseMultiplierLimits(ws, cid, changes, currency);
@@ -1557,13 +1563,42 @@ async function executeReviseList(ws, state, symbol, reviseArr) {
             const reviseEntry = { contract_id: cid, revised: patch };
             // Surface clamp adjustments so Telegram templates can
             // display "TP/SL adjusted to fit broker's live range."
-            if (cu.tp_sl_clamped && cu.tp_sl_adjustments) {
+            const wasClamped = !!(cu.tp_sl_clamped && cu.tp_sl_adjustments);
+            if (wasClamped) {
                 reviseEntry.tp_sl_clamped = true;
                 reviseEntry.tp_sl_adjustments = cu.tp_sl_adjustments;
+            }
+            // Append to per-sibling revision_history so future AI ticks
+            // can see that this exact revision was already tried. Outcome
+            // distinguishes a verbatim accept ('ok') from a silent clamp
+            // ('clamped') so the AI can avoid re-submitting the same
+            // out-of-range values next tick.
+            try {
+                State.appendRevisionAttempt(state, symbol, cid, {
+                    outcome:           wasClamped ? 'clamped' : 'ok',
+                    requested,
+                    applied:           patch,
+                    clamp_adjustments: wasClamped ? cu.tp_sl_adjustments : undefined,
+                    decision_id:       decisionId || null,
+                });
+            } catch (logErr) {
+                Logger.warn('appendRevisionAttempt (ok/clamped) failed', { contract_id: cid, error: logErr.message });
             }
             out.push(reviseEntry);
         } catch (e) {
             Logger.error('AI revise failed', { contract_id: cid, error: e.message });
+            // ALSO record failures so the next AI tick sees "this exact
+            // TP/SL was rejected by Deriv" and avoids repeating it.
+            try {
+                State.appendRevisionAttempt(state, symbol, cid, {
+                    outcome:     'failed',
+                    requested,
+                    error:       e.message,
+                    decision_id: decisionId || null,
+                });
+            } catch (logErr) {
+                Logger.warn('appendRevisionAttempt (failed) failed', { contract_id: cid, error: logErr.message });
+            }
             out.push({ contract_id: cid, error: e.message });
         }
     }
@@ -1917,6 +1952,48 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         // Still open — refresh persisted floating fields via State helper
         // (do not hand-roll the merge).
         if (poc) {
+            // Revert detection: compare what WE last persisted as TP/SL
+            // against what the broker is now reporting live. If they
+            // diverge (and the persisted side was non-null), one of two
+            // things happened between ticks:
+            //   (a) The user manually revised TP/SL on Deriv's UI.
+            //   (b) A previously "successful" AI revise was effectively
+            //       reverted by the broker (e.g. tightened to fit a new
+            //       live range as spot moved). This is the case the
+            //       AI should learn from so it does not loop on the
+            //       same losing revise strategy every tick.
+            // We log a 'reverted' audit entry so the AI prompt can
+            // surface it on the very next tick.
+            const livePocTp = poc.take_profit ? Number(poc.take_profit.amount) : null;
+            const livePocSl = poc.stop_loss   ? Number(poc.stop_loss.amount)   : null;
+            const prevTp    = sib.take_profit != null ? Number(sib.take_profit) : null;
+            const prevSl    = sib.stop_loss   != null ? Number(sib.stop_loss)   : null;
+            const EPS = 0.01; // 1¢ tolerance — broker rounds to cents
+            const tpDiverged = (prevTp != null) && (livePocTp == null || Math.abs(livePocTp - prevTp) > EPS);
+            const slDiverged = (prevSl != null) && (livePocSl == null || Math.abs(livePocSl - prevSl) > EPS);
+            if (tpDiverged || slDiverged) {
+                try {
+                    State.appendRevisionAttempt(state, symbol, sib.contract_id, {
+                        outcome:   'reverted',
+                        requested: {
+                            ...(tpDiverged ? { take_profit: prevTp } : {}),
+                            ...(slDiverged ? { stop_loss:   prevSl } : {}),
+                        },
+                        applied: {
+                            ...(tpDiverged ? { take_profit: livePocTp } : {}),
+                            ...(slDiverged ? { stop_loss:   livePocSl } : {}),
+                        },
+                        error: 'broker-side TP/SL diverged from last persisted values between ticks',
+                    });
+                    Logger.info('Detected TP/SL revert between ticks', {
+                        contract_id: sib.contract_id,
+                        prev: { tp: prevTp, sl: prevSl },
+                        live: { tp: livePocTp, sl: livePocSl },
+                    });
+                } catch (logErr) {
+                    Logger.warn('appendRevisionAttempt (reverted) failed', { contract_id: sib.contract_id, error: logErr.message });
+                }
+            }
             State.updateSiblingPosition(state, symbol, sib.contract_id, {
                 floating_pnl:     poc.profit,
                 floating_pnl_pct: poc.profit_percentage,
@@ -2071,6 +2148,10 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
             sibling_index:  p.sibling.sibling_index,
             sibling_count:  p.sibling.sibling_count,
             rationale:      p.sibling.rationale     || null,
+            // Forward the per-sibling TP/SL revision audit log so the AI
+            // can avoid retrying an identical revision that has already
+            // failed, been clamped, or been reverted by the broker.
+            revision_history: Array.isArray(p.sibling.revision_history) ? p.sibling.revision_history : [],
         })),
         just_closed: justClosed,
         gates: {
@@ -2197,7 +2278,7 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         );
     } else if (decision.action === 'revise' && Array.isArray(decision.revise)) {
         executed.details = executed.details.concat(
-            await executeReviseList(ws, state, symbol, decision.revise)
+            await executeReviseList(ws, state, symbol, decision.revise, decision.decision_id)
         );
     } else if (decision.action === 'multi' && decision.multi) {
         // close -> revise -> open. Empty sub-actions are silently skipped.
@@ -2206,7 +2287,7 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
             executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'close' }, d)));
         }
         if (Array.isArray(decision.multi.revise) && decision.multi.revise.length) {
-            const out = await executeReviseList(ws, state, symbol, decision.multi.revise);
+            const out = await executeReviseList(ws, state, symbol, decision.multi.revise, decision.decision_id);
             executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'revise' }, d)));
         }
         if (decision.multi.open) {
@@ -2556,6 +2637,8 @@ async function runManual(ws, config, state, connOpts) {
             halt_reason:       sess.halt_reason || null,
         },
         exposure,
+        // Manual-path open_siblings mirror the cycle-path shape exactly
+        // (including revision_history) so the SAME prompt builder works.
         open_siblings: polled.filter(p => p && (p.poc != null || !p.error)).map(p => ({
             contract_id:        p.sibling.contract_id,
             stake:              p.sibling.stake,
@@ -2581,6 +2664,7 @@ async function runManual(ws, config, state, connOpts) {
             sibling_index:  p.sibling.sibling_index,
             sibling_count:  p.sibling.sibling_count,
             rationale:      p.sibling.rationale     || null,
+            revision_history: Array.isArray(p.sibling.revision_history) ? p.sibling.revision_history : [],
         })),
         just_closed: [],
         gates: {
@@ -2654,7 +2738,7 @@ async function runManual(ws, config, state, connOpts) {
             );
         } else if (decision.action === 'revise' && Array.isArray(decision.revise)) {
             executed.details = executed.details.concat(
-                await executeReviseList(ws, state, symbol, decision.revise)
+                await executeReviseList(ws, state, symbol, decision.revise, decision.decision_id)
             );
         } else if (decision.action === 'multi' && decision.multi) {
             if (Array.isArray(decision.multi.close) && decision.multi.close.length) {
@@ -2662,7 +2746,7 @@ async function runManual(ws, config, state, connOpts) {
                 executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'close' }, d)));
             }
             if (Array.isArray(decision.multi.revise) && decision.multi.revise.length) {
-                const out = await executeReviseList(ws, state, symbol, decision.multi.revise);
+                const out = await executeReviseList(ws, state, symbol, decision.multi.revise, decision.decision_id);
                 executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'revise' }, d)));
             }
             if (decision.multi.open) {
