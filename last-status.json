@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T23:00:24.529Z",
+  "last_cycle": "2026-06-29T23:05:17.629Z",
   "balance": 9974.76,
   "currency": "USD",
   "account_mode": "demo",
@@ -615,87 +615,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-29T21:35:46.322Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "close",
-        "decision_id": "r50-close-risky-profit",
-        "keyUsed": "GEMINI_KEY_4"
-      }
-    },
-    {
-      "ts": "2026-06-29T21:35:46.454Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3667198719",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T21:35:46.664Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3667198719",
-      "meta": {
-        "sold_for": 4.17,
-        "balance_after": 9979.65,
-        "transaction_id": 7195619959
-      }
-    },
-    {
-      "ts": "2026-06-29T21:35:46.665Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T21:35:19.969Z",
-        "symbol": "R_50",
-        "decision_action": "close",
-        "decision_id": "r50-close-risky-profit",
-        "rationale": "The open DOWN position has a critically low stop_out_distance_pct (0.26%) despite a small floating profit ($0.12). M5 RSI (26.17) and Stochastics (K 3.49) are oversold, with price at the lower Bolling",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -1.68,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T21:35:46.666Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for R_50 @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": {
-          "min": 1782739800000,
-          "max": 1782775500000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T21:35:46.821Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782733200000,
-          "max": 1782768900000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T21:35:48.839Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2173,
-        "bytes": 171515
-      }
-    },
     {
       "ts": "2026-06-29T21:40:17.597Z",
       "level": "info",
@@ -2926,6 +2845,76 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T23:00:23.940Z",
+        "symbol": "R_10",
+        "cycle_running": true,
+        "halted": true,
+        "session_active": false
+      }
+    },
+    {
+      "ts": "2026-06-29T23:05:16.781Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T23:05:16.780Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T23:05:16.782Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T23:05:17.172Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=j5IXdpMP"
+      }
+    },
+    {
+      "ts": "2026-06-29T23:05:17.268Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T23:05:17.304Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T23:05:17.303Z",
+        "candidates": [
+          "R_10",
+          "R_25",
+          "R_50",
+          "R_75",
+          "R_100",
+          "1HZ10V",
+          "1HZ25V",
+          "1HZ50V",
+          "1HZ75V",
+          "1HZ100V"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T23:05:17.628Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T23:05:17.303Z",
+        "symbol": "R_10",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T23:05:17.628Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T23:05:17.303Z",
         "symbol": "R_10",
         "cycle_running": true,
         "halted": true,
