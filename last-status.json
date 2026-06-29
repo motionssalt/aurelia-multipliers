@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T03:25:29.817Z",
+  "last_cycle": "2026-06-29T03:30:33.275Z",
   "balance": 9951.57,
   "currency": "USD",
   "account_mode": "demo",
@@ -395,271 +395,15 @@
   ],
   "pending_contracts": [],
   "ai_keys_bench": {
-    "OPENAI_KEY_2": 1782703525219,
-    "OPENAI_KEY_3": 1782703525219,
-    "OPENAI_KEY_4": 1782703525219,
+    "OPENAI_KEY_2": 1782703825755,
+    "OPENAI_KEY_3": 1782703825755,
+    "OPENAI_KEY_4": 1782703825755,
     "GEMINI_KEY_3": 1782701119355,
     "GEMINI_KEY_4": 1782701119355,
     "GEMINI_KEY_1": 1782701420722,
-    "OPENAI_KEY_1": 1782703525219
+    "OPENAI_KEY_1": 1782703825755
   },
   "logs": [
-    {
-      "ts": "2026-06-29T02:35:13.993Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T02:35:14.026Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T02:35:14.027Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T02:35:14.026Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T02:35:14.438Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T02:35:14.026Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T02:35:14.438Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T02:35:14.026Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T02:35:47.489Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T02:35:47.489Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:35:47.491Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T02:35:47.882Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Y9hoK8GN"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:35:48.069Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T02:35:48.122Z",
-      "level": "info",
-      "msg": "Manual scan tick",
-      "meta": {
-        "symbol": "frxEURUSD"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:35:49.301Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_3\" failed â flagged",
-      "meta": {
-        "error": "gemini 429: {\n  \"error\": {\n    \"code\": 429,\n    \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-a"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:36:00.141Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_4\"",
-      "meta": {
-        "action": "open",
-        "symbol": "frxEURUSD",
-        "conf": 0.7
-      }
-    },
-    {
-      "ts": "2026-06-29T02:36:00.142Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "frxEURUSD-open-001",
-        "keyUsed": "GEMINI_KEY_4"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:36:00.241Z",
-      "level": "warn",
-      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
-      "meta": {
-        "symbol": "frxEURUSD",
-        "multiplier": 500,
-        "stake": 2,
-        "adjustments": {
-          "stop_loss": {
-            "from": 1.94,
-            "to": 1.91,
-            "range": {
-              "min": 0.29,
-              "max": 1.94
-            },
-            "reason": "validation_params.stop_loss"
-          }
-        },
-        "vp": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 97
-          },
-          "stop_loss": {
-            "min": 0.29,
-            "max": 1.94
-          }
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T02:36:00.320Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted frxEURUSD MULTUP Ã500",
-      "meta": {
-        "stake": 2,
-        "ask_price": 2,
-        "spot": 1.13906,
-        "commission": 0.22,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-1.91",
-            "order_amount": -1.91,
-            "order_date": 1782700560,
-            "value": "1.13714"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-2.00",
-            "order_amount": -2,
-            "order_date": 1782700560,
-            "value": "1.13703"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "5.00",
-            "order_amount": 5,
-            "order_date": 1782700560,
-            "value": "1.14526"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 97
-          },
-          "stop_loss": {
-            "min": 0.29,
-            "max": 1.94
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T02:36:00.498Z",
-      "level": "trade",
-      "msg": "Multiplier placed: contract_id=3583267719",
-      "meta": {
-        "symbol": "frxEURUSD",
-        "direction": "up",
-        "contract_type": "MULTUP",
-        "multiplier": 500,
-        "stake": 2,
-        "final_limit_order": {
-          "take_profit": 5,
-          "stop_loss": 1.91
-        },
-        "tp_sl_clamped": true,
-        "transaction_id": 7034884359,
-        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in EUR/USD, multiplied by 970, minus commissions."
-      }
-    },
-    {
-      "ts": "2026-06-29T02:36:00.499Z",
-      "level": "warn",
-      "msg": "open: TP/SL clamped into broker range (v5 pre-flight)",
-      "meta": {
-        "symbol": "frxEURUSD",
-        "multiplier": 500,
-        "requested_stake": 2,
-        "final_stake": 2,
-        "requested_take_profit": 5,
-        "requested_stop_loss": 1.94,
-        "final_take_profit": 5,
-        "final_stop_loss": 1.91,
-        "kind": "tp_sl_clamp",
-        "adjustments": {
-          "take_profit": null,
-          "stop_loss": {
-            "from": 1.94,
-            "to": 1.91,
-            "range": {
-              "min": 0.29,
-              "max": 1.94
-            },
-            "reason": "validation_params.stop_loss"
-          }
-        }
-      }
-    },
     {
       "ts": "2026-06-29T02:36:00.501Z",
       "level": "info",
@@ -2522,6 +2266,173 @@
       "meta": {
         "ms": 2158,
         "bytes": 130779
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:23.329Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T03:30:23.329Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:23.331Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T03:30:23.827Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=8hY5az1k"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:24.074Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T03:30:24.147Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T03:30:24.147Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:24.708Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T03:30:24.147Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:25.755Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T03:30:25.755Z",
+      "level": "warn",
+      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENAI_KEY_1\"",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T03:30:27.643Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "openai 429: {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/gu"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:27.977Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" failed — flagged",
+      "meta": {
+        "error": "openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:29.545Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" failed — flagged",
+      "meta": {
+        "error": "openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:29.834Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" failed — flagged",
+      "meta": {
+        "error": "openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:29.834Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "All AI providers/keys failed; last error: openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*************************************************************************************************************************************"
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:29.835Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T03:30:24.147Z",
+        "symbol": "frxEURUSD",
+        "decision_action": "hold",
+        "decision_id": "provider-fail-2026-06-29T03:30:24.147Z",
+        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: openai 401: {\n  \"error\": {\n    \"message\": \"Incorrect API key provided: sk-proj-*******************************************************",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -0.88,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:29.836Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:29.946Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782495029000,
+          "max": 1782703800000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T03:30:32.099Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2263,
+        "bytes": 129706
       }
     }
   ],
