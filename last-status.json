@@ -1,70 +1,37 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T02:36:03.381Z",
-  "balance": 9952.45,
+  "last_cycle": "2026-06-29T02:38:04.134Z",
+  "balance": 9950.45,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-29T02:37:28.879Z",
     "capital_start": 20,
-    "capital_remaining": 20,
+    "capital_remaining": 21.65,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 0,
+    "trades": 1,
     "wins": 0,
-    "losses": 0,
-    "pnl": 0,
+    "losses": 1,
+    "pnl": -0.35,
     "win_streak": 0,
-    "loss_streak": 0,
+    "loss_streak": 1,
     "halted": false,
     "halt_reason": null
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {
     "cryBTCUSD": [],
-    "frxEURUSD": [
-      {
-        "contract_id": 3583267719,
-        "stake": 2,
-        "multiplier": 500,
-        "direction": "up",
-        "entry_spot": 1.13906,
-        "entry_time": "2026-06-29T02:36:00.000Z",
-        "take_profit": 5,
-        "stop_loss": 1.91,
-        "floating_pnl": null,
-        "floating_pnl_pct": null,
-        "current_spot": null,
-        "last_polled_at": null,
-        "cycle_id": "manual-2026-06-29T02:35:49.109Z",
-        "decision_id": "frxEURUSD-open-001",
-        "sibling_index": 0,
-        "sibling_count": 1,
-        "rationale": "M5, M10, and M15 MACD histograms are positive (M5: 0.000039, M10: 0.000058, M15: 0.000157), indicating bullish momentum. The M5 last close (1.13908) is above EMA(20) (1.138874) and has broken above the M5 resistance at 1.13897, suggesting upward price movement.",
-        "opened_at": "2026-06-29T02:36:00.499Z"
-      }
-    ]
+    "frxEURUSD": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 1,
-    "positions": 1,
-    "total_stake": 2,
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
     "total_floating_pnl": null,
-    "per_symbol": [
-      {
-        "symbol": "frxEURUSD",
-        "count": 1,
-        "total_stake": 2,
-        "total_floating_pnl": null,
-        "net_position": 2,
-        "direction_mix": {
-          "up": 1,
-          "down": 0
-        }
-      }
-    ]
+    "per_symbol": []
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -353,6 +320,32 @@
       "opened_at": "2026-06-28T23:25:36.544Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-28T18:11:15.197Z"
+    },
+    {
+      "ts": "2026-06-29T02:38:00.875Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxEURUSD",
+      "contract_id": 3583267719,
+      "direction": "up",
+      "stake": 2,
+      "multiplier": 500,
+      "take_profit": 5,
+      "stop_loss": -1.91,
+      "outcome": "loss",
+      "pnl": -0.35,
+      "entry": 1.13906,
+      "exit": 1.13898,
+      "close_reason": "High stop-out risk and current loss at resistance level.",
+      "settled": true,
+      "cycle_id": "manual-2026-06-29T02:35:49.109Z",
+      "decision_id": "frxEURUSD-open-001",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "M5, M10, and M15 MACD histograms are positive (M5: 0.000039, M10: 0.000058, M15: 0.000157), indicating bullish momentum. The M5 last close (1.13908) is above EMA(20) (1.138874) and has broken above the M5 resistance at 1.13897, suggesting upward price movement.",
+      "opened_at": "2026-06-29T02:36:00.499Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-29T02:37:28.879Z"
     }
   ],
   "trade_history_manual": [
@@ -384,120 +377,6 @@
     "GEMINI_KEY_3": 1782700549110
   },
   "logs": [
-    {
-      "ts": "2026-06-28T23:55:24.374Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T23:55:24.481Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T23:55:24.482Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-28T23:55:24.481Z",
-        "candidates": [
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-28T23:55:24.906Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-28T23:55:24.481Z",
-        "symbol": "cryBTCUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-28T23:55:24.906Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-28T23:55:24.481Z",
-        "symbol": "cryBTCUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T00:00:27.403Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T00:00:27.403Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T00:00:27.405Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T00:00:27.949Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Fx0fS0aD"
-      }
-    },
-    {
-      "ts": "2026-06-29T00:00:28.477Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T00:00:28.591Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T00:00:28.591Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T00:00:28.591Z",
-        "candidates": [
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T00:00:29.026Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T00:00:28.591Z",
-        "symbol": "cryBTCUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T00:00:29.026Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T00:00:28.591Z",
-        "symbol": "cryBTCUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
     {
       "ts": "2026-06-29T00:01:23.725Z",
       "level": "info",
@@ -2314,15 +2193,151 @@
         "ms": 1957,
         "bytes": 126059
       }
+    },
+    {
+      "ts": "2026-06-29T02:37:49.769Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T02:37:49.769Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:37:49.771Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:37:50.275Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=2uJZ6ITt"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:37:50.618Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:37:50.715Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T02:37:50.715Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-29T02:38:00.588Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_4\"",
+      "meta": {
+        "action": "close",
+        "symbol": "frxEURUSD",
+        "conf": 0.9
+      }
+    },
+    {
+      "ts": "2026-06-29T02:38:00.589Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "close",
+        "decision_id": "frxEURUSD-close-001",
+        "keyUsed": "GEMINI_KEY_4"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:38:00.727Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3583267719",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T02:38:00.875Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3583267719",
+      "meta": {
+        "sold_for": 1.65,
+        "balance_after": 9952.1,
+        "transaction_id": 7035025359
+      }
+    },
+    {
+      "ts": "2026-06-29T02:38:00.876Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T02:37:50.715Z",
+        "symbol": "frxEURUSD",
+        "decision_action": "close",
+        "decision_id": "frxEURUSD-close-001",
+        "rationale": "The open position has a floating loss of -$0.36 and an extremely low stop_out_distance_pct of 0.001703%, indicating high liquidation risk. Although M5, M10, and M15 MACD histograms are positive (M5: 0",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -0.35,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T02:38:00.877Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": {
+          "min": 1782682500000,
+          "max": 1782707700000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T02:38:01.006Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782491880000,
+          "max": 1782700500000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T02:38:03.011Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2134,
+        "bytes": 146015
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-29",
-    "trades": 0,
+    "trades": 1,
     "wins": 0,
-    "losses": 0,
-    "pnl": 0,
-    "by_symbol": {}
+    "losses": 1,
+    "pnl": -0.35,
+    "by_symbol": {
+      "frxEURUSD": {
+        "trades": 1,
+        "wins": 0,
+        "losses": 1,
+        "pnl": -0.35
+      }
+    }
   },
   "daily_history": [
     {
@@ -2348,10 +2363,5 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {
-    "frxEURUSD": {
-      "min": 1782682500000,
-      "max": 1782707700000
-    }
-  }
+  "chart_windows": {}
 }
