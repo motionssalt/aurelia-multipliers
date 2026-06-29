@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T16:30:08.207Z",
+  "last_cycle": "2026-06-29T16:35:36.319Z",
   "balance": 9976.33,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,62 +9,29 @@
     "active": true,
     "started_at": "2026-06-29T16:29:27.461Z",
     "capital_start": 20,
-    "capital_remaining": 20,
+    "capital_remaining": 24.8,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 0,
+    "trades": 1,
     "wins": 0,
-    "losses": 0,
-    "pnl": 0,
+    "losses": 1,
+    "pnl": -0.2,
     "win_streak": 0,
-    "loss_streak": 0,
+    "loss_streak": 1,
     "halted": false,
     "halt_reason": null
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {
     "cryBTCUSD": [],
-    "frxEURUSD": [
-      {
-        "contract_id": 3642232599,
-        "stake": 5,
-        "multiplier": 100,
-        "direction": "down",
-        "entry_spot": 1.1425,
-        "entry_time": "2026-06-29T16:23:55.000Z",
-        "take_profit": 4.94,
-        "stop_loss": 0.5,
-        "floating_pnl": -0.18,
-        "floating_pnl_pct": -3.6,
-        "current_spot": 1.14235,
-        "last_polled_at": "2026-06-29T16:29:48.917Z",
-        "cycle_id": "manual-2026-06-29T16:23:46.498Z",
-        "decision_id": "dec-9b3f7a",
-        "sibling_index": 0,
-        "sibling_count": 1,
-        "rationale": "M15 shows RSI 69.61 and Stoch K/D 88.15/90.01, both in overbought territory, while price (1.14246) sits just below the upper Bollinger Band (1.142905). EMA20 (1.141447) and EMA50 (1.140493) keep the market above the shortâterm trend line, suggesting a nearâterm pullâback from the recent rally. These combined signals give a moderate edge for a short (MULTDOWN) trade.",
-        "opened_at": "2026-06-29T16:23:55.730Z"
-      }
-    ]
+    "frxEURUSD": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 1,
-    "positions": 1,
-    "total_stake": 5,
-    "total_floating_pnl": -0.18,
-    "per_symbol": [
-      {
-        "symbol": "frxEURUSD",
-        "count": 1,
-        "total_stake": 5,
-        "total_floating_pnl": -0.18,
-        "net_position": 4.82,
-        "direction_mix": {
-          "up": 0,
-          "down": 1
-        }
-      }
-    ]
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
+    "total_floating_pnl": null,
+    "per_symbol": []
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -353,6 +320,32 @@
       "opened_at": "2026-06-28T23:25:36.544Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-28T18:11:15.197Z"
+    },
+    {
+      "ts": "2026-06-29T16:35:32.985Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxEURUSD",
+      "contract_id": 3642232599,
+      "direction": "down",
+      "stake": 5,
+      "multiplier": 100,
+      "take_profit": 4.94,
+      "stop_loss": -0.5,
+      "outcome": "loss",
+      "pnl": -0.2,
+      "entry": 1.1425,
+      "exit": 1.14239,
+      "close_reason": "stop_out risk and losing position",
+      "settled": true,
+      "cycle_id": "manual-2026-06-29T16:23:46.498Z",
+      "decision_id": "dec-9b3f7a",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "M15 shows RSI 69.61 and Stoch K/D 88.15/90.01, both in overbought territory, while price (1.14246) sits just below the upper Bollinger Band (1.142905). EMA20 (1.141447) and EMA50 (1.140493) keep the market above the shortâterm trend line, suggesting a nearâterm pullâback from the recent rally. These combined signals give a moderate edge for a short (MULTDOWN) trade.",
+      "opened_at": "2026-06-29T16:23:55.730Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-29T16:29:27.461Z"
     }
   ],
   "trade_history_manual": [
@@ -384,145 +377,6 @@
     "OPENAI_KEY_4": 1782698933111
   },
   "logs": [
-    {
-      "ts": "2026-06-29T15:30:22.375Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T15:30:21.861Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T15:30:22.376Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T15:30:21.861Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T15:35:21.652Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T15:35:21.652Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:35:21.654Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:35:22.127Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=L32nBlBZ"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:35:22.446Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:35:22.550Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:35:22.550Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T15:35:22.550Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T15:35:23.218Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T15:35:22.550Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T15:35:23.219Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T15:35:22.550Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T15:40:30.554Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T15:40:30.554Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:40:30.556Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:40:31.185Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=e9aDQxoq"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:40:31.618Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:40:31.740Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T15:40:31.741Z",
       "level": "info",
@@ -2170,15 +2024,162 @@
         "ms": 1950,
         "bytes": 139372
       }
+    },
+    {
+      "ts": "2026-06-29T16:35:21.203Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T16:35:21.202Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:21.204Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:35:21.721Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=sPPFsT1h"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:21.970Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:35:22.043Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T16:35:22.043Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:23.426Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:35:23.426Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:35:32.718Z",
+      "level": "info",
+      "msg": "AI decision via \"cloudflare\" key \"CLOUDFLARE_KEY_1\"",
+      "meta": {
+        "action": "close",
+        "conf": 0.84
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:32.719Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "close",
+        "decision_id": "dec-3a7f9c",
+        "keyUsed": "CLOUDFLARE_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:32.858Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3642232599",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:32.984Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3642232599",
+      "meta": {
+        "sold_for": 4.8,
+        "balance_after": 9981.13,
+        "transaction_id": 7148968139
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:32.985Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T16:35:22.043Z",
+        "symbol": "frxEURUSD",
+        "decision_action": "close",
+        "decision_id": "dec-3a7f9c",
+        "rationale": "M15 RSI 68.73 and Stoch 85.56 indicate strong overbought conditions; price sits just below the upper Bollinger Band (1.142786) and is above EMA20 (1.141527) and EMA50 (1.140557). The open MULTDOWN has",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -0.2,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:32.987Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": {
+          "min": 1782721500000,
+          "max": 1782757200000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:33.106Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782715200000,
+          "max": 1782750900000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:35:34.999Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2012,
+        "bytes": 144471
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-29",
-    "trades": 0,
+    "trades": 1,
     "wins": 0,
-    "losses": 0,
-    "pnl": 0,
-    "by_symbol": {}
+    "losses": 1,
+    "pnl": -0.2,
+    "by_symbol": {
+      "frxEURUSD": {
+        "trades": 1,
+        "wins": 0,
+        "losses": 1,
+        "pnl": -0.2
+      }
+    }
   },
   "daily_history": [
     {
@@ -2204,10 +2205,5 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {
-    "frxEURUSD": {
-      "min": 1782721500000,
-      "max": 1782757200000
-    }
-  }
+  "chart_windows": {}
 }
