@@ -1,25 +1,25 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T22:05:50.703Z",
-  "balance": 9977.83,
+  "last_cycle": "2026-06-29T22:10:37.698Z",
+  "balance": 9972.83,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
-    "active": true,
+    "active": false,
     "started_at": "2026-06-29T16:29:27.461Z",
     "capital_start": 20,
-    "capital_remaining": 16.5,
+    "capital_remaining": 17.96,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 8,
+    "trades": 9,
     "wins": 1,
-    "losses": 7,
-    "pnl": -3.5,
+    "losses": 8,
+    "pnl": -6.04,
     "win_streak": 0,
-    "loss_streak": 4,
-    "halted": false,
-    "halt_reason": null
+    "loss_streak": 5,
+    "halted": true,
+    "halt_reason": "aggregate P/L -6.04 <= -stop_loss 5"
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {
@@ -29,24 +29,24 @@
     "R_50": [],
     "R_25": [
       {
-        "contract_id": 3669351159,
-        "stake": 5,
-        "multiplier": 400,
+        "contract_id": 3669620779,
+        "stake": 1,
+        "multiplier": 800,
         "direction": "down",
-        "entry_spot": 2669.077,
-        "entry_time": "2026-06-29T22:05:47.000Z",
-        "take_profit": 4.94,
-        "stop_loss": 2.5,
+        "entry_spot": 2670.096,
+        "entry_time": "2026-06-29T22:10:33.000Z",
+        "take_profit": 2,
+        "stop_loss": 0.5,
         "floating_pnl": null,
         "floating_pnl_pct": null,
         "current_spot": null,
         "last_polled_at": null,
-        "cycle_id": "2026-06-29T22:05:20.577Z",
-        "decision_id": "R25-MD-001",
+        "cycle_id": "2026-06-29T22:10:22.156Z",
+        "decision_id": "R25-MD-OB-01",
         "sibling_index": 0,
         "sibling_count": 1,
-        "rationale": "R_25 shows extreme overbought conditions across multiple timeframes, with M5 RSI at 72.2 and Stochastics K at 90.25. This is further supported by M10 RSI 77.54 and M15 RSI 76.47, all pushing against the upper Bollinger Band, indicating a strong potential for a MULTDOWN reversal. Other candidates like R_10 and 1HZ100V also show overbought signals but R_25 is more pronounced, while R_50 and 1HZ50V i",
-        "opened_at": "2026-06-29T22:05:47.492Z",
+        "rationale": "The market is in a strong bullish trend with EMA(20) above EMA(50) and positive MACD histograms across M5, M10, and M15 timeframes. However, RSI is significantly overbought (M5: 75.14, M10: 77.33, M15: 77.23) and Stochastics are extremely high (M5: 92.49, M10: 94.48, M15: 95.68), with price near the upper Bollinger Bands on all timeframes, indicating a potential short-term pullback.",
+        "opened_at": "2026-06-29T22:10:33.561Z",
         "revision_history": []
       }
     ]
@@ -54,15 +54,15 @@
   "cycle_open_siblings_summary": {
     "symbols": 1,
     "positions": 1,
-    "total_stake": 5,
+    "total_stake": 1,
     "total_floating_pnl": null,
     "per_symbol": [
       {
         "symbol": "R_25",
         "count": 1,
-        "total_stake": 5,
+        "total_stake": 1,
         "total_floating_pnl": null,
-        "net_position": 5,
+        "net_position": 1,
         "direction_mix": {
           "up": 0,
           "down": 1
@@ -565,6 +565,32 @@
       "opened_at": "2026-06-29T21:55:34.759Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-29T16:29:27.461Z"
+    },
+    {
+      "ts": "2026-06-29T22:10:22.326Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "R_25",
+      "contract_id": 3669351159,
+      "direction": "down",
+      "stake": 5,
+      "multiplier": 400,
+      "take_profit": 4.94,
+      "stop_loss": 2.5,
+      "outcome": "loss",
+      "pnl": -2.54,
+      "entry": 2668.816,
+      "exit": 2670.63,
+      "close_reason": "sl_hit",
+      "settled": true,
+      "cycle_id": "2026-06-29T22:05:20.577Z",
+      "decision_id": "R25-MD-001",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "R_25 shows extreme overbought conditions across multiple timeframes, with M5 RSI at 72.2 and Stochastics K at 90.25. This is further supported by M10 RSI 77.54 and M15 RSI 76.47, all pushing against the upper Bollinger Band, indicating a strong potential for a MULTDOWN reversal. Other candidates like R_10 and 1HZ100V also show overbought signals but R_25 is more pronounced, while R_50 and 1HZ50V i",
+      "opened_at": "2026-06-29T22:05:47.492Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-29T16:29:27.461Z"
     }
   ],
   "trade_history_manual": [
@@ -597,188 +623,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-29T20:35:20.394Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=wqpkXC7c"
-      }
-    },
-    {
-      "ts": "2026-06-29T20:35:20.539Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T20:35:20.572Z",
-      "level": "warn",
-      "msg": "Multiplier cycle: TRADING DISABLED (config.trading_enabled=false) — settle/poll only",
-      "meta": {
-        "open_siblings": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T20:35:20.572Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T20:35:20.573Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T20:35:20.572Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T20:35:21.045Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T20:35:20.572Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T20:35:21.045Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T20:35:20.572Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T20:40:28.852Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T20:40:28.852Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T20:40:28.854Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T20:40:29.461Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=z8JxXPy2"
-      }
-    },
-    {
-      "ts": "2026-06-29T20:40:29.830Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T20:40:29.929Z",
-      "level": "warn",
-      "msg": "Multiplier cycle: TRADING DISABLED (config.trading_enabled=false) — settle/poll only",
-      "meta": {
-        "open_siblings": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T20:40:29.929Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T20:40:29.930Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T20:40:29.929Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T20:40:30.818Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T20:40:29.929Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T20:40:30.818Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T20:40:29.929Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T21:10:23.449Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T21:10:23.448Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T21:10:23.450Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T21:10:23.934Z",
       "level": "network",
@@ -2972,14 +2816,238 @@
         "ms": 1937,
         "bytes": 156600
       }
+    },
+    {
+      "ts": "2026-06-29T22:10:21.214Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T22:10:21.214Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:21.216Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T22:10:21.702Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=SQkEFgAx"
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:22.046Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T22:10:22.157Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T22:10:22.156Z",
+        "symbol": "R_25",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:23.400Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T22:10:33.157Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "open",
+        "symbol": "R_25",
+        "conf": 0.75
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:33.157Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "R25-MD-OB-01",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:33.401Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted R_25 MULTDOWN ×800",
+      "meta": {
+        "stake": 1,
+        "ask_price": 1,
+        "spot": 2670.096,
+        "commission": 0.07,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-0.50",
+            "order_amount": -0.5,
+            "order_date": 1782771033,
+            "value": "2671.487"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-1.00",
+            "order_amount": -1,
+            "order_date": 1782771033,
+            "value": "2673.207"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "2.00",
+            "order_amount": 2,
+            "order_date": 1782771033,
+            "value": "2662.884"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 1000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 48.5
+          },
+          "stop_loss": {
+            "min": 0.11,
+            "max": 0.97
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:33.560Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3669620779",
+      "meta": {
+        "symbol": "R_25",
+        "direction": "down",
+        "contract_type": "MULTDOWN",
+        "multiplier": 800,
+        "stake": 1,
+        "final_limit_order": {
+          "take_profit": 2,
+          "stop_loss": 0.5
+        },
+        "tp_sl_clamped": false,
+        "transaction_id": 7199627339,
+        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in Volatility 25 Index, multiplied by 776, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:33.561Z",
+      "level": "warn",
+      "msg": "Aggregate risk breached — force-closing all open siblings",
+      "meta": {
+        "symbol": "R_25",
+        "realised": -6.04,
+        "floating": 0,
+        "combined": -6.04,
+        "reason": "aggregate P/L -6.04 <= -stop_loss 5"
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:33.685Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3669620779",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:33.806Z",
+      "level": "error",
+      "msg": "forceCloseAllForSymbol: sell failed contract_id=3669620779",
+      "meta": {
+        "error": "InvalidtoSell: Waiting for entry tick."
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:34.402Z",
+      "level": "info",
+      "msg": "session summary sent",
+      "meta": {
+        "started_at": "2026-06-29T16:29:27.461Z",
+        "ended_reason": "stop_loss",
+        "positions": 9,
+        "session_pnl": -6.04
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:34.402Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T22:10:22.156Z",
+        "symbol": "R_25",
+        "decision_action": "open",
+        "decision_id": "R25-MD-OB-01",
+        "rationale": "The market is in a strong bullish trend with EMA(20) above EMA(50) and positive MACD histograms across M5, M10, and M15 timeframes. However, RSI is significantly overbought (M5: 75.14, M10: 77.33, M15",
+        "executed_count": 1,
+        "just_closed": 1,
+        "open_now": 1,
+        "session_pnl": -6.04,
+        "floating_pnl": null,
+        "halted": true,
+        "halt_reason": "aggregate P/L -6.04 <= -stop_loss 5",
+        "risk_breach": "stop_loss"
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:34.403Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for R_25 @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782742200000,
+          "max": 1782777900000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:34.580Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782742200000,
+          "max": 1782777900000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T22:10:36.350Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1947,
+        "bytes": 157501
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-29",
-    "trades": 8,
+    "trades": 9,
     "wins": 1,
-    "losses": 7,
-    "pnl": -3.5,
+    "losses": 8,
+    "pnl": -6.04,
     "by_symbol": {
       "frxEURUSD": {
         "trades": 1,
@@ -3006,10 +3074,10 @@
         "pnl": -1.82
       },
       "R_25": {
-        "trades": 2,
+        "trades": 3,
         "wins": 0,
-        "losses": 2,
-        "pnl": -1.82
+        "losses": 3,
+        "pnl": -4.36
       }
     }
   },
@@ -3036,7 +3104,7 @@
     "pnl": 0
   },
   "_notified_halt_reason": null,
-  "_notified_session_summary": null,
+  "_notified_session_summary": "2026-06-29T16:29:27.461Z",
   "chart_windows": {
     "cryBTCUSD": {
       "min": 1782734400000,
