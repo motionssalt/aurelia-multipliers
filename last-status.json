@@ -1,15 +1,15 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T16:50:32.380Z",
-  "balance": 9975.76,
+  "last_cycle": "2026-06-29T16:55:51.083Z",
+  "balance": 9980.61,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-29T16:29:27.461Z",
     "capital_start": 20,
-    "capital_remaining": 24.28,
+    "capital_remaining": 23.28,
     "take_profit": 5,
     "stop_loss": 5,
     "trades": 3,
@@ -23,16 +23,49 @@
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {
-    "cryBTCUSD": [],
+    "cryBTCUSD": [
+      {
+        "contract_id": 3644889559,
+        "stake": 1,
+        "multiplier": 100,
+        "direction": "up",
+        "entry_spot": 59810.917,
+        "entry_time": "2026-06-29T16:55:47.000Z",
+        "take_profit": 5,
+        "stop_loss": 0.95,
+        "floating_pnl": null,
+        "floating_pnl_pct": null,
+        "current_spot": null,
+        "last_polled_at": null,
+        "cycle_id": "2026-06-29T16:55:14.437Z",
+        "decision_id": "dec-9f3c2a",
+        "sibling_index": 0,
+        "sibling_count": 1,
+        "rationale": "cryBTCUSD M5: RSI 56.67 (neutral), MACD histogram +18.56 (strong bullish momentum), ADX 16.57 with +DI 28.98 > -DI 17.05 (uptrend), price near upper Bollinger (59860.46 vs upper 60075.46) indicating continued strength. No open siblings and capital allows a 1‑USD stake.",
+        "opened_at": "2026-06-29T16:55:47.927Z"
+      }
+    ],
     "frxEURUSD": [],
     "frxGBPJPY": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 0,
-    "positions": 0,
-    "total_stake": 0,
+    "symbols": 1,
+    "positions": 1,
+    "total_stake": 1,
     "total_floating_pnl": null,
-    "per_symbol": []
+    "per_symbol": [
+      {
+        "symbol": "cryBTCUSD",
+        "count": 1,
+        "total_stake": 1,
+        "total_floating_pnl": null,
+        "net_position": 1,
+        "direction_mix": {
+          "up": 1,
+          "down": 0
+        }
+      }
+    ]
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -430,159 +463,6 @@
     "OPENAI_KEY_4": 1782698933111
   },
   "logs": [
-    {
-      "ts": "2026-06-29T15:58:09.271Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:58:09.271Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:58:09.271Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:58:09.271Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:58:09.271Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:58:09.272Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:58:10.756Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" key \"CLOUDFLARE_KEY_1\" failed â flagged",
-      "meta": {
-        "error": "cloudflare 400: {\"success\":false,\"errors\":[{\"code\":7000,\"message\":\"No route for that URI\"}],\"messages\":[],\"result\":null}"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:58:10.757Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: cloudflare 400: {\"success\":false,\"errors\":[{\"code\":7000,\"message\":\"No route for that URI\"}],\"messages\":[],\"result\":null}"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:58:10.758Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-29T15:58:10.859Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782712800000,
-          "max": 1782748500000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T15:58:12.893Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2135,
-        "bytes": 157580
-      }
-    },
-    {
-      "ts": "2026-06-29T16:00:26.673Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T16:00:26.673Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T16:00:26.675Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:00:27.176Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=G7jODH6C"
-      }
-    },
-    {
-      "ts": "2026-06-29T16:00:27.365Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:00:27.425Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:00:27.425Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T16:00:27.425Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T16:00:28.002Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T16:00:27.425Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
     {
       "ts": "2026-06-29T16:00:28.003Z",
       "level": "info",
@@ -2409,6 +2289,262 @@
         "ms": 1899,
         "bytes": 151714
       }
+    },
+    {
+      "ts": "2026-06-29T16:55:13.866Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T16:55:13.866Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:13.868Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:55:14.264Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=td42pXvM"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:14.404Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:55:14.438Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T16:55:14.437Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:14.894Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T16:55:14.437Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:15.697Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:55:15.697Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:55:47.632Z",
+      "level": "info",
+      "msg": "AI decision via \"cloudflare\" key \"CLOUDFLARE_KEY_1\"",
+      "meta": {
+        "action": "open",
+        "symbol": "cryBTCUSD",
+        "conf": 0.88
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:47.633Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "dec-9f3c2a",
+        "keyUsed": "CLOUDFLARE_KEY_1",
+        "warnings": [
+          "open.stop_loss 5 above live max 0.97 — clamped DOWN"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:47.633Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: TP/SL soft-clamped to live ranges",
+      "meta": {
+        "warnings": [
+          "open.stop_loss 5 above live max 0.97 — clamped DOWN"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:47.634Z",
+      "level": "info",
+      "msg": "Multiplier cycle: AI chose symbol from candidates",
+      "meta": {
+        "cycle_id": "2026-06-29T16:55:14.437Z",
+        "ai_chosen": "cryBTCUSD",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:47.786Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted cryBTCUSD MULTUP ×100",
+      "meta": {
+        "stake": 1,
+        "ask_price": 1,
+        "spot": 59810.917,
+        "commission": 0.03,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-0.95",
+            "order_amount": -0.95,
+            "order_date": 1782752147,
+            "value": "59260.903"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-1.00",
+            "order_amount": -1,
+            "order_date": 1782752147,
+            "value": "59230.072"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "5.00",
+            "order_amount": 5,
+            "order_date": 1782752147,
+            "value": "62929.718"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 48.5
+          },
+          "stop_loss": {
+            "min": 0.1,
+            "max": 0.97
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:47.926Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3644889559",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "direction": "up",
+        "contract_type": "MULTUP",
+        "multiplier": 100,
+        "stake": 1,
+        "final_limit_order": {
+          "take_profit": 5,
+          "stop_loss": 0.95
+        },
+        "tp_sl_clamped": false,
+        "transaction_id": 7152124479,
+        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in BTC/USD, multiplied by 97, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:47.927Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T16:55:14.437Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "open",
+        "decision_id": "dec-9f3c2a",
+        "rationale": "cryBTCUSD M5: RSI 56.67 (neutral), MACD histogram +18.56 (strong bullish momentum), ADX 16.57 with +DI 28.98 > -DI 17.05 (uptrend), price near upper Bollinger (59860.46 vs upper 60075.46) indicating c",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -0.72,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:47.928Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:48.005Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782723600000,
+          "max": 1782759300000,
+          "justOpened": true
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T16:55:49.900Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1972,
+        "bytes": 172229
+      }
     }
   ],
   "daily_stats": {
@@ -2456,5 +2592,10 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {}
+  "chart_windows": {
+    "cryBTCUSD": {
+      "min": 1782723600000,
+      "max": 1782759300000
+    }
+  }
 }
