@@ -1416,6 +1416,53 @@ async function forceCloseAllForSymbol(ws, config, state, symbol, reason) {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   GLOBAL KILL-SWITCH — close every open sibling across every symbol.
+   ─────────────────────────────────────────────────────────────────
+   Triggered by:
+     • Manual workflow dispatch with payload { action: 'close_all' }
+       (Telegram main-menu 🔻 button / /closeall command).
+     • Aggregate-risk paths can also call this when a session-wide
+       halt should sweep all symbols, not just the one being checked.
+
+   Behaviour:
+     • Iterates every symbol in state.cycle_open_siblings and calls
+       forceCloseAllForSymbol() with reason 'manual_close_all' (or the
+       reason passed in).
+     • Returns a flat summary: { closed: [...], errors: [...], symbols }.
+     • Does NOT pause the cycle on its own — the caller (worker) is
+       responsible for also flipping config.trading_enabled / cycle.running
+       if the operator wants the bot to stay flat after the sweep.
+   ───────────────────────────────────────────────────────────────── */
+async function closeAllPositions(ws, config, state, reason) {
+    const tag = reason || 'manual_close_all';
+    const container = state.cycle_open_siblings || {};
+    const symbols = Object.keys(container).filter(s =>
+        Array.isArray(container[s]) && container[s].length > 0
+    );
+    Logger.warn('closeAllPositions: sweeping all open siblings', {
+        reason: tag,
+        symbols,
+        position_count: State.countOpenSiblings(state),
+    });
+    const closed = [];
+    const errors = [];
+    for (const symbol of symbols) {
+        try {
+            const r = await forceCloseAllForSymbol(ws, config, state, symbol, tag);
+            for (const c of (r || [])) {
+                closed.push(Object.assign({ symbol }, c));
+            }
+        } catch (e) {
+            Logger.error('closeAllPositions: forceCloseAllForSymbol threw', {
+                symbol, error: e.message,
+            });
+            errors.push({ symbol, error: e.message });
+        }
+    }
+    return { closed, errors, symbols };
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Part 2b execution helpers — used by runMultiplierCycle's decision
    dispatcher (and re-used by the 'multi' bundled action). Each returns
    an array of detail objects that the caller folds into executed.details.
@@ -1737,7 +1784,20 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
     // We DO run the tick even if the session is halted, but only to
     // settle / book any siblings that closed server-side since last
     // tick. We do NOT open new positions while halted.
-    const cycleRunning = !!(config.cycle && config.cycle.running);
+    //
+    // GLOBAL KILL SWITCH (config.trading_enabled = false).
+    // Stronger than cycle.running because it also blocks manual scans
+    // from opening new contracts. We still let polling/settling run so
+    // any in-flight contracts continue to be tracked — but the AI is
+    // never asked to OPEN. Defaults to ON for backward compat with
+    // pre-killswitch configs (undefined !== false).
+    const tradingEnabled = (config.trading_enabled !== false);
+    if (!tradingEnabled) {
+        Logger.warn('Multiplier cycle: TRADING DISABLED (config.trading_enabled=false) — settle/poll only', {
+            open_siblings: State.countOpenSiblings(state),
+        });
+    }
+    const cycleRunning = !!(config.cycle && config.cycle.running) && tradingEnabled;
     const sessionActive = sess.active && !sess.halted;
     if (!cycleRunning) {
         Logger.info('Multiplier cycle paused (config.cycle.running=false)');
@@ -2333,6 +2393,57 @@ async function runManual(ws, config, state, connOpts) {
 
     const action = inputPayload.action || 'scan';
 
+    /* ────────────────────────────────────────────────────────────────
+       Global kill switch — sweep every open sibling at market.
+       Dispatched from Telegram (🔻 Close All / /closeall).
+       Does NOT touch config.trading_enabled or cycle.running — the
+       worker already flipped those before dispatching, so the runner
+       only has to execute the sells.
+       ───────────────────────────────────────────────────────────────── */
+    if (action === 'close_all') {
+        const reason = inputPayload.reason || 'manual_close_all';
+        try {
+            const result = await closeAllPositions(ws, config, state, reason);
+            const totalPnl = result.closed.reduce((s, c) => s + Number(c.pnl || 0), 0);
+            const pnlSign  = totalPnl >= 0 ? '+' : '';
+            const lines = [
+                `🔻 <b>Close-All complete</b>`,
+                `Reason: <code>${reason}</code>`,
+                `Symbols swept: <b>${result.symbols.length}</b>`,
+                `Positions closed: <b>${result.closed.length}</b>`,
+                `Realised P/L: <b>${pnlSign}$${totalPnl.toFixed(2)}</b>`,
+            ];
+            if (result.errors.length) {
+                lines.push('');
+                lines.push(`⚠️ <b>${result.errors.length} symbol(s) errored:</b>`);
+                for (const e of result.errors.slice(0, 5)) {
+                    lines.push(`  • <code>${e.symbol}</code>: ${String(e.error).slice(0, 80)}`);
+                }
+            }
+            // Per-symbol breakdown (cap at 10 lines so Telegram doesn't choke).
+            if (result.closed.length) {
+                const bySym = {};
+                for (const c of result.closed) {
+                    bySym[c.symbol] = bySym[c.symbol] || { count: 0, pnl: 0 };
+                    bySym[c.symbol].count += 1;
+                    bySym[c.symbol].pnl   += Number(c.pnl || 0);
+                }
+                lines.push('');
+                lines.push('<b>Per symbol:</b>');
+                const rows = Object.entries(bySym).slice(0, 10);
+                for (const [sym, agg] of rows) {
+                    const s = agg.pnl >= 0 ? '+' : '';
+                    lines.push(`  • <code>${sym}</code>: ${agg.count} ×  ${s}$${agg.pnl.toFixed(2)}`);
+                }
+            }
+            await Telegram.send(lines.join('\n'));
+        } catch (e) {
+            Logger.error('Manual close_all threw', { error: e.message });
+            await Telegram.send(`❌ Close-All failed: <code>${String(e.message).slice(0,200)}</code>`);
+        }
+        return ws;
+    }
+
     if (action === 'chart') {
         const symbol = inputPayload.symbol || 'frxEURUSD';
         const tf     = inputPayload.tf     || '5m';
@@ -2342,6 +2453,21 @@ async function runManual(ws, config, state, connOpts) {
         } catch (e) {
             await Telegram.send(`Chart failed: <code>${e.message}</code>`);
         }
+        return ws;
+    }
+
+    /* Honour the global kill switch on the manual path too.
+       config.trading_enabled === false means: don't open ANY new
+       positions, even from /scan. Charts + close_all stay allowed
+       (handled above this block). */
+    if (config.trading_enabled === false) {
+        Logger.warn('Manual scan blocked — config.trading_enabled=false');
+        try {
+            await Telegram.send(
+                '🛑 <b>Trading is DISABLED</b>\nThe global kill switch is on. ' +
+                'Re-enable trading from ⚙️ Settings (or /resumetrading) before scanning.'
+            );
+        } catch (_) {}
         return ws;
     }
 
@@ -2799,6 +2925,7 @@ module.exports = {
     // Part 3c — end-of-session summary:
     maybeSendSessionSummary,
     forceCloseAllForSymbol,
+    closeAllPositions,
     openSibling,
     pollSibling,
     // Part 2b execution helpers (exposed for smoke tests):
