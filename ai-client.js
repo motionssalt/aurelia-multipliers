@@ -238,6 +238,35 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
             // Use OpenAI-compat endpoint — model goes in the request body,
             // NOT in the URL. The /ai/run/{model} native endpoint returns
             // result.response which is empty for chat models.
+            //
+            // IMPORTANT for @cf/openai/gpt-oss-* (reasoning models):
+            //   • Without a generous max_tokens, the model spends ALL
+            //     output tokens on its hidden reasoning_content and
+            //     returns an EMPTY message.content — which then gets
+            //     mis-recovered by our reasoning_content fallback as
+            //     prose like "We need to analyze market indicators..."
+            //     and dies in _parseJsonStrict as "AI returned non-JSON".
+            //   • Setting reasoning.effort="low" keeps the chain-of-thought
+            //     short so the final JSON answer actually fits.
+            //   • response_format json_object forces strict JSON output.
+            const isGptOss = /^@cf\/openai\/gpt-oss/i.test(String(model || ''));
+            const cfBody = {
+                model,
+                messages: [{ role: 'user', content: prompt }],
+                // Strict JSON — same as we already do for openai/grok.
+                response_format: { type: 'json_object' },
+                // Reasoning models eat tokens fast; give them headroom.
+                max_tokens: isGptOss ? 8192 : 2048,
+            };
+            if (isGptOss) {
+                // gpt-oss accepts OpenAI Responses-API style reasoning hint.
+                // Keep effort low so reasoning_content stays small and the
+                // final answer lands in message.content.
+                cfBody.reasoning = { effort: 'low' };
+                cfBody.temperature = 0.4;
+            } else {
+                cfBody.temperature = 0.4;
+            }
             const f = await _fetch();
             const ctl = new AbortController();
             const t = setTimeout(() => ctl.abort(), timeoutMs || DEFAULT_TIMEOUT_MS);
@@ -251,10 +280,7 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
                             'Content-Type':  'application/json',
                             'Authorization': `Bearer ${keyValue}`,
                         },
-                        body: JSON.stringify({
-                            model,
-                            messages: [{ role: 'user', content: prompt }],
-                        }),
+                        body: JSON.stringify(cfBody),
                         signal: ctl.signal,
                     }
                 );
@@ -269,33 +295,44 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
             // Cloudflare's /ai/v1/chat/completions wraps the OpenAI-compat
             // payload inside `result` (i.e. json.result.choices[...]), while
             // its native /ai/run/{model} endpoint returns json.result.response.
-            // Some chat models (e.g. @cf/openai/gpt-oss-*) are reasoning models
-            // that may leave message.content empty and put the answer in
-            // message.reasoning_content — fall back to that too so a healthy
-            // key isn't benched as "empty text".
             const result  = json.result || json;
             const choice0 = ((result.choices || [])[0]) || {};
             const msg     = choice0.message || {};
+            const finishReason = choice0.finish_reason || choice0.stop_reason || '';
             let   text    = msg.content || result.response || '';
+
+            // Reasoning-model fallback: if content is empty but we got
+            // reasoning_content, try to extract a JSON object from the
+            // reasoning text. Crucially, we ONLY accept JSON — never
+            // raw prose — because the upstream caller will parse this
+            // with JSON.parse and would otherwise throw
+            // "AI returned non-JSON: We need to analyze market...".
             if (!text && msg.reasoning_content) {
-                // gpt-oss reasoning models sometimes only populate reasoning_content.
-                // Try to recover the final answer: take the last quoted/JSON-looking
-                // chunk, else fall back to the last non-empty line.
-                const rc = String(msg.reasoning_content).trim();
-                const jsonMatch = rc.match(/\{[\s\S]*\}\s*$/);
-                if (jsonMatch) {
-                    text = jsonMatch[0];
-                } else {
-                    const quoted = rc.match(/"([^"]{4,})"\s*\.?\s*$/);
-                    if (quoted) {
-                        text = quoted[1];
-                    } else {
-                        const lines = rc.split(/\n+/).map(s => s.trim()).filter(Boolean);
-                        text = lines[lines.length - 1] || '';
+                const rc = String(msg.reasoning_content);
+                // Greedy match: largest balanced-looking {...} block in the
+                // reasoning trace. gpt-oss usually "thinks aloud" then
+                // produces the final JSON near the end.
+                const matches = rc.match(/\{[\s\S]*\}/g);
+                if (matches && matches.length) {
+                    // Prefer the last JSON-looking block — that's normally
+                    // the model's final answer after its scratchpad.
+                    for (let i = matches.length - 1; i >= 0; i--) {
+                        try { JSON.parse(matches[i]); text = matches[i]; break; }
+                        catch (_) { /* try previous */ }
                     }
                 }
             }
-            if (!text) throw new Error('cloudflare returned empty text');
+
+            if (!text) {
+                // Surface the real reason so the runner log is actionable
+                // instead of just "cloudflare returned empty text".
+                const why = finishReason === 'length'
+                    ? 'truncated (finish_reason=length) — raise max_tokens or lower reasoning.effort'
+                    : (msg.reasoning_content
+                        ? 'reasoning-only response with no extractable JSON'
+                        : 'no content returned');
+                throw new Error(`cloudflare returned empty text: ${why}`);
+            }
             return String(text).trim();
         }
         default:
