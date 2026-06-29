@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T20:50:24.884Z",
+  "last_cycle": "2026-06-29T20:55:21.288Z",
   "balance": 9981.47,
   "currency": "USD",
   "account_mode": "demo",
@@ -457,95 +457,6 @@
     "GEMINI_KEY_3": 1782763514642
   },
   "logs": [
-    {
-      "ts": "2026-06-29T19:40:17.412Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (6a52a536-"
-      }
-    },
-    {
-      "ts": "2026-06-29T19:40:17.413Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T19:40:16.999Z",
-        "symbol": "cryBTCUSD",
-        "decision_action": "hold",
-        "decision_id": "provider-fail-2026-06-29T19:40:16.999Z",
-        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -0.72,
-        "floating_pnl": 0.81,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T19:40:17.414Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782730800000,
-          "max": 1782766500000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T19:40:17.496Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782730800000,
-          "max": 1782766500000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T19:40:21.085Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 3671,
-        "bytes": 165468
-      }
-    },
-    {
-      "ts": "2026-06-29T19:45:22.137Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T19:45:22.137Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T19:45:22.139Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:45:22.647Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=MB6zMmgo"
-      }
-    },
-    {
-      "ts": "2026-06-29T19:45:23.021Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T19:45:23.133Z",
       "level": "info",
@@ -2331,6 +2242,97 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T20:50:24.166Z",
+        "symbol": "frxEURUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-29T20:55:19.802Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T20:55:19.802Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T20:55:19.804Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T20:55:20.305Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=5pLquaX2"
+      }
+    },
+    {
+      "ts": "2026-06-29T20:55:20.603Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T20:55:20.710Z",
+      "level": "warn",
+      "msg": "Multiplier cycle: TRADING DISABLED (config.trading_enabled=false) — settle/poll only",
+      "meta": {
+        "open_siblings": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T20:55:20.710Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T20:55:20.710Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T20:55:20.709Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T20:55:21.287Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T20:55:20.709Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T20:55:21.287Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T20:55:20.709Z",
         "symbol": "frxEURUSD",
         "cycle_running": false,
         "halted": false,
