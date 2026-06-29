@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T16:55:51.083Z",
-  "balance": 9980.61,
+  "last_cycle": "2026-06-29T17:00:55.651Z",
+  "balance": 9979.61,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -31,12 +31,12 @@
         "direction": "up",
         "entry_spot": 59810.917,
         "entry_time": "2026-06-29T16:55:47.000Z",
-        "take_profit": 5,
-        "stop_loss": 0.95,
-        "floating_pnl": null,
-        "floating_pnl_pct": null,
-        "current_spot": null,
-        "last_polled_at": null,
+        "take_profit": 6,
+        "stop_loss": 0.2,
+        "floating_pnl": 0.09,
+        "floating_pnl_pct": 9,
+        "current_spot": 59903.275,
+        "last_polled_at": "2026-06-29T17:00:27.334Z",
         "cycle_id": "2026-06-29T16:55:14.437Z",
         "decision_id": "dec-9f3c2a",
         "sibling_index": 0,
@@ -52,14 +52,14 @@
     "symbols": 1,
     "positions": 1,
     "total_stake": 1,
-    "total_floating_pnl": null,
+    "total_floating_pnl": 0.09,
     "per_symbol": [
       {
         "symbol": "cryBTCUSD",
         "count": 1,
         "total_stake": 1,
-        "total_floating_pnl": null,
-        "net_position": 1,
+        "total_floating_pnl": 0.09,
+        "net_position": 1.09,
         "direction_mix": {
           "up": 1,
           "down": 0
@@ -463,108 +463,6 @@
     "OPENAI_KEY_4": 1782698933111
   },
   "logs": [
-    {
-      "ts": "2026-06-29T16:00:28.003Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T16:00:27.425Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T16:02:54.525Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T16:02:54.525Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T16:02:54.527Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:55.074Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=U05sld4S"
-      }
-    },
-    {
-      "ts": "2026-06-29T16:02:55.355Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:55.438Z",
-      "level": "info",
-      "msg": "Manual scan tick",
-      "meta": {
-        "symbol": "frxEURUSD"
-      }
-    },
-    {
-      "ts": "2026-06-29T16:02:56.787Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 â provider will be skipped until secrets are wired.",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:56.788Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 â provider will be skipped until secrets are wired.",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:56.788Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_3\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:56.788Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:56.788Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:56.788Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:56.788Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:56.788Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" not present in env â skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T16:02:56.788Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" not present in env â skipping",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T16:02:56.788Z",
       "level": "warn",
@@ -2544,6 +2442,148 @@
       "meta": {
         "ms": 1972,
         "bytes": 172229
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:25.890Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T17:00:25.890Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:25.892Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:00:26.701Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=kmZDMqLW"
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:27.045Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:00:27.144Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T17:00:27.144Z",
+        "symbol": "cryBTCUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:28.655Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:00:28.655Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T17:00:51.847Z",
+      "level": "info",
+      "msg": "AI decision via \"cloudflare\" key \"CLOUDFLARE_KEY_1\"",
+      "meta": {
+        "action": "revise",
+        "conf": 0.71
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:51.848Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "revise",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "CLOUDFLARE_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:51.998Z",
+      "level": "trade",
+      "msg": "Revising multiplier limits contract_id=3644889559",
+      "meta": {
+        "limit_order": {
+          "take_profit": 6,
+          "stop_loss": 0.2
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:52.140Z",
+      "level": "trade",
+      "msg": "Multiplier limits revised contract_id=3644889559",
+      "meta": {
+        "take_profit": 6,
+        "stop_loss": -0.2
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:52.141Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T17:00:27.144Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "revise",
+        "decision_id": "dec-7f02b1",
+        "rationale": "MACD histogram +18.76 indicates strong bullish momentum; price is just below the upper Bollinger Band (59903 vs 60010.86) and a Morning Star pattern is present, supporting continued upside. The open M",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -0.72,
+        "floating_pnl": 0.09,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:52.142Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782723600000,
+          "max": 1782759300000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:52.355Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782723600000,
+          "max": 1782759300000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T17:00:54.346Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2204,
+        "bytes": 168850
       }
     }
   ],
