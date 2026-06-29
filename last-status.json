@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T13:25:16.327Z",
+  "last_cycle": "2026-06-29T13:30:20.059Z",
   "balance": 9972.34,
   "currency": "USD",
   "account_mode": "demo",
@@ -404,83 +404,6 @@
     "OPENAI_KEY_1": 1782732622407
   },
   "logs": [
-    {
-      "ts": "2026-06-29T11:30:20.453Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T11:30:20.830Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=P5chN1Zk"
-      }
-    },
-    {
-      "ts": "2026-06-29T11:30:20.934Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T11:30:20.965Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T11:30:20.965Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T11:30:21.569Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T11:30:20.965Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T11:30:22.406Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T11:30:22.407Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENAI_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T11:30:22.680Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" failed — flagged",
-      "meta": {
-        "error": "openai 429: {\n    \"error\": {\n        \"message\": \"You exceeded your current quota, please check your plan and billing details. For more information on this error, read the docs: https://platform.openai.com/docs/gu"
-      }
-    },
     {
       "ts": "2026-06-29T11:30:22.868Z",
       "level": "warn",
@@ -2466,6 +2389,89 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T13:25:15.709Z",
+        "symbol": "frxEURUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-29T13:30:19.116Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T13:30:19.115Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T13:30:19.118Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T13:30:19.467Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=YGhQR1ry"
+      }
+    },
+    {
+      "ts": "2026-06-29T13:30:19.581Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T13:30:19.613Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T13:30:19.614Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T13:30:19.613Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T13:30:20.058Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T13:30:19.613Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T13:30:20.058Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T13:30:19.613Z",
         "symbol": "frxEURUSD",
         "cycle_running": false,
         "halted": false,
