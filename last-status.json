@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T15:55:18.290Z",
+  "last_cycle": "2026-06-29T15:58:13.855Z",
   "balance": 9955.47,
   "currency": "USD",
   "account_mode": "demo",
@@ -340,201 +340,9 @@
     "GEMINI_KEY_2": 1782698933111,
     "OPENAI_KEY_3": 1782698933111,
     "OPENAI_KEY_4": 1782698933111,
-    "CLOUDFLARE_KEY_1": 1782748242510
+    "CLOUDFLARE_KEY_1": 1782748689271
   },
   "logs": [
-    {
-      "ts": "2026-06-29T13:55:15.422Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T13:55:15.817Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Up6lnaGv"
-      }
-    },
-    {
-      "ts": "2026-06-29T13:55:15.897Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T13:55:15.924Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T13:55:15.925Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T13:55:15.924Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T13:55:17.043Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T13:55:15.924Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T13:55:17.043Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T13:55:15.924Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T14:00:25.827Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T14:00:25.827Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T14:00:25.828Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T14:00:26.246Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=dRk1Bi6m"
-      }
-    },
-    {
-      "ts": "2026-06-29T14:00:26.408Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T14:00:26.450Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T14:00:26.451Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T14:00:26.450Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T14:00:26.955Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T14:00:26.450Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T14:00:26.955Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T14:00:26.450Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T14:05:15.988Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T14:05:15.987Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T14:05:15.990Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T14:05:16.470Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=LzBufVwq"
-      }
-    },
-    {
-      "ts": "2026-06-29T14:05:16.682Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T14:05:16.747Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T14:05:16.747Z",
       "level": "info",
@@ -2208,6 +2016,148 @@
         "cycle_running": false,
         "halted": false,
         "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-29T15:58:07.435Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T15:58:07.434Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:58:07.436Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:07.903Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=TXFFUTGk"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:58:08.084Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:08.137Z",
+      "level": "info",
+      "msg": "Manual scan tick",
+      "meta": {
+        "symbol": "frxEURUSD"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:58:09.271Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:09.271Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:09.271Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_3\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:09.271Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:09.271Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:09.271Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:09.271Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:09.271Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:09.271Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:09.272Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:58:10.756Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" key \"CLOUDFLARE_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "cloudflare 400: {\"success\":false,\"errors\":[{\"code\":7000,\"message\":\"No route for that URI\"}],\"messages\":[],\"result\":null}"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:58:10.757Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "All AI providers/keys failed; last error: cloudflare 400: {\"success\":false,\"errors\":[{\"code\":7000,\"message\":\"No route for that URI\"}],\"messages\":[],\"result\":null}"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:58:10.758Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-29T15:58:10.859Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782712800000,
+          "max": 1782748500000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T15:58:12.893Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2135,
+        "bytes": 157580
       }
     }
   ],
