@@ -973,14 +973,30 @@ function renderAccount(cfg) {
 }
 
 /* Count how many API keys each provider has registered.
-   All providers store their keys under provider.keys[] (array of
-   GitHub Secret names), matching the shape used by ai-client.js. */
-function _providerKeyCount(provider) {
+   Keys can live in any of: provider.keys[], provider.key_registry[],
+   or (for the default provider matching config.ai.model) the top-
+   level config.ai.key_registry[]. We count the deduped union so the
+   Settings panel matches what ai-client.js actually sees. */
+function _providerKeyCount(provider, cfg) {
     if (!provider) return 0;
-    if (Array.isArray(provider.keys) && provider.keys.length > 0) {
-        return provider.keys.length;
+    const seen = new Set();
+    const add = (name) => {
+        if (typeof name === 'string' && name.trim()) seen.add(name.trim());
+    };
+    if (Array.isArray(provider.keys))         provider.keys.forEach(add);
+    if (Array.isArray(provider.key_registry)) provider.key_registry.forEach(add);
+    const topReg = (cfg && cfg.ai && Array.isArray(cfg.ai.key_registry))
+        ? cfg.ai.key_registry : [];
+    if (topReg.length) {
+        const provName = String(provider.name || '').toLowerCase();
+        const topModel = String((cfg && cfg.ai && cfg.ai.model) || '').toLowerCase();
+        const isDefault =
+            (topModel && topModel.startsWith(provName + '-')) ||
+            (topModel && topModel.startsWith(provName)) ||
+            (!topModel && provName === 'gemini');
+        if (isDefault) topReg.forEach(add);
     }
-    return 0;
+    return seen.size;
 }
 
 function renderAi(cfg) {
@@ -997,10 +1013,10 @@ function renderAi(cfg) {
     const keyLines = [];
     for (const p of providers) {
         if (!p || !p.name) continue;
-        const n    = _providerKeyCount(p);
+        const n    = _providerKeyCount(p, cfg);
         const flag = (p.enabled === false) ? '⛔' : (n > 0 ? '✅' : '⚠️');
         const hint = n > 0
-            ? `<i>(${n} secret${n === 1 ? '' : 's'} in keys[])</i>`
+            ? `<i>(${n} secret${n === 1 ? '' : 's'} registered)</i>`
             : `<i>(no keys configured)</i>`;
         keyLines.push(
             `  • <b>${escapeHtml(p.name)}</b>  : ${n} key${n === 1 ? '' : 's'}  ${flag}  ${hint}`
@@ -1027,9 +1043,9 @@ function renderAiProviders(cfg) {
     const providers = (cfg.ai && Array.isArray(cfg.ai.providers)) ? cfg.ai.providers : [];
     const lines = providers.map(p => {
         const flag    = p.enabled === false ? '⛔' : '✅';
-        const keys    = _providerKeyCount(p);
-        const keyInfo = (Array.isArray(p.keys) && p.keys.length > 0)
-            ? `keys: <b>${p.keys.length}</b> (${p.keys.length} secret${p.keys.length === 1 ? '' : 's'})`
+        const keys    = _providerKeyCount(p, cfg);
+        const keyInfo = (keys > 0)
+            ? `keys: <b>${keys}</b> (${keys} secret${keys === 1 ? '' : 's'})`
             : `<i>no keys configured</i>`;
         const warn = (keys === 0 && p.enabled !== false) ? '  ⚠️' : '';
         return [
