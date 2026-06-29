@@ -192,10 +192,26 @@ async function _callClaude({ keyValue, model, prompt, timeoutMs }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   Cloudflare account ID resolver — each key belongs to a different
+   Cloudflare account, so the account ID is keyed by secret name in
+   provider.key_accounts.
+   ───────────────────────────────────────────────────────────────── */
+function _resolveCloudflareAccountId(provider, keyName) {
+    const accountId = provider.key_accounts && provider.key_accounts[keyName];
+    if (!accountId) {
+        throw new Error(
+            `Cloudflare key "${keyName}" has no matching account ID in provider.key_accounts — ` +
+            `add an entry for it in config.json before this key can be used.`
+        );
+    }
+    return accountId;
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Generic provider dispatcher \u2014 routes by provider.name.
    Returns the raw text reply (JSON-as-string).
    ───────────────────────────────────────────────────────────────── */
-async function _callProvider(provider, { keyValue, prompt, timeoutMs }) {
+async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs }) {
     const model = provider.model;
     switch ((provider.name || '').toLowerCase()) {
         case 'gemini':
@@ -216,6 +232,15 @@ async function _callProvider(provider, { keyValue, prompt, timeoutMs }) {
         case 'claude':
         case 'anthropic':
             return _callClaude({ keyValue, model, prompt, timeoutMs });
+        case 'cloudflare':
+        case 'workers-ai': {
+            const accountId = _resolveCloudflareAccountId(provider, keyName);
+            return _callOpenAICompat({
+                keyValue, model, prompt, timeoutMs,
+                endpoint: `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/ai/v1/chat/completions`,
+                providerName: 'cloudflare',
+            });
+        }
         default:
             throw new Error(`unknown AI provider "${provider.name}"`);
     }
@@ -371,7 +396,7 @@ async function askDecision({ payload, config, state, prompt, schemaHint }) {
         }
 
         try {
-            const text = await _callProvider(provider, { keyValue, prompt: fullPrompt, timeoutMs });
+            const text = await _callProvider(provider, { keyValue, keyName, prompt: fullPrompt, timeoutMs });
             const parsed = _parseJsonStrict(text);
             // Success: clear flag if present so this key is active again.
             if (benchMap[keyName]) delete benchMap[keyName];

@@ -79,6 +79,8 @@ jobs:
           OPENAI_API_KEY:     ${{ secrets.OPENAI_API_KEY }}
           XAI_API_KEY:        ${{ secrets.XAI_API_KEY }}
           ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
+          CLOUDFLARE_KEY_1:   ${{ secrets.CLOUDFLARE_KEY_1 }}
+          CLOUDFLARE_KEY_2:   ${{ secrets.CLOUDFLARE_KEY_2 }}
           # GitHub (for worker-side; runner does not write secrets itself)
           GITHUB_PAT:         ${{ secrets.PAT_TOKEN }}
           # Task routing — defaults to 'cycle' when cron-job.org omits inputs
@@ -86,14 +88,14 @@ jobs:
           INPUT_PAYLOAD:      ${{ github.event.inputs.payload }}
           # All repo/org secrets dumped as JSON. Runner parses out keys whose
           # name starts with GEMINI_KEY_ / OPENAI_KEY_ / XAI_KEY_ /
-          # ANTHROPIC_KEY_ and exposes them in process.env so
+          # ANTHROPIC_KEY_ / CLOUDFLARE_KEY_ and exposes them in process.env so
           # ai-client.js can look them up by registry name. This is the
           # standard idiom for "arbitrary number of secrets" in Actions.
           ALL_SECRETS_JSON:   ${{ toJSON(secrets) }}
         run: |
-          # Expand GEMINI_KEY_*, OPENAI_KEY_*, XAI_KEY_*, ANTHROPIC_KEY_*
-          # entries from ALL_SECRETS_JSON into the current shell env so
-          # node sees them as process.env[NAME].
+          # Expand GEMINI_KEY_*, OPENAI_KEY_*, XAI_KEY_*, ANTHROPIC_KEY_*,
+          # CLOUDFLARE_KEY_* entries from ALL_SECRETS_JSON into the current
+          # shell env so node sees them as process.env[NAME].
           node -e "
             const all = JSON.parse(process.env.ALL_SECRETS_JSON || '{}');
             const lines = [];
@@ -102,6 +104,7 @@ jobs:
               if (k.startsWith('OPENAI_KEY_')) lines.push(k + '=' + v);
               if (k.startsWith('XAI_KEY_'))    lines.push(k + '=' + v);
               if (k.startsWith('ANTHROPIC_KEY_')) lines.push(k + '=' + v);
+              if (k.startsWith('CLOUDFLARE_KEY_')) lines.push(k + '=' + v);
             }
             require('fs').writeFileSync('.gemini.env', lines.join('\n'));
           "

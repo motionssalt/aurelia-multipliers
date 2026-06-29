@@ -10,6 +10,10 @@
  *   F2. openai provider IS invoked when key_registry env IS set, and result
  *       is returned correctly.
  *   F3. preflight check logs warning for provider with no resolvable keys.
+ *   F4. cloudflare provider fails with clear error when key_accounts entry
+ *       is missing (gets flagged rather than crashing the loop).
+ *   F5. cloudflare provider routes through _callOpenAICompat with correct
+ *       account-ID-injected endpoint when key + key_accounts pair is valid.
  */
 'use strict';
 
@@ -193,6 +197,120 @@ function captureWarn(msg, meta) { capturedWarns.push({ msg, meta }); }
         ok('F3: preflight warns for grok with no resolvable keys',
             !!grokWarn, { captured: capturedWarns.map(w => w.msg) });
 
+        Logger.warn = originalWarn;
+    }
+
+    // F4: cloudflare fails clearly when key_accounts entry is missing.
+    {
+        capturedWarns = [];
+        Logger.warn = captureWarn;
+        process.env.CLOUDFLARE_KEY_1 = 'cf-fake-token-abc';
+
+        const config = {
+            ai: {
+                key_registry: [], // skip Gemini stage
+                bench_minutes: 1,
+                timeout_ms: 5000,
+                providers: [
+                    {
+                        name: 'cloudflare',
+                        enabled: true,
+                        model: '@cf/openai/gpt-oss-120b',
+                        keys: ['CLOUDFLARE_KEY_1'],
+                        // NOTE: intentionally NO key_accounts map
+                    },
+                ],
+            },
+        };
+        const state = { ai_keys_bench: {} };
+
+        try {
+            await AIClient.askDecision({ payload: { test: true }, config, state });
+            ok('F4: should have thrown (missing key_accounts)', false);
+        } catch (e) {
+            ok('F4: throws "all providers/keys failed"',
+                /all ai providers\/keys failed/i.test(e.message),
+                { error: e.message });
+        }
+
+        // The key should have been flagged (benchMap entry created)
+        ok('F4: missing key_accounts causes key to be flagged',
+            state.ai_keys_bench['CLOUDFLARE_KEY_1'] > 0,
+            { benchMap: state.ai_keys_bench });
+
+        // The error message should mention key_accounts clearly — it's in
+        // the `error` meta of the "flagged" warning.
+        const flagWarn = capturedWarns.find(w =>
+            /key_accounts/.test(w.msg) ||
+            (w.meta && w.meta.error && /key_accounts/.test(w.meta.error))
+        );
+        ok('F4: warning/error mentions key_accounts',
+            !!flagWarn,
+            { captured: capturedWarns.map(w => ({ msg: w.msg, meta: w.meta })) });
+
+        delete process.env.CLOUDFLARE_KEY_1;
+        Logger.warn = originalWarn;
+    }
+
+    // F5: cloudflare routes through _callOpenAICompat with correct endpoint.
+    {
+        capturedWarns = [];
+        process.env.CLOUDFLARE_KEY_1 = 'cf-fake-token-xyz';
+
+        let cloudflareCalled = false;
+        let cloudflareUrl = null;
+
+        const originalFetch = global.fetch;
+        global.fetch = async (url, opts) => {
+            if (url.includes('api.cloudflare.com')) {
+                cloudflareCalled = true;
+                cloudflareUrl = url;
+                return {
+                    ok: true,
+                    status: 200,
+                    json: async () => ({
+                        choices: [{ message: { content: '{"action":"hold","rationale":"test"}' } }],
+                    }),
+                };
+            }
+            return originalFetch ? originalFetch(url, opts) : { ok: false, status: 500 };
+        };
+
+        const config = {
+            ai: {
+                key_registry: [], // skip Gemini stage
+                bench_minutes: 1,
+                timeout_ms: 5000,
+                providers: [
+                    {
+                        name: 'cloudflare',
+                        enabled: true,
+                        model: '@cf/openai/gpt-oss-120b',
+                        keys: ['CLOUDFLARE_KEY_1'],
+                        key_accounts: {
+                            CLOUDFLARE_KEY_1: 'a1b2c3d4e5f6g7h8i9j0k1l2m',
+                        },
+                    },
+                ],
+            },
+        };
+        const state = { ai_keys_bench: {} };
+
+        try {
+            const result = await AIClient.askDecision({ payload: { test: true }, config, state });
+            ok('F5: Cloudflare provider path was invoked', cloudflareCalled, { cloudflareUrl });
+            ok('F5: Cloudflare URL contains account ID',
+                cloudflareUrl && cloudflareUrl.includes('/a1b2c3d4e5f6g7h8i9j0k1l2m/'),
+                { cloudflareUrl });
+            ok('F5: decision returned correctly',
+                result && result.decision && result.decision.action === 'hold',
+                result);
+        } catch (e) {
+            ok('F5: Cloudflare call succeeded', false, { error: e.message });
+        }
+
+        global.fetch = originalFetch;
+        delete process.env.CLOUDFLARE_KEY_1;
         Logger.warn = originalWarn;
     }
 
