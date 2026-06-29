@@ -74,34 +74,24 @@ jobs:
           # Telegram
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
-          # AI fallback providers (optional — only used when enabled in
-          # config.ai.providers and the corresponding secret is set)
-          OPENAI_API_KEY:     ${{ secrets.OPENAI_API_KEY }}
-          XAI_API_KEY:        ${{ secrets.XAI_API_KEY }}
-          ANTHROPIC_API_KEY:  ${{ secrets.ANTHROPIC_API_KEY }}
           # GitHub (for worker-side; runner does not write secrets itself)
           GITHUB_PAT:         ${{ secrets.PAT_TOKEN }}
           # Task routing — defaults to 'cycle' when cron-job.org omits inputs
           INPUT_TASK:         ${{ github.event.inputs.task || 'cycle' }}
           INPUT_PAYLOAD:      ${{ github.event.inputs.payload }}
-          # All repo/org secrets dumped as JSON. Runner parses out keys whose
-          # name starts with GEMINI_KEY_ / OPENAI_KEY_ / XAI_KEY_ /
-          # ANTHROPIC_KEY_ and exposes them in process.env so
-          # ai-client.js can look them up by registry name. This is the
-          # standard idiom for "arbitrary number of secrets" in Actions.
+          # All repo/org secrets dumped as JSON. Runner parses out any secret
+          # whose name matches *_KEY_N (e.g. GEMINI_KEY_1, OPENAI_KEY_2) and
+          # exposes them in process.env so ai-client.js can look them up by
+          # registry name. Adding a new key never requires touching this workflow.
           ALL_SECRETS_JSON:   ${{ toJSON(secrets) }}
         run: |
-          # Expand GEMINI_KEY_*, OPENAI_KEY_*, XAI_KEY_*, ANTHROPIC_KEY_*
-          # entries from ALL_SECRETS_JSON into the current shell env so
-          # node sees them as process.env[NAME].
+          # Expand *_KEY_N entries from ALL_SECRETS_JSON into the current
+          # shell env so node sees them as process.env[NAME].
           node -e "
             const all = JSON.parse(process.env.ALL_SECRETS_JSON || '{}');
             const lines = [];
             for (const [k, v] of Object.entries(all)) {
-              if (k.startsWith('GEMINI_KEY_')) lines.push(k + '=' + v);
-              if (k.startsWith('OPENAI_KEY_')) lines.push(k + '=' + v);
-              if (k.startsWith('XAI_KEY_'))    lines.push(k + '=' + v);
-              if (k.startsWith('ANTHROPIC_KEY_')) lines.push(k + '=' + v);
+              if (/_KEY_\d+$/.test(k)) lines.push(k + '=' + v);
             }
             require('fs').writeFileSync('.gemini.env', lines.join('\n'));
           "

@@ -1,17 +1,15 @@
 /* =====================================================================
    AURELIA — ai-client.js
    ─────────────────────────────────────────────────────────────────────
-   Multi-provider AI decision client with key/provider failover + benching.
+   Multi-provider AI decision client with key/provider failover +
+   flag-based queue rotation.
 
-   Provider waterfall (v2):
-     1. Gemini (multi-key via config.ai.key_registry — original behaviour)
-     2. config.ai.providers[] in declared order, where `enabled: true`
-        and process.env[key_env] is present.
-
-   Each provider call returns STRICT JSON matching the same decision
-   schema. Benching keys is unchanged for Gemini; provider-level
-   failures are also benched in state.ai_keys_bench keyed by the
-   provider name (e.g. `provider:openai`).
+   Unified provider loop:
+     • All providers live in config.ai.providers[] with the same shape.
+     • Each provider has a `keys[]` array of GitHub Secret names.
+     • Keys rotate on failure: a flagged key is skipped until all keys
+       are flagged, then we FIFO-retry from the oldest flag.
+     • Flag state persists in state.ai_keys_bench (value = flag time).
 
    Public surface:
      askDecision({ payload, config, state })            → { decision, keyUsed }   // binary path
@@ -35,17 +33,24 @@ async function _fetch() {
 }
 
 /* ─────────────────────────────────────────────────────────────────
-   Key selection: order keys by (not-benched first, then bench-expiry asc)
+   Key selection: flag-based queue rotation.
+
+   • Active keys (not present in benchMap) come first.
+   • Flagged keys (present in benchMap) come after, ordered by FIFO
+     (oldest flag / smallest bench timestamp first).
+   • When ALL keys are flagged, the caller should retry from the first
+     flagged key and clear its flag — oldest failure is retried first.
    ───────────────────────────────────────────────────────────────── */
-function _orderKeys(registry, benchMap, now) {
+function _orderKeys(registry, benchMap) {
     const rows = registry.map(name => {
-        const benchUntil = Number((benchMap || {})[name] || 0);
-        const benched = benchUntil > now;
-        return { name, benchUntil, benched };
+        const flagTime = Number((benchMap || {})[name] || 0);
+        const flagged = flagTime > 0;
+        return { name, flagTime, flagged };
     });
     rows.sort((a, b) => {
-        if (a.benched !== b.benched) return a.benched ? 1 : -1;
-        return a.benchUntil - b.benchUntil;
+        if (a.flagged !== b.flagged) return a.flagged ? 1 : -1;
+        if (a.flagged && b.flagged) return a.flagTime - b.flagTime;
+        return 0;
     });
     return rows;
 }
@@ -218,9 +223,9 @@ async function _callProvider(provider, { keyValue, prompt, timeoutMs }) {
 
 /* ─────────────────────────────────────────────────────────────────
    Preflight: for every enabled provider, verify at least one of its
-   key_registry env var names resolves to a non-empty value. Logs a
-   clear warning per provider that has NONE resolvable, so a future
-   name mismatch shows up immediately in logs instead of silently
+   keys[] env var names resolves to a non-empty value. Logs a clear
+   warning per provider that has NONE resolvable, so a future name
+   mismatch shows up immediately in logs instead of silently
    degrading to "all providers failed."
    ───────────────────────────────────────────────────────────────── */
 function _preflightKeyCheck(config) {
@@ -228,31 +233,16 @@ function _preflightKeyCheck(config) {
     for (const p of providers) {
         if (!p || p.enabled === false) continue;
         const name = String(p.name || '').toLowerCase();
-        // Gemini is handled separately via config.ai.key_registry
-        if (name === 'gemini') continue;
-        const registry = Array.isArray(p.key_registry) && p.key_registry.length > 0
-            ? p.key_registry
-            : (p.key_env ? [p.key_env] : []);
-        if (!registry.length) {
-            Logger.warn(`Provider "${name}" has no key_registry or key_env configured`);
+        const keys = Array.isArray(p.keys) ? p.keys : [];
+        if (!keys.length) {
+            Logger.warn(`Provider "${name}" has no keys configured`);
             continue;
         }
-        const anyResolved = registry.some(k => !!process.env[k]);
+        const anyResolved = keys.some(k => !!process.env[k]);
         if (!anyResolved) {
             Logger.warn(
-                `Provider "${name}" key_registry env vars NONE resolvable: ` +
-                `${registry.join(', ')} — provider will be skipped until secrets are wired.`
-            );
-        }
-    }
-    // Also check Gemini (top-level key_registry)
-    const geminiRegistry = (config.ai && config.ai.key_registry) || [];
-    if (geminiRegistry.length > 0) {
-        const anyGemini = geminiRegistry.some(k => !!process.env[k]);
-        if (!anyGemini) {
-            Logger.warn(
-                `Gemini key_registry env vars NONE resolvable: ` +
-                `${geminiRegistry.join(', ')} — Stage 1 will be skipped.`
+                `Provider "${name}" keys NONE resolvable: ` +
+                `${keys.join(', ')} — provider will be skipped until secrets are wired.`
             );
         }
     }
@@ -262,95 +252,83 @@ function _preflightKeyCheck(config) {
    Public: ask the AI for a structured trading decision.
    Returns { decision, keyUsed }. Mutates state.ai_keys_bench on failures.
 
-   Strategy:
-     1. Try every Gemini key in config.ai.key_registry (existing logic).
-     2. If all benched/failed, walk config.ai.providers[] (in order),
-        skipping disabled ones and ones with no env key.
+   Unified provider loop:
+     1. Walk config.ai.providers[] in order.
+     2. For each enabled provider, order its keys: unflagged first,
+        then flagged (FIFO — oldest flag first).
+     3. When ALL keys across ALL providers are flagged, clear the oldest
+        flag and retry that key (FIFO recycle).
+     4. On success, clear the key's flag so it becomes active again.
+     5. On failure, flag the key (store flag timestamp in bench map).
    ───────────────────────────────────────────────────────────────── */
 async function askDecision({ payload, config, state, prompt, schemaHint }) {
     _preflightKeyCheck(config);
 
-    const registry = (config.ai && config.ai.key_registry) || [];
-    const benchMin = (config.ai && config.ai.bench_minutes) || DEFAULT_BENCH_MINUTES;
     const timeoutMs = (config.ai && config.ai.timeout_ms) || DEFAULT_TIMEOUT_MS;
-    const geminiModel = (config.ai && config.ai.model) || DEFAULT_MODEL;
-
     state.ai_keys_bench = state.ai_keys_bench || {};
     const now = Date.now();
     const fullPrompt = prompt || _buildDecisionPrompt(payload, schemaHint);
 
     let lastErr = null;
 
-    // ---- Stage 1: Gemini multi-key (preserves existing behaviour) ----
-    if (Array.isArray(registry) && registry.length > 0) {
-        const ordered = _orderKeys(registry, state.ai_keys_bench, now);
-        for (const row of ordered) {
-            const keyValue = process.env[row.name];
-            if (!keyValue) {
-                Logger.warn(`Gemini key "${row.name}" not present in env — skipping`);
-                continue;
-            }
-            if (row.benched) {
-                Logger.warn(`All keys benched; trying least-recently-benched "${row.name}" anyway`);
-            }
-            try {
-                const text = await _callGemini({ keyValue, model: geminiModel, prompt: fullPrompt, timeoutMs });
-                const parsed = _parseJsonStrict(text);
-                if (state.ai_keys_bench[row.name]) delete state.ai_keys_bench[row.name];
-                Logger.info(`AI decision via gemini key "${row.name}"`, {
-                    action: parsed.action, symbol: parsed.symbol, conf: parsed.confidence,
-                });
-                return { decision: parsed, keyUsed: row.name };
-            } catch (e) {
-                lastErr = e;
-                state.ai_keys_bench[row.name] = now + benchMin * 60 * 1000;
-                Logger.warn(`Gemini key "${row.name}" failed — benching ${benchMin}m`, { error: e.message });
-            }
+    // Collect all (provider, keyName) pairs from enabled providers that
+    // have a non-empty keys[] array, in declared order.
+    const providers = (config.ai && Array.isArray(config.ai.providers)) ? config.ai.providers : [];
+    const allPairs = [];
+    for (const p of providers) {
+        if (!p || p.enabled === false) continue;
+        const keys = Array.isArray(p.keys) ? p.keys : [];
+        if (!keys.length) continue;
+        for (const keyName of keys) {
+            allPairs.push({ provider: p, keyName });
         }
     }
 
-    // ---- Stage 2: fallback providers from config.ai.providers ----
-    // Each provider supports key_registry[] (multi-key rotation, same as Gemini)
-    // or a single key_env. key_registry takes precedence when present and non-empty.
-    const providers = (config.ai && Array.isArray(config.ai.providers)) ? config.ai.providers : [];
-    for (const p of providers) {
-        if (!p || p.enabled === false) continue;
-        const name = String(p.name || '').toLowerCase();
-        // Skip Gemini — stage 1 already covered it.
-        if (name === 'gemini') continue;
+    if (allPairs.length === 0) {
+        throw new Error('No AI providers configured with keys');
+    }
 
-        const provRegistry = Array.isArray(p.key_registry) && p.key_registry.length > 0
-            ? p.key_registry
-            : (p.key_env ? [p.key_env] : []);
+    // Build a single flat queue across all providers.
+    // Unflagged keys come first (in provider order), then flagged keys
+    // sorted by FIFO (oldest flag first).
+    const benchMap = state.ai_keys_bench;
+    const unflagged = allPairs.filter(({ keyName }) => !benchMap[keyName]);
+    const flagged = allPairs
+        .filter(({ keyName }) => benchMap[keyName] > 0)
+        .sort((a, b) => benchMap[a.keyName] - benchMap[b.keyName]);
 
-        if (!provRegistry.length) {
-            Logger.warn(`Provider "${name}" has no key_registry or key_env — skipping`);
+    const queue = [...unflagged, ...flagged];
+
+    // When every key is flagged, clear the oldest flag so it gets
+    // retried first (FIFO). The queue already has it at the front
+    // of the flagged section.
+    if (unflagged.length === 0 && flagged.length > 0) {
+        const oldest = flagged[0].keyName;
+        delete benchMap[oldest];
+        Logger.warn(`All keys flagged; clearing oldest flag and retrying "${oldest}"`);
+    }
+
+    for (const { provider, keyName } of queue) {
+        const keyValue = process.env[keyName];
+        if (!keyValue) {
+            Logger.warn(`Provider "${provider.name}" key "${keyName}" not present in env — skipping`);
             continue;
         }
 
-        const ordered = _orderKeys(provRegistry, state.ai_keys_bench, now);
-        for (const row of ordered) {
-            const keyValue = process.env[row.name];
-            if (!keyValue) {
-                Logger.warn(`Provider "${name}" key env "${row.name}" not set — skipping`);
-                continue;
-            }
-            if (row.benched) {
-                Logger.warn(`Provider "${name}" key "${row.name}" benched; trying anyway as fallback`);
-            }
-            try {
-                const text = await _callProvider(p, { keyValue, prompt: fullPrompt, timeoutMs });
-                const parsed = _parseJsonStrict(text);
-                if (state.ai_keys_bench[row.name]) delete state.ai_keys_bench[row.name];
-                Logger.info(`AI decision via provider "${name}" key "${row.name}"`, {
-                    action: parsed.action, symbol: parsed.symbol, conf: parsed.confidence,
-                });
-                return { decision: parsed, keyUsed: row.name };
-            } catch (e) {
-                lastErr = e;
-                state.ai_keys_bench[row.name] = now + benchMin * 60 * 1000;
-                Logger.warn(`Provider "${name}" key "${row.name}" failed — benching ${benchMin}m`, { error: e.message });
-            }
+        try {
+            const text = await _callProvider(provider, { keyValue, prompt: fullPrompt, timeoutMs });
+            const parsed = _parseJsonStrict(text);
+            // Success: clear flag if present so this key is active again.
+            if (benchMap[keyName]) delete benchMap[keyName];
+            Logger.info(`AI decision via "${provider.name}" key "${keyName}"`, {
+                action: parsed.action, symbol: parsed.symbol, conf: parsed.confidence,
+            });
+            return { decision: parsed, keyUsed: keyName };
+        } catch (e) {
+            lastErr = e;
+            // Flag the key (store flag timestamp). Permanent until cycled back.
+            benchMap[keyName] = now;
+            Logger.warn(`Provider "${provider.name}" key "${keyName}" failed — flagged`, { error: e.message });
         }
     }
 
@@ -362,9 +340,9 @@ async function askDecision({ payload, config, state, prompt, schemaHint }) {
    Best-effort; on total failure we return null and the caller logs.
    ───────────────────────────────────────────────────────────────── */
 async function askPostMortem({ trade, postEntryCandles, config, state }) {
-    const registry = (config.ai && config.ai.key_registry) || [];
     const providers = (config.ai && config.ai.providers) || [];
-    if (!registry.length && !providers.some(p => p && p.enabled !== false)) return null;
+    const anyEnabled = providers.some(p => p && p.enabled !== false && Array.isArray(p.keys) && p.keys.length > 0);
+    if (!anyEnabled) return null;
 
     const prompt = [
         'You are a trading post-mortem assistant. In ONE short sentence (max 30 words),',

@@ -61,52 +61,30 @@
   },
   "ai": {
     "model": "gemini-2.5-flash",
-    "key_registry": [
-      "GEMINI_KEY_7",
-      "GEMINI_KEY_1",
-      "GEMINI_KEY_2",
-      "GEMINI_KEY_3",
-      "GEMINI_KEY_4"
-    ],
     "providers": [
       {
         "name": "gemini",
-        "key_env": "",
         "model": "gemini-2.5-flash",
-        "enabled": true
+        "enabled": true,
+        "keys": []
       },
       {
         "name": "openai",
-        "key_env": "OPENAI_API_KEY",
         "model": "gpt-4o-mini",
         "enabled": true,
-        "key_registry": [
-          "OPENAI_API_KEY",
-          "OPENAI_KEY_1",
-          "OPENAI_KEY_2"
-        ]
+        "keys": []
       },
       {
         "name": "grok",
-        "key_env": "XAI_API_KEY",
         "model": "grok-2-latest",
         "enabled": false,
-        "key_registry": [
-          "XAI_API_KEY",
-          "XAI_KEY_1",
-          "XAI_KEY_2"
-        ]
+        "keys": []
       },
       {
-        "name": "claude",
-        "key_env": "ANTHROPIC_API_KEY",
+        "name": "anthropic",
         "model": "claude-3-5-sonnet-latest",
         "enabled": false,
-        "key_registry": [
-          "ANTHROPIC_API_KEY",
-          "ANTHROPIC_KEY_1",
-          "ANTHROPIC_KEY_2"
-        ]
+        "keys": []
       }
     ],
     "max_history_entries": 12,
