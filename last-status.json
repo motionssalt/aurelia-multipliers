@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T20:25:35.773Z",
+  "last_cycle": "2026-06-29T20:27:07.108Z",
   "balance": 9979.61,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,42 +9,21 @@
     "active": true,
     "started_at": "2026-06-29T16:29:27.461Z",
     "capital_start": 20,
-    "capital_remaining": 23.28,
+    "capital_remaining": 25.14,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 3,
-    "wins": 0,
+    "trades": 4,
+    "wins": 1,
     "losses": 3,
-    "pnl": -0.72,
-    "win_streak": 0,
-    "loss_streak": 3,
+    "pnl": 0.14,
+    "win_streak": 1,
+    "loss_streak": 0,
     "halted": false,
     "halt_reason": null
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {
-    "cryBTCUSD": [
-      {
-        "contract_id": 3644889559,
-        "stake": 1,
-        "multiplier": 100,
-        "direction": "up",
-        "entry_spot": 59810.917,
-        "entry_time": "2026-06-29T16:55:47.000Z",
-        "take_profit": 6,
-        "stop_loss": 0.5,
-        "floating_pnl": 0.92,
-        "floating_pnl_pct": 92,
-        "current_spot": 60417.212,
-        "last_polled_at": "2026-06-29T20:25:20.405Z",
-        "cycle_id": "2026-06-29T16:55:14.437Z",
-        "decision_id": "dec-9f3c2a",
-        "sibling_index": 0,
-        "sibling_count": 1,
-        "rationale": "cryBTCUSD M5: RSI 56.67 (neutral), MACD histogram +18.56 (strong bullish momentum), ADX 16.57 with +DI 28.98 > -DI 17.05 (uptrend), price near upper Bollinger (59860.46 vs upper 60075.46) indicating continued strength. No open siblings and capital allows a 1‑USD stake.",
-        "opened_at": "2026-06-29T16:55:47.927Z"
-      }
-    ],
+    "cryBTCUSD": [],
     "frxEURUSD": [],
     "frxGBPJPY": []
   },
@@ -432,6 +411,32 @@
       "opened_at": "2026-06-29T16:45:31.251Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-29T16:29:27.461Z"
+    },
+    {
+      "ts": "2026-06-29T20:27:06.699Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "cryBTCUSD",
+      "contract_id": 3644889559,
+      "direction": "up",
+      "stake": 1,
+      "multiplier": 100,
+      "take_profit": 6,
+      "stop_loss": 0.5,
+      "outcome": "win",
+      "pnl": 0.86,
+      "entry": 59810.917,
+      "exit": 60378.231,
+      "close_reason": "manual_close_all",
+      "settled": true,
+      "cycle_id": "2026-06-29T16:55:14.437Z",
+      "decision_id": "dec-9f3c2a",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "cryBTCUSD M5: RSI 56.67 (neutral), MACD histogram +18.56 (strong bullish momentum), ADX 16.57 with +DI 28.98 > -DI 17.05 (uptrend), price near upper Bollinger (59860.46 vs upper 60075.46) indicating continued strength. No open siblings and capital allows a 1‑USD stake.",
+      "opened_at": "2026-06-29T16:55:47.927Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-29T16:29:27.461Z"
     }
   ],
   "trade_history_manual": [
@@ -464,48 +469,6 @@
     "GEMINI_KEY_3": 1782763514642
   },
   "logs": [
-    {
-      "ts": "2026-06-29T19:30:21.847Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:30:21.847Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:30:21.847Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:30:21.847Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:30:21.847Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:30:21.847Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:30:21.847Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" not present in env — skipping",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T19:30:21.932Z",
       "level": "warn",
@@ -2226,14 +2189,72 @@
         "ms": 1904,
         "bytes": 161589
       }
+    },
+    {
+      "ts": "2026-06-29T20:27:06.003Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T20:27:06.002Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T20:27:06.004Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T20:27:06.384Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=KWRpQ21M"
+      }
+    },
+    {
+      "ts": "2026-06-29T20:27:06.506Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T20:27:06.538Z",
+      "level": "warn",
+      "msg": "closeAllPositions: sweeping all open siblings",
+      "meta": {
+        "reason": "manual_close_all",
+        "symbols": [
+          "cryBTCUSD"
+        ],
+        "position_count": 1
+      }
+    },
+    {
+      "ts": "2026-06-29T20:27:06.621Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3644889559",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T20:27:06.699Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3644889559",
+      "meta": {
+        "sold_for": 1.86,
+        "balance_after": 9981.47,
+        "transaction_id": 7185822579
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-29",
-    "trades": 3,
-    "wins": 0,
+    "trades": 4,
+    "wins": 1,
     "losses": 3,
-    "pnl": -0.72,
+    "pnl": 0.14,
     "by_symbol": {
       "frxEURUSD": {
         "trades": 1,
@@ -2246,6 +2267,12 @@
         "wins": 0,
         "losses": 2,
         "pnl": -0.52
+      },
+      "cryBTCUSD": {
+        "trades": 1,
+        "wins": 1,
+        "losses": 0,
+        "pnl": 0.86
       }
     }
   },
