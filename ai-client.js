@@ -266,10 +266,35 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
                 throw err;
             }
             const json = await res.json();
-            const text =
-                (((json.choices || [])[0] || {}).message || {}).content ||
-                (json.result && json.result.response) ||
-                '';
+            // Cloudflare's /ai/v1/chat/completions wraps the OpenAI-compat
+            // payload inside `result` (i.e. json.result.choices[...]), while
+            // its native /ai/run/{model} endpoint returns json.result.response.
+            // Some chat models (e.g. @cf/openai/gpt-oss-*) are reasoning models
+            // that may leave message.content empty and put the answer in
+            // message.reasoning_content — fall back to that too so a healthy
+            // key isn't benched as "empty text".
+            const result  = json.result || json;
+            const choice0 = ((result.choices || [])[0]) || {};
+            const msg     = choice0.message || {};
+            let   text    = msg.content || result.response || '';
+            if (!text && msg.reasoning_content) {
+                // gpt-oss reasoning models sometimes only populate reasoning_content.
+                // Try to recover the final answer: take the last quoted/JSON-looking
+                // chunk, else fall back to the last non-empty line.
+                const rc = String(msg.reasoning_content).trim();
+                const jsonMatch = rc.match(/\{[\s\S]*\}\s*$/);
+                if (jsonMatch) {
+                    text = jsonMatch[0];
+                } else {
+                    const quoted = rc.match(/"([^"]{4,})"\s*\.?\s*$/);
+                    if (quoted) {
+                        text = quoted[1];
+                    } else {
+                        const lines = rc.split(/\n+/).map(s => s.trim()).filter(Boolean);
+                        text = lines[lines.length - 1] || '';
+                    }
+                }
+            }
             if (!text) throw new Error('cloudflare returned empty text');
             return String(text).trim();
         }
