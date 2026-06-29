@@ -222,10 +222,63 @@ async function _callProvider(provider, { keyValue, prompt, timeoutMs }) {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   Resolve the effective env-var-name list for a single provider.
+
+   Per SETUP.md / README, keys are *registered* by appending secret
+   names to one of:
+     • provider.keys[]            (legacy / direct)
+     • provider.key_registry[]    (per-provider registry — e.g. openai)
+     • config.ai.key_registry[]   (top-level registry — belongs to the
+                                   default provider, conventionally
+                                   the one matching config.ai.model,
+                                   i.e. "gemini")
+
+   The runner only ever called provider.keys, which is why providers
+   that were registered exclusively via *_registry showed up as
+   "No AI providers configured with keys". We merge all three sources
+   here (de-duped, order preserved) WITHOUT changing how the user
+   registers keys.
+   ───────────────────────────────────────────────────────────────── */
+function _resolveProviderKeys(provider, config) {
+    if (!provider) return [];
+    const seen = new Set();
+    const out = [];
+    const push = (name) => {
+        if (typeof name !== 'string') return;
+        const trimmed = name.trim();
+        if (!trimmed || seen.has(trimmed)) return;
+        seen.add(trimmed);
+        out.push(trimmed);
+    };
+
+    if (Array.isArray(provider.keys))         provider.keys.forEach(push);
+    if (Array.isArray(provider.key_registry)) provider.key_registry.forEach(push);
+
+    // Top-level key_registry belongs to the default provider — the one
+    // whose name matches config.ai.model's family. Per SETUP.md the
+    // canonical default is "gemini" (model id starts with "gemini-").
+    const topReg = (config && config.ai && Array.isArray(config.ai.key_registry))
+        ? config.ai.key_registry : [];
+    if (topReg.length) {
+        const provName  = String(provider.name || '').toLowerCase();
+        const topModel  = String((config.ai && config.ai.model) || '').toLowerCase();
+        const isDefault =
+            (topModel && topModel.startsWith(provName + '-')) ||
+            (topModel && topModel.startsWith(provName)) ||
+            // Backward-compat: if config.ai.model is unset, the top-
+            // level registry has historically meant Gemini.
+            (!topModel && provName === 'gemini');
+        if (isDefault) topReg.forEach(push);
+    }
+
+    return out;
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Preflight: for every enabled provider, verify at least one of its
-   keys[] env var names resolves to a non-empty value. Logs a clear
-   warning per provider that has NONE resolvable, so a future name
-   mismatch shows up immediately in logs instead of silently
+   resolved key env var names resolves to a non-empty value. Logs a
+   clear warning per provider that has NONE resolvable, so a future
+   name mismatch shows up immediately in logs instead of silently
    degrading to "all providers failed."
    ───────────────────────────────────────────────────────────────── */
 function _preflightKeyCheck(config) {
@@ -233,7 +286,7 @@ function _preflightKeyCheck(config) {
     for (const p of providers) {
         if (!p || p.enabled === false) continue;
         const name = String(p.name || '').toLowerCase();
-        const keys = Array.isArray(p.keys) ? p.keys : [];
+        const keys = _resolveProviderKeys(p, config);
         if (!keys.length) {
             Logger.warn(`Provider "${name}" has no keys configured`);
             continue;
@@ -241,7 +294,7 @@ function _preflightKeyCheck(config) {
         const anyResolved = keys.some(k => !!process.env[k]);
         if (!anyResolved) {
             Logger.warn(
-                `Provider "${name}" keys NONE resolvable: ` +
+                `Provider "${name}" key_registry NONE resolvable: ` +
                 `${keys.join(', ')} — provider will be skipped until secrets are wired.`
             );
         }
@@ -272,12 +325,14 @@ async function askDecision({ payload, config, state, prompt, schemaHint }) {
     let lastErr = null;
 
     // Collect all (provider, keyName) pairs from enabled providers that
-    // have a non-empty keys[] array, in declared order.
+    // have at least one registered key — looked up via _resolveProviderKeys
+    // so the loop sees keys[], key_registry[], and the top-level
+    // config.ai.key_registry, exactly as documented in SETUP.md.
     const providers = (config.ai && Array.isArray(config.ai.providers)) ? config.ai.providers : [];
     const allPairs = [];
     for (const p of providers) {
         if (!p || p.enabled === false) continue;
-        const keys = Array.isArray(p.keys) ? p.keys : [];
+        const keys = _resolveProviderKeys(p, config);
         if (!keys.length) continue;
         for (const keyName of keys) {
             allPairs.push({ provider: p, keyName });
@@ -341,7 +396,9 @@ async function askDecision({ payload, config, state, prompt, schemaHint }) {
    ───────────────────────────────────────────────────────────────── */
 async function askPostMortem({ trade, postEntryCandles, config, state }) {
     const providers = (config.ai && config.ai.providers) || [];
-    const anyEnabled = providers.some(p => p && p.enabled !== false && Array.isArray(p.keys) && p.keys.length > 0);
+    const anyEnabled = providers.some(p =>
+        p && p.enabled !== false && _resolveProviderKeys(p, config).length > 0
+    );
     if (!anyEnabled) return null;
 
     const prompt = [
