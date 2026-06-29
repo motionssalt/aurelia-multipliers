@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T16:25:17.529Z",
+  "last_cycle": "2026-06-29T16:26:30.751Z",
   "balance": 9976.33,
   "currency": "USD",
   "account_mode": "demo",
@@ -384,36 +384,6 @@
     "OPENAI_KEY_4": 1782698933111
   },
   "logs": [
-    {
-      "ts": "2026-06-29T15:28:14.169Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:28:14.169Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_3\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:28:14.169Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:28:14.170Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:28:14.170Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" not present in env — skipping",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T15:28:14.170Z",
       "level": "warn",
@@ -2149,6 +2119,44 @@
       "meta": {
         "cycle_id": "2026-06-29T16:25:17.528Z",
         "ms_since_last": 78516,
+        "interval_ms": 90000
+      }
+    },
+    {
+      "ts": "2026-06-29T16:26:30.091Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T16:26:30.091Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:26:30.093Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:26:30.506Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=7JP6U1Jz"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:26:30.696Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:26:30.750Z",
+      "level": "info",
+      "msg": "Multiplier cycle: overlap guard — previous tick too recent, skipping",
+      "meta": {
+        "cycle_id": "2026-06-29T16:26:30.750Z",
+        "ms_since_last": 73221,
         "interval_ms": 90000
       }
     }
