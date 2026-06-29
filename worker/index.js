@@ -25,9 +25,9 @@
      GITHUB_WORKFLOW      — workflow filename, e.g. "aurelia-cron.yml"
      GITHUB_REF           — e.g. "main"
 
-   Gemini API keys are managed manually as GitHub Actions secrets
-   (e.g. from Termux: `gh secret set GEMINI_KEY_FOO --repo OWNER/REPO`),
-   then added to config.json's `ai.key_registry` array directly.
+   AI provider keys are managed as GitHub Actions secrets and referenced
+   by name in each provider's `keys[]` array inside config.json's
+   `ai.providers` list.
    ===================================================================== */
 
 const GH_API = 'https://api.github.com';
@@ -972,17 +972,14 @@ function renderAccount(cfg) {
     ].join('\n');
 }
 
-/* Count how many API keys each provider has registered. Gemini is
-   the legacy/top-level case (config.ai.key_registry). Every other
-   provider stores its keys under provider.key_registry[] (multi-key
-   rotation, same shape as Gemini) or as a single provider.key_env. */
+/* Count how many API keys each provider has registered.
+   All providers store their keys under provider.keys[] (array of
+   GitHub Secret names), matching the shape used by ai-client.js. */
 function _providerKeyCount(provider) {
     if (!provider) return 0;
-    if (Array.isArray(provider.key_registry) && provider.key_registry.length > 0) {
-        return provider.key_registry.length;
+    if (Array.isArray(provider.keys) && provider.keys.length > 0) {
+        return provider.keys.length;
     }
-    // Single-env-var providers count as 1 "key slot" when key_env is set.
-    if (provider.key_env) return 1;
     return 0;
 }
 
@@ -991,32 +988,22 @@ function renderAi(cfg) {
     const providers = Array.isArray(a.providers) ? a.providers : [];
     const provOn = providers.filter(p => p && p.enabled !== false).length;
 
-    const geminiKeys = (a.key_registry || []).length;
-
-    // Per-provider key inventory — was previously only shown for Gemini.
+    // Per-provider key inventory — all providers driven from config.ai.providers[].
     // Format example:
     //   gemini   : 4 keys  ✅
-    //   openai   : 1 key   ✅  (env: OPENAI_API_KEY)
+    //   openai   : 1 key   ✅
     //   grok     : 0 keys  ⛔
-    //   claude   : 0 keys  ⛔
+    //   anthropic: 0 keys  ⚠️
     const keyLines = [];
-    // Gemini gets a synthetic top-level line so it appears alongside
-    // the others rather than being a separate stat above.
-    keyLines.push(
-        `  • <b>gemini</b>  : ${geminiKeys} key${geminiKeys === 1 ? '' : 's'}  ✅  ` +
-        `<i>(GEMINI_KEY_* secrets)</i>`
-    );
     for (const p of providers) {
         if (!p || !p.name) continue;
-        const n      = _providerKeyCount(p);
-        const flag   = (p.enabled === false) ? '⛔' : (n > 0 ? '✅' : '⚠️');
-        const envHint = p.key_env
-            ? `<i>(env: <code>${escapeHtml(p.key_env)}</code>)</i>`
-            : (Array.isArray(p.key_registry) && p.key_registry.length
-                ? `<i>(registry: ${p.key_registry.length} secret${p.key_registry.length === 1 ? '' : 's'})</i>`
-                : `<i>(no key configured)</i>`);
+        const n    = _providerKeyCount(p);
+        const flag = (p.enabled === false) ? '⛔' : (n > 0 ? '✅' : '⚠️');
+        const hint = n > 0
+            ? `<i>(${n} secret${n === 1 ? '' : 's'} in keys[])</i>`
+            : `<i>(no keys configured)</i>`;
         keyLines.push(
-            `  • <b>${escapeHtml(p.name)}</b>  : ${n} key${n === 1 ? '' : 's'}  ${flag}  ${envHint}`
+            `  • <b>${escapeHtml(p.name)}</b>  : ${n} key${n === 1 ? '' : 's'}  ${flag}  ${hint}`
         );
     }
 
@@ -1032,7 +1019,7 @@ function renderAi(cfg) {
         '🔑 <b>API keys</b>',
         keyLines.join('\n'),
         '',
-        '<i>Keys are GitHub Actions secrets. Edit <code>ai.key_registry</code> for Gemini multi-key, or each provider\'s <code>key_registry[]</code> / <code>key_env</code> in <code>config.ai.providers</code>. Tap Providers to enable OpenAI / Grok / Claude fallback.</i>',
+        '<i>Keys are GitHub Actions secrets. Add secret names to each provider\'s <code>keys[]</code> array in <code>config.ai.providers</code>. Tap Providers to toggle the fallback waterfall order.</i>',
     ].join('\n');
 }
 
@@ -1041,11 +1028,9 @@ function renderAiProviders(cfg) {
     const lines = providers.map(p => {
         const flag    = p.enabled === false ? '⛔' : '✅';
         const keys    = _providerKeyCount(p);
-        const keyInfo = (Array.isArray(p.key_registry) && p.key_registry.length > 0)
-            ? `keys: <b>${p.key_registry.length}</b> (registry)`
-            : (p.key_env
-                ? `key env: <code>${escapeHtml(p.key_env)}</code>`
-                : `<i>no key configured</i>`);
+        const keyInfo = (Array.isArray(p.keys) && p.keys.length > 0)
+            ? `keys: <b>${p.keys.length}</b> (${p.keys.length} secret${p.keys.length === 1 ? '' : 's'})`
+            : `<i>no keys configured</i>`;
         const warn = (keys === 0 && p.enabled !== false) ? '  ⚠️' : '';
         return [
             `${flag}  <b>${escapeHtml(p.name)}</b> — <code>${escapeHtml(p.model || '')}</code>${warn}`,
@@ -1057,7 +1042,7 @@ function renderAiProviders(cfg) {
         '',
         lines.length ? lines.join('\n') : '<i>(none configured — add entries to <code>config.ai.providers</code>)</i>',
         '',
-        '<i>Tap a provider to toggle. When all Gemini keys are benched/failed, AURELIA waterfalls through enabled providers in the order shown. Each provider can use either a single <code>key_env</code> secret or a multi-key <code>key_registry[]</code> array (same rotation as Gemini). ⚠️ marks an enabled provider with no key configured — it will be skipped.</i>',
+        '<i>Tap a provider to toggle. AURELIA waterfalls through enabled providers in order when earlier ones fail. Each provider\'s <code>keys[]</code> array holds GitHub Secret names for multi-key rotation. ⚠️ marks an enabled provider with no keys configured — it will be skipped.</i>',
     ].join('\n');
 }
 
