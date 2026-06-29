@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T16:39:03.996Z",
-  "balance": 9981.13,
+  "last_cycle": "2026-06-29T16:40:14.866Z",
+  "balance": 9976.13,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -411,50 +411,6 @@
     "OPENAI_KEY_4": 1782698933111
   },
   "logs": [
-    {
-      "ts": "2026-06-29T15:50:16.335Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T15:50:15.814Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T15:50:16.335Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T15:50:15.814Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T15:50:40.255Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T15:50:40.254Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T15:50:40.256Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T15:50:40.794Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=tWkWRTxG"
-      }
-    },
     {
       "ts": "2026-06-29T15:50:41.094Z",
       "level": "network",
@@ -2247,6 +2203,44 @@
       "meta": {
         "ms": 1924,
         "bytes": 153419
+      }
+    },
+    {
+      "ts": "2026-06-29T16:40:14.336Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T16:40:14.336Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:40:14.338Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:40:14.719Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=vCzq1Pir"
+      }
+    },
+    {
+      "ts": "2026-06-29T16:40:14.834Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T16:40:14.866Z",
+      "level": "info",
+      "msg": "Multiplier cycle: overlap guard — previous tick too recent, skipping",
+      "meta": {
+        "cycle_id": "2026-06-29T16:40:14.866Z",
+        "ms_since_last": 70870,
+        "interval_ms": 90000
       }
     }
   ],
