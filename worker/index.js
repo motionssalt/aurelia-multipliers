@@ -233,6 +233,46 @@ async function handleCommand(cmd, args, env) {
             await ghWriteJSON(env, 'config.json', cfg, 'bot: pause cycle');
             return tgSend(env, '⏸️ Cycle paused.');
         }
+
+        /* ─ GLOBAL KILL SWITCH ──────────────────────────────────
+           /stoptrading       — disable all new positions (cycle + manual)
+           /resumetrading     — re-enable trading
+           /closeall          — force-close every open sibling at market
+                                + flip kill switch on + pause cycle
+           ─────────────────────────────────────────────────────── */
+        case '/stoptrading':
+        case '/killswitch': {
+            const cfg = await ghReadJSON(env, 'config.json');
+            cfg.trading_enabled = false;
+            cfg.cycle.running   = false;  // also pause the cycle for consistency
+            await ghWriteJSON(env, 'config.json', cfg, 'bot: kill switch ON');
+            return tgSend(env,
+                '🛑 <b>Trading STOPPED</b>\n' +
+                'Global kill switch is ON. Cycle is paused.\n' +
+                'No new positions — cycle or manual — will be opened.\n' +
+                '\n<i>Existing positions remain open. Use /closeall to flatten them, ' +
+                'or /resumetrading to lift the kill switch.</i>',
+                { reply_markup: KB.killswitchScreen() });
+        }
+        case '/resumetrading': {
+            const cfg = await ghReadJSON(env, 'config.json');
+            cfg.trading_enabled = true;
+            await ghWriteJSON(env, 'config.json', cfg, 'bot: kill switch OFF');
+            return tgSend(env,
+                '✅ <b>Trading re-enabled</b>\n' +
+                '<i>Cycle is still paused — /startcycle to resume the cycle path. ' +
+                'Manual /scan is now allowed.</i>');
+        }
+        case '/closeall':
+        case '/flatten': {
+            return tgSend(env,
+                '⚠️ <b>Close ALL open positions?</b>\n' +
+                'This will:\n' +
+                '  • Sell every open sibling at market (irreversible)\n' +
+                '  • Pause the cycle\n' +
+                '  • Turn the kill switch ON (no auto re-opens)',
+                { reply_markup: KB.confirm('do:close_all', 'menu') });
+        }
         case '/resetcycle': {
             const cfg = await ghReadJSON(env, 'config.json');
             const st  = await ghReadJSON(env, 'last-status.json').catch(() => ({}));
@@ -314,6 +354,13 @@ async function handleCommand(cmd, args, env) {
             return tgSend(env, '🟡 Switched to <b>DEMO</b>.');
         }
 
+        case '/risk':
+        case '/safety': {
+            const cfg = await ghReadJSON(env, 'config.json');
+            const st  = await ghReadJSON(env, 'last-status.json').catch(() => ({}));
+            return tgSend(env, renderSafety(cfg, st), { reply_markup: KB.safety(cfg) });
+        }
+
         case '/settings':
         case '/setup': {
             const cfg = await ghReadJSON(env, 'config.json');
@@ -331,6 +378,12 @@ function helpText() {
         '/menu  /status  /settings  /logs',
         '/scan — fire one manual AI trade',
         '/chart SYM TF  (e.g. /chart frxEURUSD 5m)',
+        '',
+        '<b>🛑 Safety (global)</b>',
+        '/stoptrading   — turn the kill switch ON (blocks new positions)',
+        '/resumetrading — lift the kill switch',
+        '/closeall      — force-close every open position now',
+        '/risk          — safety panel',
         '',
         '<b>Cycle</b>',
         '/startcycle  /pausecycle',
@@ -418,6 +471,75 @@ async function handleCallback(cb, env) {
         cfg.cycle.running = false;
         await ghWriteJSON(env, 'config.json', cfg, 'bot: pause cycle');
         return tgEdit(env, cb, '⏸️ Cycle paused.', KB.mainMenu(cfg, st));
+    }
+
+    /* ── GLOBAL KILL SWITCH + CLOSE-ALL (Telegram inline) ──────────
+       safety:open        → the 🛑 Safety screen
+       safety:closeall    → ask for confirmation
+       safety:kill_on     → flip trading_enabled=false (+pause cycle)
+       safety:kill_off    → flip trading_enabled=true
+       do:close_all       → user confirmed — dispatch the sweep
+       ─────────────────────────────────────────────────────────── */
+    if (data === 'safety:open') {
+        return tgEdit(env, cb, renderSafety(cfg, st), KB.safety(cfg));
+    }
+    if (data === 'safety:closeall') {
+        const open = countOpenSiblings(st);
+        return tgEdit(env, cb,
+            '⚠️ <b>Close ALL open positions?</b>\n' +
+            `Open siblings detected: <b>${open}</b>\n\n` +
+            'This will:\n' +
+            '  • Sell every open sibling at market (irreversible)\n' +
+            '  • Pause the cycle\n' +
+            '  • Turn the kill switch ON (no auto re-opens)',
+            KB.confirm('do:close_all', 'safety:open'));
+    }
+    if (data === 'safety:kill_on') {
+        cfg.trading_enabled = false;
+        cfg.cycle.running   = false;
+        await ghWriteJSON(env, 'config.json', cfg, 'bot: kill switch ON');
+        return tgEdit(env, cb,
+            '🛑 <b>Trading STOPPED</b>\n' +
+            'Kill switch is ON. Cycle paused. Existing positions stay open — ' +
+            'use 🔻 Close All Positions to flatten them.',
+            KB.safety(cfg));
+    }
+    if (data === 'safety:kill_off') {
+        cfg.trading_enabled = true;
+        await ghWriteJSON(env, 'config.json', cfg, 'bot: kill switch OFF');
+        return tgEdit(env, cb,
+            '✅ <b>Trading re-enabled</b>\n' +
+            '<i>Cycle is still paused — use ▶️ Start Cycle to resume the auto loop, ' +
+            'or 🤖 Scan Now for a one-shot manual trade.</i>',
+            KB.safety(cfg));
+    }
+    if (data === 'do:close_all') {
+        // 1. Flip the safety flags BEFORE dispatching, so the cycle path
+        //    won't race the sweep and immediately re-open positions on
+        //    its next tick. This is the same belt-and-braces ordering
+        //    /closeall uses.
+        const newCfg = await ghReadJSON(env, 'config.json');
+        newCfg.trading_enabled = false;
+        newCfg.cycle.running   = false;
+        await ghWriteJSON(env, 'config.json', newCfg, 'bot: kill switch ON (pre close_all)');
+        // 2. Dispatch the manual close_all to the runner.
+        try {
+            await dispatchWorkflow(env, {
+                task: 'manual',
+                payload: JSON.stringify({ action: 'close_all', reason: 'manual_close_all' }),
+            });
+            return tgEdit(env, cb,
+                '🛑 <b>Close-All queued</b>\n' +
+                'Kill switch is ON. Cycle is paused.\n' +
+                '<i>Watch the chat — a summary will arrive in ~30s when the workflow finishes ' +
+                'selling each contract.</i>',
+                KB.safety(newCfg));
+        } catch (e) {
+            return tgEdit(env, cb,
+                `❌ Dispatch failed: <code>${escapeHtml(e.message)}</code>\n` +
+                `<i>The kill switch is already ON. Try /closeall from the chat to retry the sweep.</i>`,
+                KB.safety(newCfg));
+        }
     }
     if (data === 'syn_toggle') {
         cfg.syn_enabled = !cfg.syn_enabled;
@@ -866,17 +988,56 @@ function countEnabled(map) {
     return [keys.filter(k => map[k]).length, keys.length];
 }
 
+/* Count every open sibling across every symbol in last-status.json.
+   Mirrors the helper in state.js but runs inside the worker (which
+   doesn't / can't require() node modules). */
+function countOpenSiblings(st) {
+    if (!st || !st.cycle_open_siblings) return 0;
+    let n = 0;
+    for (const v of Object.values(st.cycle_open_siblings)) {
+        if (Array.isArray(v)) n += v.length;
+    }
+    return n;
+}
+
+/* Sum of floating P/L across every open sibling. Returns null if no
+   sibling has been polled yet (so the Safety panel can render “—”
+   instead of a misleading $0.00). */
+function sumFloatingPnl(st) {
+    if (!st || !st.cycle_open_siblings) return null;
+    let sum = 0, seen = false;
+    for (const arr of Object.values(st.cycle_open_siblings)) {
+        if (!Array.isArray(arr)) continue;
+        for (const sib of arr) {
+            if (sib && sib.floating_pnl != null && Number.isFinite(Number(sib.floating_pnl))) {
+                sum += Number(sib.floating_pnl);
+                seen = true;
+            }
+        }
+    }
+    return seen ? Number(sum.toFixed(2)) : null;
+}
+
 function renderMenu(cfg, st) {
-    const cycle = cfg && cfg.cycle && cfg.cycle.running;
+    const cycle  = cfg && cfg.cycle && cfg.cycle.running;
+    const killOn = cfg && cfg.trading_enabled === false;
+    const open   = countOpenSiblings(st);
     const [fxOn,  fxTot]  = countEnabled(cfg && cfg.symbols && cfg.symbols.forex);
     const [synOn, synTot] = countEnabled(cfg && cfg.symbols && cfg.symbols.synthetics);
     const [cryOn, cryTot] = countEnabled(cfg && cfg.symbols && cfg.symbols.crypto);
-    return [
+    const lines = [
         `⚡ <b>AURELIA</b> ${badge(cfg)}`,
         `Balance: <b>$${fmt2(st && st.balance)}</b>`,
+    ];
+    if (killOn) {
+        lines.push(`Trading: 🛑 <b>DISABLED</b> (kill switch ON)`);
+    }
+    lines.push(
         `Cycle: ${cycle ? '▶️ running' : '⏸️ paused'}   SYN: ${cfg && cfg.syn_enabled ? '✅' : '⛔'}   CRY: ${cfg && cfg.cry_enabled ? '✅' : '⛔'}`,
         `Symbols: FX ${fxOn}/${fxTot}  •  SYN ${synOn}/${synTot}  •  CRY ${cryOn}/${cryTot}`,
-    ].join('\n');
+        `Open positions: <b>${open}</b>`,
+    );
+    return lines.join('\n');
 }
 
 function renderStatus(cfg, st) {
@@ -1107,6 +1268,46 @@ function renderDaily(cfg, st) {
     ].join('\n');
 }
 
+function renderSafety(cfg, st) {
+    const killOn   = cfg.trading_enabled === false;
+    const cycle    = cfg && cfg.cycle && cfg.cycle.running;
+    const open     = countOpenSiblings(st);
+    const floating = sumFloatingPnl(st);
+    const flSign   = (floating != null && floating >= 0) ? '+' : '';
+    const flStr    = floating == null ? '—' : `${flSign}$${fmt2(floating)}`;
+    // Build a tiny per-symbol breakdown when there are any open positions.
+    const lines = [
+        `🛑 <b>Safety / Kill Switch</b> ${badge(cfg)}`,
+        '',
+        `Trading       : ${killOn ? '🛑 <b>DISABLED</b>' : '✅ enabled'}`,
+        `Cycle         : ${cycle ? '▶️ running' : '⏸️ paused'}`,
+        `Open positions: <b>${open}</b>`,
+        `Floating P/L  : <b>${flStr}</b>`,
+    ];
+    if (open > 0) {
+        const sibs = st.cycle_open_siblings || {};
+        const rows = [];
+        for (const [sym, arr] of Object.entries(sibs)) {
+            if (!Array.isArray(arr) || arr.length === 0) continue;
+            const stake = arr.reduce((s, p) => s + (Number(p.stake) || 0), 0);
+            const pnl   = arr.reduce((s, p) => s + (p.floating_pnl != null ? Number(p.floating_pnl) : 0), 0);
+            const sgn   = pnl >= 0 ? '+' : '';
+            rows.push(`  • <code>${escapeHtml(sym)}</code> ×${arr.length}   stake $${fmt2(stake)}   P/L ${sgn}$${fmt2(pnl)}`);
+        }
+        if (rows.length) {
+            lines.push('');
+            lines.push('<b>Per-symbol exposure</b>');
+            lines.push(rows.slice(0, 10).join('\n'));
+        }
+    }
+    lines.push('');
+    lines.push(
+        '<i>The kill switch blocks ALL new positions (cycle + manual scan). ' +
+        'Existing positions stay open until you tap Close All Positions.</i>'
+    );
+    return lines.join('\n');
+}
+
 function renderStake(cfg) {
     const s = cfg.stake || {};
     return [
@@ -1150,6 +1351,8 @@ const KB = {
     mainMenu: (cfg, st) => {
         const hasActive = !!(st && st.cycle_session && st.cycle_session.active);
         const isRunning = !!(cfg && cfg.cycle && cfg.cycle.running);
+        const killOn    = cfg && cfg.trading_enabled === false;
+        const openSibs  = countOpenSiblings(st);
         // Build state-aware cycle action row
         let cycleRow;
         if (isRunning) {
@@ -1159,9 +1362,21 @@ const KB = {
         } else {
             cycleRow = [{ text: '▶️ Start Cycle', data: 'cycle_start' }];
         }
+        // Safety row — always visible. Left button shows kill-switch
+        // state; right button is the close-all sweep (badged with the
+        // count of open positions so it's obvious there's something to
+        // close, or grays out to '0' when flat).
+        const killBtn = killOn
+            ? { text: '✅ Resume Trading',  data: 'safety:kill_off' }
+            : { text: '🛑 Stop Trading',    data: 'safety:kill_on'  };
+        const closeBtn = {
+            text: openSibs > 0 ? `🔻 Close All (${openSibs})` : '🔻 Close All',
+            data: 'safety:closeall',
+        };
         return kb([
             [{ text: '📊 Status',  data: 'status' },      { text: '🤖 Scan Now',    data: 'scan_now' }],
             cycleRow,
+            [killBtn, closeBtn],
             [{ text: '⚙️ Settings', data: 'set:open' },   { text: '📈 Chart',       data: 'chart' }],
             [{ text: '🎛️ SYN',     data: 'syn_toggle' }, { text: '🔄 Mode',        data: 'mode_toggle' }],
             [{ text: '📋 Logs',     data: 'logs:1:all' }, { text: '❓ Help',        data: 'help' }],
@@ -1176,8 +1391,30 @@ const KB = {
         [{ text: '🌀 Cycle',         data: 'set:cycle' },   { text: '📡 Symbols',     data: 'set:symbols' }],
         [{ text: '🔄 Account',       data: 'set:account' }, { text: '🧠 AI',          data: 'set:ai' }],
         [{ text: '💸 Payout filter', data: 'set:payout' },  { text: '📊 Daily',       data: 'set:daily' }],
-        [{ text: '💰 Stake bounds',  data: 'set:stake' }],
+        [{ text: '💰 Stake bounds',  data: 'set:stake' },   { text: '🛑 Safety',      data: 'safety:open' }],
         [{ text: '⬅️ Menu',          data: 'menu' }],
+    ]),
+
+    /* Safety / kill-switch panel — surfaces global trading_enabled,
+       the close-all sweep, and current open exposure. */
+    safety: (cfg) => {
+        const killOn = cfg && cfg.trading_enabled === false;
+        return kb([
+            [ killOn
+                ? { text: '✅ Resume Trading',     data: 'safety:kill_off' }
+                : { text: '🛑 Stop Trading',       data: 'safety:kill_on'  } ],
+            [{ text: '🔻 Close All Positions', data: 'safety:closeall' }],
+            [{ text: '📊 Status',              data: 'status' },
+             { text: '⬅️ Menu',                data: 'menu'   }],
+        ]);
+    },
+
+    /* Short keyboard shown right after /stoptrading. Lets the user
+       follow up with either flatten-everything or back to menu. */
+    killswitchScreen: () => kb([
+        [{ text: '🔻 Close All Positions', data: 'safety:closeall' }],
+        [{ text: '✅ Resume Trading',     data: 'safety:kill_off' }],
+        [{ text: '🏠 Menu',                data: 'menu' }],
     ]),
 
     /* Cycle adjuster */
