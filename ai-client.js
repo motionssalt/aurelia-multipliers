@@ -1306,6 +1306,80 @@ function _renderCandidateSnapshot(aiInput) {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   Revision history renderer — surfaces the per-sibling audit log of
+   prior TP/SL revise attempts directly in the prompt body. This is
+   what stops the AI from re-trying an identical revision that has
+   already failed, been clamped, or been reverted by the broker.
+
+   The audit log itself lives on each sibling record under
+   `revision_history`; the runner appends to it from executeReviseList
+   (ok/clamped/failed outcomes) and from the per-tick poll (reverted
+   outcomes when broker-side TP/SL diverge from the last persisted
+   values between ticks).
+
+   Returns a multi-line string ready to splice into the prompt, or
+   null if no sibling has any history yet (don't waste tokens on an
+   empty section).
+   ───────────────────────────────────────────────────────────────── */
+function _renderRevisionHistoryForPrompt(aiInput) {
+    const sibs = aiInput && Array.isArray(aiInput.open_siblings) ? aiInput.open_siblings : null;
+    if (!sibs || sibs.length === 0) return null;
+
+    const fmtVal = (v) => {
+        if (v === undefined) return '—';
+        if (v === null) return 'null';
+        const n = Number(v);
+        return Number.isFinite(n) ? '$' + n.toFixed(2) : String(v);
+    };
+    const fmtPair = (obj) => {
+        if (!obj || typeof obj !== 'object') return '—';
+        const parts = [];
+        if (Object.prototype.hasOwnProperty.call(obj, 'take_profit')) parts.push('TP=' + fmtVal(obj.take_profit));
+        if (Object.prototype.hasOwnProperty.call(obj, 'stop_loss'))   parts.push('SL=' + fmtVal(obj.stop_loss));
+        return parts.length ? parts.join(' ') : '—';
+    };
+
+    const blocks = [];
+    for (const s of sibs) {
+        const hist = Array.isArray(s.revision_history) ? s.revision_history : [];
+        if (hist.length === 0) continue;
+        // Show the most recent 5 attempts per sibling — older ones are
+        // less informative and we want to keep the prompt compact.
+        const recent = hist.slice(-5);
+        const rows = recent.map((h, i) => {
+            const idx = hist.length - recent.length + i + 1;
+            const reqStr = fmtPair(h.requested);
+            const appliedStr = h.applied ? fmtPair(h.applied) : null;
+            let line = '       #' + idx + ' [' + h.outcome.toUpperCase() + '] requested ' + reqStr;
+            if (appliedStr && appliedStr !== reqStr) line += ' → applied ' + appliedStr;
+            if (h.outcome === 'failed' && h.error)   line += ' (error: ' + String(h.error).slice(0, 120) + ')';
+            if (h.outcome === 'clamped')             line += ' (broker clamped to live range)';
+            if (h.outcome === 'reverted')            line += ' (broker snapped TP/SL back between ticks)';
+            return line;
+        });
+        blocks.push(
+            '     • contract_id=' + s.contract_id + '  (' + String(s.direction).toUpperCase() +
+            ' x' + s.multiplier + ', stake $' + Number(s.stake).toFixed(2) + ')',
+            ...rows,
+        );
+    }
+    if (blocks.length === 0) return null;
+
+    return [
+        '  • PRIOR TP/SL REVISION ATTEMPTS on currently-open siblings (audit log).',
+        '    Read this carefully: each entry is a PAST attempt to revise TP/SL on',
+        '    one of your open contracts. The outcome tells you what actually',
+        '    happened on the broker side. DO NOT submit a `revise` that is',
+        '    equivalent to a recent FAILED, CLAMPED, or REVERTED attempt on the',
+        '    same contract — it will fail the same way and waste a decision cycle.',
+        '    If you want to try a different value, it must be MEANINGFULLY',
+        '    different (e.g. wider SL after a previous tight-SL clamp; do not',
+        '    re-submit the same number).',
+        ...blocks,
+    ].join('\n');
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Multiplier prompt — explains the sibling-position concept and the
    exact JSON schema the AI must emit. Kept verbose on purpose: this
    is the highest-leverage piece of the system to get right.
@@ -1427,6 +1501,13 @@ function _buildMultiplierPrompt(aiInput, config) {
         '    values to keep your trade alive, but the resulting TP/SL may differ',
         '    significantly from what you asked for — size CORRECTLY from the start.',
         _renderTpSlRangesForPrompt(aiInput),
+        // Surface the per-sibling revision-attempt audit log right next
+        // to the live TP/SL ranges so the AI sees, in one place: (a) what
+        // the broker will accept right now, and (b) what it has already
+        // tried and how the broker actually responded. This is the
+        // dedicated guardrail against "retry the same losing revise on
+        // every tick".
+        _renderRevisionHistoryForPrompt(aiInput),
         '  • confidence (optional) is 0.0..1.0. Decisions below ' + minConf + ' will be',
         '    treated as hold.',
         '',
@@ -1439,6 +1520,16 @@ function _buildMultiplierPrompt(aiInput, config) {
         '  • Watch stop_out_distance_pct on each sibling — if it\'s small (<0.5%), you are',
         '    one move away from forced liquidation; closing or tightening SL is wiser than',
         '    holding.',
+        '  • BEFORE emitting a `revise` (or a `multi.revise`), CHECK each target',
+        '    sibling\'s `revision_history`. If a recent attempt with the same',
+        '    requested TP and/or SL on this contract has outcome FAILED, CLAMPED,',
+        '    or REVERTED, DO NOT submit the same numbers again — the broker has',
+        '    already shown that value will not stick. Either: (a) pick a value',
+        '    that is meaningfully different and still inside the live tp_sl_ranges,',
+        '    (b) revise the OTHER limit instead, or (c) just hold and let the',
+        '    existing TP/SL ride. Repeating the same losing revise across ticks',
+        '    is the single most common failure mode — the history is there so',
+        '    you can avoid it.',
         '  • There are currently ' + openCount + ' open sibling(s) on ' +
             String(aiInput && aiInput.symbol) + '. just_closed (this tick): ' +
             (aiInput && aiInput.just_closed ? aiInput.just_closed.length : 0) + '.',
@@ -1525,6 +1616,7 @@ module.exports = {
     validateMultiplierDecision,
     // Exposed for unit tests / smoke tests:
     _renderCandidateSnapshot,
+    _renderRevisionHistoryForPrompt,
     _buildMultiplierPrompt,
     MAX_OPEN_SIBLINGS_PER_DECISION,
     MULTIPLIER_RANGE_BY_CATEGORY,
