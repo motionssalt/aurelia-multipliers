@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T01:50:26.584Z",
+  "last_cycle": "2026-06-29T01:55:17.773Z",
   "balance": 9952.45,
   "currency": "USD",
   "account_mode": "demo",
@@ -340,149 +340,6 @@
     "OPENAI_KEY_2": 1782698422733
   },
   "logs": [
-    {
-      "ts": "2026-06-28T23:19:27.504Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T23:19:27.607Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-28T23:19:27.607Z",
-        "candidates": [
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:28.035Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-28T23:19:27.607Z",
-        "symbol": "cryBTCUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:28.824Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 100,
-        "stake": 1,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:28.939Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 200,
-        "stake": 1,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:29.046Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 300,
-        "stake": 1,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:29.174Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 500,
-        "stake": 1,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:29.337Z",
-      "level": "warn",
-      "msg": "probeMultiplierRanges failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 800,
-        "stake": 1,
-        "direction": "up",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:29.339Z",
-      "level": "warn",
-      "msg": "Gemini key \"GEMINI_KEY_7\" not present in env ÃÂ¢ÃÂÃÂ skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-28T23:19:42.383Z",
-      "level": "info",
-      "msg": "AI decision via gemini key \"GEMINI_KEY_1\"",
-      "meta": {
-        "action": "open",
-        "symbol": "cryBTCUSD",
-        "conf": 0.65
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:42.384Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "btc-up-001",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:42.494Z",
-      "level": "error",
-      "msg": "placeMultiplier failed",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "error": "ContractBuyValidationError: Please enter a stake amount that's at least 1.00."
-      }
-    },
-    {
-      "ts": "2026-06-28T23:19:42.495Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-28T23:19:27.607Z",
-        "symbol": "cryBTCUSD",
-        "decision_action": "open",
-        "decision_id": "btc-up-001",
-        "rationale": "M5 timeframe shows a Bullish Engulfing candle pattern, supported by a positive MACD histogram (5.734815) and Stochastic K (58.326845) crossing above D (44.477123). Price is also above the EMA(20) at 5",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": 6.59,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
     {
       "ts": "2026-06-28T23:19:42.497Z",
       "level": "info",
@@ -2242,6 +2099,126 @@
       "meta": {
         "ms": 2009,
         "bytes": 176278
+      }
+    },
+    {
+      "ts": "2026-06-29T01:55:12.965Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T01:55:12.965Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T01:55:12.966Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T01:55:13.406Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=E6NT2meW"
+      }
+    },
+    {
+      "ts": "2026-06-29T01:55:13.615Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T01:55:13.672Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T01:55:13.672Z",
+        "candidates": [
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T01:55:13.966Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T01:55:13.672Z",
+        "symbol": "cryBTCUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T01:55:14.791Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T01:55:14.792Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T01:55:14.792Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "No AI providers configured with keys"
+      }
+    },
+    {
+      "ts": "2026-06-29T01:55:14.792Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T01:55:13.672Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "hold",
+        "decision_id": "provider-fail-2026-06-29T01:55:13.672Z",
+        "rationale": "AI providers exhausted: No AI providers configured with keys",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T01:55:14.793Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-29T01:55:14.900Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782662400000,
+          "max": 1782698100000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T01:55:16.896Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2103,
+        "bytes": 175416
       }
     }
   ],
