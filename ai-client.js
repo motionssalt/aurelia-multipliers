@@ -244,7 +244,7 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
             let res;
             try {
                 res = await f(
-                    `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/ai/run/${encodeURIComponent(model)}`,
+                    `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/ai/run/${model}`,
                     {
                         method: 'POST',
                         headers: {
