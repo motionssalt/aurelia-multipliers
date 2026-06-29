@@ -358,7 +358,86 @@ function makeSiblingRecord(args) {
         sibling_count:  Number.isFinite(Number(args.sibling_count)) ? Number(args.sibling_count) : 1,
         rationale:      args.rationale     || null,
         opened_at:      new Date().toISOString(),
+        // Audit trail of every TP/SL revise attempt on this sibling.
+        // Bounded to the most recent MAX_REVISION_HISTORY entries (oldest
+        // dropped) so the JSON state file does not grow unbounded for
+        // long-lived siblings. Surfaced to the AI prompt on every tick so
+        // the AI can avoid retrying an identical revision that has
+        // already failed/reverted on this contract.
+        revision_history: [],
     };
+}
+
+/* Cap revision_history at this many entries per sibling. Older attempts
+   are dropped FIFO. Large enough to cover a full session of TP/SL
+   tweaks (one per tick worst case ~60/h) without bloating state. */
+const MAX_REVISION_HISTORY = 20;
+
+/**
+ * appendRevisionAttempt — record a TP/SL revise attempt against a
+ * specific sibling, regardless of outcome. The whole point of keeping
+ * this log is so a future AI tick can see "this exact revision was
+ * already tried and failed/reverted" and avoid repeating the same
+ * mistake.
+ *
+ * Outcomes:
+ *   'ok'       — the broker accepted the requested values verbatim.
+ *   'clamped'  — the broker accepted, but values were clamped to fit
+ *                the live per-contract TP/SL range. The AI should NOT
+ *                re-submit the same out-of-range values next tick.
+ *   'reverted' — (reserved) the revise call "succeeded" but the
+ *                broker later snapped TP/SL back to a different value
+ *                on a subsequent poll. Detected by deriv.js / runner.
+ *   'failed'   — the revise call threw or was rejected (error string).
+ *
+ * The entry shape is intentionally compact — it is rendered inline
+ * in the AI prompt, where token budget matters.
+ *
+ * @param {object}  state
+ * @param {string}  symbol
+ * @param {number}  contractId
+ * @param {object}  attempt
+ * @param {string}  attempt.outcome      'ok'|'clamped'|'reverted'|'failed'
+ * @param {object}  attempt.requested    {take_profit?, stop_loss?}
+ * @param {object} [attempt.applied]     {take_profit?, stop_loss?} — actual values after broker reply
+ * @param {string} [attempt.error]       Error message when outcome === 'failed'
+ * @param {object} [attempt.clamp_adjustments] Optional clamp detail from deriv.js
+ * @param {string} [attempt.decision_id] The AI decision that produced this attempt
+ * @returns {object|null} The appended log entry, or null if the sibling was not found.
+ */
+function appendRevisionAttempt(state, symbol, contractId, attempt) {
+    if (!attempt || typeof attempt !== 'object') {
+        throw new Error('appendRevisionAttempt: attempt must be an object');
+    }
+    if (!state || !state[SIBLINGS_KEY]) return null;
+    const arr = state[SIBLINGS_KEY][symbol];
+    if (!Array.isArray(arr)) return null;
+    const sib = arr.find(p => p && p.contract_id === contractId);
+    if (!sib) return null;
+
+    const outcome = String(attempt.outcome || '').toLowerCase();
+    const allowed = ['ok', 'clamped', 'reverted', 'failed'];
+    if (!allowed.includes(outcome)) {
+        throw new Error('appendRevisionAttempt: outcome must be one of ' + allowed.join('|'));
+    }
+
+    const entry = {
+        ts:          new Date().toISOString(),
+        outcome,
+        requested:   attempt.requested || {},
+    };
+    if (attempt.applied !== undefined)            entry.applied            = attempt.applied;
+    if (attempt.error)                            entry.error              = String(attempt.error);
+    if (attempt.clamp_adjustments)                entry.clamp_adjustments  = attempt.clamp_adjustments;
+    if (attempt.decision_id)                      entry.decision_id        = String(attempt.decision_id);
+
+    if (!Array.isArray(sib.revision_history)) sib.revision_history = [];
+    sib.revision_history.push(entry);
+    // FIFO bound — drop oldest entries past the cap.
+    if (sib.revision_history.length > MAX_REVISION_HISTORY) {
+        sib.revision_history.splice(0, sib.revision_history.length - MAX_REVISION_HISTORY);
+    }
+    return entry;
 }
 
 /**
@@ -406,10 +485,12 @@ module.exports = {
     // hardcoding the string.
     SIBLINGS_KEY,
     SUMMARY_KEY,
+    MAX_REVISION_HISTORY,
     // Mutators:
     addSiblingPosition,
     removeSiblingPosition,
     updateSiblingPosition,
+    appendRevisionAttempt,
     pruneEmptySymbols,
     // Readers:
     getOpenSiblings,
