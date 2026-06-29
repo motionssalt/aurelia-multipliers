@@ -1,15 +1,15 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T02:38:04.134Z",
-  "balance": 9950.45,
+  "last_cycle": "2026-06-29T02:40:59.416Z",
+  "balance": 9952.1,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-29T02:37:28.879Z",
     "capital_start": 20,
-    "capital_remaining": 21.65,
+    "capital_remaining": 16.65,
     "take_profit": 5,
     "stop_loss": 5,
     "trades": 1,
@@ -24,14 +24,48 @@
   "cycle_open_position": null,
   "cycle_open_siblings": {
     "cryBTCUSD": [],
-    "frxEURUSD": []
+    "frxEURUSD": [],
+    "frxEURGBP": [
+      {
+        "contract_id": 3583444239,
+        "stake": 5,
+        "multiplier": 300,
+        "direction": "up",
+        "entry_spot": 0.86252,
+        "entry_time": "2026-06-29T02:40:56.000Z",
+        "take_profit": 5,
+        "stop_loss": 2,
+        "floating_pnl": null,
+        "floating_pnl_pct": null,
+        "current_spot": null,
+        "last_polled_at": null,
+        "cycle_id": "2026-06-29T02:40:18.007Z",
+        "decision_id": "eurgbp-bull-rev-1",
+        "sibling_index": 0,
+        "sibling_count": 1,
+        "rationale": "Price is at the lower Bollinger Band on M5 (0.862458), M10 (0.862447), and M15 (0.862449). Stochastics are deeply oversold on M10 (K: 13.04, D: 7.97) and M15 (K: 13.04, D: 16.66). The M10 timeframe also shows a 'Morning Star' candle pattern, indicating a strong bullish reversal signal.",
+        "opened_at": "2026-06-29T02:40:56.549Z"
+      }
+    ]
   },
   "cycle_open_siblings_summary": {
-    "symbols": 0,
-    "positions": 0,
-    "total_stake": 0,
+    "symbols": 1,
+    "positions": 1,
+    "total_stake": 5,
     "total_floating_pnl": null,
-    "per_symbol": []
+    "per_symbol": [
+      {
+        "symbol": "frxEURGBP",
+        "count": 1,
+        "total_stake": 5,
+        "total_floating_pnl": null,
+        "net_position": 5,
+        "direction_mix": {
+          "up": 1,
+          "down": 0
+        }
+      }
+    ]
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -377,124 +411,6 @@
     "GEMINI_KEY_3": 1782700549110
   },
   "logs": [
-    {
-      "ts": "2026-06-29T00:01:23.725Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T00:01:23.725Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T00:01:23.727Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T00:01:24.210Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=BDjvuzvv"
-      }
-    },
-    {
-      "ts": "2026-06-29T00:01:24.424Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T00:01:24.879Z",
-      "level": "info",
-      "msg": "daily_stats reset for new UTC day",
-      "meta": {
-        "date": "2026-06-29"
-      }
-    },
-    {
-      "ts": "2026-06-29T00:05:19.672Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T00:05:19.671Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T00:05:19.673Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T00:05:20.265Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=n9aPMcqj"
-      }
-    },
-    {
-      "ts": "2026-06-29T00:05:20.639Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T00:05:20.735Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T00:05:20.735Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T00:05:20.735Z",
-        "candidates": [
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T00:05:21.145Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T00:05:20.735Z",
-        "symbol": "cryBTCUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T00:05:21.146Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T00:05:20.735Z",
-        "symbol": "cryBTCUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T00:10:19.985Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T00:10:19.985Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T00:10:19.987Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T00:10:20.478Z",
       "level": "network",
@@ -2322,6 +2238,237 @@
         "ms": 2134,
         "bytes": 146015
       }
+    },
+    {
+      "ts": "2026-06-29T02:40:17.496Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T02:40:17.496Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:17.499Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:40:17.865Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=cZmrsqCp"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:17.973Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T02:40:18.007Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T02:40:18.007Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:18.975Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T02:40:18.007Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:56.288Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_4\"",
+      "meta": {
+        "action": "open",
+        "symbol": "frxEURGBP",
+        "conf": 0.8
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:56.289Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "eurgbp-bull-rev-1",
+        "keyUsed": "GEMINI_KEY_4"
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:56.289Z",
+      "level": "info",
+      "msg": "Multiplier cycle: AI chose symbol from candidates",
+      "meta": {
+        "cycle_id": "2026-06-29T02:40:18.007Z",
+        "ai_chosen": "frxEURGBP",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:56.467Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted frxEURGBP MULTUP ×300",
+      "meta": {
+        "stake": 5,
+        "ask_price": 5,
+        "spot": 0.86252,
+        "commission": 0.43,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-2.00",
+            "order_amount": -2,
+            "order_date": 1782700856,
+            "value": "0.86167"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-5.00",
+            "order_amount": -5,
+            "order_date": 1782700856,
+            "value": "0.85990"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "5.00",
+            "order_amount": 5,
+            "order_date": 1782700856,
+            "value": "0.86583"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 242.5
+          },
+          "stop_loss": {
+            "min": 0.59,
+            "max": 4.85
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:56.548Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3583444239",
+      "meta": {
+        "symbol": "frxEURGBP",
+        "direction": "up",
+        "contract_type": "MULTUP",
+        "multiplier": 300,
+        "stake": 5,
+        "final_limit_order": {
+          "take_profit": 5,
+          "stop_loss": 2
+        },
+        "tp_sl_clamped": false,
+        "transaction_id": 7035211939,
+        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in EUR/GBP, multiplied by 1455, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:56.549Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T02:40:18.007Z",
+        "symbol": "frxEURGBP",
+        "decision_action": "open",
+        "decision_id": "eurgbp-bull-rev-1",
+        "rationale": "Price is at the lower Bollinger Band on M5 (0.862458), M10 (0.862447), and M15 (0.862449). Stochastics are deeply oversold on M10 (K: 13.04, D: 7.97) and M15 (K: 13.04, D: 16.66). The M10 timeframe al",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -0.35,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:56.551Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURGBP @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:56.617Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782682800000,
+          "max": 1782708000000,
+          "justOpened": true
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T02:40:58.571Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2020,
+        "bytes": 120453
+      }
     }
   ],
   "daily_stats": {
@@ -2363,5 +2510,10 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {}
+  "chart_windows": {
+    "frxEURGBP": {
+      "min": 1782682800000,
+      "max": 1782708000000
+    }
+  }
 }
