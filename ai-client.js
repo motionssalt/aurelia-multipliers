@@ -235,16 +235,16 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
         case 'cloudflare':
         case 'workers-ai': {
             const accountId = _resolveCloudflareAccountId(provider, keyName);
-            // Use /ai/run/{model} (native endpoint) — the OpenAI-compat gateway
-            // /ai/v1/chat/completions does not support all CF models and returns
-            // an empty body for unsupported ones, causing "returned empty text".
+            // Use OpenAI-compat endpoint — model goes in the request body,
+            // NOT in the URL. The /ai/run/{model} native endpoint returns
+            // result.response which is empty for chat models.
             const f = await _fetch();
             const ctl = new AbortController();
             const t = setTimeout(() => ctl.abort(), timeoutMs || DEFAULT_TIMEOUT_MS);
             let res;
             try {
                 res = await f(
-                    `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/ai/run/${model}`,
+                    `https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(accountId)}/ai/v1/chat/completions`,
                     {
                         method: 'POST',
                         headers: {
@@ -252,6 +252,7 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
                             'Authorization': `Bearer ${keyValue}`,
                         },
                         body: JSON.stringify({
+                            model,
                             messages: [{ role: 'user', content: prompt }],
                         }),
                         signal: ctl.signal,
@@ -265,10 +266,9 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
                 throw err;
             }
             const json = await res.json();
-            // Native endpoint wraps in { result: { response, choices } }
             const text =
+                (((json.choices || [])[0] || {}).message || {}).content ||
                 (json.result && json.result.response) ||
-                (((json.result && json.result.choices || json.choices || [])[0] || {}).message || {}).content ||
                 '';
             if (!text) throw new Error('cloudflare returned empty text');
             return String(text).trim();
