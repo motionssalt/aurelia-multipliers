@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T15:50:16.336Z",
+  "last_cycle": "2026-06-29T15:50:48.983Z",
   "balance": 9955.47,
   "currency": "USD",
   "account_mode": "demo",
@@ -340,207 +340,9 @@
     "GEMINI_KEY_2": 1782698933111,
     "OPENAI_KEY_3": 1782698933111,
     "OPENAI_KEY_4": 1782698933111,
-    "CLOUDFLARE_KEY_1": 1782746894169
+    "CLOUDFLARE_KEY_1": 1782748242510
   },
   "logs": [
-    {
-      "ts": "2026-06-29T02:09:36.679Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_3\"",
-      "meta": {
-        "action": "hold",
-        "symbol": "frxEURUSD"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:09:36.680Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "hold",
-        "decision_id": "hold-001",
-        "keyUsed": "GEMINI_KEY_3"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:09:36.681Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T02:08:51.957Z",
-        "symbol": "frxEURUSD",
-        "decision_action": "hold",
-        "decision_id": "hold-001",
-        "rationale": "No strong, consistent trading edge is present across timeframes. For frxEURUSD, M5 RSI is 47.06 (neutral), MACD histogram is -0.000022 (weak bearish), and Stochastics K is 25.39 (approaching oversold)",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": 0,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T02:09:36.682Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-29T02:09:36.766Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782490176000,
-          "max": 1782698700000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T02:09:38.950Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2268,
-        "bytes": 130214
-      }
-    },
-    {
-      "ts": "2026-06-29T02:10:44.710Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T02:10:44.710Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:10:44.711Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T02:10:45.188Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=PFp9kXRR"
-      }
-    },
-    {
-      "ts": "2026-06-29T02:10:45.441Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T02:10:45.515Z",
-      "level": "info",
-      "msg": "Multiplier cycle: overlap guard — previous tick too recent, skipping",
-      "meta": {
-        "cycle_id": "2026-06-29T02:10:45.515Z",
-        "ms_since_last": 65719,
-        "interval_ms": 90000
-      }
-    },
-    {
-      "ts": "2026-06-29T13:45:21.549Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T13:45:21.549Z"
-      }
-    },
-    {
-      "ts": "2026-06-29T13:45:21.551Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T13:45:21.947Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=rVdqsGbP"
-      }
-    },
-    {
-      "ts": "2026-06-29T13:45:22.187Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T13:45:22.319Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T13:45:22.319Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-29T13:45:22.319Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-29T13:45:22.901Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T13:45:22.319Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-29T13:45:22.901Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-29T13:45:22.319Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-29T13:50:26.816Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-29T13:50:26.816Z"
-      }
-    },
     {
       "ts": "2026-06-29T13:50:26.818Z",
       "level": "network",
@@ -2264,6 +2066,148 @@
         "cycle_running": false,
         "halted": false,
         "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-29T15:50:40.255Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T15:50:40.254Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:50:40.256Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:40.794Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=tWkWRTxG"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:50:41.094Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:41.175Z",
+      "level": "info",
+      "msg": "Manual scan tick",
+      "meta": {
+        "symbol": "frxEURUSD"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:50:42.510Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:42.510Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:42.510Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_3\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:42.510Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:42.511Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:42.511Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:42.511Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:42.511Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:42.511Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:42.511Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" not present in env — skipping",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T15:50:45.875Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" key \"CLOUDFLARE_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "cloudflare returned empty text"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:50:45.875Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "All AI providers/keys failed; last error: cloudflare returned empty text"
+      }
+    },
+    {
+      "ts": "2026-06-29T15:50:45.876Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-29T15:50:46.004Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782712500000,
+          "max": 1782748200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T15:50:47.789Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1913,
+        "bytes": 158073
       }
     }
   ],
