@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T22:45:14.215Z",
+  "last_cycle": "2026-06-29T22:50:20.814Z",
   "balance": 9974.76,
   "currency": "USD",
   "account_mode": "demo",
@@ -615,76 +615,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-29T21:30:18.139Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T21:30:18.139Z",
-        "symbol": "R_50",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:18.254Z",
-      "level": "info",
-      "msg": "Detected TP/SL revert between ticks",
-      "meta": {
-        "contract_id": 3666876159,
-        "prev": {
-          "tp": 10,
-          "sl": 2.5
-        },
-        "live": {
-          "tp": 10,
-          "sl": -2.5
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:18.726Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T21:30:32.111Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_4\"",
-      "meta": {
-        "action": "multi",
-        "symbol": "R_50",
-        "conf": 0.8
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:32.112Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "multi",
-        "decision_id": "r50-bear-reversal-001",
-        "keyUsed": "GEMINI_KEY_4"
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:32.291Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3666876159",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T21:30:32.393Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3666876159",
-      "meta": {
-        "sold_for": 4.01,
-        "balance_after": 9980.48,
-        "transaction_id": 7194934159
-      }
-    },
     {
       "ts": "2026-06-29T21:30:32.546Z",
       "level": "trade",
@@ -2977,6 +2907,76 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-29T22:45:13.874Z",
+        "symbol": "R_10",
+        "cycle_running": true,
+        "halted": true,
+        "session_active": false
+      }
+    },
+    {
+      "ts": "2026-06-29T22:50:19.418Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T22:50:19.418Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T22:50:19.420Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T22:50:19.869Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=ukze9fa9"
+      }
+    },
+    {
+      "ts": "2026-06-29T22:50:20.141Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T22:50:20.350Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-29T22:50:20.350Z",
+        "candidates": [
+          "R_10",
+          "R_25",
+          "R_50",
+          "R_75",
+          "R_100",
+          "1HZ10V",
+          "1HZ25V",
+          "1HZ50V",
+          "1HZ75V",
+          "1HZ100V"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-29T22:50:20.813Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T22:50:20.350Z",
+        "symbol": "R_10",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-29T22:50:20.813Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-29T22:50:20.350Z",
         "symbol": "R_10",
         "cycle_running": true,
         "halted": true,
