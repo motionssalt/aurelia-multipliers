@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-29T20:15:36.847Z",
+  "last_cycle": "2026-06-29T20:20:34.012Z",
   "balance": 9979.61,
   "currency": "USD",
   "account_mode": "demo",
@@ -32,11 +32,11 @@
         "entry_spot": 59810.917,
         "entry_time": "2026-06-29T16:55:47.000Z",
         "take_profit": 6,
-        "stop_loss": 0.2,
-        "floating_pnl": 0.89,
-        "floating_pnl_pct": 89,
-        "current_spot": 60398.186,
-        "last_polled_at": "2026-06-29T20:15:23.624Z",
+        "stop_loss": 0.5,
+        "floating_pnl": 0.83,
+        "floating_pnl_pct": 83,
+        "current_spot": 60357.552,
+        "last_polled_at": "2026-06-29T20:20:15.993Z",
         "cycle_id": "2026-06-29T16:55:14.437Z",
         "decision_id": "dec-9f3c2a",
         "sibling_index": 0,
@@ -52,14 +52,14 @@
     "symbols": 1,
     "positions": 1,
     "total_stake": 1,
-    "total_floating_pnl": 0.89,
+    "total_floating_pnl": 0.83,
     "per_symbol": [
       {
         "symbol": "cryBTCUSD",
         "count": 1,
         "total_stake": 1,
-        "total_floating_pnl": 0.89,
-        "net_position": 1.89,
+        "total_floating_pnl": 0.83,
+        "net_position": 1.83,
         "direction_mix": {
           "up": 1,
           "down": 0
@@ -464,102 +464,6 @@
     "GEMINI_KEY_3": 1782763514642
   },
   "logs": [
-    {
-      "ts": "2026-06-29T19:25:13.770Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:14.093Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=j96HMEmE"
-      }
-    },
-    {
-      "ts": "2026-06-29T19:25:14.571Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:14.632Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:14.632Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T19:25:14.632Z",
-        "symbol": "cryBTCUSD",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key_registry NONE resolvable: GEMINI_KEY_1, GEMINI_KEY_2, GEMINI_KEY_3, GEMINI_KEY_4 — provider will be skipped until secrets are wired.",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key_registry NONE resolvable: OPENAI_KEY_1, OPENAI_KEY_2, OPENAI_KEY_3, OPENAI_KEY_4 — provider will be skipped until secrets are wired.",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_3\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_1\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_2\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_3\" not present in env — skipping",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T19:25:15.141Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" key \"OPENAI_KEY_4\" not present in env — skipping",
-      "meta": {}
-    },
     {
       "ts": "2026-06-29T19:25:15.232Z",
       "level": "warn",
@@ -2168,6 +2072,148 @@
       "meta": {
         "ms": 2033,
         "bytes": 162938
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:15.415Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-29T20:20:15.415Z"
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:15.417Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T20:20:15.760Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=RKAtycdP"
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:15.880Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T20:20:15.922Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T20:20:15.923Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-29T20:20:15.922Z",
+        "symbol": "cryBTCUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:16.297Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-29T20:20:30.880Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_4\"",
+      "meta": {
+        "action": "revise",
+        "symbol": "cryBTCUSD",
+        "conf": 0.7
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:30.881Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "revise",
+        "decision_id": "dec-profprot-1",
+        "keyUsed": "GEMINI_KEY_4"
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:30.957Z",
+      "level": "trade",
+      "msg": "Revising multiplier limits contract_id=3644889559",
+      "meta": {
+        "limit_order": {
+          "stop_loss": 0.5
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:31.087Z",
+      "level": "trade",
+      "msg": "Multiplier limits revised contract_id=3644889559",
+      "meta": {
+        "take_profit": 6,
+        "stop_loss": -0.5
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:31.088Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-29T20:20:15.922Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "revise",
+        "decision_id": "dec-profprot-1",
+        "rationale": "The open position is profitable (+0.83 USD). While M15 MACD histogram is positive at 10.50, M5 and M10 MACD histograms are negative (-7.71 and -12.07 respectively), indicating mixed short-term momentu",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -0.72,
+        "floating_pnl": 0.83,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:31.090Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782730800000,
+          "max": 1782766500000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:31.193Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782730800000,
+          "max": 1782766500000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-29T20:20:32.960Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1870,
+        "bytes": 162291
       }
     }
   ],
