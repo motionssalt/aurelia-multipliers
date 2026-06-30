@@ -153,6 +153,87 @@ async function _callOpenAICompat({ keyValue, model, prompt, endpoint, timeoutMs,
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   PROVIDER: OpenRouter (OpenAI-compatible aggregator)
+
+   OpenRouter exposes a unified OpenAI-compatible chat-completions
+   endpoint that fronts many upstream models (NVIDIA Nemotron, Llama,
+   Mistral, etc.). Free-tier models have an ID suffix ":free" (e.g.
+   "nvidia/nemotron-3-ultra-550b-a55b:free") and are rate-limited to
+   20 requests/minute and 50 requests/day (1000/day if the account has
+   $10+ in credits, lifetime). Both successful and FAILED requests
+   count against the daily quota.
+
+   We split this out from _callOpenAICompat for two reasons:
+     1. Optional HTTP-Referer / X-Title attribution headers — OpenRouter
+        uses these for usage tracking on its leaderboard.
+     2. Reasoning models like Nemotron 3 Ultra return a separate
+        `choices[0].message.reasoning` field alongside `.content`. The
+        final answer lives in .content; .reasoning is the model's
+        scratchpad and MUST NOT be parsed as the answer (it's not
+        guaranteed to be JSON). We explicitly ignore .reasoning here.
+
+   On HTTP errors (incl. 429 rate-limited / 402 insufficient credits)
+   we throw with err.status set, exactly like the other providers, so
+   the outer waterfall flags the key and falls through to the next
+   provider — it does NOT halt the AI pipeline.
+   ───────────────────────────────────────────────────────────────── */
+async function _callOpenRouter({ keyValue, model, prompt, timeoutMs }) {
+    const f = await _fetch();
+    const body = {
+        model,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.4,
+        // Strict JSON output — same as we already do for openai/grok/cloudflare.
+        response_format: { type: 'json_object' },
+    };
+    // Optional attribution headers — recommended by OpenRouter for
+    // usage tracking. Safe defaults; ignored upstream if unrecognised.
+    const headers = {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${keyValue}`,
+        'HTTP-Referer':  'https://github.com/motionssalt/aurelia-multipliers',
+        'X-Title':       'AURELIA',
+    };
+    const ctl = new AbortController();
+    const t = setTimeout(() => ctl.abort(), timeoutMs || DEFAULT_TIMEOUT_MS);
+    let res;
+    try {
+        res = await f('https://openrouter.ai/api/v1/chat/completions', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(body),
+            signal: ctl.signal,
+        });
+    } finally { clearTimeout(t); }
+    if (!res.ok) {
+        // 429 (rate limited) and 402 (insufficient credits) land here
+        // with err.status set — the outer loop flags the key and the
+        // next provider in config.ai.providers[] is tried.
+        const txt = await res.text().catch(() => '');
+        const err = new Error(`openrouter ${res.status}: ${txt.slice(0, 200)}`);
+        err.status = res.status;
+        throw err;
+    }
+    const json = await res.json();
+    const choice0 = ((json.choices || [])[0]) || {};
+    const msg     = choice0.message || {};
+    // IMPORTANT: only read .content. Reasoning models (e.g. Nemotron 3
+    // Ultra) also populate .reasoning with their hidden scratchpad —
+    // that field is NOT the answer and is not guaranteed to be JSON.
+    const text = msg.content || '';
+    if (!text) {
+        const finishReason = choice0.finish_reason || choice0.stop_reason || '';
+        const why = finishReason === 'length'
+            ? 'truncated (finish_reason=length)'
+            : (msg.reasoning
+                ? 'reasoning-only response with no content'
+                : 'no content returned');
+        throw new Error(`openrouter returned empty text: ${why}`);
+    }
+    return String(text).trim();
+}
+
+/* ─────────────────────────────────────────────────────────────────
    PROVIDER: Anthropic Claude (different request/response shape)
    ───────────────────────────────────────────────────────────────── */
 async function _callClaude({ keyValue, model, prompt, timeoutMs }) {
@@ -229,6 +310,8 @@ async function _callProvider(provider, { keyValue, keyName, prompt, timeoutMs })
                 endpoint: 'https://api.x.ai/v1/chat/completions',
                 providerName: 'grok',
             });
+        case 'openrouter':
+            return _callOpenRouter({ keyValue, model, prompt, timeoutMs });
         case 'claude':
         case 'anthropic':
             return _callClaude({ keyValue, model, prompt, timeoutMs });
