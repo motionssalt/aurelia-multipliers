@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T15:41:29.242Z",
+  "last_cycle": "2026-06-30T15:46:02.155Z",
   "balance": 9937.02,
   "currency": "USD",
   "account_mode": "demo",
@@ -1167,249 +1167,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T14:50:24.059Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:54:03.318Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
-      "meta": {
-        "action": "open",
-        "symbol": "frxUSDCAD",
-        "conf": 0.75
-      }
-    },
-    {
-      "ts": "2026-06-30T14:54:03.319Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "dec-frxUSDCAD-001",
-        "keyUsed": "OPENROUTER_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:54:03.319Z",
-      "level": "info",
-      "msg": "Multiplier cycle: AI chose symbol from candidates",
-      "meta": {
-        "cycle_id": "2026-06-30T14:50:22.180Z",
-        "ai_chosen": "frxUSDCAD",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T14:54:03.321Z",
-      "level": "warn",
-      "msg": "Deriv: WS was stale before trade placement (multiplier) (state=3) — reconnecting before placing order",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:54:03.321Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:54:04.002Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=LOYPxVau"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:54:04.374Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:54:04.374Z",
-      "level": "network",
-      "msg": "Deriv: WS reconnected before trade placement (multiplier) (recovered from state=3)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:54:05.107Z",
-      "level": "warn",
-      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
-      "meta": {
-        "symbol": "frxUSDCAD",
-        "multiplier": 300,
-        "stake": 10,
-        "adjustments": {
-          "take_profit": {
-            "from": 8,
-            "to": 9.79,
-            "range": {
-              "min": 0.1,
-              "max": 485
-            },
-            "reason": "validation_params.take_profit"
-          }
-        },
-        "vp": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 485
-          },
-          "stop_loss": {
-            "min": 1.54,
-            "max": 9.7
-          }
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T14:54:06.108Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted frxUSDCAD MULTUP ×300",
-      "meta": {
-        "stake": 10,
-        "ask_price": 10,
-        "spot": 1.41923,
-        "commission": 0.62,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-3.00",
-            "order_amount": -3,
-            "order_date": 1782831245,
-            "value": "1.41821"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-10.00",
-            "order_amount": -10,
-            "order_date": 1782831245,
-            "value": "1.41480"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "9.79",
-            "order_amount": 9.79,
-            "order_date": 1782831245,
-            "value": "1.42446"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 485
-          },
-          "stop_loss": {
-            "min": 0.93,
-            "max": 9.7
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T14:54:07.271Z",
-      "level": "trade",
-      "msg": "Multiplier placed: contract_id=3734476879",
-      "meta": {
-        "symbol": "frxUSDCAD",
-        "direction": "up",
-        "contract_type": "MULTUP",
-        "multiplier": 300,
-        "stake": 10,
-        "final_limit_order": {
-          "take_profit": 9.79,
-          "stop_loss": 3
-        },
-        "tp_sl_clamped": true,
-        "transaction_id": 7324170819,
-        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in USD/CAD, multiplied by 2910, minus commissions."
-      }
-    },
-    {
-      "ts": "2026-06-30T14:54:07.272Z",
-      "level": "warn",
-      "msg": "open: TP/SL clamped into broker range (v5 pre-flight)",
-      "meta": {
-        "symbol": "frxUSDCAD",
-        "multiplier": 300,
-        "requested_stake": 10,
-        "final_stake": 10,
-        "requested_take_profit": 8,
-        "requested_stop_loss": 3,
-        "final_take_profit": 9.79,
-        "final_stop_loss": 3,
-        "kind": "tp_sl_clamp",
-        "adjustments": {
-          "take_profit": {
-            "from": 8,
-            "to": 9.79,
-            "range": {
-              "min": 0.1,
-              "max": 485
-            },
-            "reason": "validation_params.take_profit"
-          },
-          "stop_loss": null
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T14:54:07.273Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T14:50:22.180Z",
-        "symbol": "frxUSDCAD",
-        "decision_action": "open",
-        "decision_id": "dec-frxUSDCAD-001",
-        "rationale": "frxUSDCAD M5 shows extreme oversold: RSI 22.38, Stochastic K 0.00 at lower Bollinger Band (1.41928 vs 1.41913), MACD histogram -0.00016 barely negative. Strong downtrend confirmed by ADX 41.6 with min",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -1.6,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T14:54:07.275Z",
-      "level": "warn",
-      "msg": "Deriv: WS was stale before chart render (cycle) (state=3) — reconnecting before placing order",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T14:54:07.275Z",
       "level": "network",
@@ -3052,6 +2809,160 @@
       "meta": {
         "ms": 2481,
         "bytes": 157292
+      }
+    },
+    {
+      "ts": "2026-06-30T15:45:21.535Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T15:45:21.535Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:45:21.537Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:45:22.020Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=QapU6vIR"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:45:22.419Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:45:22.527Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T15:45:22.526Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T15:45:23.181Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T15:45:22.526Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T15:45:24.639Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:45:24.640Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:45:24.640Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:45:58.916Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "hold",
+        "symbol": "frxEURUSD",
+        "conf": 0.45
+      }
+    },
+    {
+      "ts": "2026-06-30T15:45:58.917Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:45:58.918Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T15:45:22.526Z",
+        "symbol": "frxEURUSD",
+        "decision_action": "hold",
+        "decision_id": "dec-7f02b1",
+        "rationale": "No open positions to manage. Across all 17 candidates, no symbol shows a high-conviction setup: frxGBPJPY (RSI 81.7, Stoch 92/91) and frxUSDJPY (RSI 71.7, Stoch 92/96) are extremely overbought; frxEUR",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -1.78,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T15:45:58.919Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null,
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T15:45:59.095Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782798600000,
+          "max": 1782834300000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T15:46:00.881Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1962,
+        "bytes": 157247
       }
     }
   ],
