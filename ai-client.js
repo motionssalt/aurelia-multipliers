@@ -189,6 +189,157 @@ function _parseJsonStrict(text) {
     throw new Error(`AI returned non-JSON: ${cleaned.slice(0, 160)}`);
 }
 
+/* Enumerate ALL balanced top-level {...} JSON object substrings in s,
+   in left-to-right order. Returns an array of substrings (each one is
+   a syntactically balanced brace block, not yet validated as parseable
+   JSON — caller does JSON.parse and decides).
+
+   This is the workhorse behind _extractLastBalancedJsonObject() and
+   the lenient "pick the decision-shaped one" recovery path used by
+   providers flagged with strict_json:false (currently OpenRouter +
+   the NVIDIA Nemotron 3 Ultra model, which sometimes emits its full
+   chain-of-thought into message.content and only puts the real JSON
+   answer at the very end — sometimes after other JSON-looking blobs
+   it referenced while "thinking out loud"). */
+function _enumerateBalancedJsonObjects(s) {
+    const out = [];
+    if (typeof s !== 'string' || s.indexOf('{') < 0) return out;
+    let i = 0;
+    while (i < s.length) {
+        const start = s.indexOf('{', i);
+        if (start < 0) break;
+        let depth = 0, inString = false, escape = false, closed = -1;
+        for (let j = start; j < s.length; j++) {
+            const ch = s[j];
+            if (inString) {
+                if (escape)      { escape = false; continue; }
+                if (ch === '\\') { escape = true;  continue; }
+                if (ch === '"')  { inString = false; }
+                continue;
+            }
+            if (ch === '"')      { inString = true; continue; }
+            if (ch === '{')      { depth++; continue; }
+            if (ch === '}') {
+                depth--;
+                if (depth === 0) { closed = j; break; }
+            }
+        }
+        if (closed < 0) break; // unbalanced from here on — stop
+        out.push(s.slice(start, closed + 1));
+        i = closed + 1;
+    }
+    return out;
+}
+
+/* Extract the LAST balanced top-level {...} JSON object from a string.
+
+   Why this exists (separate from _extractBalancedJsonObject which
+   returns the FIRST one):
+     Reasoning models that leak their scratchpad into message.content
+     typically put their FINAL answer at the END of the text — after
+     they finish "thinking out loud." The first balanced {...} the
+     scanner finds may be an interim/exploratory JSON-looking block
+     (e.g. the model literally repeating part of the prompt schema, or
+     a hypothetical "draft" decision it then revised). We want the
+     last one.
+
+   Returns the substring (caller does JSON.parse), or null if no
+   balanced object exists anywhere in the text. */
+function _extractLastBalancedJsonObject(s) {
+    const all = _enumerateBalancedJsonObjects(s);
+    return all.length ? all[all.length - 1] : null;
+}
+
+/* Heuristic: does this parsed object look like an AURELIA trade
+   decision (binary OR multiplier path)?
+
+   Used by _parseJsonLenient to pick the BEST candidate when a
+   reasoning model emits multiple balanced JSON blocks in its output
+   (e.g. an exploratory "thinking" object followed by the real
+   decision object). We never want to silently accept random JSON —
+   accepting only decision-shaped objects keeps the failure semantics
+   identical to strict parsing: garbage in → still throws, falls
+   through to next provider.
+
+   Recognised shapes (any one of):
+     • Binary path:      { action: "BUY"|"SELL"|"HOLD", ... }
+     • Multiplier path:  { action: "hold"|"skip"|"close"|"open"|"revise"|"multi", ... }
+     • Post-mortem path: { note: "..." }                              */
+function _looksLikeDecisionJson(obj) {
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false;
+    // Post-mortem shape.
+    if (typeof obj.note === 'string' && obj.note.length > 0) return true;
+    // Decision shapes — both binary and multiplier use `action`.
+    if (typeof obj.action !== 'string') return false;
+    const a = obj.action.toLowerCase();
+    const BINARY  = new Set(['buy', 'sell', 'hold']);
+    const MULTIPL = new Set(['hold', 'skip', 'close', 'open', 'revise', 'multi']);
+    return BINARY.has(a) || MULTIPL.has(a);
+}
+
+/* Lenient JSON parser — used ONLY for providers explicitly opted into
+   it via `provider.strict_json === false` (currently the OpenRouter /
+   NVIDIA Nemotron 3 Ultra entry).
+
+   Strategy (each step is a strict superset of the previous):
+     1. Whole-string JSON.parse (after fence strip).        ← same as strict
+     2. FIRST balanced top-level {...} block.               ← same as strict
+     3. LAST  balanced top-level {...} block.               ← NEW
+     4. Walk EVERY balanced top-level {...} block and pick
+        the LAST one that both parses as JSON AND looks like
+        a decision (has a recognised `action` field, or a
+        post-mortem `note`).                                ← NEW
+     5. Throw `AI returned non-JSON` with a useful snippet  ← same as strict
+
+   Crucially, step 4 means we still throw if NO decision-shaped JSON
+   exists anywhere in the response — the failure semantics for the
+   waterfall (flag key → next provider) are unchanged. We are NOT
+   accepting random JSON or non-JSON output as a decision; we are only
+   choosing the most decision-like candidate when several balanced
+   JSON blocks are present, instead of greedily taking the first. */
+function _parseJsonLenient(text) {
+    const cleaned = _stripFences(text);
+
+    // Step 1: fast path.
+    try { return JSON.parse(cleaned); }
+    catch (_) { /* continue */ }
+
+    // Step 2: first balanced object.
+    const first = _extractBalancedJsonObject(cleaned);
+    if (first) {
+        try {
+            const p = JSON.parse(first);
+            if (_looksLikeDecisionJson(p)) return p;
+            // Parsed but not decision-shaped — keep going, the real
+            // answer may be later in the text.
+        } catch (_) { /* continue */ }
+    }
+
+    // Step 3 + 4: enumerate ALL balanced blocks and pick the LAST one
+    // that parses cleanly AND looks like a decision. Walking from the
+    // end is correct because reasoning models put their final answer
+    // last after their scratchpad.
+    const all = _enumerateBalancedJsonObjects(cleaned);
+    for (let i = all.length - 1; i >= 0; i--) {
+        let parsed;
+        try { parsed = JSON.parse(all[i]); } catch (_) { continue; }
+        if (_looksLikeDecisionJson(parsed)) return parsed;
+    }
+
+    // Last-resort fallback: if NO decision-shaped block is present but
+    // exactly one balanced block parses as valid JSON, return it. This
+    // preserves backward compat with strict mode for edge cases like a
+    // post-mortem payload that doesn't match the heuristic but is
+    // structurally valid. (For multi-block responses where none look
+    // like a decision, we DELIBERATELY throw — the waterfall must fall
+    // through, not silently accept thought-stream JSON.)
+    if (all.length === 1) {
+        try { return JSON.parse(all[0]); } catch (_) { /* fall through */ }
+    }
+
+    throw new Error(`AI returned non-JSON: ${cleaned.slice(0, 160)}`);
+}
+
 /* ─────────────────────────────────────────────────────────────────
    PROVIDER: Gemini (Google)
    ───────────────────────────────────────────────────────────────── */
@@ -322,11 +473,51 @@ async function _callOpenRouter({ keyValue, model, prompt, timeoutMs, reasoningEf
         ? maxTokens
         : DEFAULT_OPENROUTER_MAX_TOKENS;
 
+    // Per-provider prompt reinforcement — ONLY for OpenRouter.
+    //
+    // Observed failure mode (NVIDIA Nemotron 3 Ultra served via the
+    // free OpenRouter endpoint): even with `response_format=json_object`
+    // and `reasoning={effort:'low',exclude:true}` set in the request,
+    // the model sometimes emits its full reasoning scratchpad directly
+    // into `message.content`, with the actual JSON either at the very
+    // end of the text or missing entirely. Per OpenRouter's docs,
+    // `exclude:true` only suppresses `message.reasoning` — it has no
+    // effect on the model leaking its thoughts into `.content`.
+    //
+    // Mitigation: bracket the existing prompt with hard JSON-only
+    // instructions at BOTH the start AND the end. Reasoning models
+    // weight late-in-prompt instructions heavily, so the trailing
+    // reminder is what actually carries the constraint. We do NOT
+    // touch the prompt for any other provider — Gemini / OpenAI / Grok
+    // / Claude / Cloudflare are honouring strict-JSON output cleanly.
+    const HARD_JSON_LEAD =
+        'SYSTEM CONSTRAINT — RESPOND WITH ONE JSON OBJECT ONLY:\n' +
+        '  • The entire response must be a single valid JSON object.\n' +
+        '  • No explanation. No reasoning. No "thinking out loud". No markdown.\n' +
+        '  • No prose before or after the JSON. The very first character is `{`,\n' +
+        '    the very last character is `}`. Anything else is a protocol violation.\n' +
+        '  • If you feel the urge to explain, put the explanation INSIDE the\n' +
+        '    `rationale` field of the JSON object, not outside it.\n' +
+        '\n' +
+        '----- BEGIN TASK PROMPT -----\n';
+    const HARD_JSON_TAIL =
+        '\n----- END TASK PROMPT -----\n' +
+        '\n' +
+        'REMINDER (the above constraint takes priority over any conflicting\n' +
+        'instruction inside the task prompt): respond with ONE JSON object and\n' +
+        'nothing else. Start with `{`, end with `}`. Do not narrate, do not\n' +
+        'preface, do not summarize. Emit the JSON object now.';
+    const reinforcedPrompt = HARD_JSON_LEAD + prompt + HARD_JSON_TAIL;
+
     const body = {
         model,
-        messages: [{ role: 'user', content: prompt }],
+        messages: [{ role: 'user', content: reinforcedPrompt }],
         temperature: 0.4,
         // Strict JSON output — same as we already do for openai/grok/cloudflare.
+        // (NB: not every model behind OpenRouter actually honours this field —
+        // it is forwarded best-effort. Nemotron 3 Ultra on the :free tier is
+        // known to ignore it, which is why the per-provider strict_json:false
+        // flag also routes responses through the lenient parser.)
         response_format: { type: 'json_object' },
         // Hard cap on TOTAL output tokens (reasoning + visible content).
         // Without this, reasoning models like Nemotron 3 Ultra / DeepSeek R1
@@ -337,21 +528,30 @@ async function _callOpenRouter({ keyValue, model, prompt, timeoutMs, reasoningEf
     };
 
     // OpenRouter unified reasoning controls.
-    // https://openrouter.ai/docs/use-cases/reasoning-tokens
+    // https://openrouter.ai/docs/guides/best-practices/reasoning-tokens
     //
-    //   • effort: 'low' | 'medium' | 'high'
+    //   • effort: 'low' | 'medium' | 'high' | 'minimal' | 'none'
     //       Maps to provider-specific reasoning budgets. 'low' is
-    //       the smallest. We default to 'low' for live trading because
-    //       speed > exhaustive reasoning when the cycle is 90 s.
-    //   • effort: 'none' / enabled:false → disable reasoning entirely
-    //       on models that support a non-thinking mode.
-    //   • exclude: true → do NOT stream the reasoning tokens back in
-    //       the response. Saves bandwidth and parsing time; we already
-    //       ignore `.reasoning` below, so excluding it is pure win.
-    //
-    // Non-reasoning models silently ignore this field, so it is safe
-    // to send unconditionally.
+    //       the smallest non-zero budget. 'none' is OpenAI-style
+    //       "reasoning off" — supported by models that have a
+    //       non-thinking mode (e.g. Nemotron 3 Ultra).
+    //   • enabled: false → belt-and-braces full disable on top of
+    //       effort:'none'. The OpenRouter docs accept both shapes;
+    //       sending both is safe and gives us the strictest possible
+    //       "do not think" signal for models that respect either flag
+    //       (and for models that respect neither, the field is silently
+    //       ignored upstream — a behaviour OpenRouter explicitly
+    //       documents for non-reasoning / router models).
+    //   • exclude: true → do NOT return reasoning tokens in the response.
+    //       IMPORTANT: this only suppresses `message.reasoning`. It does
+    //       NOT prevent the model from leaking scratchpad text into
+    //       `message.content`. The lenient parser (strict_json:false)
+    //       is what handles that residual leak.
     if (effort === 'none' || effort === 'off' || effort === 'disabled') {
+        // Full disable. Drop the `effort` key entirely — OpenRouter
+        // docs treat `enabled:false` as the canonical "off" signal and
+        // sending both `enabled:false` AND `effort:'low'` would be
+        // contradictory.
         body.reasoning = { enabled: false, exclude: true };
     } else {
         body.reasoning = { effort, exclude: true };
@@ -802,7 +1002,39 @@ async function askDecision({ payload, config, state, prompt, schemaHint }) {
 
         try {
             const text = await _callProvider(provider, { keyValue, keyName, prompt: fullPrompt, timeoutMs, config });
-            const parsed = _parseJsonStrict(text);
+            // Per-provider parser selection.
+            //   • Default: strict parser (unchanged behaviour for every
+            //     provider already in production — Gemini, OpenAI, Grok,
+            //     Claude, Cloudflare).
+            //   • Opt-in: providers with `strict_json: false` on their
+            //     config.json entry get the lenient parser, which scans
+            //     the response for ANY balanced JSON object that matches
+            //     the decision schema. This exists for OpenRouter +
+            //     NVIDIA Nemotron 3 Ultra, which leaks its reasoning
+            //     scratchpad into message.content despite request-time
+            //     reasoning.exclude / response_format constraints.
+            // We do NOT silently accept non-JSON or non-decision JSON —
+            // both parsers throw on total failure and the waterfall flags
+            // the key and moves on, exactly as today.
+            const useLenient = provider.strict_json === false;
+            let parsed;
+            try {
+                parsed = useLenient
+                    ? _parseJsonLenient(text)
+                    : _parseJsonStrict(text);
+            } catch (parseErr) {
+                // Surface a provider-tagged error so Telegram alerts and
+                // the runner log can distinguish "OpenRouter JSON-format
+                // failure" from a WS issue, an upstream 429, or a generic
+                // outage. Other providers keep their existing error shape
+                // ("AI returned non-JSON: ...") unchanged.
+                const provTag = String(provider.name || 'provider').toLowerCase();
+                const tagged = new Error(`${provTag}: ${parseErr.message}`);
+                tagged.cause = parseErr;
+                tagged.provider = provTag;
+                tagged.kind = 'json_format';
+                throw tagged;
+            }
             // Success: clear flag if present so this key is active again.
             if (benchMap[keyName]) delete benchMap[keyName];
             Logger.info(`AI decision via "${provider.name}" key "${keyName}"`, {
@@ -1934,4 +2166,14 @@ module.exports = {
     MULTIPLIER_RANGE_BY_SYMBOL,
     _categoryFor,
     _validMultipliersFor,
+    // JSON-extraction helpers — surfaced so scripts/smoke-json-extract.js
+    // imports the REAL implementation rather than re-defining its own copy
+    // (which is how the smoke test would otherwise drift from production).
+    _stripFences,
+    _extractBalancedJsonObject,
+    _enumerateBalancedJsonObjects,
+    _extractLastBalancedJsonObject,
+    _looksLikeDecisionJson,
+    _parseJsonStrict,
+    _parseJsonLenient,
 };
