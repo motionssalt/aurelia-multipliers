@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T13:55:29.693Z",
+  "last_cycle": "2026-06-30T14:09:20.147Z",
   "balance": 9947.95,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,7 +9,7 @@
     "active": true,
     "started_at": "2026-06-30T13:50:55.740Z",
     "capital_start": 20,
-    "capital_remaining": 27.78,
+    "capital_remaining": 26.78,
     "take_profit": 5,
     "stop_loss": 5,
     "trades": 2,
@@ -31,14 +31,49 @@
     "frxEURAUD": [],
     "frxEURCHF": [],
     "frxAUDJPY": [],
-    "cryETHUSD": []
+    "cryETHUSD": [],
+    "frxEURGBP": [
+      {
+        "contract_id": 3729929859,
+        "stake": 1,
+        "multiplier": 100,
+        "direction": "up",
+        "entry_spot": 0.86193,
+        "entry_time": "2026-06-30T14:09:16.000Z",
+        "take_profit": null,
+        "stop_loss": null,
+        "floating_pnl": null,
+        "floating_pnl_pct": null,
+        "current_spot": null,
+        "last_polled_at": null,
+        "cycle_id": "2026-06-30T14:00:24.060Z",
+        "decision_id": "dec-7f02b1",
+        "sibling_index": 0,
+        "sibling_count": 1,
+        "rationale": "frxEURGBP M5 shows a hammer candle at the lower Bollinger Band (0.861796) with price at 0.86199, in an uptrend (EMA20 0.86202 > EMA50 0.86178). RSI 50.9 neutral, Stoch 32 not oversold. MACD histogram -0.00004 slightly negative but M15 histogram positive 0.000036. The hammer at support in a trending market (ADX 26.4) signals a high-probability bullish bounce. Other candidates rejected: frxEURAUD ex",
+        "opened_at": "2026-06-30T14:09:16.774Z",
+        "revision_history": []
+      }
+    ]
   },
   "cycle_open_siblings_summary": {
-    "symbols": 0,
-    "positions": 0,
-    "total_stake": 0,
+    "symbols": 1,
+    "positions": 1,
+    "total_stake": 1,
     "total_floating_pnl": null,
-    "per_symbol": []
+    "per_symbol": [
+      {
+        "symbol": "frxEURGBP",
+        "count": 1,
+        "total_stake": 1,
+        "total_floating_pnl": null,
+        "net_position": 1,
+        "direction_mix": {
+          "up": 1,
+          "down": 0
+        }
+      }
+    ]
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -1087,239 +1122,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T12:50:20.738Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T12:50:19.373Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T12:50:20.738Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T12:50:19.373Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-30T12:55:21.076Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T12:55:21.076Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:55:21.078Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:55:21.587Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=o3l0Eboi"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:55:21.819Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:55:21.898Z",
-      "level": "warn",
-      "msg": "Multiplier cycle: TRADING DISABLED (config.trading_enabled=false) â settle/poll only",
-      "meta": {
-        "open_siblings": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T12:55:21.898Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:55:21.898Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T12:55:21.898Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T12:55:22.607Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T12:55:21.898Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T12:55:22.608Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T12:55:21.898Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-30T13:00:00.449Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T13:00:00.449Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:00:00.452Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:00:01.008Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=8EN1LJOC"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:00:01.746Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:00:01.964Z",
-      "level": "warn",
-      "msg": "Manual scan blocked â config.trading_enabled=false",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:00:28.903Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T13:00:28.903Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:00:28.905Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:00:29.380Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=asa2HCeM"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:00:29.706Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:00:29.809Z",
-      "level": "info",
-      "msg": "Multiplier cycle: overlap guard â previous tick too recent, skipping",
-      "meta": {
-        "cycle_id": "2026-06-30T13:00:29.809Z",
-        "ms_since_last": 27274,
-        "interval_ms": 90000
-      }
-    },
-    {
-      "ts": "2026-06-30T13:04:38.983Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T13:04:38.983Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:04:38.986Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:04:39.325Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=y36Q01QN"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:04:39.441Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:04:39.473Z",
-      "level": "info",
-      "msg": "Manual scan tick",
-      "meta": {
-        "symbol": "frxEURUSD"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:04:40.332Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:04:40.332Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T13:04:40.332Z",
       "level": "warn",
@@ -2972,6 +2774,302 @@
         "ms": 2234,
         "bytes": 150972
       }
+    },
+    {
+      "ts": "2026-06-30T14:00:23.424Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T14:00:23.424Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:00:23.426Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:00:23.892Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=IZMZx7uE"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:00:24.015Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:00:24.060Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T14:00:24.060Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T14:00:24.780Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T14:00:24.060Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T14:00:25.782Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:00:25.782Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:00:25.782Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:09:15.685Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "open",
+        "symbol": "frxEURGBP",
+        "conf": 0.7
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:15.686Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:15.687Z",
+      "level": "info",
+      "msg": "Multiplier cycle: AI chose symbol from candidates",
+      "meta": {
+        "cycle_id": "2026-06-30T14:00:24.060Z",
+        "ai_chosen": "frxEURGBP",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:15.688Z",
+      "level": "warn",
+      "msg": "Deriv: WS was stale before trade placement (multiplier) (state=3) — reconnecting before placing order",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:09:15.688Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:09:16.066Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=YZztoob4"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:16.318Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:09:16.318Z",
+      "level": "network",
+      "msg": "Deriv: WS reconnected before trade placement (multiplier) (recovered from state=3)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:09:16.606Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted frxEURGBP MULTUP ×100",
+      "meta": {
+        "stake": 1,
+        "ask_price": 1,
+        "spot": 0.86193,
+        "commission": 0.05,
+        "limit_order": {
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-1.00",
+            "order_amount": -1,
+            "order_date": 1782828556,
+            "value": "0.85372"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 48.5
+          },
+          "stop_loss": {
+            "min": 0.1,
+            "max": 0.97
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:16.773Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3729929859",
+      "meta": {
+        "symbol": "frxEURGBP",
+        "direction": "up",
+        "contract_type": "MULTUP",
+        "multiplier": 100,
+        "stake": 1,
+        "tp_sl_clamped": false,
+        "transaction_id": 7315579979,
+        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in EUR/GBP, multiplied by 97, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:16.775Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T14:00:24.060Z",
+        "symbol": "frxEURGBP",
+        "decision_action": "open",
+        "decision_id": "dec-7f02b1",
+        "rationale": "frxEURGBP M5 shows a hammer candle at the lower Bollinger Band (0.861796) with price at 0.86199, in an uptrend (EMA20 0.86202 > EMA50 0.86178). RSI 50.9 neutral, Stoch 32 not oversold. MACD histogram ",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -2.22,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:16.776Z",
+      "level": "warn",
+      "msg": "Deriv: WS was stale before chart render (cycle) (state=3) — reconnecting before placing order",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:09:16.776Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:09:16.991Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=EmWyS26I"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:17.097Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:09:17.097Z",
+      "level": "network",
+      "msg": "Deriv: WS reconnected before chart render (cycle) (recovered from state=3)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:09:17.097Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURGBP @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": null,
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:17.179Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782799800000,
+          "max": 1782835500000,
+          "justOpened": true
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T14:09:19.160Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2063,
+        "bytes": 164750
+      }
     }
   ],
   "daily_stats": {
@@ -3051,5 +3149,10 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {}
+  "chart_windows": {
+    "frxEURGBP": {
+      "min": 1782799800000,
+      "max": 1782835500000
+    }
+  }
 }
