@@ -307,10 +307,17 @@ async function placeAndSettle(ws, norm, config, state, opts) {
     const isCycle      = !!(opts && opts.cycle);
 
     // The Deriv socket may have gone stale while we waited on the AI
-    // decision (Gemini calls can now take up to a few minutes) — make
-    // sure we have a live connection right before placing the trade.
+    // decision — ANY slow AI provider can trigger this (Gemini long
+    // think-time, OpenRouter reasoning models like NVIDIA Nemotron that
+    // "think" before answering, etc.). We pass an explicit `context`
+    // so the recovery log line clearly identifies the stale-after-AI
+    // path, and a short timeout so a genuinely dead connection fails
+    // cleanly (logged exactly as it does today) instead of hanging.
     if (opts && opts.connOpts) {
-        ws = await Deriv.ensureOpen(ws, opts.connOpts);
+        ws = await Deriv.ensureOpen(ws, opts.connOpts, {
+            context:   'trade placement (binary)',
+            timeoutMs: 8000,
+        });
     }
 
     let placedNotified = false;
@@ -1250,7 +1257,7 @@ function realizeClosedSibling(state, config, sibling, symbol, opts) {
    surfacing partial-success is more honest than pretending the whole
    batch failed.
    ───────────────────────────────────────────────────────────────── */
-async function openSibling(ws, config, state, symbol, decision, openSpec, cycleId) {
+async function openSibling(ws, config, state, symbol, decision, openSpec, cycleId, connOpts) {
     const results = [];
 
     if (!isSymbolEnabled(symbol, config)) {
@@ -1281,6 +1288,24 @@ async function openSibling(ws, config, state, symbol, decision, openSpec, cycleI
         }
 
         try {
+            // The Deriv socket may have gone stale while we waited on the
+            // AI decision (slow providers — e.g. OpenRouter reasoning
+            // models like NVIDIA Nemotron that "think" before answering
+            // — can take long enough that the WS reaches state=2/3 by
+            // the time we try to place the trade). Check IMMEDIATELY
+            // before every placeMultiplier call (this is one of two
+            // trade-placement call sites in the multipliers runner; the
+            // other is placeAndSettle which already does the same). The
+            // helper short-circuits when the socket is already OPEN, so
+            // there is no extra round-trip on the common case. Re-uses
+            // the existing Deriv.connect() flow so OTP/auth/handler
+            // wiring matches startup exactly.
+            if (connOpts) {
+                ws = await Deriv.ensureOpen(ws, connOpts, {
+                    context:   'trade placement (multiplier)',
+                    timeoutMs: 8000,
+                });
+            }
             const placed = await Deriv.placeMultiplier(ws, {
                 symbol,
                 direction:  dir,
@@ -1510,12 +1535,15 @@ async function executeCloseList(ws, config, state, symbol, closeArr) {
     return out;
 }
 
-async function executeOpenSpec(ws, config, state, symbol, decision, openSpec, cycleId, aiInput, canOpenNew) {
+async function executeOpenSpec(ws, config, state, symbol, decision, openSpec, cycleId, aiInput, canOpenNew, connOpts) {
     if (!canOpenNew) {
         Logger.warn('AI requested open but gate is closed', { reason: aiInput.gates.reason });
         return [{ error: `open blocked: ${aiInput.gates.reason}` }];
     }
-    return openSibling(ws, config, state, symbol, decision, openSpec, cycleId);
+    // connOpts threads through from runMultiplierCycle / runManual so
+    // openSibling can health-check + auto-reconnect the WS immediately
+    // before placing the trade. See openSibling for details.
+    return openSibling(ws, config, state, symbol, decision, openSpec, cycleId, connOpts);
 }
 
 async function executeReviseList(ws, state, symbol, reviseArr, decisionId) {
@@ -2274,7 +2302,7 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         );
     } else if (decision.action === 'open' && decision.open) {
         executed.details = executed.details.concat(
-            await executeOpenSpec(ws, config, state, symbol, decision, decision.open, cycleId, aiInput, canOpenNew)
+            await executeOpenSpec(ws, config, state, symbol, decision, decision.open, cycleId, aiInput, canOpenNew, connOpts)
         );
     } else if (decision.action === 'revise' && Array.isArray(decision.revise)) {
         executed.details = executed.details.concat(
@@ -2291,7 +2319,7 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
             executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'revise' }, d)));
         }
         if (decision.multi.open) {
-            const out = await executeOpenSpec(ws, config, state, symbol, decision, decision.multi.open, cycleId, aiInput, canOpenNew);
+            const out = await executeOpenSpec(ws, config, state, symbol, decision, decision.multi.open, cycleId, aiInput, canOpenNew, connOpts);
             executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'open' }, d)));
         }
     } else {
@@ -2713,7 +2741,7 @@ async function runManual(ws, config, state, connOpts) {
     try {
         if (decision.action === 'open' && decision.open) {
             executed.details = executed.details.concat(
-                await executeOpenSpec(ws, config, state, symbol, decision, decision.open, cycleId, aiInput, /*canOpenNew*/ true)
+                await executeOpenSpec(ws, config, state, symbol, decision, decision.open, cycleId, aiInput, /*canOpenNew*/ true, connOpts)
             );
             // Track the placed manual trade in state.trade_history_manual
             // so the rest of the daily-stats pipeline still sees it. Each
@@ -2750,7 +2778,7 @@ async function runManual(ws, config, state, connOpts) {
                 executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'revise' }, d)));
             }
             if (decision.multi.open) {
-                const out = await executeOpenSpec(ws, config, state, symbol, decision, decision.multi.open, cycleId, aiInput, /*canOpenNew*/ true);
+                const out = await executeOpenSpec(ws, config, state, symbol, decision, decision.multi.open, cycleId, aiInput, /*canOpenNew*/ true, connOpts);
                 executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'open' }, d)));
             }
         } else {
