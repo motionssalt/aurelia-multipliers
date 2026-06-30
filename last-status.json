@@ -1,51 +1,29 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T11:00:46.251Z",
-  "balance": 9971.99,
+  "last_cycle": "2026-06-30T11:05:40.757Z",
+  "balance": 9971.75,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-30T09:38:58.110Z",
     "capital_start": 20,
-    "capital_remaining": 16.23,
+    "capital_remaining": 16.99,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 11,
+    "trades": 12,
     "wins": 2,
-    "losses": 9,
-    "pnl": -2.77,
+    "losses": 10,
+    "pnl": -3.01,
     "win_streak": 0,
-    "loss_streak": 4,
+    "loss_streak": 5,
     "halted": false,
     "halt_reason": null
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {
-    "cryBTCUSD": [
-      {
-        "contract_id": 3713733199,
-        "stake": 1,
-        "multiplier": 300,
-        "direction": "down",
-        "entry_spot": 59309.408,
-        "entry_time": "2026-06-30T11:00:43.000Z",
-        "take_profit": 1.06,
-        "stop_loss": 0.2,
-        "floating_pnl": null,
-        "floating_pnl_pct": null,
-        "current_spot": null,
-        "last_polled_at": null,
-        "cycle_id": "2026-06-30T11:00:22.335Z",
-        "decision_id": "cryBTCUSD-open-1",
-        "sibling_index": 0,
-        "sibling_count": 1,
-        "rationale": "M5 timeframe shows an Evening Star bearish reversal pattern, and price (59301.408) is below EMA20 (59323.67) and EMA50 (59377.31). The M15 ADX (34.93) indicates moderate trend strength with MinusDI (22.13) dominating PlusDI (11.45), confirming bearish momentum.",
-        "opened_at": "2026-06-30T11:00:43.382Z",
-        "revision_history": []
-      }
-    ],
+    "cryBTCUSD": [],
     "frxEURUSD": [],
     "frxGBPJPY": [],
     "R_50": [],
@@ -54,23 +32,11 @@
     "frxEURCHF": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 1,
-    "positions": 1,
-    "total_stake": 1,
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
     "total_floating_pnl": null,
-    "per_symbol": [
-      {
-        "symbol": "cryBTCUSD",
-        "count": 1,
-        "total_stake": 1,
-        "total_floating_pnl": null,
-        "net_position": 1,
-        "direction_mix": {
-          "up": 0,
-          "down": 1
-        }
-      }
-    ]
+    "per_symbol": []
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -905,6 +871,32 @@
       "opened_at": "2026-06-30T10:55:42.568Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-30T09:38:58.110Z"
+    },
+    {
+      "ts": "2026-06-30T11:05:21.653Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "cryBTCUSD",
+      "contract_id": 3713733199,
+      "direction": "down",
+      "stake": 1,
+      "multiplier": 300,
+      "take_profit": 1.06,
+      "stop_loss": 0.2,
+      "outcome": "loss",
+      "pnl": -0.24,
+      "entry": 59308.489,
+      "exit": 59360.112,
+      "close_reason": "sold_externally",
+      "settled": true,
+      "cycle_id": "2026-06-30T11:00:22.335Z",
+      "decision_id": "cryBTCUSD-open-1",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "M5 timeframe shows an Evening Star bearish reversal pattern, and price (59301.408) is below EMA20 (59323.67) and EMA50 (59377.31). The M15 ADX (34.93) indicates moderate trend strength with MinusDI (22.13) dominating PlusDI (11.45), confirming bearish momentum.",
+      "opened_at": "2026-06-30T11:00:43.382Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T09:38:58.110Z"
     }
   ],
   "trade_history_manual": [
@@ -937,146 +929,6 @@
     "CLOUDFLARE_KEY_1": 1782815420472
   },
   "logs": [
-    {
-      "ts": "2026-06-30T10:00:40.662Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782777900000,
-          "max": 1782813600000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T10:00:42.448Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1890,
-        "bytes": 158719
-      }
-    },
-    {
-      "ts": "2026-06-30T10:05:17.138Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T10:05:17.137Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:05:17.140Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:05:17.695Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Rwp5XXaF"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:05:17.903Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:05:17.980Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T10:05:17.980Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T10:05:18.530Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T10:05:17.980Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T10:05:19.677Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:05:49.853Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
-      "meta": {
-        "action": "open",
-        "symbol": "frxEURCHF",
-        "conf": 0.85
-      }
-    },
-    {
-      "ts": "2026-06-30T10:05:49.854Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "frxEURCHF-M5-stoch-overbought-down",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:05:49.854Z",
-      "level": "info",
-      "msg": "Multiplier cycle: AI chose symbol from candidates",
-      "meta": {
-        "cycle_id": "2026-06-30T10:05:17.980Z",
-        "ai_chosen": "frxEURCHF",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
     {
       "ts": "2026-06-30T10:05:50.206Z",
       "level": "trade",
@@ -3563,20 +3415,136 @@
         "ms": 1898,
         "bytes": 173840
       }
+    },
+    {
+      "ts": "2026-06-30T11:05:20.554Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T11:05:20.554Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:05:20.556Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:05:21.027Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=zCw3ji1w"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:05:21.396Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:05:21.508Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T11:05:21.508Z",
+        "symbol": "cryBTCUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T11:05:23.130Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:05:36.965Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "hold",
+        "symbol": "cryBTCUSD"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:05:36.966Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "hold-ambig-01",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:05:36.967Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T11:05:21.508Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "hold",
+        "decision_id": "hold-ambig-01",
+        "rationale": "M15 timeframe shows a bullish Morning Star candle pattern, but this is contradicted by a strong bearish trend indicated by M15 ADX at 34.93 with MinusDI (21.32) significantly above PlusDI (11.03). Add",
+        "executed_count": 1,
+        "just_closed": 1,
+        "open_now": 0,
+        "session_pnl": -3.01,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T11:05:36.968Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": {
+          "min": 1782787200000,
+          "max": 1782822900000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T11:05:37.124Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782781800000,
+          "max": 1782817500000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T11:05:39.190Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2222,
+        "bytes": 158527
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 11,
+    "trades": 12,
     "wins": 2,
-    "losses": 9,
-    "pnl": -2.77,
+    "losses": 10,
+    "pnl": -3.01,
     "by_symbol": {
       "cryBTCUSD": {
-        "trades": 6,
+        "trades": 7,
         "wins": 2,
-        "losses": 4,
-        "pnl": -0.99
+        "losses": 5,
+        "pnl": -1.23
       },
       "frxEURAUD": {
         "trades": 3,
@@ -3624,10 +3592,5 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {
-    "cryBTCUSD": {
-      "min": 1782787200000,
-      "max": 1782822900000
-    }
-  }
+  "chart_windows": {}
 }
