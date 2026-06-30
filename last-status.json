@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T16:30:28.356Z",
+  "last_cycle": "2026-06-30T16:35:24.588Z",
   "balance": 9936.02,
   "currency": "USD",
   "account_mode": "demo",
@@ -39,10 +39,10 @@
         "entry_time": "2026-06-30T16:11:48.000Z",
         "take_profit": 2,
         "stop_loss": -0.3,
-        "floating_pnl": -0.13,
-        "floating_pnl_pct": -13,
-        "current_spot": 0.92284,
-        "last_polled_at": "2026-06-30T16:30:19.803Z",
+        "floating_pnl": -0.11,
+        "floating_pnl_pct": -11,
+        "current_spot": 0.92289,
+        "last_polled_at": "2026-06-30T16:35:18.904Z",
         "cycle_id": "2026-06-30T16:10:19.600Z",
         "decision_id": "dec-7f02b1",
         "sibling_index": 0,
@@ -95,14 +95,14 @@
     "symbols": 1,
     "positions": 1,
     "total_stake": 1,
-    "total_floating_pnl": -0.13,
+    "total_floating_pnl": -0.11,
     "per_symbol": [
       {
         "symbol": "frxEURCHF",
         "count": 1,
         "total_stake": 1,
-        "total_floating_pnl": -0.13,
-        "net_position": 0.87,
+        "total_floating_pnl": -0.11,
+        "net_position": 0.89,
         "direction_mix": {
           "up": 1,
           "down": 0
@@ -1233,161 +1233,9 @@
     "GEMINI_KEY_4": 1782815123137,
     "GEMINI_KEY_1": 1782819027062,
     "CLOUDFLARE_KEY_1": 1782820226730,
-    "OPENROUTER_KEY_1": 1782837020723
+    "OPENROUTER_KEY_1": 1782837320944
   },
   "logs": [
-    {
-      "ts": "2026-06-30T15:35:28.229Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:35:28.378Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T15:35:28.378Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T15:35:29.076Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T15:35:28.378Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T15:35:30.589Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:35:30.589Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:35:30.589Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:35:30.589Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:35:48.425Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
-      "meta": {
-        "action": "hold",
-        "symbol": "frxEURUSD",
-        "conf": 0.45
-      }
-    },
-    {
-      "ts": "2026-06-30T15:35:48.425Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "hold",
-        "decision_id": "dec-7f02b1",
-        "keyUsed": "OPENROUTER_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:35:48.426Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T15:35:28.378Z",
-        "symbol": "frxEURUSD",
-        "decision_action": "hold",
-        "decision_id": "dec-7f02b1",
-        "rationale": "No open positions to manage. Best candidate frxGBPUSD shows overbought M5 RSI 69.9 with Stoch 75.5/77.0 and shooting star on M10/M15, while frxEURUSD M5 RSI 59.8, MACD hist -0.00005, price at BB middl",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -1.78,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T15:35:48.428Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null,
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T15:35:48.588Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782798000000,
-          "max": 1782833700000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T15:35:50.795Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2367,
-        "bytes": 156002
-      }
-    },
-    {
-      "ts": "2026-06-30T15:40:21.870Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T15:40:21.870Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:40:21.872Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T15:40:22.443Z",
       "level": "network",
@@ -3197,6 +3045,138 @@
       "meta": {
         "ms": 1887,
         "bytes": 158777
+      }
+    },
+    {
+      "ts": "2026-06-30T16:35:17.960Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T16:35:17.960Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:35:17.963Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:35:18.442Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=2GiH7qWV"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:35:18.695Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:35:18.776Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T16:35:18.776Z",
+        "symbol": "frxEURCHF",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T16:35:20.943Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:35:20.943Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:35:20.943Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:35:20.944Z",
+      "level": "warn",
+      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:35:21.501Z",
+      "level": "warn",
+      "msg": "Provider \"openrouter\" key \"OPENROUTER_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "openrouter 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"metadata\":{\"headers\":{\"X-RateLimit-Limit\":\"50\",\"X-RateLimit-Remain"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:35:21.501Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "All AI providers/keys failed; last error: openrouter 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"metadata\":{\"headers\":{\"X-RateLimit-Limit\":\"50\",\"X-RateLimit-Remain"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:35:21.502Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T16:35:18.776Z",
+        "symbol": "frxEURCHF",
+        "decision_action": "hold",
+        "decision_id": "provider-fail-2026-06-30T16:35:18.776Z",
+        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: openrouter 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per d",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": 0,
+        "floating_pnl": -0.11,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T16:35:21.504Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURCHF @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782807300000,
+          "max": 1782843000000
+        },
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T16:35:21.645Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782807300000,
+          "max": 1782843000000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T16:35:23.456Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1952,
+        "bytes": 158897
       }
     }
   ],
