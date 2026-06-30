@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T00:15:15.062Z",
+  "last_cycle": "2026-06-30T00:20:20.383Z",
   "balance": 9974.76,
   "currency": "USD",
   "account_mode": "demo",
@@ -615,116 +615,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-29T22:10:22.046Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T22:10:22.157Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-29T22:10:22.156Z",
-        "symbol": "R_25",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-29T22:10:23.400Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-29T22:10:33.157Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
-      "meta": {
-        "action": "open",
-        "symbol": "R_25",
-        "conf": 0.75
-      }
-    },
-    {
-      "ts": "2026-06-29T22:10:33.157Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "R25-MD-OB-01",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-29T22:10:33.401Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted R_25 MULTDOWN ×800",
-      "meta": {
-        "stake": 1,
-        "ask_price": 1,
-        "spot": 2670.096,
-        "commission": 0.07,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-0.50",
-            "order_amount": -0.5,
-            "order_date": 1782771033,
-            "value": "2671.487"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-1.00",
-            "order_amount": -1,
-            "order_date": 1782771033,
-            "value": "2673.207"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "2.00",
-            "order_amount": 2,
-            "order_date": 1782771033,
-            "value": "2662.884"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 1000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 48.5
-          },
-          "stop_loss": {
-            "min": 0.11,
-            "max": 0.97
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
-    {
-      "ts": "2026-06-29T22:10:33.560Z",
-      "level": "trade",
-      "msg": "Multiplier placed: contract_id=3669620779",
-      "meta": {
-        "symbol": "R_25",
-        "direction": "down",
-        "contract_type": "MULTDOWN",
-        "multiplier": 800,
-        "stake": 1,
-        "final_limit_order": {
-          "take_profit": 2,
-          "stop_loss": 0.5
-        },
-        "tp_sl_clamped": false,
-        "transaction_id": 7199627339,
-        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in Volatility 25 Index, multiplied by 776, minus commissions."
-      }
-    },
     {
       "ts": "2026-06-29T22:10:33.561Z",
       "level": "warn",
@@ -2644,6 +2534,76 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-30T00:15:14.730Z",
+        "symbol": "R_10",
+        "cycle_running": true,
+        "halted": true,
+        "session_active": false
+      }
+    },
+    {
+      "ts": "2026-06-30T00:20:19.115Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T00:20:19.115Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T00:20:19.117Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T00:20:19.578Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=oeV4Hiev"
+      }
+    },
+    {
+      "ts": "2026-06-30T00:20:19.826Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T00:20:19.905Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T00:20:19.905Z",
+        "candidates": [
+          "R_10",
+          "R_25",
+          "R_50",
+          "R_75",
+          "R_100",
+          "1HZ10V",
+          "1HZ25V",
+          "1HZ50V",
+          "1HZ75V",
+          "1HZ100V"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T00:20:20.382Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T00:20:19.905Z",
+        "symbol": "R_10",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T00:20:20.382Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-30T00:20:19.905Z",
         "symbol": "R_10",
         "cycle_running": true,
         "halted": true,
