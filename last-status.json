@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T00:00:23.566Z",
+  "last_cycle": "2026-06-30T00:01:16.598Z",
   "balance": 9974.76,
   "currency": "USD",
   "account_mode": "demo",
@@ -615,69 +615,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-29T22:00:34.158Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3668756639",
-      "meta": {
-        "sold_for": 0.68,
-        "balance_after": 9977.83,
-        "transaction_id": 7198521319
-      }
-    },
-    {
-      "ts": "2026-06-29T22:00:34.159Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-29T22:00:18.814Z",
-        "symbol": "R_25",
-        "decision_action": "close",
-        "decision_id": "r25-close-loss-adx-trend",
-        "rationale": "The open DOWN position (contract 3668756639) is at a floating loss of -0.33 and has an extremely low stop_out_distance_pct of 0.001735, indicating imminent liquidation. While RSI (M5: 76.13, M10: 78.1",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -3.5,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-29T22:00:34.160Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for R_25 @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": {
-          "min": 1782741600000,
-          "max": 1782777300000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T22:00:34.270Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782734700000,
-          "max": 1782770400000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-29T22:00:36.334Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2174,
-        "bytes": 146405
-      }
-    },
     {
       "ts": "2026-06-29T22:05:19.633Z",
       "level": "info",
@@ -2774,6 +2711,42 @@
         "halted": true,
         "session_active": false
       }
+    },
+    {
+      "ts": "2026-06-30T00:01:15.421Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T00:01:15.421Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T00:01:15.422Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T00:01:15.835Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=yisVNGPC"
+      }
+    },
+    {
+      "ts": "2026-06-30T00:01:16.075Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T00:01:16.597Z",
+      "level": "info",
+      "msg": "daily_stats reset for new UTC day",
+      "meta": {
+        "date": "2026-06-30"
+      }
     }
   ],
   "daily_stats": {
@@ -2787,6 +2760,14 @@
   "daily_history": [
     {
       "date": "2026-06-29",
+      "trades": 0,
+      "wins": 0,
+      "losses": 0,
+      "pnl": 0,
+      "by_symbol": {}
+    },
+    {
+      "date": "2026-06-30",
       "trades": 0,
       "wins": 0,
       "losses": 0,
