@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T16:21:34.050Z",
+  "last_cycle": "2026-06-30T16:25:24.817Z",
   "balance": 9936.02,
   "currency": "USD",
   "account_mode": "demo",
@@ -38,11 +38,11 @@
         "entry_spot": 0.92288,
         "entry_time": "2026-06-30T16:11:48.000Z",
         "take_profit": 2,
-        "stop_loss": 0.3,
+        "stop_loss": -0.3,
         "floating_pnl": -0.09,
         "floating_pnl_pct": -9,
         "current_spot": 0.92295,
-        "last_polled_at": "2026-06-30T16:20:17.794Z",
+        "last_polled_at": "2026-06-30T16:25:16.537Z",
         "cycle_id": "2026-06-30T16:10:19.600Z",
         "decision_id": "dec-7f02b1",
         "sibling_index": 0,
@@ -71,6 +71,17 @@
               "stop_loss": 0.3
             },
             "decision_id": "dec-revise-sl-001"
+          },
+          {
+            "ts": "2026-06-30T16:25:16.536Z",
+            "outcome": "reverted",
+            "requested": {
+              "stop_loss": 0.3
+            },
+            "applied": {
+              "stop_loss": -0.3
+            },
+            "error": "broker-side TP/SL diverged from last persisted values between ticks"
           }
         ]
       }
@@ -1224,129 +1235,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T15:26:29.287Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:26:44.998Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
-      "meta": {
-        "action": "hold",
-        "symbol": "frxEURUSD",
-        "conf": 0.45
-      }
-    },
-    {
-      "ts": "2026-06-30T15:26:44.999Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "hold",
-        "decision_id": "dec-hold-001",
-        "keyUsed": "OPENROUTER_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:26:45.001Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null,
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T15:26:45.155Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782797400000,
-          "max": 1782833100000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T15:26:46.957Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1955,
-        "bytes": 158588
-      }
-    },
-    {
-      "ts": "2026-06-30T15:27:39.574Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T15:27:39.574Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:27:39.575Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:27:40.065Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=yeK19YLs"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:27:40.347Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:27:40.435Z",
-      "level": "info",
-      "msg": "Multiplier cycle: overlap guard â previous tick too recent, skipping",
-      "meta": {
-        "cycle_id": "2026-06-30T15:27:40.435Z",
-        "ms_since_last": 52135,
-        "interval_ms": 90000
-      }
-    },
-    {
-      "ts": "2026-06-30T15:30:18.611Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T15:30:18.610Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:30:18.613Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:30:19.000Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=HizMULCF"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:30:19.118Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T15:30:19.153Z",
       "level": "info",
@@ -3180,6 +3068,152 @@
       "meta": {
         "ms": 1905,
         "bytes": 160239
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:15.764Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T16:25:15.764Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:15.767Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:25:16.193Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=0qkcZfhg"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:16.390Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:25:16.451Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T16:25:16.451Z",
+        "symbol": "frxEURCHF",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:16.536Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3741799659,
+        "prev": {
+          "tp": 2,
+          "sl": 0.3
+        },
+        "live": {
+          "tp": 2,
+          "sl": -0.3
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:17.600Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:25:17.600Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:25:17.600Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:25:21.855Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "hold",
+        "symbol": "frxEURCHF",
+        "conf": 0.6
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:21.855Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "dec-hold-001",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:21.856Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T16:25:16.451Z",
+        "symbol": "frxEURCHF",
+        "decision_action": "hold",
+        "decision_id": "dec-hold-001",
+        "rationale": "M5 RSI 59.6 and M15 RSI 60.71 show bullish momentum but no overbought extreme; price at 0.92295 sits above M5 EMA20 (0.922773) and M15 EMA20 (0.922545) with positive MACD histograms on both timeframes",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": 0,
+        "floating_pnl": -0.09,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:21.857Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURCHF @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782807300000,
+          "max": 1782843000000
+        },
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:21.958Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782807300000,
+          "max": 1782843000000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T16:25:23.731Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1874,
+        "bytes": 159896
       }
     }
   ],
