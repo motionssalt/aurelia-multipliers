@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T14:21:09.563Z",
-  "balance": 9941.95,
+  "last_cycle": "2026-06-30T14:24:10.421Z",
+  "balance": 9942.88,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -1114,42 +1114,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T13:25:17.740Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:25:18.174Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=BH7Wwf0t"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:25:18.297Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:25:18.330Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T13:25:18.330Z",
-        "symbol": "frxGBPJPY",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T13:25:19.407Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T13:25:19.407Z",
       "level": "warn",
@@ -2906,6 +2870,44 @@
       "meta": {
         "ms": 1868,
         "bytes": 159909
+      }
+    },
+    {
+      "ts": "2026-06-30T14:24:09.565Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T14:24:09.565Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:24:09.567Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:24:09.870Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=LzCUpwYb"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:24:09.961Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:24:10.012Z",
+      "level": "warn",
+      "msg": "closeAllPositions: sweeping all open siblings",
+      "meta": {
+        "reason": "manual_close_all",
+        "symbols": [],
+        "position_count": 0
       }
     }
   ],
