@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T09:40:18.702Z",
+  "last_cycle": "2026-06-30T09:45:39.672Z",
   "balance": 9969.76,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,66 +9,32 @@
     "active": true,
     "started_at": "2026-06-30T09:38:58.110Z",
     "capital_start": 20,
-    "capital_remaining": 15,
+    "capital_remaining": 20.25,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 0,
-    "wins": 0,
+    "trades": 1,
+    "wins": 1,
     "losses": 0,
-    "pnl": 0,
-    "win_streak": 0,
+    "pnl": 0.25,
+    "win_streak": 1,
     "loss_streak": 0,
     "halted": false,
     "halt_reason": null
   },
   "cycle_open_position": null,
   "cycle_open_siblings": {
-    "cryBTCUSD": [
-      {
-        "contract_id": 3706574619,
-        "stake": 5,
-        "multiplier": 200,
-        "direction": "up",
-        "entry_spot": 59290.83,
-        "entry_time": "2026-06-30T09:39:43.000Z",
-        "take_profit": 15,
-        "stop_loss": 4.5,
-        "floating_pnl": null,
-        "floating_pnl_pct": null,
-        "current_spot": null,
-        "last_polled_at": null,
-        "cycle_id": "2026-06-30T09:39:19.054Z",
-        "decision_id": "btc-buy-reversal-1",
-        "sibling_index": 0,
-        "sibling_count": 1,
-        "rationale": "Strong bullish reversal signals on cryBTCUSD. M5 shows Bullish Engulfing and Morning Star candle patterns, with RSI at 43.96 and price near the lower Bollinger Band. M10 and M15 RSIs are oversold at 39.31 and 37.76 respectively, indicating potential for an upward bounce.",
-        "opened_at": "2026-06-30T09:39:43.617Z",
-        "revision_history": []
-      }
-    ],
+    "cryBTCUSD": [],
     "frxEURUSD": [],
     "frxGBPJPY": [],
     "R_50": [],
     "R_25": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 1,
-    "positions": 1,
-    "total_stake": 5,
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
     "total_floating_pnl": null,
-    "per_symbol": [
-      {
-        "symbol": "cryBTCUSD",
-        "count": 1,
-        "total_stake": 5,
-        "total_floating_pnl": null,
-        "net_position": 5,
-        "direction_mix": {
-          "up": 1,
-          "down": 0
-        }
-      }
-    ]
+    "per_symbol": []
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -617,6 +583,32 @@
       "opened_at": "2026-06-29T22:10:33.561Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-29T16:29:27.461Z"
+    },
+    {
+      "ts": "2026-06-30T09:45:36.462Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "cryBTCUSD",
+      "contract_id": 3706574619,
+      "direction": "up",
+      "stake": 5,
+      "multiplier": 200,
+      "take_profit": 15,
+      "stop_loss": -4.5,
+      "outcome": "win",
+      "pnl": 0.25,
+      "entry": 59290.83,
+      "exit": 59341.578,
+      "close_reason": "High stop-out risk and weakening bullish signals",
+      "settled": true,
+      "cycle_id": "2026-06-30T09:39:19.054Z",
+      "decision_id": "btc-buy-reversal-1",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "Strong bullish reversal signals on cryBTCUSD. M5 shows Bullish Engulfing and Morning Star candle patterns, with RSI at 43.96 and price near the lower Bollinger Band. M10 and M15 RSIs are oversold at 39.31 and 37.76 respectively, indicating potential for an upward bounce.",
+      "opened_at": "2026-06-30T09:39:43.617Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T09:38:58.110Z"
     }
   ],
   "trade_history_manual": [
@@ -649,152 +641,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-30T07:30:17.912Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T07:30:17.942Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T07:30:17.942Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T07:30:18.302Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T07:30:17.942Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T07:30:18.303Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T07:30:17.942Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": true,
-        "session_active": false
-      }
-    },
-    {
-      "ts": "2026-06-30T07:35:16.427Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T07:35:16.427Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T07:35:16.429Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T07:35:16.885Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=99WTa8x2"
-      }
-    },
-    {
-      "ts": "2026-06-30T07:35:17.081Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T07:35:17.138Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T07:35:17.138Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T07:35:17.566Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T07:35:17.138Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T07:35:17.566Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T07:35:17.138Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": true,
-        "session_active": false
-      }
-    },
-    {
-      "ts": "2026-06-30T07:40:20.073Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T07:40:20.073Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T07:40:20.075Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T07:40:20.573Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=hBPDLOVk"
-      }
-    },
-    {
-      "ts": "2026-06-30T07:40:20.917Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T07:40:21.020Z",
       "level": "info",
@@ -2724,15 +2570,173 @@
         "ms_since_last": 31910,
         "interval_ms": 90000
       }
+    },
+    {
+      "ts": "2026-06-30T09:45:22.108Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T09:45:22.108Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:22.110Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T09:45:22.463Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=gd6nX6zX"
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:22.749Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T09:45:22.852Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T09:45:22.852Z",
+        "symbol": "cryBTCUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:22.978Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3706574619,
+        "prev": {
+          "tp": 15,
+          "sl": 4.5
+        },
+        "live": {
+          "tp": 15,
+          "sl": -4.5
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:24.112Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T09:45:36.161Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "close",
+        "symbol": "cryBTCUSD",
+        "conf": 0.8
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:36.162Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "close",
+        "decision_id": "btc-close-stopout-risk",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:36.321Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3706574619",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:36.462Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3706574619",
+      "meta": {
+        "sold_for": 5.25,
+        "balance_after": 9975.01,
+        "transaction_id": 7271301119
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:36.463Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T09:45:22.852Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "close",
+        "decision_id": "btc-close-stopout-risk",
+        "rationale": "The existing 'up' position (contract 3706574619) has a very low stop_out_distance_pct of 0.005242 (0.52%), indicating high risk of forced liquidation. While M5 MACD histogram is positive at 9.77, M5 S",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0.25,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:36.464Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": {
+          "min": 1782738000000,
+          "max": 1782773700000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:36.621Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782777000000,
+          "max": 1782812700000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T09:45:38.395Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1931,
+        "bytes": 161788
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 0,
-    "wins": 0,
+    "trades": 1,
+    "wins": 1,
     "losses": 0,
-    "pnl": 0,
-    "by_symbol": {}
+    "pnl": 0.25,
+    "by_symbol": {
+      "cryBTCUSD": {
+        "trades": 1,
+        "wins": 1,
+        "losses": 0,
+        "pnl": 0.25
+      }
+    }
   },
   "daily_history": [
     {
@@ -2766,10 +2770,5 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {
-    "cryBTCUSD": {
-      "min": 1782738000000,
-      "max": 1782773700000
-    }
-  }
+  "chart_windows": {}
 }
