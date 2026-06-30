@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T15:30:26.169Z",
+  "last_cycle": "2026-06-30T15:35:52.314Z",
   "balance": 9937.02,
   "currency": "USD",
   "account_mode": "demo",
@@ -1164,143 +1164,9 @@
     "GEMINI_KEY_3": 1782815123137,
     "GEMINI_KEY_4": 1782815123137,
     "GEMINI_KEY_1": 1782819027062,
-    "CLOUDFLARE_KEY_1": 1782820226730,
-    "OPENROUTER_KEY_1": 1782833420626
+    "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T14:36:27.319Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=4zDTvIYh"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:36:27.663Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:36:27.663Z",
-      "level": "network",
-      "msg": "Deriv: WS reconnected before chart render (cycle) (recovered from state=3)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:36:27.663Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxUSDCAD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": null,
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T14:36:27.830Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782801600000,
-          "max": 1782837300000,
-          "justOpened": true
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T14:36:29.532Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1869,
-        "bytes": 155214
-      }
-    },
-    {
-      "ts": "2026-06-30T14:44:56.889Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T14:44:56.889Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:44:56.891Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:44:57.290Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=i3iAV2mT"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:44:57.443Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:44:57.479Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T14:44:57.478Z",
-        "symbol": "frxUSDCAD",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T14:44:57.557Z",
-      "level": "info",
-      "msg": "Detected TP/SL revert between ticks",
-      "meta": {
-        "contract_id": 3732671159,
-        "prev": {
-          "tp": 15,
-          "sl": 5
-        },
-        "live": {
-          "tp": 15,
-          "sl": -5
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T14:44:58.541Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:44:58.541Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:44:58.541Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:45:46.307Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
-      "meta": {
-        "action": "close",
-        "symbol": "frxUSDCAD",
-        "conf": 0.85
-      }
-    },
     {
       "ts": "2026-06-30T14:45:46.308Z",
       "level": "info",
@@ -3031,6 +2897,166 @@
       "meta": {
         "ms": 1858,
         "bytes": 157735
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:27.339Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T15:35:27.339Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:27.341Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:35:27.886Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=64DGMeUE"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:28.229Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:35:28.378Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T15:35:28.378Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:29.076Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T15:35:28.378Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:30.589Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:35:30.589Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:35:30.589Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:35:30.589Z",
+      "level": "warn",
+      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:35:48.425Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "hold",
+        "symbol": "frxEURUSD",
+        "conf": 0.45
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:48.425Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:48.426Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T15:35:28.378Z",
+        "symbol": "frxEURUSD",
+        "decision_action": "hold",
+        "decision_id": "dec-7f02b1",
+        "rationale": "No open positions to manage. Best candidate frxGBPUSD shows overbought M5 RSI 69.9 with Stoch 75.5/77.0 and shooting star on M10/M15, while frxEURUSD M5 RSI 59.8, MACD hist -0.00005, price at BB middl",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -1.78,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:48.428Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null,
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:48.588Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782798000000,
+          "max": 1782833700000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T15:35:50.795Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2367,
+        "bytes": 156002
       }
     }
   ],
