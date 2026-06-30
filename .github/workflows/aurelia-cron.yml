@@ -88,14 +88,16 @@ jobs:
           INPUT_PAYLOAD:      ${{ github.event.inputs.payload }}
           # All repo/org secrets dumped as JSON. Runner parses out keys whose
           # name starts with GEMINI_KEY_ / OPENAI_KEY_ / XAI_KEY_ /
-          # ANTHROPIC_KEY_ / CLOUDFLARE_KEY_ and exposes them in process.env so
-          # ai-client.js can look them up by registry name. This is the
-          # standard idiom for "arbitrary number of secrets" in Actions.
+          # ANTHROPIC_KEY_ / CLOUDFLARE_KEY_ / OPENROUTER_KEY_ and exposes
+          # them in process.env so ai-client.js can look them up by registry
+          # name. This is the standard idiom for "arbitrary number of
+          # secrets" in Actions.
           ALL_SECRETS_JSON:   ${{ toJSON(secrets) }}
         run: |
           # Expand GEMINI_KEY_*, OPENAI_KEY_*, XAI_KEY_*, ANTHROPIC_KEY_*,
-          # CLOUDFLARE_KEY_* entries from ALL_SECRETS_JSON into the current
-          # shell env so node sees them as process.env[NAME].
+          # CLOUDFLARE_KEY_*, OPENROUTER_KEY_* entries from
+          # ALL_SECRETS_JSON into the current shell env so node sees them
+          # as process.env[NAME].
           node -e "
             const all = JSON.parse(process.env.ALL_SECRETS_JSON || '{}');
             const lines = [];
@@ -105,6 +107,7 @@ jobs:
               if (k.startsWith('XAI_KEY_'))    lines.push(k + '=' + v);
               if (k.startsWith('ANTHROPIC_KEY_')) lines.push(k + '=' + v);
               if (k.startsWith('CLOUDFLARE_KEY_')) lines.push(k + '=' + v);
+              if (k.startsWith('OPENROUTER_KEY_')) lines.push(k + '=' + v);
             }
             require('fs').writeFileSync('.gemini.env', lines.join('\n'));
           "
