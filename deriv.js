@@ -336,14 +336,65 @@ async function connect({ bearer, appId, mode, realId, demoId }) {
    ensureOpen — re-issue a fresh OTP + WebSocket if the existing
    connection has gone stale (Deriv OTP sessions appear to expire
    quickly, independent of activity — closing the socket out from
-   under a long-running tick). Pass the SAME connOpts used for the
+   under a long-running tick, and slow AI providers like OpenRouter's
+   NVIDIA Nemotron "reasoning" model can take long enough that the
+   WebSocket closes mid-think). Pass the SAME connOpts used for the
    original connect() call. Returns the (possibly new) ws.
+
+   readyState reminder (matches existing checks elsewhere in this file):
+     0 = CONNECTING, 1 = OPEN, 2 = CLOSING, 3 = CLOSED
+
+   The reconnect path deliberately re-uses connect() rather than
+   duplicating the OTP / open / handler-attach logic, so authentication
+   and the request/reply plumbing are wired identically to startup.
+   The bot does not hold long-lived Deriv-side subscriptions across
+   ticks (ticks_history is fetched per-cycle), so a fresh socket is a
+   functionally equivalent replacement for a stale one.
+
+   Options (all optional):
+     timeoutMs — how long to wait for the reconnect to reach OPEN
+                 before throwing. Defaults to 8000ms. The internal
+                 _openWs timeout is 20s; this lets the caller fail
+                 fast on a trade-placement path where hanging would
+                 be worse than failing.
+     context   — short string describing why ensureOpen was called
+                 (e.g. 'trade placement'). Surfaced in the recovery
+                 log line so the Telegram/log output can distinguish
+                 a stale-after-AI-think reconnect from other paths.
    ───────────────────────────────────────────────────────────────── */
-async function ensureOpen(ws, connOpts) {
+async function ensureOpen(ws, connOpts, opts) {
+    const timeoutMs = (opts && Number.isFinite(opts.timeoutMs)) ? opts.timeoutMs : 8000;
+    const context   = (opts && opts.context) ? String(opts.context) : null;
+
     if (ws && ws.readyState === WebSocket.OPEN) return ws;
-    Logger.warn(`Deriv: socket not open (state=${ws ? ws.readyState : 'null'}) — reconnecting`);
-    const fresh = await connect(connOpts);
-    return fresh.ws;
+
+    const staleState = ws ? ws.readyState : 'null';
+    if (context) {
+        Logger.warn(`Deriv: WS was stale before ${context} (state=${staleState}) — reconnecting before placing order`);
+    } else {
+        Logger.warn(`Deriv: socket not open (state=${staleState}) — reconnecting`);
+    }
+
+    // Race connect() against an explicit timeout so a genuinely dead
+    // connection fails cleanly instead of hanging on the underlying
+    // 20s _openWs timer. On timeout we throw a clear error and let the
+    // caller log the failure exactly as it does today.
+    let timer;
+    const timeoutPromise = new Promise((_, reject) => {
+        timer = setTimeout(
+            () => reject(new Error(`ensureOpen: reconnect timed out after ${timeoutMs}ms`)),
+            timeoutMs
+        );
+    });
+    try {
+        const fresh = await Promise.race([connect(connOpts), timeoutPromise]);
+        if (context) {
+            Logger.network(`Deriv: WS reconnected before ${context} (recovered from state=${staleState})`);
+        }
+        return fresh.ws;
+    } finally {
+        clearTimeout(timer);
+    }
 }
 
 /* ─────────────────────────────────────────────────────────────────
