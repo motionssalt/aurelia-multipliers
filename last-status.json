@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T16:00:35.666Z",
+  "last_cycle": "2026-06-30T16:05:51.286Z",
   "balance": 9937.02,
   "currency": "USD",
   "account_mode": "demo",
@@ -1164,151 +1164,9 @@
     "GEMINI_KEY_3": 1782815123137,
     "GEMINI_KEY_4": 1782815123137,
     "GEMINI_KEY_1": 1782819027062,
-    "CLOUDFLARE_KEY_1": 1782820226730,
-    "OPENROUTER_KEY_1": 1782835227945
+    "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T15:01:13.547Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1991,
-        "bytes": 172222
-      }
-    },
-    {
-      "ts": "2026-06-30T15:05:16.270Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T15:05:16.269Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:05:16.273Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:05:16.658Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=aWU4gLNB"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:05:16.812Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:05:16.841Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T15:05:16.841Z",
-        "symbol": "frxUSDCAD",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T15:05:17.918Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:05:17.918Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:05:17.918Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:05:17.918Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:05:34.436Z",
-      "level": "warn",
-      "msg": "Provider \"openrouter\" key \"OPENROUTER_KEY_1\" failed â flagged",
-      "meta": {
-        "error": "AI returned non-JSON: The user wants me to act as AURELIA-Multipliers, an AI decision engine for a Deriv MULTUP/MULTDOWN bot. I need to analyze the current market data and open posit"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:05:34.436Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: AI returned non-JSON: The user wants me to act as AURELIA-Multipliers, an AI decision engine for a Deriv MULTUP/MULTDOWN bot. I need to analyze the current market data and open posit"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:05:34.437Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T15:05:16.841Z",
-        "symbol": "frxUSDCAD",
-        "decision_action": "hold",
-        "decision_id": "provider-fail-2026-06-30T15:05:16.841Z",
-        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: AI returned non-JSON: The user wants me to act as AURELIA-Multipliers, an AI decision engine for a Deriv MULTUP/MULTDOWN bot. I need t",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -1.6,
-        "floating_pnl": -0.55,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T15:05:34.439Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxUSDCAD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782802500000,
-          "max": 1782838200000
-        },
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T15:05:34.519Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782802500000,
-          "max": 1782838200000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T15:05:36.312Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1873,
-        "bytes": 171068
-      }
-    },
     {
       "ts": "2026-06-30T15:10:23.051Z",
       "level": "info",
@@ -3052,6 +2910,166 @@
       "meta": {
         "ms": 3448,
         "bytes": 155314
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:20.229Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T16:05:20.229Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:20.231Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:05:20.882Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=IanT5IsJ"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:21.247Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:05:21.361Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T16:05:21.361Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:22.009Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T16:05:21.361Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:23.526Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:05:23.526Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:05:23.526Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:05:23.526Z",
+      "level": "warn",
+      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:05:47.418Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "hold",
+        "symbol": "frxEURUSD",
+        "conf": 0.45
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:47.418Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:47.419Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T16:05:21.361Z",
+        "symbol": "frxEURUSD",
+        "decision_action": "hold",
+        "decision_id": "dec-7f02b1",
+        "rationale": "No candidate shows a clear directional edge: frxEURUSD M5 RSI 47.1 with MACD hist -0.0002 and Stoch K 3.9 (oversold but no reversal candle); frxGBPUSD M5 RSI 52.0, MACD hist -0.00027, Stoch K 2.7; frx",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:47.420Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null,
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:47.581Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782799800000,
+          "max": 1782835500000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T16:05:49.555Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2135,
+        "bytes": 155652
       }
     }
   ],
