@@ -370,8 +370,16 @@ async function placeAndSettle(ws, norm, config, state, opts) {
                 // missing chart as a recoverable signal-side issue and
                 // surface a small notice so the user knows the trade
                 // itself was placed even when the visual didn't make it.
+                //
+                // Pass connOpts through so chart.js can self-heal one
+                // more time if the OTP socket closed between the buy
+                // reply landing and this candle fetch — same
+                // stale-socket root cause that the pre-buy ensureOpen
+                // already guards against on the placement side.
                 try {
-                    const buf = await Chart.generateChart(ws, norm.symbol, '5m');
+                    const buf = await Chart.generateChart(ws, norm.symbol, '5m', {
+                        connOpts: opts && opts.connOpts,
+                    });
                     if (buf && buf.length > 1024) {
                         await Telegram.sendPhoto(buf,
                             `${norm.symbol} • ${contractType} • ${norm.stake} USD • ${minutes}m\n` +
@@ -1496,7 +1504,7 @@ async function closeAllPositions(ws, config, state, reason) {
    if/else-if chain; only the call site moved so the 'multi' branch can
    reuse them without duplication.
    ───────────────────────────────────────────────────────────────── */
-async function executeCloseList(ws, config, state, symbol, closeArr) {
+async function executeCloseList(ws, config, state, symbol, closeArr, connOpts) {
     const out = [];
     for (const item of closeArr) {
         const cid = Number(item.contract_id);
@@ -1510,6 +1518,22 @@ async function executeCloseList(ws, config, state, symbol, closeArr) {
             continue;
         }
         try {
+            // The Deriv socket may have gone stale while we were
+            // waiting on the AI decision (slow / reasoning providers
+            // can take long enough that the OTP-backed socket reaches
+            // state=2/3 before we get here). closeMultiplier issues a
+            // `sell` which would otherwise reject synchronously with
+            // "WS not open (state=...)" — same root cause as the
+            // openSibling place path. Heal once before each sell so
+            // the trade actually gets booked. The helper short-circuits
+            // when the socket is already OPEN so there's no extra
+            // round-trip in the common case.
+            if (connOpts) {
+                ws = await Deriv.ensureOpen(ws, connOpts, {
+                    context:   'sell (close)',
+                    timeoutMs: 8000,
+                });
+            }
             let finalProfit = 0, exitSpot = null;
             try {
                 const poc = await Deriv.getOpenPositionState(ws, cid);
@@ -1546,7 +1570,12 @@ async function executeOpenSpec(ws, config, state, symbol, decision, openSpec, cy
     return openSibling(ws, config, state, symbol, decision, openSpec, cycleId, connOpts);
 }
 
-async function executeReviseList(ws, state, symbol, reviseArr, decisionId) {
+async function executeReviseList(ws, state, symbol, reviseArr, decisionId, connOpts) {
+    // ^ `connOpts` is OPTIONAL for backwards compatibility with smoke
+    //   tests that call this helper directly without a connect-options
+    //   bundle. When absent we degrade to the prior behaviour: one shot,
+    //   throw on a closed socket. The production call sites in
+    //   runMultiplierCycle / runManual always thread connOpts through.
     const out = [];
     for (const r of reviseArr) {
         const cid = Number(r.contract_id);
@@ -1570,6 +1599,17 @@ async function executeReviseList(ws, state, symbol, reviseArr, decisionId) {
         if (Object.prototype.hasOwnProperty.call(changes, 'takeProfit')) requested.take_profit = changes.takeProfit;
         if (Object.prototype.hasOwnProperty.call(changes, 'stopLoss'))   requested.stop_loss   = changes.stopLoss;
         try {
+            // Same stale-socket recovery as executeCloseList: a slow
+            // AI think can close the OTP socket before contract_update
+            // is sent. Heal once per revise iteration; the broker
+            // accepts revises while a contract is open, so this is
+            // idempotent w.r.t. user-visible state.
+            if (connOpts) {
+                ws = await Deriv.ensureOpen(ws, connOpts, {
+                    context:   'contract_update (revise)',
+                    timeoutMs: 8000,
+                });
+            }
             const currency = state.currency || 'USD';
             const cu = await Deriv.reviseMultiplierLimits(ws, cid, changes, currency);
             // Use the ACTUAL values Deriv accepted (from contract_update
@@ -2298,7 +2338,7 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
 
     if (decision.action === 'close' && Array.isArray(decision.close)) {
         executed.details = executed.details.concat(
-            await executeCloseList(ws, config, state, symbol, decision.close)
+            await executeCloseList(ws, config, state, symbol, decision.close, connOpts)
         );
     } else if (decision.action === 'open' && decision.open) {
         executed.details = executed.details.concat(
@@ -2306,16 +2346,16 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         );
     } else if (decision.action === 'revise' && Array.isArray(decision.revise)) {
         executed.details = executed.details.concat(
-            await executeReviseList(ws, state, symbol, decision.revise, decision.decision_id)
+            await executeReviseList(ws, state, symbol, decision.revise, decision.decision_id, connOpts)
         );
     } else if (decision.action === 'multi' && decision.multi) {
         // close -> revise -> open. Empty sub-actions are silently skipped.
         if (Array.isArray(decision.multi.close) && decision.multi.close.length) {
-            const out = await executeCloseList(ws, config, state, symbol, decision.multi.close);
+            const out = await executeCloseList(ws, config, state, symbol, decision.multi.close, connOpts);
             executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'close' }, d)));
         }
         if (Array.isArray(decision.multi.revise) && decision.multi.revise.length) {
-            const out = await executeReviseList(ws, state, symbol, decision.multi.revise, decision.decision_id);
+            const out = await executeReviseList(ws, state, symbol, decision.multi.revise, decision.decision_id, connOpts);
             executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'revise' }, d)));
         }
         if (decision.multi.open) {
@@ -2428,6 +2468,25 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
         state.chart_windows = state.chart_windows || {};
         let chartBuf = null;
         let nextWindow = null;
+        // Pre-emptively heal the WS before fetching candles. The chart
+        // step runs AFTER the trade has been placed — in many tick
+        // cycles, the same slow-AI path that closed the socket pre-buy
+        // is ALSO what kills the post-buy chart fetch. We pass connOpts
+        // into renderMultiplierSnapshot itself so the candle-fetch can
+        // self-heal one more time if the socket dies between this
+        // pre-check and the actual ticks_history send.
+        if (connOpts) {
+            try {
+                ws = await Deriv.ensureOpen(ws, connOpts, {
+                    context:   'chart render (cycle)',
+                    timeoutMs: 8000,
+                });
+            } catch (e) {
+                // Don't abort the tick on a reconnect failure here —
+                // renderMultiplierSnapshot will surface the real error.
+                Logger.warn('ensureOpen before chart failed', { error: e.message });
+            }
+        }
         try {
             const out = await Chart.renderMultiplierSnapshot({
                 ws,
@@ -2435,10 +2494,15 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
                 tf:           '5m',
                 openSiblings: postActionSiblings,
                 chartWindow:  state.chart_windows[symbol] || null,
+                connOpts,
             });
             if (out && out.buffer && out.buffer.length > 1024) {
                 chartBuf   = out.buffer;
                 nextWindow = out.nextWindow;
+                // Capture the (possibly fresh) ws from the chart layer
+                // so the rest of this tick (and any follow-up sends)
+                // reuse the healed socket.
+                if (out.ws) ws = out.ws;
             } else {
                 Logger.warn('renderMultiplierSnapshot returned no usable buffer', {
                     symbol,
@@ -2762,19 +2826,19 @@ async function runManual(ws, config, state, connOpts) {
             }
         } else if (decision.action === 'close' && Array.isArray(decision.close)) {
             executed.details = executed.details.concat(
-                await executeCloseList(ws, config, state, symbol, decision.close)
+                await executeCloseList(ws, config, state, symbol, decision.close, connOpts)
             );
         } else if (decision.action === 'revise' && Array.isArray(decision.revise)) {
             executed.details = executed.details.concat(
-                await executeReviseList(ws, state, symbol, decision.revise, decision.decision_id)
+                await executeReviseList(ws, state, symbol, decision.revise, decision.decision_id, connOpts)
             );
         } else if (decision.action === 'multi' && decision.multi) {
             if (Array.isArray(decision.multi.close) && decision.multi.close.length) {
-                const out = await executeCloseList(ws, config, state, symbol, decision.multi.close);
+                const out = await executeCloseList(ws, config, state, symbol, decision.multi.close, connOpts);
                 executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'close' }, d)));
             }
             if (Array.isArray(decision.multi.revise) && decision.multi.revise.length) {
-                const out = await executeReviseList(ws, state, symbol, decision.multi.revise, decision.decision_id);
+                const out = await executeReviseList(ws, state, symbol, decision.multi.revise, decision.decision_id, connOpts);
                 executed.details = executed.details.concat(out.map(d => Object.assign({ phase: 'revise' }, d)));
             }
             if (decision.multi.open) {
@@ -2823,6 +2887,20 @@ async function runManual(ws, config, state, connOpts) {
         // the user called out.
         state.chart_windows = state.chart_windows || {};
         let chartBuf = null, nextWindow = null;
+        // Same pre-emptive heal as the cycle path — see the comment
+        // there. Manual scans run from /scan, often right after a
+        // slow AI think, so the socket can absolutely be in state=2/3
+        // by the time we reach this point.
+        if (connOpts) {
+            try {
+                ws = await Deriv.ensureOpen(ws, connOpts, {
+                    context:   'chart render (manual)',
+                    timeoutMs: 8000,
+                });
+            } catch (e) {
+                Logger.warn('Manual scan: ensureOpen before chart failed', { error: e.message });
+            }
+        }
         try {
             const out = await Chart.renderMultiplierSnapshot({
                 ws,
@@ -2830,19 +2908,22 @@ async function runManual(ws, config, state, connOpts) {
                 tf:           '5m',
                 openSiblings: postActionSiblings,
                 chartWindow:  state.chart_windows[symbol] || null,
+                connOpts,
             });
             if (out && out.buffer && out.buffer.length > 1024) {
                 chartBuf   = out.buffer;
                 nextWindow = out.nextWindow;
+                if (out.ws) ws = out.ws;
             }
         } catch (e) {
             Logger.warn('Manual scan: chart render failed, falling back to generateChart', { symbol, error: e.message });
         }
         // Final fallback: plain generateChart so we still send a picture
-        // even if the multiplier-snapshot variant failed.
+        // even if the multiplier-snapshot variant failed. Pass connOpts
+        // through so this fallback can also self-heal a stale socket.
         if (!chartBuf) {
             try {
-                const buf = await Chart.generateChart(ws, symbol, '5m');
+                const buf = await Chart.generateChart(ws, symbol, '5m', { connOpts });
                 if (buf && buf.length > 1024) chartBuf = buf;
             } catch (e) {
                 Logger.warn('Manual scan: generateChart fallback also failed', { symbol, error: e.message });
