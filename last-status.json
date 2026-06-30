@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T14:54:10.639Z",
-  "balance": 9932.26,
+  "last_cycle": "2026-06-30T14:55:21.141Z",
+  "balance": 9922.26,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -1175,58 +1175,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T13:46:24.988Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T13:45:18.043Z",
-        "symbol": "frxGBPJPY",
-        "decision_action": "close",
-        "decision_id": "dec-close-gbpjpy-reversal",
-        "rationale": "M5 shows Morning Star bullish reversal with MACD histogram positive (0.011) and EMA20 (214.739) crossing above EMA50 (214.751); M10 confirms with Hammer + Morning Star patterns and Stoch extremely ove",
-        "executed_count": 2,
-        "just_closed": 0,
-        "open_now": 2,
-        "session_pnl": 0,
-        "floating_pnl": -2.01,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T13:46:24.990Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxGBPJPY @ 5m",
-      "meta": {
-        "siblings": 2,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-30T13:46:24.990Z",
-      "level": "warn",
-      "msg": "renderMultiplierSnapshot failed",
-      "meta": {
-        "symbol": "frxGBPJPY",
-        "error": "WS not open (state=3)"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:53:13.967Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T13:53:13.967Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:53:13.969Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T13:53:14.421Z",
       "level": "network",
@@ -3181,6 +3129,44 @@
       "meta": {
         "ms": 1918,
         "bytes": 165499
+      }
+    },
+    {
+      "ts": "2026-06-30T14:55:20.655Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T14:55:20.655Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:55:20.657Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:55:20.984Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=NX6vrNAR"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:55:21.109Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:55:21.140Z",
+      "level": "info",
+      "msg": "Multiplier cycle: overlap guard — previous tick too recent, skipping",
+      "meta": {
+        "cycle_id": "2026-06-30T14:55:21.140Z",
+        "ms_since_last": 70501,
+        "interval_ms": 90000
       }
     }
   ],
