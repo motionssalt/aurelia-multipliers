@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T10:20:51.785Z",
-  "balance": 9973.27,
+  "last_cycle": "2026-06-30T10:25:33.376Z",
+  "balance": 9972.27,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -37,18 +37,30 @@
         "entry_spot": 1.65483,
         "entry_time": "2026-06-30T10:20:48.000Z",
         "take_profit": 2,
-        "stop_loss": 0.5,
-        "floating_pnl": null,
-        "floating_pnl_pct": null,
-        "current_spot": null,
-        "last_polled_at": null,
+        "stop_loss": -0.5,
+        "floating_pnl": -0.08,
+        "floating_pnl_pct": -8,
+        "current_spot": 1.65504,
+        "last_polled_at": "2026-06-30T10:25:21.509Z",
         "cycle_id": "2026-06-30T10:20:20.993Z",
         "decision_id": "euraud-bounce-001",
         "sibling_index": 0,
         "sibling_count": 1,
         "rationale": "frxEURAUD shows strong oversold conditions across multiple timeframes, with M15 RSI at 30.97 and M15 Stochastics K at 3.98. This suggests a high probability of a bullish bounce, despite the bearish EMA20 below EMA50 crossover. The M5 and M10 also show Doji candles, indicating indecision at these low levels.",
         "opened_at": "2026-06-30T10:20:48.878Z",
-        "revision_history": []
+        "revision_history": [
+          {
+            "ts": "2026-06-30T10:25:21.509Z",
+            "outcome": "reverted",
+            "requested": {
+              "stop_loss": 0.5
+            },
+            "applied": {
+              "stop_loss": -0.5
+            },
+            "error": "broker-side TP/SL diverged from last persisted values between ticks"
+          }
+        ]
       }
     ],
     "frxEURCHF": []
@@ -57,14 +69,14 @@
     "symbols": 1,
     "positions": 1,
     "total_stake": 1,
-    "total_floating_pnl": null,
+    "total_floating_pnl": -0.08,
     "per_symbol": [
       {
         "symbol": "frxEURAUD",
         "count": 1,
         "total_stake": 1,
-        "total_floating_pnl": null,
-        "net_position": 1,
+        "total_floating_pnl": -0.08,
+        "net_position": 0.92,
         "direction_mix": {
           "up": 1,
           "down": 0
@@ -775,188 +787,13 @@
     "OPENAI_KEY_2": 1782698422733,
     "OPENAI_KEY_3": 1782698933111,
     "OPENAI_KEY_4": 1782698933111,
-    "GEMINI_KEY_3": 1782769816741,
-    "GEMINI_KEY_4": 1782769816741,
-    "GEMINI_KEY_2": 1782769816741,
-    "CLOUDFLARE_KEY_1": 1782770115318
+    "GEMINI_KEY_3": 1782815123137,
+    "GEMINI_KEY_4": 1782815123137,
+    "GEMINI_KEY_2": 1782815123137,
+    "CLOUDFLARE_KEY_1": 1782815123137,
+    "GEMINI_KEY_1": 1782815123137
   },
   "logs": [
-    {
-      "ts": "2026-06-30T09:00:29.695Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:00:29.801Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T09:00:29.801Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T09:00:30.321Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T09:00:29.801Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T09:00:30.321Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T09:00:29.801Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": true,
-        "session_active": false
-      }
-    },
-    {
-      "ts": "2026-06-30T09:05:15.396Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T09:05:15.396Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:05:15.398Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:05:15.693Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=oxfJH990"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:05:15.804Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:05:15.832Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T09:05:15.832Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T09:05:16.124Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T09:05:15.832Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T09:05:16.125Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T09:05:15.832Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": true,
-        "session_active": false
-      }
-    },
-    {
-      "ts": "2026-06-30T09:10:27.823Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T09:10:27.823Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:10:27.825Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:10:28.357Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=dM2GlX4M"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:10:28.638Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:10:28.732Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T09:10:28.732Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T09:10:29.276Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T09:10:28.732Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
     {
       "ts": "2026-06-30T09:10:29.276Z",
       "level": "info",
@@ -3243,6 +3080,167 @@
       "meta": {
         "ms": 2028,
         "bytes": 168605
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:20.310Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T10:25:20.310Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:20.313Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:25:20.893Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=LfeqBc8x"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:21.234Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:25:21.356Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T10:25:21.356Z",
+        "symbol": "frxEURAUD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:21.509Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3710191259,
+        "prev": {
+          "tp": 2,
+          "sl": 0.5
+        },
+        "live": {
+          "tp": 2,
+          "sl": -0.5
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:23.137Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:25:26.007Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:27.478Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" failed — flagged",
+      "meta": {
+        "error": "gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:28.384Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_3\" failed — flagged",
+      "meta": {
+        "error": "gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:30.000Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_4\" failed — flagged",
+      "meta": {
+        "error": "gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:30.095Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" key \"CLOUDFLARE_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (9204ef9d-"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:30.095Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "All AI providers/keys failed; last error: cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (9204ef9d-"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:30.096Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T10:25:21.356Z",
+        "symbol": "frxEURAUD",
+        "decision_action": "hold",
+        "decision_id": "provider-fail-2026-06-30T10:25:21.356Z",
+        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -1.49,
+        "floating_pnl": -0.08,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:30.098Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURAUD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782786300000,
+          "max": 1782822000000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:30.291Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782786300000,
+          "max": 1782822000000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:25:32.072Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1974,
+        "bytes": 173451
       }
     }
   ],
