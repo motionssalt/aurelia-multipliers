@@ -69,16 +69,124 @@ function _orderKeys(registry, benchMap) {
 function _stripFences(s) {
     if (typeof s !== 'string') return '';
     let out = s.trim();
+    // Case 1: whole string is wrapped in a markdown code fence.
+    // ```json\n{...}\n```  or  ```\n{...}\n```
     if (out.startsWith('```')) {
-        out = out.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '');
+        out = out.replace(/^```(?:json|JSON)?\s*/i, '').replace(/```\s*$/i, '');
+        return out.trim();
     }
-    return out.trim();
+    // Case 2: the JSON is embedded inside text that ALSO contains a
+    // mid-string fence (e.g. reasoning preamble followed by
+    // ```json\n{...}\n```). Grab the contents of the first fenced
+    // block — the model normally puts its final answer there.
+    const fenced = out.match(/```(?:json|JSON)?\s*([\s\S]*?)```/);
+    if (fenced && fenced[1]) {
+        return fenced[1].trim();
+    }
+    return out;
 }
 
+/* Extract the FIRST balanced top-level {...} JSON object from a
+   string that may contain extra leading/trailing prose.
+
+   Why this exists:
+     Reasoning-style models (OpenRouter Nemotron 3 Ultra, DeepSeek R1,
+     Claude with extended thinking, etc.) sometimes emit their hidden
+     scratchpad INSIDE message.content — e.g.
+
+       "The user wants me to act as AURELIA-Multipliers, an AI
+        decision engine for a Deriv MULTUP/MULTDOWN bot. I need to
+        analyze... Here is the decision:
+        {\"action\":\"BUY\",\"symbol\":\"R_100\", ...}"
+
+     A plain JSON.parse() on that string fails immediately on the
+     leading 'T' of "The user..." and the whole provider gets flagged
+     even though the JSON is right there at the end.
+
+   How it works:
+     • Walk the string character by character.
+     • When we hit '{' (outside a string), start a balanced-brace
+       counter. Track string state with quote + backslash escaping so
+       that braces INSIDE string values (e.g. {"rationale":"use { brace"})
+       do not confuse the depth count.
+     • When depth returns to 0, that's the end of the first complete
+       top-level object — return that substring.
+     • If no balanced object is found, return null and the caller will
+       fall through to the strict error path (preserving today's
+       behaviour of bubbling a clear error → next provider).
+
+   A naive /\{[\s\S]*\}/ regex would either over-match (grabbing past
+   the real object's closing brace into trailing prose with a stray
+   '}') or under-match (stopping at the first '}', which truncates
+   nested decision objects). The brace counter avoids both. */
+function _extractBalancedJsonObject(s) {
+    if (typeof s !== 'string' || s.indexOf('{') < 0) return null;
+    const start = s.indexOf('{');
+    let depth     = 0;
+    let inString  = false;
+    let escape    = false;
+    for (let i = start; i < s.length; i++) {
+        const ch = s[i];
+        if (inString) {
+            if (escape)              { escape = false; continue; }
+            if (ch === '\\')         { escape = true;  continue; }
+            if (ch === '"')          { inString = false; }
+            continue;
+        }
+        if (ch === '"')              { inString = true; continue; }
+        if (ch === '{')              { depth++; continue; }
+        if (ch === '}') {
+            depth--;
+            if (depth === 0) {
+                return s.slice(start, i + 1);
+            }
+        }
+    }
+    return null; // unbalanced — no complete object found
+}
+
+/* Shared JSON parser used by EVERY provider's response handler
+   (gemini, openai, grok, claude, cloudflare, openrouter).
+
+   Tolerance ladder, in order:
+     1. Strip a wrapping markdown code fence (```json ... ```), if any.
+     2. Try JSON.parse on the cleaned string. Fast path for compliant
+        providers (Gemini with responseMimeType=application/json,
+        OpenAI/Grok/OpenRouter with response_format=json_object).
+     3. If that fails, extract the first balanced top-level {...}
+        object from the cleaned string and JSON.parse THAT. This
+        recovers cases where a reasoning-style model wrote its
+        scratchpad/preamble before the JSON inside message.content.
+     4. If extraction still does not yield valid JSON, throw a clear,
+        specific error with a short snippet so the failure is easy to
+        diagnose in the runner log and the outer waterfall can flag
+        the key and fall through to the next provider — exactly the
+        behaviour we had before. We do NOT silently accept garbage.
+
+   Note on OpenRouter / reasoning-style providers specifically:
+     Their per-provider handlers (_callOpenRouter, _callCloudflare,
+     etc.) already read message.content and explicitly ignore
+     message.reasoning / reasoning_details — those scratchpad fields
+     are NEVER fed into this parser. This function only deals with
+     the case where the model puts its preamble INSIDE content. */
 function _parseJsonStrict(text) {
     const cleaned = _stripFences(text);
+
+    // Fast path: already-clean JSON (the common case for every
+    // provider when the model behaves).
     try { return JSON.parse(cleaned); }
-    catch (e) { throw new Error(`AI returned non-JSON: ${cleaned.slice(0, 160)}`); }
+    catch (_) { /* fall through to recovery */ }
+
+    // Recovery path: reasoning preamble around an embedded JSON object.
+    const extracted = _extractBalancedJsonObject(cleaned);
+    if (extracted) {
+        try { return JSON.parse(extracted); }
+        catch (_) { /* fall through to strict error */ }
+    }
+
+    // Genuinely malformed / missing JSON — fail with a useful snippet
+    // so the outer provider-waterfall log is actionable.
+    throw new Error(`AI returned non-JSON: ${cleaned.slice(0, 160)}`);
 }
 
 /* ─────────────────────────────────────────────────────────────────
