@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T19:30:25.360Z",
+  "last_cycle": "2026-06-30T19:35:23.302Z",
   "balance": 9936.89,
   "currency": "USD",
   "account_mode": "demo",
@@ -1222,108 +1222,6 @@
     "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-06-30T17:40:16.723Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T17:40:16.723Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T17:40:17.139Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T17:40:16.723Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T17:40:17.619Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T17:40:17.619Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T17:40:27.094Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_2\"",
-      "meta": {
-        "action": "open",
-        "symbol": "1HZ75V",
-        "conf": 0.72
-      }
-    },
-    {
-      "ts": "2026-06-30T17:40:27.095Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: AI response rejected, falling back to hold",
-      "meta": {
-        "errs": [
-          "open.multiplier 100 not in Deriv's accepted set for R_10 (400, 1000, 2000, 3000, 4000)"
-        ],
-        "keyUsed": "OPENROUTER_KEY_2",
-        "raw_action": "open",
-        "raw_keys": [
-          "action",
-          "symbol",
-          "decision_id",
-          "rationale",
-          "confidence",
-          "open"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T17:40:27.096Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T17:40:16.723Z",
-        "symbol": "R_10",
-        "decision_action": "hold",
-        "decision_id": "invalid-2026-06-30T17:40:16.723Z",
-        "rationale": "open invalid: open.multiplier 100 not in Deriv's accepted set for R_10 (400, 1000, 2000, 3000, 4000)",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -0.07,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T17:40:27.097Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for R_10 @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null,
-        "recoverable": true
-      }
-    },
     {
       "ts": "2026-06-30T17:40:27.210Z",
       "level": "info",
@@ -3288,6 +3186,89 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-06-30T19:30:24.604Z",
+        "symbol": "frxEURUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-06-30T19:35:21.256Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T19:35:21.256Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T19:35:21.258Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T19:35:22.067Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=6eCVNVsQ"
+      }
+    },
+    {
+      "ts": "2026-06-30T19:35:22.465Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T19:35:22.566Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T19:35:22.566Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T19:35:22.566Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T19:35:23.301Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T19:35:22.566Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T19:35:23.301Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-06-30T19:35:22.566Z",
         "symbol": "frxEURUSD",
         "cycle_running": false,
         "halted": false,
