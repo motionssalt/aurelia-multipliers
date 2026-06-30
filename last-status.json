@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T13:26:52.568Z",
+  "last_cycle": "2026-06-30T13:33:15.506Z",
   "balance": 9940.17,
   "currency": "USD",
   "account_mode": "demo",
@@ -35,10 +35,10 @@
         "entry_time": "2026-06-30T13:15:13.000Z",
         "take_profit": 10,
         "stop_loss": -4,
-        "floating_pnl": -0.95,
-        "floating_pnl_pct": -19,
-        "current_spot": 214.788,
-        "last_polled_at": "2026-06-30T13:25:18.402Z",
+        "floating_pnl": -0.86,
+        "floating_pnl_pct": -17.2,
+        "current_spot": 214.774,
+        "last_polled_at": "2026-06-30T13:30:27.138Z",
         "cycle_id": "2026-06-30T13:10:22.570Z",
         "decision_id": "dec-gbpjpy-300-dn",
         "sibling_index": 0,
@@ -68,10 +68,10 @@
         "entry_time": "2026-06-30T13:15:13.000Z",
         "take_profit": 10,
         "stop_loss": -4,
-        "floating_pnl": -1.29,
-        "floating_pnl_pct": -25.8,
-        "current_spot": 214.788,
-        "last_polled_at": "2026-06-30T13:25:18.468Z",
+        "floating_pnl": -1.2,
+        "floating_pnl_pct": -24,
+        "current_spot": 214.775,
+        "last_polled_at": "2026-06-30T13:30:27.324Z",
         "cycle_id": "2026-06-30T13:10:22.570Z",
         "decision_id": "dec-gbpjpy-300-dn",
         "sibling_index": 1,
@@ -104,14 +104,14 @@
     "symbols": 1,
     "positions": 2,
     "total_stake": 10,
-    "total_floating_pnl": -2.24,
+    "total_floating_pnl": -2.06,
     "per_symbol": [
       {
         "symbol": "frxGBPJPY",
         "count": 2,
         "total_stake": 10,
-        "total_floating_pnl": -2.24,
-        "net_position": 7.76,
+        "total_floating_pnl": -2.06,
+        "net_position": 7.94,
         "direction_mix": {
           "up": 0,
           "down": 2
@@ -1114,198 +1114,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T12:10:21.588Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=VTP1xTzD"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:10:21.832Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:10:21.916Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T12:10:21.916Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T12:10:23.103Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T12:10:21.916Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T12:10:24.334Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:10:24.335Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:10:24.335Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:10:24.335Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "No AI providers configured with keys"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:10:24.335Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T12:10:21.916Z",
-        "symbol": "frxEURUSD",
-        "decision_action": "hold",
-        "decision_id": "provider-fail-2026-06-30T12:10:21.916Z",
-        "rationale": "AI providers exhausted: No AI providers configured with keys",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -4.59,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T12:10:24.336Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-30T12:10:24.497Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782785700000,
-          "max": 1782821400000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T12:10:26.288Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1952,
-        "bytes": 170486
-      }
-    },
-    {
-      "ts": "2026-06-30T12:15:16.850Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T12:15:16.850Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:15:16.852Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:15:17.272Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=j4UCuIp3"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:15:17.499Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:15:17.553Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T12:15:17.553Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T12:15:18.145Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T12:15:17.553Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
     {
       "ts": "2026-06-30T12:15:19.255Z",
       "level": "warn",
@@ -3168,6 +2976,160 @@
     },
     {
       "ts": "2026-06-30T13:26:52.224Z",
+      "level": "warn",
+      "msg": "renderMultiplierSnapshot failed",
+      "meta": {
+        "symbol": "frxGBPJPY",
+        "error": "WS not open (state=3)"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:30:26.003Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T13:30:26.003Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:30:26.006Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:30:26.556Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=ZABg7N6S"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:30:26.876Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:30:26.978Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:30:26.979Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T13:30:26.978Z",
+        "symbol": "frxGBPJPY",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T13:30:27.754Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:30:27.754Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:30:27.754Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:33:14.840Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "close",
+        "symbol": "frxGBPJPY",
+        "conf": 0.85
+      }
+    },
+    {
+      "ts": "2026-06-30T13:33:14.841Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "close",
+        "decision_id": "dec-close-both-01",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:33:14.842Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3725059059",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T13:33:14.842Z",
+      "level": "error",
+      "msg": "AI close failed",
+      "meta": {
+        "contract_id": 3725059059,
+        "error": "WS not open (state=3)"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:33:14.843Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3725059439",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T13:33:14.843Z",
+      "level": "error",
+      "msg": "AI close failed",
+      "meta": {
+        "contract_id": 3725059439,
+        "error": "WS not open (state=3)"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:33:14.843Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T13:30:26.978Z",
+        "symbol": "frxGBPJPY",
+        "decision_action": "close",
+        "decision_id": "dec-close-both-01",
+        "rationale": "Both DOWN x300 siblings show floating losses of -17.2% and -24% with stop-out distances of only 0.285% and 0.261% (stop-out at 215.239/215.188 vs spot 214.775). M5 structure has turned against the bea",
+        "executed_count": 2,
+        "just_closed": 0,
+        "open_now": 2,
+        "session_pnl": 0,
+        "floating_pnl": -2.06,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T13:33:14.845Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxGBPJPY @ 5m",
+      "meta": {
+        "siblings": 2,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-30T13:33:14.845Z",
       "level": "warn",
       "msg": "renderMultiplierSnapshot failed",
       "meta": {
