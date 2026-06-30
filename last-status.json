@@ -1,23 +1,23 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T11:15:39.208Z",
-  "balance": 9971.75,
+  "last_cycle": "2026-06-30T11:20:51.068Z",
+  "balance": 9970.75,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-30T09:38:58.110Z",
     "capital_start": 20,
-    "capital_remaining": 15.99,
+    "capital_remaining": 15.76,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 12,
+    "trades": 13,
     "wins": 2,
-    "losses": 10,
-    "pnl": -3.01,
+    "losses": 11,
+    "pnl": -3.24,
     "win_streak": 0,
-    "loss_streak": 5,
+    "loss_streak": 6,
     "halted": false,
     "halt_reason": null
   },
@@ -32,24 +32,24 @@
     "frxEURCHF": [],
     "frxAUDJPY": [
       {
-        "contract_id": 3715016539,
+        "contract_id": 3715435419,
         "stake": 1,
         "multiplier": 500,
         "direction": "down",
-        "entry_spot": 111.859,
-        "entry_time": "2026-06-30T11:15:35.000Z",
+        "entry_spot": 111.862,
+        "entry_time": "2026-06-30T11:20:46.000Z",
         "take_profit": 1.06,
         "stop_loss": 0.5,
         "floating_pnl": null,
         "floating_pnl_pct": null,
         "current_spot": null,
         "last_polled_at": null,
-        "cycle_id": "2026-06-30T11:15:15.623Z",
-        "decision_id": "audjpy-short-overbought-001",
+        "cycle_id": "2026-06-30T11:20:23.541Z",
+        "decision_id": "audjpy-re-short-002",
         "sibling_index": 0,
         "sibling_count": 1,
-        "rationale": "frxAUDJPY M5 RSI is 75.3 and Stochastics K is 98.4, both indicating extremely overbought conditions. This suggests a high probability of a short-term bearish reversal, while other candidates show less extreme signals or contradictory patterns.",
-        "opened_at": "2026-06-30T11:15:36.171Z",
+        "rationale": "Closing the current losing DOWN position due to critically low stop_out_distance_pct (0.001672). Opening a new DOWN position as M5, M10, and M15 RSI (74.17, 76.17, 77.15) and Stochastics (93.55, 95.53, 97.11) are extremely overbought, and price is near the upper Bollinger Band, indicating a high probability of a bearish correction despite the strong bullish ADX trend.",
+        "opened_at": "2026-06-30T11:20:47.318Z",
         "revision_history": []
       }
     ]
@@ -932,6 +932,32 @@
       "opened_at": "2026-06-30T11:00:43.382Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-30T09:38:58.110Z"
+    },
+    {
+      "ts": "2026-06-30T11:20:46.726Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxAUDJPY",
+      "contract_id": 3715016539,
+      "direction": "down",
+      "stake": 1,
+      "multiplier": 500,
+      "take_profit": 1.06,
+      "stop_loss": -0.5,
+      "outcome": "loss",
+      "pnl": -0.23,
+      "entry": 111.859,
+      "exit": 111.862,
+      "close_reason": "Critically low stop_out_distance_pct and floating loss.",
+      "settled": true,
+      "cycle_id": "2026-06-30T11:15:15.623Z",
+      "decision_id": "audjpy-short-overbought-001",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "frxAUDJPY M5 RSI is 75.3 and Stochastics K is 98.4, both indicating extremely overbought conditions. This suggests a high probability of a short-term bearish reversal, while other candidates show less extreme signals or contradictory patterns.",
+      "opened_at": "2026-06-30T11:15:36.171Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T09:38:58.110Z"
     }
   ],
   "trade_history_manual": [
@@ -964,285 +990,6 @@
     "CLOUDFLARE_KEY_1": 1782815420472
   },
   "logs": [
-    {
-      "ts": "2026-06-30T10:15:33.825Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3709346699",
-      "meta": {
-        "sold_for": 4.19,
-        "balance_after": 9973.27,
-        "transaction_id": 7276525459
-      }
-    },
-    {
-      "ts": "2026-06-30T10:15:33.826Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T10:15:17.262Z",
-        "symbol": "frxEURCHF",
-        "decision_action": "close",
-        "decision_id": "frxEURCHF-close-high-risk",
-        "rationale": "The open DOWN position (contract 3709346699) is at critical risk of forced liquidation with a stop_out_distance_pct of 0.2862% and a floating loss of -0.84 USD. Closing this position prevents a larger",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -1.49,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T10:15:33.827Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURCHF @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": {
-          "min": 1782785400000,
-          "max": 1782821100000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T10:15:33.941Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782778800000,
-          "max": 1782814500000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T10:15:35.960Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2133,
-        "bytes": 159687
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:20.533Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T10:20:20.533Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:20.535Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:20:20.852Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=hqw3vbrQ"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:20.959Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:20:20.993Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T10:20:20.993Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:21.494Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T10:20:20.993Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:22.314Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:20:48.410Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
-      "meta": {
-        "action": "open",
-        "symbol": "frxEURAUD",
-        "conf": 0.75
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:48.411Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "euraud-bounce-001",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:48.411Z",
-      "level": "info",
-      "msg": "Multiplier cycle: AI chose symbol from candidates",
-      "meta": {
-        "cycle_id": "2026-06-30T10:20:20.993Z",
-        "ai_chosen": "frxEURAUD",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:48.724Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted frxEURAUD MULTUP ×500",
-      "meta": {
-        "stake": 1,
-        "ask_price": 1,
-        "spot": 1.65483,
-        "commission": 0.21,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-0.50",
-            "order_amount": -0.5,
-            "order_date": 1782814848,
-            "value": "1.65393"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-1.00",
-            "order_amount": -1,
-            "order_date": 1782814848,
-            "value": "1.65222"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "2.00",
-            "order_amount": 2,
-            "order_date": 1782814848,
-            "value": "1.66247"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 48.5
-          },
-          "stop_loss": {
-            "min": 0.25,
-            "max": 0.97
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:48.878Z",
-      "level": "trade",
-      "msg": "Multiplier placed: contract_id=3710191259",
-      "meta": {
-        "symbol": "frxEURAUD",
-        "direction": "up",
-        "contract_type": "MULTUP",
-        "multiplier": 500,
-        "stake": 1,
-        "final_limit_order": {
-          "take_profit": 2,
-          "stop_loss": 0.5
-        },
-        "tp_sl_clamped": false,
-        "transaction_id": 7277385359,
-        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in EUR/AUD, multiplied by 485, minus commissions."
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:48.879Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T10:20:20.993Z",
-        "symbol": "frxEURAUD",
-        "decision_action": "open",
-        "decision_id": "euraud-bounce-001",
-        "rationale": "frxEURAUD shows strong oversold conditions across multiple timeframes, with M15 RSI at 30.97 and M15 Stochastics K at 3.98. This suggests a high probability of a bullish bounce, despite the bearish EM",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -1.49,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T10:20:48.880Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURAUD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": null
-      }
-    },
     {
       "ts": "2026-06-30T10:20:48.954Z",
       "level": "info",
@@ -3619,14 +3366,296 @@
         "ms": 2074,
         "bytes": 160568
       }
+    },
+    {
+      "ts": "2026-06-30T11:20:22.641Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T11:20:22.641Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:22.644Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:20:23.130Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=m2U4blz7"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:23.438Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:20:23.541Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T11:20:23.541Z",
+        "symbol": "frxAUDJPY",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:23.683Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3715016539,
+        "prev": {
+          "tp": 1.06,
+          "sl": 0.5
+        },
+        "live": {
+          "tp": 1.06,
+          "sl": -0.5
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:25.093Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:20:46.292Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "multi",
+        "symbol": "frxAUDJPY",
+        "conf": 0.7
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:46.293Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "multi",
+        "decision_id": "audjpy-re-short-002",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:46.489Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3715016539",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:46.726Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3715016539",
+      "meta": {
+        "sold_for": 0.77,
+        "balance_after": 9971.52,
+        "transaction_id": 7287539739
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:46.910Z",
+      "level": "warn",
+      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
+      "meta": {
+        "symbol": "frxAUDJPY",
+        "multiplier": 500,
+        "stake": 1,
+        "adjustments": {
+          "take_profit": {
+            "from": 1,
+            "to": 1.06,
+            "range": {
+              "min": 0.1,
+              "max": 48.5
+            },
+            "reason": "validation_params.take_profit"
+          }
+        },
+        "vp": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 48.5
+          },
+          "stop_loss": {
+            "min": 0.22,
+            "max": 0.97
+          }
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:47.101Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted frxAUDJPY MULTDOWN ×500",
+      "meta": {
+        "stake": 1,
+        "ask_price": 1,
+        "spot": 111.862,
+        "commission": 0.18,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-0.50",
+            "order_amount": -0.5,
+            "order_date": 1782818446,
+            "value": "111.929"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-1.00",
+            "order_amount": -1,
+            "order_date": 1782818446,
+            "value": "112.044"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "1.06",
+            "order_amount": 1.06,
+            "order_date": 1782818446,
+            "value": "111.568"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 48.5
+          },
+          "stop_loss": {
+            "min": 0.22,
+            "max": 0.97
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:47.317Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3715435419",
+      "meta": {
+        "symbol": "frxAUDJPY",
+        "direction": "down",
+        "contract_type": "MULTDOWN",
+        "multiplier": 500,
+        "stake": 1,
+        "final_limit_order": {
+          "take_profit": 1.06,
+          "stop_loss": 0.5
+        },
+        "tp_sl_clamped": true,
+        "transaction_id": 7287541359,
+        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in AUD/JPY, multiplied by 485, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:47.318Z",
+      "level": "warn",
+      "msg": "open: TP/SL clamped into broker range (v5 pre-flight)",
+      "meta": {
+        "symbol": "frxAUDJPY",
+        "multiplier": 500,
+        "requested_stake": 1,
+        "final_stake": 1,
+        "requested_take_profit": 1,
+        "requested_stop_loss": 0.5,
+        "final_take_profit": 1.06,
+        "final_stop_loss": 0.5,
+        "kind": "tp_sl_clamp",
+        "adjustments": {
+          "take_profit": {
+            "from": 1,
+            "to": 1.06,
+            "range": {
+              "min": 0.1,
+              "max": 48.5
+            },
+            "reason": "validation_params.take_profit"
+          },
+          "stop_loss": null
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:47.319Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T11:20:23.541Z",
+        "symbol": "frxAUDJPY",
+        "decision_action": "multi",
+        "decision_id": "audjpy-re-short-002",
+        "rationale": "Closing the current losing DOWN position due to critically low stop_out_distance_pct (0.001672). Opening a new DOWN position as M5, M10, and M15 RSI (74.17, 76.17, 77.15) and Stochastics (93.55, 95.53",
+        "executed_count": 2,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -3.24,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:47.321Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxAUDJPY @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782789600000,
+          "max": 1782825300000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:47.475Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782789600000,
+          "max": 1782825300000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T11:20:49.268Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1947,
+        "bytes": 161413
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 12,
+    "trades": 13,
     "wins": 2,
-    "losses": 10,
-    "pnl": -3.01,
+    "losses": 11,
+    "pnl": -3.24,
     "by_symbol": {
       "cryBTCUSD": {
         "trades": 7,
@@ -3645,6 +3674,12 @@
         "wins": 0,
         "losses": 2,
         "pnl": -1.07
+      },
+      "frxAUDJPY": {
+        "trades": 1,
+        "wins": 0,
+        "losses": 1,
+        "pnl": -0.23
       }
     }
   },
