@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T17:25:22.899Z",
-  "balance": 9936.96,
+  "last_cycle": "2026-06-30T17:30:43.307Z",
+  "balance": 9935.96,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -43,18 +43,30 @@
         "entry_spot": 826645.93,
         "entry_time": "2026-06-30T17:25:19.000Z",
         "take_profit": 5,
-        "stop_loss": 0.5,
-        "floating_pnl": null,
-        "floating_pnl_pct": null,
-        "current_spot": null,
-        "last_polled_at": null,
+        "stop_loss": -0.5,
+        "floating_pnl": 0.16,
+        "floating_pnl_pct": 16,
+        "current_spot": 826212.82,
+        "last_polled_at": "2026-06-30T17:30:29.484Z",
         "cycle_id": "2026-06-30T17:25:00.953Z",
         "decision_id": "1HZ25V-M5-DOWN-001",
         "sibling_index": 0,
         "sibling_count": 1,
         "rationale": "1HZ25V is strongly overbought on the M5 timeframe, with RSI at 75.69 and Stochastics %K at 96.25. The current spot price of 826965.38 is also very close to the upper Bollinger Band at 827063.286433, indicating a high probability of a bearish pullback. Other symbols like R_50 showed oversold conditions but 1HZ25V's overbought signals are more extreme.",
         "opened_at": "2026-06-30T17:25:19.343Z",
-        "revision_history": []
+        "revision_history": [
+          {
+            "ts": "2026-06-30T17:30:29.483Z",
+            "outcome": "reverted",
+            "requested": {
+              "stop_loss": 0.5
+            },
+            "applied": {
+              "stop_loss": -0.5
+            },
+            "error": "broker-side TP/SL diverged from last persisted values between ticks"
+          }
+        ]
       }
     ]
   },
@@ -62,14 +74,14 @@
     "symbols": 1,
     "positions": 1,
     "total_stake": 1,
-    "total_floating_pnl": null,
+    "total_floating_pnl": 0.16,
     "per_symbol": [
       {
         "symbol": "1HZ25V",
         "count": 1,
         "total_stake": 1,
-        "total_floating_pnl": null,
-        "net_position": 1,
+        "total_floating_pnl": 0.16,
+        "net_position": 1.16,
         "direction_mix": {
           "up": 0,
           "down": 1
@@ -1226,120 +1238,10 @@
     "GEMINI_KEY_4": 1782815123137,
     "GEMINI_KEY_1": 1782819027062,
     "CLOUDFLARE_KEY_1": 1782820226730,
-    "OPENROUTER_KEY_1": 1782837922484
+    "OPENROUTER_KEY_1": 1782837922484,
+    "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-06-30T16:11:49.078Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:11:49.078Z",
-      "level": "network",
-      "msg": "Deriv: WS reconnected before chart render (cycle) (recovered from state=3)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:11:49.078Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURCHF @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": null,
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T16:11:49.177Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782807300000,
-          "max": 1782843000000,
-          "justOpened": true
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T16:11:51.180Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2102,
-        "bytes": 167558
-      }
-    },
-    {
-      "ts": "2026-06-30T16:14:09.357Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T16:14:09.356Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T16:14:09.359Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:14:09.736Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=V6Cueiz2"
-      }
-    },
-    {
-      "ts": "2026-06-30T16:14:09.954Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:14:10.301Z",
-      "level": "info",
-      "msg": "[chart] fetching 120 candles for frxEURCHF @ 5m",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:14:11.466Z",
-      "level": "info",
-      "msg": "[chart] launching Puppeteer",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:14:13.278Z",
-      "level": "info",
-      "msg": "[chart] screenshot captured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:15:22.385Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T16:15:22.385Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T16:15:22.386Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:15:23.019Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=plmZJ1IB"
-      }
-    },
     {
       "ts": "2026-06-30T16:15:23.373Z",
       "level": "network",
@@ -3133,6 +3035,153 @@
       "meta": {
         "ms": 2280,
         "bytes": 182400
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:28.170Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T17:30:28.170Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:28.172Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:30:28.777Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=BBx25ble"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:29.137Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:30:29.350Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T17:30:29.350Z",
+        "symbol": "1HZ25V",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:29.483Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3748859259,
+        "prev": {
+          "tp": 5,
+          "sl": 0.5
+        },
+        "live": {
+          "tp": 5,
+          "sl": -0.5
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:30.672Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:30:30.673Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:30:31.831Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" key \"GEMINI_KEY_2\" failed — flagged",
+      "meta": {
+        "error": "gemini 503: {\n  \"error\": {\n    \"code\": 503,\n    \"message\": \"This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.\",\n    \"status\": \"UNAVAILABLE\"\n  }\n}\n"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:39.654Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_2\"",
+      "meta": {
+        "action": "hold",
+        "conf": 0.6
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:39.655Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "1HZ25V-HOLD-001",
+        "keyUsed": "OPENROUTER_KEY_2"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:39.656Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T17:30:29.350Z",
+        "symbol": "1HZ25V",
+        "decision_action": "hold",
+        "decision_id": "1HZ25V-HOLD-001",
+        "rationale": "The open MULTDOWN (x400, $1) shows +16% floating P/L with spot at 826212.82, well below entry 826645.93. M5 RSI 69.08 and Stoch %K 85.68 remain elevated but off extremes; price sits mid-Bollinger Band",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": 0,
+        "floating_pnl": 0.16,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:39.657Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for 1HZ25V @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782811800000,
+          "max": 1782847500000
+        },
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:39.812Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782811800000,
+          "max": 1782847500000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T17:30:41.642Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1985,
+        "bytes": 182194
       }
     }
   ],
