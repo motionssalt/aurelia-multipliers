@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T15:35:52.314Z",
+  "last_cycle": "2026-06-30T15:41:29.242Z",
   "balance": 9937.02,
   "currency": "USD",
   "account_mode": "demo",
@@ -1167,165 +1167,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T14:45:46.308Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "close",
-        "decision_id": "dec-close-3732671159",
-        "keyUsed": "OPENROUTER_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:45:46.389Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3732671159",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T14:45:46.478Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3732671159",
-      "meta": {
-        "sold_for": 8.4,
-        "balance_after": 9934.26,
-        "transaction_id": 7322641419
-      }
-    },
-    {
-      "ts": "2026-06-30T14:45:46.479Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T14:44:57.478Z",
-        "symbol": "frxUSDCAD",
-        "decision_action": "close",
-        "decision_id": "dec-close-3732671159",
-        "rationale": "M5 shows RSI 26.94 (oversold) but price at lower BB (1.419708) with strong downtrend confirmed by ADX 37.93 and minusDi 31.17 >> plusDi 8.50; MACD hist -0.000144 still negative. Open MULTUP x300 is -1",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": -1.6,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T14:45:46.480Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxUSDCAD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": {
-          "min": 1782801600000,
-          "max": 1782837300000
-        },
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T14:45:46.562Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782795000000,
-          "max": 1782830700000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T14:45:48.350Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1870,
-        "bytes": 158560
-      }
-    },
-    {
-      "ts": "2026-06-30T14:50:21.490Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T14:50:21.490Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:50:21.492Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:50:21.943Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=rMJfyTjt"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:50:22.128Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:50:22.181Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T14:50:22.180Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T14:50:22.941Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T14:50:22.180Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T14:50:24.059Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:50:24.059Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T14:50:24.059Z",
       "level": "warn",
@@ -3057,6 +2898,160 @@
       "meta": {
         "ms": 2367,
         "bytes": 156002
+      }
+    },
+    {
+      "ts": "2026-06-30T15:40:21.870Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T15:40:21.870Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:40:21.872Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:40:22.443Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=hld0qdA1"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:40:22.838Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:40:22.945Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T15:40:22.945Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T15:40:24.344Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T15:40:22.945Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T15:40:25.831Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:40:25.831Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:40:25.831Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:41:23.939Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "hold",
+        "symbol": "frxEURUSD",
+        "conf": 0.45
+      }
+    },
+    {
+      "ts": "2026-06-30T15:41:23.940Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:41:23.941Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T15:40:22.945Z",
+        "symbol": "frxEURUSD",
+        "decision_action": "hold",
+        "decision_id": "dec-7f02b1",
+        "rationale": "Across all 17 candidates no symbol shows a high-probability setup: EURUSD M5 RSI 55.9 with MACD histogram -0.00010 and price mid-Bollinger Band (1.14195 vs mid 1.14191) indicates chop; GBPUSD RSI 64.4",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -1.78,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T15:41:23.942Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null,
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T15:41:24.094Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782798300000,
+          "max": 1782834000000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T15:41:26.423Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2481,
+        "bytes": 157292
       }
     }
   ],
