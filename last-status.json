@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T16:05:51.286Z",
+  "last_cycle": "2026-06-30T16:11:52.056Z",
   "balance": 9937.02,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,7 +9,7 @@
     "active": true,
     "started_at": "2026-06-30T15:48:17.226Z",
     "capital_start": 100,
-    "capital_remaining": 100,
+    "capital_remaining": 99,
     "take_profit": 50,
     "stop_loss": 50,
     "trades": 0,
@@ -29,18 +29,52 @@
     "R_50": [],
     "R_25": [],
     "frxEURAUD": [],
-    "frxEURCHF": [],
+    "frxEURCHF": [
+      {
+        "contract_id": 3741799659,
+        "stake": 1,
+        "multiplier": 300,
+        "direction": "up",
+        "entry_spot": 0.92288,
+        "entry_time": "2026-06-30T16:11:48.000Z",
+        "take_profit": 2,
+        "stop_loss": 0.5,
+        "floating_pnl": null,
+        "floating_pnl_pct": null,
+        "current_spot": null,
+        "last_polled_at": null,
+        "cycle_id": "2026-06-30T16:10:19.600Z",
+        "decision_id": "dec-7f02b1",
+        "sibling_index": 0,
+        "sibling_count": 1,
+        "rationale": "frxEURCHF M5 shows RSI 57.6 with bullish MACD histogram (0.000003) and price above EMA20 (0.922713 > 0.922528); M15 confirms with bullish engulfing and morning star patterns plus RSI 59.3. Other candidates rejected: BTCUSD M5 RSI 51.5 neutral vs ETHUSD RSI 56.2 but MACD hist negative on M15; USDJPY M5 RSI 65 overbought with bearish MACD hist divergence; XAUUSD M5 RSI 43.2 oversold but MACD hist -1",
+        "opened_at": "2026-06-30T16:11:48.771Z",
+        "revision_history": []
+      }
+    ],
     "frxAUDJPY": [],
     "cryETHUSD": [],
     "frxEURGBP": [],
     "frxUSDCAD": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 0,
-    "positions": 0,
-    "total_stake": 0,
+    "symbols": 1,
+    "positions": 1,
+    "total_stake": 1,
     "total_floating_pnl": null,
-    "per_symbol": []
+    "per_symbol": [
+      {
+        "symbol": "frxEURCHF",
+        "count": 1,
+        "total_stake": 1,
+        "total_floating_pnl": null,
+        "net_position": 1,
+        "direction_mix": {
+          "up": 1,
+          "down": 0
+        }
+      }
+    ]
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -1167,239 +1201,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T15:10:23.051Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T15:10:23.051Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:10:23.053Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:10:23.501Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=f3apqVgf"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:10:23.609Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:10:23.648Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T15:10:23.648Z",
-        "symbol": "frxUSDCAD",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T15:10:24.548Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:10:24.548Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:10:24.549Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:10:24.549Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:10:25.752Z",
-      "level": "warn",
-      "msg": "Provider \"openrouter\" key \"OPENROUTER_KEY_1\" failed â flagged",
-      "meta": {
-        "error": "openrouter returned empty text: no content returned"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:10:25.752Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: openrouter returned empty text: no content returned"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:10:25.753Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T15:10:23.648Z",
-        "symbol": "frxUSDCAD",
-        "decision_action": "hold",
-        "decision_id": "provider-fail-2026-06-30T15:10:23.648Z",
-        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: openrouter returned empty text: no content returned",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -1.6,
-        "floating_pnl": 0.31,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T15:10:25.755Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxUSDCAD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782802500000,
-          "max": 1782838200000
-        },
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T15:10:25.851Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782802500000,
-          "max": 1782838200000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T15:10:29.404Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 3649,
-        "bytes": 170704
-      }
-    },
-    {
-      "ts": "2026-06-30T15:11:44.751Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T15:11:44.751Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:11:44.753Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:11:45.371Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=0JYOzz8F"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:11:45.757Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:11:45.868Z",
-      "level": "info",
-      "msg": "Manual scan tick",
-      "meta": {
-        "symbol": "frxUSDCAD"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:11:47.556Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:11:47.557Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:11:47.557Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:11:47.557Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:12:28.270Z",
-      "level": "warn",
-      "msg": "Provider \"openrouter\" key \"OPENROUTER_KEY_1\" failed â flagged",
-      "meta": {
-        "error": "AI returned non-JSON: The user wants me to act as AURELIA-Multipliers, an AI decision engine for a Deriv MULTUP/MULTDOWN bot. I need to analyze the current market data and open posit"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:12:28.270Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: AI returned non-JSON: The user wants me to act as AURELIA-Multipliers, an AI decision engine for a Deriv MULTUP/MULTDOWN bot. I need to analyze the current market data and open posit"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:12:28.272Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxUSDCAD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782802500000,
-          "max": 1782838200000
-        },
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T15:12:28.453Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782802500000,
-          "max": 1782838200000,
-          "justOpened": false
-        }
-      }
-    },
     {
       "ts": "2026-06-30T15:12:30.281Z",
       "level": "info",
@@ -3071,6 +2872,320 @@
         "ms": 2135,
         "bytes": 155652
       }
+    },
+    {
+      "ts": "2026-06-30T16:10:18.920Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T16:10:18.920Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:10:18.923Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:10:19.464Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=bGBqwZap"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:10:19.572Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:10:19.600Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T16:10:19.600Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T16:10:20.130Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T16:10:19.600Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T16:10:21.046Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:10:21.046Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:10:21.046Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:11:47.943Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "open",
+        "symbol": "frxEURCHF",
+        "conf": 0.68
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:47.944Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:47.944Z",
+      "level": "info",
+      "msg": "Multiplier cycle: AI chose symbol from candidates",
+      "meta": {
+        "cycle_id": "2026-06-30T16:10:19.600Z",
+        "ai_chosen": "frxEURCHF",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:47.945Z",
+      "level": "warn",
+      "msg": "Deriv: WS was stale before trade placement (multiplier) (state=3) — reconnecting before placing order",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:11:47.945Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:11:48.216Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=NtzbxWy2"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:48.345Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:11:48.345Z",
+      "level": "network",
+      "msg": "Deriv: WS reconnected before trade placement (multiplier) (recovered from state=3)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:11:48.621Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted frxEURCHF MULTUP ×300",
+      "meta": {
+        "stake": 1,
+        "ask_price": 1,
+        "spot": 0.92288,
+        "commission": 0.08,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-0.50",
+            "order_amount": -0.5,
+            "order_date": 1782835908,
+            "value": "0.92165"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-1.00",
+            "order_amount": -1,
+            "order_date": 1782835908,
+            "value": "0.92007"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "2.00",
+            "order_amount": 2,
+            "order_date": 1782835908,
+            "value": "0.92959"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 48.5
+          },
+          "stop_loss": {
+            "min": 0.12,
+            "max": 0.97
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:48.770Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3741799659",
+      "meta": {
+        "symbol": "frxEURCHF",
+        "direction": "up",
+        "contract_type": "MULTUP",
+        "multiplier": 300,
+        "stake": 1,
+        "final_limit_order": {
+          "take_profit": 2,
+          "stop_loss": 0.5
+        },
+        "tp_sl_clamped": false,
+        "transaction_id": 7338314419,
+        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in EUR/CHF, multiplied by 291, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:48.772Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T16:10:19.600Z",
+        "symbol": "frxEURCHF",
+        "decision_action": "open",
+        "decision_id": "dec-7f02b1",
+        "rationale": "frxEURCHF M5 shows RSI 57.6 with bullish MACD histogram (0.000003) and price above EMA20 (0.922713 > 0.922528); M15 confirms with bullish engulfing and morning star patterns plus RSI 59.3. Other candi",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": 0,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:48.773Z",
+      "level": "warn",
+      "msg": "Deriv: WS was stale before chart render (cycle) (state=3) — reconnecting before placing order",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:11:48.773Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:11:48.985Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=A5NJNlhX"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:49.078Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:11:49.078Z",
+      "level": "network",
+      "msg": "Deriv: WS reconnected before chart render (cycle) (recovered from state=3)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:11:49.078Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURCHF @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": null,
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:49.177Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782807300000,
+          "max": 1782843000000,
+          "justOpened": true
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T16:11:51.180Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2102,
+        "bytes": 167558
+      }
     }
   ],
   "daily_stats": {
@@ -3166,6 +3281,10 @@
     "frxUSDCAD": {
       "min": 1782802500000,
       "max": 1782838200000
+    },
+    "frxEURCHF": {
+      "min": 1782807300000,
+      "max": 1782843000000
     }
   }
 }
