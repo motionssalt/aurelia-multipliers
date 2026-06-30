@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T16:45:28.597Z",
+  "last_cycle": "2026-06-30T16:50:32.279Z",
   "balance": 9936.02,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,15 +9,15 @@
     "active": true,
     "started_at": "2026-06-30T15:48:17.226Z",
     "capital_start": 100,
-    "capital_remaining": 99,
+    "capital_remaining": 99.94,
     "take_profit": 50,
     "stop_loss": 50,
-    "trades": 0,
+    "trades": 1,
     "wins": 0,
-    "losses": 0,
-    "pnl": 0,
+    "losses": 1,
+    "pnl": -0.06,
     "win_streak": 0,
-    "loss_streak": 0,
+    "loss_streak": 1,
     "halted": false,
     "halt_reason": null
   },
@@ -29,86 +29,18 @@
     "R_50": [],
     "R_25": [],
     "frxEURAUD": [],
-    "frxEURCHF": [
-      {
-        "contract_id": 3741799659,
-        "stake": 1,
-        "multiplier": 300,
-        "direction": "up",
-        "entry_spot": 0.92288,
-        "entry_time": "2026-06-30T16:11:48.000Z",
-        "take_profit": 2,
-        "stop_loss": -0.3,
-        "floating_pnl": -0.04,
-        "floating_pnl_pct": -4,
-        "current_spot": 0.92311,
-        "last_polled_at": "2026-06-30T16:45:21.996Z",
-        "cycle_id": "2026-06-30T16:10:19.600Z",
-        "decision_id": "dec-7f02b1",
-        "sibling_index": 0,
-        "sibling_count": 1,
-        "rationale": "frxEURCHF M5 shows RSI 57.6 with bullish MACD histogram (0.000003) and price above EMA20 (0.922713 > 0.922528); M15 confirms with bullish engulfing and morning star patterns plus RSI 59.3. Other candidates rejected: BTCUSD M5 RSI 51.5 neutral vs ETHUSD RSI 56.2 but MACD hist negative on M15; USDJPY M5 RSI 65 overbought with bearish MACD hist divergence; XAUUSD M5 RSI 43.2 oversold but MACD hist -1",
-        "opened_at": "2026-06-30T16:11:48.771Z",
-        "revision_history": [
-          {
-            "ts": "2026-06-30T16:20:17.793Z",
-            "outcome": "reverted",
-            "requested": {
-              "stop_loss": 0.5
-            },
-            "applied": {
-              "stop_loss": -0.5
-            },
-            "error": "broker-side TP/SL diverged from last persisted values between ticks"
-          },
-          {
-            "ts": "2026-06-30T16:21:30.781Z",
-            "outcome": "ok",
-            "requested": {
-              "stop_loss": 0.3
-            },
-            "applied": {
-              "stop_loss": 0.3
-            },
-            "decision_id": "dec-revise-sl-001"
-          },
-          {
-            "ts": "2026-06-30T16:25:16.536Z",
-            "outcome": "reverted",
-            "requested": {
-              "stop_loss": 0.3
-            },
-            "applied": {
-              "stop_loss": -0.3
-            },
-            "error": "broker-side TP/SL diverged from last persisted values between ticks"
-          }
-        ]
-      }
-    ],
+    "frxEURCHF": [],
     "frxAUDJPY": [],
     "cryETHUSD": [],
     "frxEURGBP": [],
     "frxUSDCAD": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 1,
-    "positions": 1,
-    "total_stake": 1,
-    "total_floating_pnl": -0.04,
-    "per_symbol": [
-      {
-        "symbol": "frxEURCHF",
-        "count": 1,
-        "total_stake": 1,
-        "total_floating_pnl": -0.04,
-        "net_position": 0.96,
-        "direction_mix": {
-          "up": 1,
-          "down": 0
-        }
-      }
-    ]
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
+    "total_floating_pnl": null,
+    "per_symbol": []
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -1203,6 +1135,32 @@
       "opened_at": "2026-06-30T14:54:07.272Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-30T14:24:55.336Z"
+    },
+    {
+      "ts": "2026-06-30T16:50:29.379Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxEURCHF",
+      "contract_id": 3741799659,
+      "direction": "up",
+      "stake": 1,
+      "multiplier": 300,
+      "take_profit": 2,
+      "stop_loss": -0.3,
+      "outcome": "loss",
+      "pnl": -0.06,
+      "entry": 0.92288,
+      "exit": 0.92304,
+      "close_reason": "High stop-out risk and overbought conditions",
+      "settled": true,
+      "cycle_id": "2026-06-30T16:10:19.600Z",
+      "decision_id": "dec-7f02b1",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "frxEURCHF M5 shows RSI 57.6 with bullish MACD histogram (0.000003) and price above EMA20 (0.922713 > 0.922528); M15 confirms with bullish engulfing and morning star patterns plus RSI 59.3. Other candidates rejected: BTCUSD M5 RSI 51.5 neutral vs ETHUSD RSI 56.2 but MACD hist negative on M15; USDJPY M5 RSI 65 overbought with bearish MACD hist divergence; XAUUSD M5 RSI 43.2 oversold but MACD hist -1",
+      "opened_at": "2026-06-30T16:11:48.771Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T15:48:17.226Z"
     }
   ],
   "trade_history_manual": [
@@ -1236,166 +1194,6 @@
     "OPENROUTER_KEY_1": 1782837922484
   },
   "logs": [
-    {
-      "ts": "2026-06-30T15:50:26.460Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:50:26.601Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T15:50:26.601Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T15:50:27.384Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T15:50:26.601Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T15:50:28.955Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:50:28.955Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:50:28.955Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:51:00.685Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
-      "meta": {
-        "action": "hold",
-        "symbol": "frxEURUSD",
-        "conf": 0.45
-      }
-    },
-    {
-      "ts": "2026-06-30T15:51:00.686Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "hold",
-        "decision_id": "dec-7f02b1",
-        "keyUsed": "OPENROUTER_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:51:00.687Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T15:50:26.601Z",
-        "symbol": "frxEURUSD",
-        "decision_action": "hold",
-        "decision_id": "dec-7f02b1",
-        "rationale": "No clear edge across 17 candidates: frxGBPJPY M5 RSI 71.2 overbought with MACD hist -0.008; frxAUDJPY RSI 71.6 overbought; frxEURAUD RSI 34.4 oversold but MACD hist +0.0001 weak; frxEURUSD M5 RSI 52.8",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 0,
-        "session_pnl": 0,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T15:51:00.688Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
-      "meta": {
-        "siblings": 0,
-        "prevWindow": null,
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T15:51:00.851Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782798900000,
-          "max": 1782834600000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T15:51:02.789Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2101,
-        "bytes": 157659
-      }
-    },
-    {
-      "ts": "2026-06-30T15:55:15.824Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T15:55:15.823Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:55:15.826Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:55:16.285Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Ckrw4VXh"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:55:16.405Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T15:55:16.440Z",
       "level": "info",
@@ -3132,14 +2930,162 @@
         "ms": 3459,
         "bytes": 165192
       }
+    },
+    {
+      "ts": "2026-06-30T16:50:16.745Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T16:50:16.744Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:16.747Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:50:17.117Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=yFn1TUPI"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:17.248Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:50:17.284Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:50:17.285Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T16:50:17.284Z",
+        "symbol": "frxEURCHF",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:17.633Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:50:17.634Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:50:29.180Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_2\"",
+      "meta": {
+        "action": "close",
+        "symbol": "frxEURCHF",
+        "conf": 0.9
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:29.181Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "close",
+        "decision_id": "dec-close-risky",
+        "keyUsed": "GEMINI_KEY_2"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:29.274Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3741799659",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:29.379Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3741799659",
+      "meta": {
+        "sold_for": 0.94,
+        "balance_after": 9936.96,
+        "transaction_id": 7345521959
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:29.380Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T16:50:17.284Z",
+        "symbol": "frxEURCHF",
+        "decision_action": "close",
+        "decision_id": "dec-close-risky",
+        "rationale": "The open UP position (contract_id 3741799659) has a critically low stop_out_distance_pct of 0.003228. M5, M10, and M15 Stochastics are all in overbought territory (M5 K=80.39, D=86.21; M10 K=93.50, D=",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -0.06,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:29.381Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURCHF @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": {
+          "min": 1782807300000,
+          "max": 1782843000000
+        },
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:29.455Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782802500000,
+          "max": 1782838200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T16:50:31.259Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1878,
+        "bytes": 171741
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 21,
+    "trades": 22,
     "wins": 2,
-    "losses": 19,
-    "pnl": -8.66,
+    "losses": 20,
+    "pnl": -8.72,
     "by_symbol": {
       "cryBTCUSD": {
         "trades": 7,
@@ -3154,10 +3100,10 @@
         "pnl": -0.71
       },
       "frxEURCHF": {
-        "trades": 2,
+        "trades": 3,
         "wins": 0,
-        "losses": 2,
-        "pnl": -1.07
+        "losses": 3,
+        "pnl": -1.13
       },
       "frxAUDJPY": {
         "trades": 2,
@@ -3227,10 +3173,6 @@
     "frxUSDCAD": {
       "min": 1782802500000,
       "max": 1782838200000
-    },
-    "frxEURCHF": {
-      "min": 1782807300000,
-      "max": 1782843000000
     }
   }
 }
