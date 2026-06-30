@@ -1,23 +1,23 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T10:50:43.989Z",
-  "balance": 9972.56,
+  "last_cycle": "2026-06-30T10:55:48.082Z",
+  "balance": 9971.56,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-30T09:38:58.110Z",
     "capital_start": 20,
-    "capital_remaining": 16.8,
+    "capital_remaining": 16.56,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 9,
+    "trades": 10,
     "wins": 2,
-    "losses": 7,
-    "pnl": -2.2,
+    "losses": 8,
+    "pnl": -2.44,
     "win_streak": 0,
-    "loss_streak": 2,
+    "loss_streak": 3,
     "halted": false,
     "halt_reason": null
   },
@@ -25,24 +25,24 @@
   "cycle_open_siblings": {
     "cryBTCUSD": [
       {
-        "contract_id": 3712862099,
+        "contract_id": 3713278659,
         "stake": 1,
         "multiplier": 300,
         "direction": "down",
-        "entry_spot": 59292.247,
-        "entry_time": "2026-06-30T10:50:39.000Z",
+        "entry_spot": 59318.882,
+        "entry_time": "2026-06-30T10:55:42.000Z",
         "take_profit": 1.06,
         "stop_loss": 0.3,
         "floating_pnl": null,
         "floating_pnl_pct": null,
         "current_spot": null,
         "last_polled_at": null,
-        "cycle_id": "2026-06-30T10:50:24.846Z",
-        "decision_id": "dec-btc-dwn-01",
+        "cycle_id": "2026-06-30T10:55:24.152Z",
+        "decision_id": "dec-btc-reopen-dwn",
         "sibling_index": 0,
         "sibling_count": 1,
-        "rationale": "The M5 timeframe shows an 'evening_star' candle pattern, a bearish reversal signal. Price (59267.128) is trading below the EMA20 (59323.35) and EMA50 (59383.23) on M5, confirming bearish momentum. The M15 ADX (36.35) indicates a strong trend with minusDi (22.82) significantly higher than plusDi (9.96), reinforcing the bearish outlook.",
-        "opened_at": "2026-06-30T10:50:39.561Z",
+        "rationale": "Closing the open position due to a critical stop_out_distance_pct (0.002933) and a floating loss of -15%. Re-entering a MULTDOWN position as the M15 timeframe shows a strong bearish trend with ADX (36.35) and MinusDi (22.82) significantly above PlusDi (9.96), while price (59299.434) remains below M15 EMA20 (59407.38).",
+        "opened_at": "2026-06-30T10:55:42.568Z",
         "revision_history": []
       }
     ],
@@ -853,6 +853,32 @@
       "opened_at": "2026-06-30T10:45:38.166Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-30T09:38:58.110Z"
+    },
+    {
+      "ts": "2026-06-30T10:55:41.862Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "cryBTCUSD",
+      "contract_id": 3712862099,
+      "direction": "down",
+      "stake": 1,
+      "multiplier": 300,
+      "take_profit": 1.06,
+      "stop_loss": -0.3,
+      "outcome": "loss",
+      "pnl": -0.24,
+      "entry": 59292.247,
+      "exit": 59318.882,
+      "close_reason": "High stop-out risk and current loss",
+      "settled": true,
+      "cycle_id": "2026-06-30T10:50:24.846Z",
+      "decision_id": "dec-btc-dwn-01",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "The M5 timeframe shows an 'evening_star' candle pattern, a bearish reversal signal. Price (59267.128) is trading below the EMA20 (59323.35) and EMA50 (59383.23) on M5, confirming bearish momentum. The M15 ADX (36.35) indicates a strong trend with minusDi (22.82) significantly higher than plusDi (9.96), reinforcing the bearish outlook.",
+      "opened_at": "2026-06-30T10:50:39.561Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T09:38:58.110Z"
     }
   ],
   "trade_history_manual": [
@@ -885,356 +911,6 @@
     "CLOUDFLARE_KEY_1": 1782815420472
   },
   "logs": [
-    {
-      "ts": "2026-06-30T09:50:50.080Z",
-      "level": "warn",
-      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
-      "meta": {
-        "symbol": "frxEURAUD",
-        "multiplier": 800,
-        "stake": 1,
-        "adjustments": {
-          "take_profit": {
-            "from": 0.5,
-            "to": 1.06,
-            "range": {
-              "min": 0.1,
-              "max": 48.5
-            },
-            "reason": "validation_params.take_profit"
-          },
-          "stop_loss": {
-            "from": 0.2,
-            "to": 0.22,
-            "range": {
-              "min": 0.21,
-              "max": 0.97
-            },
-            "reason": "validation_params.stop_loss"
-          }
-        },
-        "vp": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 48.5
-          },
-          "stop_loss": {
-            "min": 0.21,
-            "max": 0.97
-          }
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T09:50:50.306Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted frxEURAUD MULTDOWN ×800",
-      "meta": {
-        "stake": 1,
-        "ask_price": 1,
-        "spot": 1.65522,
-        "commission": 0.17,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-0.22",
-            "order_amount": -0.22,
-            "order_date": 1782813050,
-            "value": "1.65528"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-1.00",
-            "order_amount": -1,
-            "order_date": 1782813050,
-            "value": "1.65694"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "1.06",
-            "order_amount": 1.06,
-            "order_date": 1782813050,
-            "value": "1.65254"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 48.5
-          },
-          "stop_loss": {
-            "min": 0.21,
-            "max": 0.97
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T09:50:50.489Z",
-      "level": "trade",
-      "msg": "Multiplier placed: contract_id=3707540539",
-      "meta": {
-        "symbol": "frxEURAUD",
-        "direction": "down",
-        "contract_type": "MULTDOWN",
-        "multiplier": 800,
-        "stake": 1,
-        "final_limit_order": {
-          "take_profit": 1.06,
-          "stop_loss": 0.22
-        },
-        "tp_sl_clamped": true,
-        "transaction_id": 7272220299,
-        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in EUR/AUD, multiplied by 776, minus commissions."
-      }
-    },
-    {
-      "ts": "2026-06-30T09:50:50.490Z",
-      "level": "warn",
-      "msg": "open: TP/SL clamped into broker range (v5 pre-flight)",
-      "meta": {
-        "symbol": "frxEURAUD",
-        "multiplier": 800,
-        "requested_stake": 1,
-        "final_stake": 1,
-        "requested_take_profit": 0.5,
-        "requested_stop_loss": 0.2,
-        "final_take_profit": 1.06,
-        "final_stop_loss": 0.22,
-        "kind": "tp_sl_clamp",
-        "adjustments": {
-          "take_profit": {
-            "from": 0.5,
-            "to": 1.06,
-            "range": {
-              "min": 0.1,
-              "max": 48.5
-            },
-            "reason": "validation_params.take_profit"
-          },
-          "stop_loss": {
-            "from": 0.2,
-            "to": 0.22,
-            "range": {
-              "min": 0.21,
-              "max": 0.97
-            },
-            "reason": "validation_params.stop_loss"
-          }
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T09:50:50.491Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T09:50:19.567Z",
-        "symbol": "frxEURAUD",
-        "decision_action": "open",
-        "decision_id": "frxEURAUD-D-001",
-        "rationale": "frxEURAUD M5 shows a clear bearish bias with RSI at 39.71, EMA20 below EMA50, and price trading near the lower Bollinger Band (1.654664). The ADX (27.38) with MinusDI (23.42) higher than PlusDI (16.23",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": 0.25,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T09:50:50.492Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURAUD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-30T09:50:50.596Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782784500000,
-          "max": 1782820200000,
-          "justOpened": true
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T09:50:52.385Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1893,
-        "bytes": 168262
-      }
-    },
-    {
-      "ts": "2026-06-30T09:55:15.015Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T09:55:15.015Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:55:15.017Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:55:15.387Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Bca02PwP"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:55:15.710Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:55:15.747Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T09:55:15.747Z",
-        "symbol": "frxEURAUD",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T09:55:16.861Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:55:30.458Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
-      "meta": {
-        "action": "open",
-        "symbol": "frxEURAUD",
-        "conf": 0.7
-      }
-    },
-    {
-      "ts": "2026-06-30T09:55:30.459Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "open-euraud-up-1",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:55:30.941Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted frxEURAUD MULTUP ×500",
-      "meta": {
-        "stake": 2,
-        "ask_price": 2,
-        "spot": 1.6555,
-        "commission": 0.42,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-1.00",
-            "order_amount": -1,
-            "order_date": 1782813330,
-            "value": "1.65460"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-2.00",
-            "order_amount": -2,
-            "order_date": 1782813330,
-            "value": "1.65289"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "5.00",
-            "order_amount": 5,
-            "order_date": 1782813330,
-            "value": "1.66485"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 97
-          },
-          "stop_loss": {
-            "min": 0.49,
-            "max": 1.94
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T09:55:31.164Z",
-      "level": "trade",
-      "msg": "Multiplier placed: contract_id=3707968039",
-      "meta": {
-        "symbol": "frxEURAUD",
-        "direction": "up",
-        "contract_type": "MULTUP",
-        "multiplier": 500,
-        "stake": 2,
-        "final_limit_order": {
-          "take_profit": 5,
-          "stop_loss": 1
-        },
-        "tp_sl_clamped": false,
-        "transaction_id": 7273050579,
-        "longcode": "If you select 'Up', your total profit/loss will be the percentage increase in EUR/AUD, multiplied by 970, minus commissions."
-      }
-    },
-    {
-      "ts": "2026-06-30T09:55:31.165Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T09:55:15.747Z",
-        "symbol": "frxEURAUD",
-        "decision_action": "open",
-        "decision_id": "open-euraud-up-1",
-        "rationale": "M15 timeframe shows a Bullish Engulfing candle pattern, with RSI at 34.98 and Stochastics K at 22.14, indicating oversold conditions. Price is also near the lower Bollinger Band on M10 (1.653978) and ",
-        "executed_count": 1,
-        "just_closed": 1,
-        "open_now": 1,
-        "session_pnl": 0.03,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
     {
       "ts": "2026-06-30T09:55:31.166Z",
       "level": "info",
@@ -3494,20 +3170,302 @@
         "ms": 3231,
         "bytes": 174468
       }
+    },
+    {
+      "ts": "2026-06-30T10:55:23.066Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T10:55:23.065Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:23.068Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:55:23.737Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=v9v2FbAM"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:24.050Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:55:24.152Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T10:55:24.152Z",
+        "symbol": "cryBTCUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:24.351Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3712862099,
+        "prev": {
+          "tp": 1.06,
+          "sl": 0.3
+        },
+        "live": {
+          "tp": 1.06,
+          "sl": -0.3
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:25.836Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:55:41.592Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "multi",
+        "symbol": "cryBTCUSD",
+        "conf": 0.85
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:41.593Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "multi",
+        "decision_id": "dec-btc-reopen-dwn",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:41.720Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3712862099",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:41.862Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3712862099",
+      "meta": {
+        "sold_for": 0.76,
+        "balance_after": 9972.32,
+        "transaction_id": 7283343239
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:42.046Z",
+      "level": "warn",
+      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "stake": 1,
+        "adjustments": {
+          "take_profit": {
+            "from": 1,
+            "to": 1.06,
+            "range": {
+              "min": 0.1,
+              "max": 48.5
+            },
+            "reason": "validation_params.take_profit"
+          }
+        },
+        "vp": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 48.5
+          },
+          "stop_loss": {
+            "min": 0.12,
+            "max": 0.97
+          }
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:42.351Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted cryBTCUSD MULTDOWN ×300",
+      "meta": {
+        "stake": 1,
+        "ask_price": 1,
+        "spot": 59318.882,
+        "commission": 0.08,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-0.30",
+            "order_amount": -0.3,
+            "order_date": 1782816942,
+            "value": "59357.380"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-1.00",
+            "order_amount": -1,
+            "order_date": 1782816942,
+            "value": "59500.071"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "1.06",
+            "order_amount": 1.06,
+            "order_date": 1782816942,
+            "value": "59080.150"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 48.5
+          },
+          "stop_loss": {
+            "min": 0.12,
+            "max": 0.97
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:42.567Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3713278659",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "direction": "down",
+        "contract_type": "MULTDOWN",
+        "multiplier": 300,
+        "stake": 1,
+        "final_limit_order": {
+          "take_profit": 1.06,
+          "stop_loss": 0.3
+        },
+        "tp_sl_clamped": true,
+        "transaction_id": 7283344999,
+        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in BTC/USD, multiplied by 291, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:42.568Z",
+      "level": "warn",
+      "msg": "open: TP/SL clamped into broker range (v5 pre-flight)",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "multiplier": 300,
+        "requested_stake": 1,
+        "final_stake": 1,
+        "requested_take_profit": 1,
+        "requested_stop_loss": 0.3,
+        "final_take_profit": 1.06,
+        "final_stop_loss": 0.3,
+        "kind": "tp_sl_clamp",
+        "adjustments": {
+          "take_profit": {
+            "from": 1,
+            "to": 1.06,
+            "range": {
+              "min": 0.1,
+              "max": 48.5
+            },
+            "reason": "validation_params.take_profit"
+          },
+          "stop_loss": null
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:42.568Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T10:55:24.152Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "multi",
+        "decision_id": "dec-btc-reopen-dwn",
+        "rationale": "Closing the open position due to a critical stop_out_distance_pct (0.002933) and a floating loss of -15%. Re-entering a MULTDOWN position as the M15 timeframe shows a strong bearish trend with ADX (36",
+        "executed_count": 2,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -2.44,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:42.570Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782787200000,
+          "max": 1782822900000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:42.729Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782787200000,
+          "max": 1782822900000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:55:46.542Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 3972,
+        "bytes": 173873
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 9,
+    "trades": 10,
     "wins": 2,
-    "losses": 7,
-    "pnl": -2.2,
+    "losses": 8,
+    "pnl": -2.44,
     "by_symbol": {
       "cryBTCUSD": {
-        "trades": 4,
+        "trades": 5,
         "wins": 2,
-        "losses": 2,
-        "pnl": -0.42
+        "losses": 3,
+        "pnl": -0.66
       },
       "frxEURAUD": {
         "trades": 3,
