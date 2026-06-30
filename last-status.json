@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T16:14:14.285Z",
+  "last_cycle": "2026-06-30T16:15:23.474Z",
   "balance": 9936.02,
   "currency": "USD",
   "account_mode": "demo",
@@ -1201,44 +1201,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T15:14:13.049Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3734476879",
-      "meta": {
-        "sold_for": 9.82,
-        "balance_after": 9937.02,
-        "transaction_id": 7327750999
-      }
-    },
-    {
-      "ts": "2026-06-30T15:15:21.792Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T15:15:21.792Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:15:21.794Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T15:15:22.366Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=EHrZhCN5"
-      }
-    },
-    {
-      "ts": "2026-06-30T15:15:22.726Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T15:15:22.830Z",
       "level": "info",
@@ -3175,6 +3137,44 @@
       "level": "info",
       "msg": "[chart] screenshot captured",
       "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:15:22.385Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T16:15:22.385Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:15:22.386Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:15:23.019Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=plmZJ1IB"
+      }
+    },
+    {
+      "ts": "2026-06-30T16:15:23.373Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T16:15:23.474Z",
+      "level": "info",
+      "msg": "Multiplier cycle: overlap guard — previous tick too recent, skipping",
+      "meta": {
+        "cycle_id": "2026-06-30T16:15:23.474Z",
+        "ms_since_last": 69189,
+        "interval_ms": 90000
+      }
     }
   ],
   "daily_stats": {
