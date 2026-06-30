@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T12:20:50.418Z",
+  "last_cycle": "2026-06-30T12:28:02.634Z",
   "balance": 9970.17,
   "currency": "USD",
   "account_mode": "demo",
@@ -1035,244 +1035,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T11:15:38.247Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2074,
-        "bytes": 160568
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:22.641Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T11:20:22.641Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:22.644Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T11:20:23.130Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=m2U4blz7"
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:23.438Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T11:20:23.541Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T11:20:23.541Z",
-        "symbol": "frxAUDJPY",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:23.683Z",
-      "level": "info",
-      "msg": "Detected TP/SL revert between ticks",
-      "meta": {
-        "contract_id": 3715016539,
-        "prev": {
-          "tp": 1.06,
-          "sl": 0.5
-        },
-        "live": {
-          "tp": 1.06,
-          "sl": -0.5
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:25.093Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T11:20:46.292Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
-      "meta": {
-        "action": "multi",
-        "symbol": "frxAUDJPY",
-        "conf": 0.7
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:46.293Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "multi",
-        "decision_id": "audjpy-re-short-002",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:46.489Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3715016539",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:46.726Z",
-      "level": "trade",
-      "msg": "Multiplier closed: contract_id=3715016539",
-      "meta": {
-        "sold_for": 0.77,
-        "balance_after": 9971.52,
-        "transaction_id": 7287539739
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:46.910Z",
-      "level": "warn",
-      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
-      "meta": {
-        "symbol": "frxAUDJPY",
-        "multiplier": 500,
-        "stake": 1,
-        "adjustments": {
-          "take_profit": {
-            "from": 1,
-            "to": 1.06,
-            "range": {
-              "min": 0.1,
-              "max": 48.5
-            },
-            "reason": "validation_params.take_profit"
-          }
-        },
-        "vp": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 48.5
-          },
-          "stop_loss": {
-            "min": 0.22,
-            "max": 0.97
-          }
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:47.101Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted frxAUDJPY MULTDOWN ×500",
-      "meta": {
-        "stake": 1,
-        "ask_price": 1,
-        "spot": 111.862,
-        "commission": 0.18,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-0.50",
-            "order_amount": -0.5,
-            "order_date": 1782818446,
-            "value": "111.929"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-1.00",
-            "order_amount": -1,
-            "order_date": 1782818446,
-            "value": "112.044"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "1.06",
-            "order_amount": 1.06,
-            "order_date": 1782818446,
-            "value": "111.568"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 48.5
-          },
-          "stop_loss": {
-            "min": 0.22,
-            "max": 0.97
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:47.317Z",
-      "level": "trade",
-      "msg": "Multiplier placed: contract_id=3715435419",
-      "meta": {
-        "symbol": "frxAUDJPY",
-        "direction": "down",
-        "contract_type": "MULTDOWN",
-        "multiplier": 500,
-        "stake": 1,
-        "final_limit_order": {
-          "take_profit": 1.06,
-          "stop_loss": 0.5
-        },
-        "tp_sl_clamped": true,
-        "transaction_id": 7287541359,
-        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in AUD/JPY, multiplied by 485, minus commissions."
-      }
-    },
-    {
-      "ts": "2026-06-30T11:20:47.318Z",
-      "level": "warn",
-      "msg": "open: TP/SL clamped into broker range (v5 pre-flight)",
-      "meta": {
-        "symbol": "frxAUDJPY",
-        "multiplier": 500,
-        "requested_stake": 1,
-        "final_stake": 1,
-        "requested_take_profit": 1,
-        "requested_stop_loss": 0.5,
-        "final_take_profit": 1.06,
-        "final_stop_loss": 0.5,
-        "kind": "tp_sl_clamp",
-        "adjustments": {
-          "take_profit": {
-            "from": 1,
-            "to": 1.06,
-            "range": {
-              "min": 0.1,
-              "max": 48.5
-            },
-            "reason": "validation_params.take_profit"
-          },
-          "stop_loss": null
-        }
-      }
-    },
     {
       "ts": "2026-06-30T11:20:47.319Z",
       "level": "info",
@@ -3269,6 +3031,184 @@
       "meta": {
         "symbol": "frxEURUSD",
         "error": "Navigation timeout of 20000 ms exceeded"
+      }
+    },
+    {
+      "ts": "2026-06-30T12:25:19.560Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T12:25:19.560Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T12:25:19.562Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T12:25:19.892Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=QDQvIGtJ"
+      }
+    },
+    {
+      "ts": "2026-06-30T12:25:20.054Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T12:25:20.106Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T12:25:20.105Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T12:25:20.737Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T12:25:20.105Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T12:25:21.729Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T12:25:21.729Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T12:25:21.729Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T12:28:02.221Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "open",
+        "symbol": "frxUSDJPY",
+        "conf": 0.65
+      }
+    },
+    {
+      "ts": "2026-06-30T12:28:02.222Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T12:28:02.222Z",
+      "level": "info",
+      "msg": "Multiplier cycle: AI chose symbol from candidates",
+      "meta": {
+        "cycle_id": "2026-06-30T12:25:20.105Z",
+        "ai_chosen": "frxUSDJPY",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T12:28:02.223Z",
+      "level": "error",
+      "msg": "placeMultiplier failed",
+      "meta": {
+        "symbol": "frxUSDJPY",
+        "error": "WS not open (state=3)"
+      }
+    },
+    {
+      "ts": "2026-06-30T12:28:02.224Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T12:25:20.105Z",
+        "symbol": "frxUSDJPY",
+        "decision_action": "open",
+        "decision_id": "dec-7f02b1",
+        "rationale": "frxUSDJPY shows the strongest trend-following setup: M5 RSI 71 (strong not extreme), MACD histogram +0.00749 (bullish momentum), EMA20 above EMA50, ADX 39.8 with +DI 37.5 vs -DI 7.2 confirming robust ",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -4.59,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T12:28:02.225Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxUSDJPY @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-30T12:28:02.225Z",
+      "level": "warn",
+      "msg": "renderMultiplierSnapshot failed",
+      "meta": {
+        "symbol": "frxUSDJPY",
+        "error": "WS not open (state=3)"
       }
     }
   ],
