@@ -1,23 +1,23 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T10:05:53.443Z",
-  "balance": 9974.34,
+  "last_cycle": "2026-06-30T10:10:46.966Z",
+  "balance": 9969.34,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-30T09:38:58.110Z",
     "capital_start": 20,
-    "capital_remaining": 14.58,
+    "capital_remaining": 14.32,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 3,
+    "trades": 4,
     "wins": 1,
-    "losses": 2,
-    "pnl": -0.42,
+    "losses": 3,
+    "pnl": -0.68,
     "win_streak": 0,
-    "loss_streak": 2,
+    "loss_streak": 3,
     "halted": false,
     "halt_reason": null
   },
@@ -31,24 +31,24 @@
     "frxEURAUD": [],
     "frxEURCHF": [
       {
-        "contract_id": 3708929199,
+        "contract_id": 3709346699,
         "stake": 5,
         "multiplier": 300,
         "direction": "down",
-        "entry_spot": 0.92269,
-        "entry_time": "2026-06-30T10:05:50.000Z",
+        "entry_spot": 0.92247,
+        "entry_time": "2026-06-30T10:10:42.000Z",
         "take_profit": 5,
         "stop_loss": 2.5,
         "floating_pnl": null,
         "floating_pnl_pct": null,
         "current_spot": null,
         "last_polled_at": null,
-        "cycle_id": "2026-06-30T10:05:17.980Z",
-        "decision_id": "frxEURCHF-M5-stoch-overbought-down",
+        "cycle_id": "2026-06-30T10:10:22.378Z",
+        "decision_id": "frxEURCHF-M15-evening-star-reopen-down",
         "sibling_index": 0,
         "sibling_count": 1,
-        "rationale": "frxEURCHF shows extremely overbought conditions across multiple timeframes, with M5 Stochastics at 84.62, M10 Stochastics at 88.17, and M15 Stochastics at 88.17. Despite EMA20 being above EMA50 on M5 and M10, indicating an uptrend, these high Stochastic readings suggest a strong probability of a bearish pullback.",
-        "opened_at": "2026-06-30T10:05:50.440Z",
+        "rationale": "The existing DOWN position (contract 3708929199) is at critical risk of stop-out with only 0.32% distance, necessitating its closure to prevent forced liquidation. Concurrently, a new DOWN position is opened based on the M15 timeframe's bearish Evening Star pattern and overbought Stochastics D at 82.43, indicating a high probability of a bearish reversal.",
+        "opened_at": "2026-06-30T10:10:43.535Z",
         "revision_history": []
       }
     ]
@@ -697,6 +697,32 @@
       "opened_at": "2026-06-30T09:55:31.164Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-30T09:38:58.110Z"
+    },
+    {
+      "ts": "2026-06-30T10:10:42.443Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxEURCHF",
+      "contract_id": 3708929199,
+      "direction": "down",
+      "stake": 5,
+      "multiplier": 300,
+      "take_profit": 5,
+      "stop_loss": -2.5,
+      "outcome": "loss",
+      "pnl": -0.26,
+      "entry": 0.92269,
+      "exit": 0.92247,
+      "close_reason": "Critically low stop_out_distance_pct",
+      "settled": true,
+      "cycle_id": "2026-06-30T10:05:17.980Z",
+      "decision_id": "frxEURCHF-M5-stoch-overbought-down",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "frxEURCHF shows extremely overbought conditions across multiple timeframes, with M5 Stochastics at 84.62, M10 Stochastics at 88.17, and M15 Stochastics at 88.17. Despite EMA20 being above EMA50 on M5 and M10, indicating an uptrend, these high Stochastic readings suggest a strong probability of a bearish pullback.",
+      "opened_at": "2026-06-30T10:05:50.440Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T09:38:58.110Z"
     }
   ],
   "trade_history_manual": [
@@ -729,188 +755,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-30T08:25:16.499Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T08:25:16.498Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T08:25:16.947Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T08:25:16.498Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T08:25:16.948Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T08:25:16.498Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": true,
-        "session_active": false
-      }
-    },
-    {
-      "ts": "2026-06-30T08:30:17.534Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T08:30:17.534Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T08:30:17.536Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T08:30:17.999Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=03wsi5ko"
-      }
-    },
-    {
-      "ts": "2026-06-30T08:30:18.101Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T08:30:18.142Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T08:30:18.142Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T08:30:18.591Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T08:30:18.142Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T08:30:18.592Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T08:30:18.142Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": true,
-        "session_active": false
-      }
-    },
-    {
-      "ts": "2026-06-30T08:35:21.395Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T08:35:21.394Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T08:35:21.397Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T08:35:21.962Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=9KW5ZHMp"
-      }
-    },
-    {
-      "ts": "2026-06-30T08:35:22.267Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T08:35:22.375Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T08:35:22.375Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T08:35:23.651Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T08:35:22.375Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T08:35:23.652Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T08:35:22.375Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": true,
-        "session_active": false
-      }
-    },
     {
       "ts": "2026-06-30T08:40:21.345Z",
       "level": "info",
@@ -3069,14 +2913,233 @@
         "ms": 1997,
         "bytes": 155207
       }
+    },
+    {
+      "ts": "2026-06-30T10:10:21.669Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T10:10:21.669Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:21.671Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:10:22.121Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=x9dg9AWp"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:22.325Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:10:22.378Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T10:10:22.378Z",
+        "symbol": "frxEURCHF",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:22.462Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3708929199,
+        "prev": {
+          "tp": 5,
+          "sl": 2.5
+        },
+        "live": {
+          "tp": 5,
+          "sl": -2.5
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:23.555Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:10:42.170Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "multi",
+        "symbol": "frxEURCHF",
+        "conf": 0.7
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:42.171Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "multi",
+        "decision_id": "frxEURCHF-M15-evening-star-reopen-down",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:42.319Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3708929199",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:42.443Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3708929199",
+      "meta": {
+        "sold_for": 4.74,
+        "balance_after": 9974.08,
+        "transaction_id": 7275716719
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:43.145Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted frxEURCHF MULTDOWN ×300",
+      "meta": {
+        "stake": 5,
+        "ask_price": 5,
+        "spot": 0.92247,
+        "commission": 0.85,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-2.50",
+            "order_amount": -2.5,
+            "order_date": 1782814242,
+            "value": "0.92343"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-5.00",
+            "order_amount": -5,
+            "order_date": 1782814242,
+            "value": "0.92501"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "5.00",
+            "order_amount": 5,
+            "order_date": 1782814242,
+            "value": "0.91866"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 242.5
+          },
+          "stop_loss": {
+            "min": 1.01,
+            "max": 4.85
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:43.534Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3709346699",
+      "meta": {
+        "symbol": "frxEURCHF",
+        "direction": "down",
+        "contract_type": "MULTDOWN",
+        "multiplier": 300,
+        "stake": 5,
+        "final_limit_order": {
+          "take_profit": 5,
+          "stop_loss": 2.5
+        },
+        "tp_sl_clamped": false,
+        "transaction_id": 7275720339,
+        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in EUR/CHF, multiplied by 1455, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:43.536Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T10:10:22.378Z",
+        "symbol": "frxEURCHF",
+        "decision_action": "multi",
+        "decision_id": "frxEURCHF-M15-evening-star-reopen-down",
+        "rationale": "The existing DOWN position (contract 3708929199) is at critical risk of stop-out with only 0.32% distance, necessitating its closure to prevent forced liquidation. Concurrently, a new DOWN position is",
+        "executed_count": 2,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -0.68,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:43.537Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURCHF @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782785400000,
+          "max": 1782821100000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:43.660Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782785400000,
+          "max": 1782821100000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:10:45.812Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2275,
+        "bytes": 155785
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 3,
+    "trades": 4,
     "wins": 1,
-    "losses": 2,
-    "pnl": -0.42,
+    "losses": 3,
+    "pnl": -0.68,
     "by_symbol": {
       "cryBTCUSD": {
         "trades": 1,
@@ -3089,6 +3152,12 @@
         "wins": 0,
         "losses": 2,
         "pnl": -0.67
+      },
+      "frxEURCHF": {
+        "trades": 1,
+        "wins": 0,
+        "losses": 1,
+        "pnl": -0.26
       }
     }
   },
