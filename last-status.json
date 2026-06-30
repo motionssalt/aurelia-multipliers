@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T11:30:53.905Z",
+  "last_cycle": "2026-06-30T11:35:40.339Z",
   "balance": 9971.23,
   "currency": "USD",
   "account_mode": "demo",
@@ -1017,37 +1017,6 @@
     "GEMINI_KEY_1": 1782819027062
   },
   "logs": [
-    {
-      "ts": "2026-06-30T10:30:38.549Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1900,
-        "bytes": 159872
-      }
-    },
-    {
-      "ts": "2026-06-30T10:35:17.443Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T10:35:17.443Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:35:17.445Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:35:17.903Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=hkwvD8tD"
-      }
-    },
     {
       "ts": "2026-06-30T10:35:18.170Z",
       "level": "network",
@@ -3811,6 +3780,37 @@
       "meta": {
         "ms": 2007,
         "bytes": 173124
+      }
+    },
+    {
+      "ts": "2026-06-30T11:35:19.257Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T11:35:19.257Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:35:19.261Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:35:19.630Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=u41dJkGL"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:35:39.639Z",
+      "level": "error",
+      "msg": "Tick failed",
+      "meta": {
+        "error": "WS open timeout",
+        "stack": "Error: WS open timeout\n    at Timeout.<anonymous> (/home/runner/work/aurelia-multipliers/aurelia-multipliers/deriv.js:305:20)\n    at listOnTimeout (node:internal/timers:585:17)\n    at process.processTimers (node:internal/timers:521:7)"
       }
     }
   ],
