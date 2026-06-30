@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T13:00:29.810Z",
+  "last_cycle": "2026-06-30T13:05:38.381Z",
   "balance": 9960.17,
   "currency": "USD",
   "account_mode": "demo",
@@ -1035,131 +1035,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T11:45:19.919Z",
-      "level": "info",
-      "msg": "Detected TP/SL revert between ticks",
-      "meta": {
-        "contract_id": 3717084679,
-        "prev": {
-          "tp": 1.06,
-          "sl": 0.5
-        },
-        "live": {
-          "tp": 1.06,
-          "sl": -0.5
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T11:45:21.300Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T11:45:21.300Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T11:45:21.300Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"CLOUDFLARE_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T11:45:21.468Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" key \"CLOUDFLARE_KEY_1\" failed â flagged",
-      "meta": {
-        "error": "cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (c91d4986-"
-      }
-    },
-    {
-      "ts": "2026-06-30T11:45:21.468Z",
-      "level": "warn",
-      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
-      "meta": {
-        "error": "All AI providers/keys failed; last error: cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade to Cloudflare's Workers Paid plan if you would like to continue usage. (c91d4986-"
-      }
-    },
-    {
-      "ts": "2026-06-30T11:45:21.470Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T11:45:19.792Z",
-        "symbol": "cryETHUSD",
-        "decision_action": "hold",
-        "decision_id": "provider-fail-2026-06-30T11:45:19.792Z",
-        "rationale": "AI providers exhausted: All AI providers/keys failed; last error: cloudflare 429: {\"errors\":[{\"message\":\"AiError: AiError: you have used up your daily free allocation of 10,000 neurons, please upgrade",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": -4.05,
-        "floating_pnl": 0.28,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T11:45:21.471Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryETHUSD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782790500000,
-          "max": 1782826200000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T11:45:21.657Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782790500000,
-          "max": 1782826200000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T11:45:23.454Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1983,
-        "bytes": 178417
-      }
-    },
-    {
-      "ts": "2026-06-30T11:50:24.268Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T11:50:24.268Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T11:50:24.270Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T11:50:24.781Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Odcnrt6o"
-      }
-    },
     {
       "ts": "2026-06-30T11:50:25.099Z",
       "level": "network",
@@ -3003,6 +2878,109 @@
         "cycle_id": "2026-06-30T13:00:29.809Z",
         "ms_since_last": 27274,
         "interval_ms": 90000
+      }
+    },
+    {
+      "ts": "2026-06-30T13:04:38.983Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T13:04:38.983Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:04:38.986Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:04:39.325Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=y36Q01QN"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:04:39.441Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:04:39.473Z",
+      "level": "info",
+      "msg": "Manual scan tick",
+      "meta": {
+        "symbol": "frxEURUSD"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:04:40.332Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:04:40.332Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:04:40.332Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:05:33.960Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "hold",
+        "conf": 0.4
+      }
+    },
+    {
+      "ts": "2026-06-30T13:05:33.961Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "hold",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:05:33.962Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURUSD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null
+      }
+    },
+    {
+      "ts": "2026-06-30T13:05:34.039Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782789000000,
+          "max": 1782824700000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T13:05:37.116Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 3154,
+        "bytes": 169349
       }
     }
   ],
