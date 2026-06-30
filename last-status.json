@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T17:40:29.829Z",
+  "last_cycle": "2026-06-30T17:44:48.956Z",
   "balance": 9936.89,
   "currency": "USD",
   "account_mode": "demo",
@@ -1222,44 +1222,6 @@
     "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-06-30T16:25:15.764Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T16:25:15.764Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T16:25:15.767Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:25:16.193Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=0qkcZfhg"
-      }
-    },
-    {
-      "ts": "2026-06-30T16:25:16.390Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:25:16.451Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T16:25:16.451Z",
-        "symbol": "frxEURCHF",
-        "multi_candidate": false
-      }
-    },
     {
       "ts": "2026-06-30T16:25:16.536Z",
       "level": "info",
@@ -3210,6 +3172,44 @@
       "meta": {
         "ms": 1887,
         "bytes": 162838
+      }
+    },
+    {
+      "ts": "2026-06-30T17:44:48.034Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T17:44:48.034Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:44:48.036Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:44:48.461Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=nFjoZqgG"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:44:48.592Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:44:48.626Z",
+      "level": "warn",
+      "msg": "closeAllPositions: sweeping all open siblings",
+      "meta": {
+        "reason": "manual_close_all",
+        "symbols": [],
+        "position_count": 0
       }
     }
   ],
