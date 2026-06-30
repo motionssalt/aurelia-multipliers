@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T17:35:43.394Z",
-  "balance": 9935.96,
+  "last_cycle": "2026-06-30T17:40:29.829Z",
+  "balance": 9936.89,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -1222,131 +1222,6 @@
     "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-06-30T16:21:30.517Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=ZjAv3BSi"
-      }
-    },
-    {
-      "ts": "2026-06-30T16:21:30.634Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:21:30.634Z",
-      "level": "network",
-      "msg": "Deriv: WS reconnected before contract_update (revise) (recovered from state=3)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:21:30.704Z",
-      "level": "trade",
-      "msg": "Revising multiplier limits contract_id=3741799659",
-      "meta": {
-        "limit_order": {
-          "stop_loss": 0.3
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T16:21:30.781Z",
-      "level": "trade",
-      "msg": "Multiplier limits revised contract_id=3741799659",
-      "meta": {
-        "take_profit": 2,
-        "stop_loss": -0.3
-      }
-    },
-    {
-      "ts": "2026-06-30T16:21:30.782Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T16:20:17.701Z",
-        "symbol": "frxEURCHF",
-        "decision_action": "revise",
-        "decision_id": "dec-revise-sl-001",
-        "rationale": "M5 RSI 59.74 and M15 RSI 60.71 show sustained bullish momentum with price above EMA20 (0.922754) and EMA50 (0.922558). MACD histogram positive on both timeframes (M5: 0.000002, M15: 0.000068). Current",
-        "executed_count": 1,
-        "just_closed": 0,
-        "open_now": 1,
-        "session_pnl": 0,
-        "floating_pnl": -0.09,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T16:21:30.783Z",
-      "level": "warn",
-      "msg": "Deriv: WS was stale before chart render (cycle) (state=3) â reconnecting before placing order",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:21:30.783Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:21:30.979Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=5M0Ouclj"
-      }
-    },
-    {
-      "ts": "2026-06-30T16:21:31.144Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:21:31.144Z",
-      "level": "network",
-      "msg": "Deriv: WS reconnected before chart render (cycle) (recovered from state=3)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:21:31.145Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxEURCHF @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782807300000,
-          "max": 1782843000000
-        },
-        "recoverable": true
-      }
-    },
-    {
-      "ts": "2026-06-30T16:21:31.245Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782807300000,
-          "max": 1782843000000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T16:21:33.050Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1905,
-        "bytes": 160239
-      }
-    },
     {
       "ts": "2026-06-30T16:25:15.764Z",
       "level": "info",
@@ -3184,6 +3059,157 @@
       "meta": {
         "ms": 2402,
         "bytes": 171133
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:16.196Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T17:40:16.196Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:16.198Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:40:16.561Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=zjSrtiZO"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:16.688Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:40:16.723Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-06-30T17:40:16.723Z",
+        "candidates": [
+          "R_10",
+          "R_25",
+          "R_50",
+          "R_75",
+          "R_100",
+          "1HZ10V",
+          "1HZ25V",
+          "1HZ50V",
+          "1HZ75V",
+          "1HZ100V"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:17.139Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T17:40:16.723Z",
+        "symbol": "R_10",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:17.619Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:40:17.619Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:40:27.094Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_2\"",
+      "meta": {
+        "action": "open",
+        "symbol": "1HZ75V",
+        "conf": 0.72
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:27.095Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: AI response rejected, falling back to hold",
+      "meta": {
+        "errs": [
+          "open.multiplier 100 not in Deriv's accepted set for R_10 (400, 1000, 2000, 3000, 4000)"
+        ],
+        "keyUsed": "OPENROUTER_KEY_2",
+        "raw_action": "open",
+        "raw_keys": [
+          "action",
+          "symbol",
+          "decision_id",
+          "rationale",
+          "confidence",
+          "open"
+        ]
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:27.096Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T17:40:16.723Z",
+        "symbol": "R_10",
+        "decision_action": "hold",
+        "decision_id": "invalid-2026-06-30T17:40:16.723Z",
+        "rationale": "open invalid: open.multiplier 100 not in Deriv's accepted set for R_10 (400, 1000, 2000, 3000, 4000)",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -0.07,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:27.097Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for R_10 @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null,
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:27.210Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782805500000,
+          "max": 1782841200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T17:40:28.984Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1887,
+        "bytes": 162838
       }
     }
   ],
