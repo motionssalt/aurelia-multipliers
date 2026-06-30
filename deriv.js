@@ -870,7 +870,7 @@ function _applyTpSlRanges(limit_order, vp) {
      { ranges: {stake, take_profit, stop_loss}, spot, ask_price, commission }
    The proposal IS NOT bought — we just read the ranges and discard
    the proposal id. Each call is a single round-trip (~50-100ms). */
-async function probeMultiplierRanges(ws, { symbol, direction, stake, multiplier, currency }) {
+async function probeMultiplierRanges(ws, { symbol, direction, stake, multiplier, currency, connOpts }) {
     if (!symbol) throw new Error('probeMultiplierRanges: symbol required');
     const dir = String(direction || '').toLowerCase();
     if (dir !== 'up' && dir !== 'down') {
@@ -884,6 +884,18 @@ async function probeMultiplierRanges(ws, { symbol, direction, stake, multiplier,
         throw new Error('probeMultiplierRanges: invalid multiplier');
     }
     try {
+        // v5.1 self-heal: the OTP socket can have closed since the
+        // caller's last activity (slow AI providers, long ticks). If
+        // we don't heal here, request() throws "WS not open" and the
+        // entire probe returns null — which causes the downstream
+        // TP/SL clamp to be silently skipped and the trade to be
+        // submitted with the AI's raw (out-of-range) TP/SL.
+        if (connOpts && ws && ws.readyState !== WebSocket.OPEN) {
+            ws = await ensureOpen(ws, connOpts, {
+                context:   'probeMultiplierRanges (TP/SL range probe)',
+                timeoutMs: 8000,
+            });
+        }
         const reply = await request(ws, {
             proposal:          1,
             amount:            s,
@@ -1001,6 +1013,21 @@ async function placeMultiplier(ws, opts) {
     const stake      = Number(opts.stake);    // v5: IMMUTABLE — never auto-scaled
     const multiplier = Number(opts.multiplier);
     const currency   = opts.currency || 'USD';
+    // v5.1 fix — accept optional connOpts so EACH internal WS
+    // round-trip (probe / real proposal / buy) can self-heal a stale
+    // OTP socket. Without this, the runner's pre-call ensureOpen() only
+    // protects the FIRST inner request: the OTP socket can close again
+    // between the probe and the real proposal, the probe returns null,
+    // the TP/SL clamp is silently skipped, and the buy is submitted with
+    // the AI's raw out-of-range TP/SL → ContractBuyValidationError →
+    // OPEN FAILED. Backwards-compatible: callers that don't pass
+    // connOpts get the prior (single-pass) behaviour.
+    const connOpts   = opts.connOpts || null;
+    const _heal = async (context) => {
+        if (!connOpts) return;
+        if (ws && ws.readyState === WebSocket.OPEN) return;
+        ws = await ensureOpen(ws, connOpts, { context, timeoutMs: 8000 });
+    };
 
     // Build the initial limit_order. Mutable across the (very short)
     // re-clamp path, but ONLY tp/sl are touched — never the stake.
@@ -1051,6 +1078,11 @@ async function placeMultiplier(ws, opts) {
        ──────────────────────────────────────────────────────────────── */
     let probeReply;
     try {
+        // v5.1: heal the socket if it went stale between the runner's
+        // pre-call ensureOpen and now. Without this, the probe throws
+        // synchronously inside request() and the TP/SL clamp is skipped
+        // (the catch below re-throws, the caller sees "WS not open").
+        await _heal('placeMultiplier probe (TP/SL range)');
         probeReply = await request(ws, buildProposalReq(false), 15000);
     } catch (e) {
         // The probe proposal carries no limit_order, so any error here
@@ -1120,6 +1152,15 @@ async function placeMultiplier(ws, opts) {
     let prop, propReply;
     for (let reclamp = 0; reclamp <= MAX_RECLAMP; reclamp++) {
         try {
+            // v5.1: heal between the probe and the REAL proposal.
+            // The probe → real-proposal gap is exactly the window where
+            // the user's bug reproduces: the runner's ensureOpen heals
+            // the socket, the probe succeeds, the OTP session expires
+            // mid-sequence, the real proposal fails — and because the
+            // probe DID return validation_params, we already computed
+            // the clamp but never got to send it. Self-healing here is
+            // what makes the TP/SL adjustment actually reach the broker.
+            await _heal('placeMultiplier proposal (with clamped TP/SL)');
             propReply = await request(ws, buildProposalReq(true), 15000);
         } catch (e) {
             // No retry — the broker's reason is the source of truth.
@@ -1169,6 +1210,10 @@ async function placeMultiplier(ws, opts) {
        ──────────────────────────────────────────────────────────────── */
     let buyReply;
     try {
+        // v5.1: heal between the real proposal and the buy. Same
+        // stale-OTP risk window as proposal → buy is another full WS
+        // round-trip and the socket can die in between.
+        await _heal('placeMultiplier buy');
         buyReply = await request(ws, {
             buy:   prop.id,
             price: Number(prop.ask_price),
@@ -1298,11 +1343,23 @@ async function closeMultiplier(ws, contractId, opts) {
  *   @param {number|null|undefined} changes.stopLoss
  * @returns {object} contract_update reply body
  */
-async function reviseMultiplierLimits(ws, contractId, changes, currency = 'USD') {
+async function reviseMultiplierLimits(ws, contractId, changes, currency = 'USD', connOpts = null) {
+    // v5.1 fix — accept optional connOpts so the inner POC fetch, the
+    // range probe and the contract_update can each self-heal a stale
+    // OTP socket. Same root cause as placeMultiplier: without this, if
+    // the OTP socket closes after the POC fetch, probeMultiplierRanges
+    // catches the error and returns null, the TP/SL clamp is silently
+    // skipped, and the raw (out-of-range) TP/SL is sent to
+    // contract_update which then fails.
     const cid = Number(contractId);
     if (!Number.isFinite(cid) || cid <= 0) {
         throw new Error('reviseMultiplierLimits: invalid contractId');
     }
+    const _heal = async (context) => {
+        if (!connOpts) return;
+        if (ws && ws.readyState === WebSocket.OPEN) return;
+        ws = await ensureOpen(ws, connOpts, { context, timeoutMs: 8000 });
+    };
     const c = changes || {};
     const hasTP = Object.prototype.hasOwnProperty.call(c, 'takeProfit');
     const hasSL = Object.prototype.hasOwnProperty.call(c, 'stopLoss');
@@ -1332,6 +1389,9 @@ async function reviseMultiplierLimits(ws, contractId, changes, currency = 'USD')
     let tpSlClamped = false;
     let tpSlAdjustments = {};
     try {
+        // v5.1: heal before the POC fetch so a stale-OTP socket
+        // doesn't make us skip the clamp.
+        await _heal('reviseMultiplierLimits POC (clamp context fetch)');
         const pocReply = await request(ws, {
             proposal_open_contract: 1,
             contract_id:            cid,
@@ -1343,9 +1403,14 @@ async function reviseMultiplierLimits(ws, contractId, changes, currency = 'USD')
             const mult      = Number(contract.multiplier);
             const symbol    = String(contract.underlying);
             if (Number.isFinite(stake) && stake > 0 && Number.isFinite(mult) && mult > 0) {
-                // Probe live ranges (no TP/SL in this proposal)
+                // v5.1: heal before the range probe too — probeMultiplierRanges
+                // swallows errors and returns null, so a stale socket here
+                // is exactly how the TP/SL clamp silently turns off.
+                await _heal('reviseMultiplierLimits range probe');
+                // Probe live ranges (no TP/SL in this proposal). We pass
+                // connOpts so probeMultiplierRanges can self-heal too.
                 const probe = await probeMultiplierRanges(ws, {
-                    symbol, direction, stake, multiplier: mult, currency,
+                    symbol, direction, stake, multiplier: mult, currency, connOpts,
                 });
                 if (probe && probe.ranges) {
                     const applied = _applyTpSlRanges(limit_order, probe.ranges);
@@ -1371,6 +1436,9 @@ async function reviseMultiplierLimits(ws, contractId, changes, currency = 'USD')
     }
 
     Logger.trade(`Revising multiplier limits contract_id=${cid}`, { limit_order });
+    // v5.1: heal one more time before contract_update — the previous
+    // probe round-trip is another window where the OTP socket can die.
+    await _heal('reviseMultiplierLimits contract_update');
     const reply = await request(ws, {
         contract_update: 1,
         contract_id:     cid,
