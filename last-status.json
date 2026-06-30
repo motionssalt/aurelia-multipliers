@@ -1,23 +1,23 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T09:55:33.957Z",
-  "balance": 9974.79,
+  "last_cycle": "2026-06-30T10:00:43.428Z",
+  "balance": 9972.79,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-30T09:38:58.110Z",
     "capital_start": 20,
-    "capital_remaining": 18.03,
+    "capital_remaining": 19.58,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 2,
+    "trades": 3,
     "wins": 1,
-    "losses": 1,
-    "pnl": 0.03,
+    "losses": 2,
+    "pnl": -0.42,
     "win_streak": 0,
-    "loss_streak": 1,
+    "loss_streak": 2,
     "halted": false,
     "halt_reason": null
   },
@@ -28,48 +28,14 @@
     "frxGBPJPY": [],
     "R_50": [],
     "R_25": [],
-    "frxEURAUD": [
-      {
-        "contract_id": 3707968039,
-        "stake": 2,
-        "multiplier": 500,
-        "direction": "up",
-        "entry_spot": 1.6555,
-        "entry_time": "2026-06-30T09:55:30.000Z",
-        "take_profit": 5,
-        "stop_loss": 1,
-        "floating_pnl": null,
-        "floating_pnl_pct": null,
-        "current_spot": null,
-        "last_polled_at": null,
-        "cycle_id": "2026-06-30T09:55:15.747Z",
-        "decision_id": "open-euraud-up-1",
-        "sibling_index": 0,
-        "sibling_count": 1,
-        "rationale": "M15 timeframe shows a Bullish Engulfing candle pattern, with RSI at 34.98 and Stochastics K at 22.14, indicating oversold conditions. Price is also near the lower Bollinger Band on M10 (1.653978) and M15 (1.654632), suggesting a potential bullish reversal.",
-        "opened_at": "2026-06-30T09:55:31.164Z",
-        "revision_history": []
-      }
-    ]
+    "frxEURAUD": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 1,
-    "positions": 1,
-    "total_stake": 2,
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
     "total_floating_pnl": null,
-    "per_symbol": [
-      {
-        "symbol": "frxEURAUD",
-        "count": 1,
-        "total_stake": 2,
-        "total_floating_pnl": null,
-        "net_position": 2,
-        "direction_mix": {
-          "up": 1,
-          "down": 0
-        }
-      }
-    ]
+    "per_symbol": []
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -670,6 +636,32 @@
       "opened_at": "2026-06-30T09:50:50.490Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-30T09:38:58.110Z"
+    },
+    {
+      "ts": "2026-06-30T10:00:40.556Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxEURAUD",
+      "contract_id": 3707968039,
+      "direction": "up",
+      "stake": 2,
+      "multiplier": 500,
+      "take_profit": 5,
+      "stop_loss": -1,
+      "outcome": "loss",
+      "pnl": -0.45,
+      "entry": 1.6555,
+      "exit": 1.65554,
+      "close_reason": "Risk of stop-out and bearish momentum on higher timeframes.",
+      "settled": true,
+      "cycle_id": "2026-06-30T09:55:15.747Z",
+      "decision_id": "open-euraud-up-1",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "M15 timeframe shows a Bullish Engulfing candle pattern, with RSI at 34.98 and Stochastics K at 22.14, indicating oversold conditions. Price is also near the lower Bollinger Band on M10 (1.653978) and M15 (1.654632), suggesting a potential bullish reversal.",
+      "opened_at": "2026-06-30T09:55:31.164Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T09:38:58.110Z"
     }
   ],
   "trade_history_manual": [
@@ -702,152 +694,6 @@
     "CLOUDFLARE_KEY_1": 1782770115318
   },
   "logs": [
-    {
-      "ts": "2026-06-30T08:05:15.252Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T08:05:15.597Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=6J3b1nmq"
-      }
-    },
-    {
-      "ts": "2026-06-30T08:05:15.694Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T08:05:15.723Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T08:05:15.723Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T08:05:16.055Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T08:05:15.723Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T08:05:16.055Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T08:05:15.723Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": true,
-        "session_active": false
-      }
-    },
-    {
-      "ts": "2026-06-30T08:10:16.535Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T08:10:16.535Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T08:10:16.537Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T08:10:16.900Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=UG2CiuaO"
-      }
-    },
-    {
-      "ts": "2026-06-30T08:10:17.000Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T08:10:17.110Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T08:10:17.110Z",
-        "candidates": [
-          "R_10",
-          "R_25",
-          "R_50",
-          "R_75",
-          "R_100",
-          "1HZ10V",
-          "1HZ25V",
-          "1HZ50V",
-          "1HZ75V",
-          "1HZ100V"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T08:10:17.793Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T08:10:17.110Z",
-        "symbol": "R_10",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T08:10:17.793Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T08:10:17.110Z",
-        "symbol": "R_10",
-        "cycle_running": true,
-        "halted": true,
-        "session_active": false
-      }
-    },
-    {
-      "ts": "2026-06-30T08:15:23.879Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T08:15:23.879Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T08:15:23.881Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T08:15:24.427Z",
       "level": "network",
@@ -2954,14 +2800,165 @@
         "ms": 1898,
         "bytes": 168126
       }
+    },
+    {
+      "ts": "2026-06-30T10:00:23.983Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T10:00:23.983Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:23.985Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:00:24.359Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=FkLzfXdY"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:24.539Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:00:24.595Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T10:00:24.594Z",
+        "symbol": "frxEURAUD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:24.689Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3707968039,
+        "prev": {
+          "tp": 5,
+          "sl": 1
+        },
+        "live": {
+          "tp": 5,
+          "sl": -1
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:25.808Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:00:40.313Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "close",
+        "symbol": "frxEURAUD",
+        "conf": 0.9
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:40.313Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "close",
+        "decision_id": "close-euraud-loss-1",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:40.449Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3707968039",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:40.556Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3707968039",
+      "meta": {
+        "sold_for": 1.55,
+        "balance_after": 9974.34,
+        "transaction_id": 7273973519
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:40.557Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T10:00:24.594Z",
+        "symbol": "frxEURAUD",
+        "decision_action": "close",
+        "decision_id": "close-euraud-loss-1",
+        "rationale": "The existing UP position (contract_id 3707968039) has a small stop_out_distance_pct (0.001619) and a floating loss of -$0.43. M10 and M15 timeframes show price below EMA20/EMA50, with M15 MACD histogr",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -0.42,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:40.558Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURAUD @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": {
+          "min": 1782784500000,
+          "max": 1782820200000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:40.662Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782777900000,
+          "max": 1782813600000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:00:42.448Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1890,
+        "bytes": 158719
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 2,
+    "trades": 3,
     "wins": 1,
-    "losses": 1,
-    "pnl": 0.03,
+    "losses": 2,
+    "pnl": -0.42,
     "by_symbol": {
       "cryBTCUSD": {
         "trades": 1,
@@ -2970,10 +2967,10 @@
         "pnl": 0.25
       },
       "frxEURAUD": {
-        "trades": 1,
+        "trades": 2,
         "wins": 0,
-        "losses": 1,
-        "pnl": -0.22
+        "losses": 2,
+        "pnl": -0.67
       }
     }
   },
@@ -3009,10 +3006,5 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {
-    "frxEURAUD": {
-      "min": 1782784500000,
-      "max": 1782820200000
-    }
-  }
+  "chart_windows": {}
 }
