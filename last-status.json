@@ -1,8 +1,8 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T15:10:30.292Z",
-  "balance": 9922.26,
+  "last_cycle": "2026-06-30T15:12:31.954Z",
+  "balance": 9927.2,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
@@ -1185,118 +1185,9 @@
     "GEMINI_KEY_4": 1782815123137,
     "GEMINI_KEY_1": 1782819027062,
     "CLOUDFLARE_KEY_1": 1782820226730,
-    "OPENROUTER_KEY_1": 1782832224549
+    "OPENROUTER_KEY_1": 1782832307557
   },
   "logs": [
-    {
-      "ts": "2026-06-30T14:13:45.035Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782799800000,
-          "max": 1782835500000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T14:13:46.821Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 1928,
-        "bytes": 165957
-      }
-    },
-    {
-      "ts": "2026-06-30T14:15:20.740Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T14:15:20.740Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:15:20.742Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:15:21.244Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=7EMhjSOn"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:15:21.524Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:15:21.600Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T14:15:21.600Z",
-        "symbol": "frxEURGBP",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T14:15:23.060Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:15:23.060Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:15:23.060Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:15:23.061Z",
-      "level": "warn",
-      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T14:17:48.382Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
-      "meta": {
-        "action": "revise",
-        "symbol": "frxEURGBP",
-        "conf": 0.65
-      }
-    },
-    {
-      "ts": "2026-06-30T14:17:48.383Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "revise",
-        "decision_id": "dec-rev-001",
-        "keyUsed": "OPENROUTER_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T14:17:48.384Z",
-      "level": "warn",
-      "msg": "Deriv: WS was stale before contract_update (revise) (state=3) â reconnecting before placing order",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T14:17:48.384Z",
       "level": "network",
@@ -3106,6 +2997,116 @@
       "meta": {
         "ms": 3649,
         "bytes": 170704
+      }
+    },
+    {
+      "ts": "2026-06-30T15:11:44.751Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T15:11:44.751Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:11:44.753Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:11:45.371Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=0JYOzz8F"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:11:45.757Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:11:45.868Z",
+      "level": "info",
+      "msg": "Manual scan tick",
+      "meta": {
+        "symbol": "frxUSDCAD"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:11:47.556Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:11:47.557Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:11:47.557Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:11:47.557Z",
+      "level": "warn",
+      "msg": "All keys flagged; clearing oldest flag and retrying \"OPENROUTER_KEY_1\"",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T15:12:28.270Z",
+      "level": "warn",
+      "msg": "Provider \"openrouter\" key \"OPENROUTER_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "AI returned non-JSON: The user wants me to act as AURELIA-Multipliers, an AI decision engine for a Deriv MULTUP/MULTDOWN bot. I need to analyze the current market data and open posit"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:12:28.270Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "All AI providers/keys failed; last error: AI returned non-JSON: The user wants me to act as AURELIA-Multipliers, an AI decision engine for a Deriv MULTUP/MULTDOWN bot. I need to analyze the current market data and open posit"
+      }
+    },
+    {
+      "ts": "2026-06-30T15:12:28.272Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxUSDCAD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782802500000,
+          "max": 1782838200000
+        },
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T15:12:28.453Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782802500000,
+          "max": 1782838200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T15:12:30.281Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2009,
+        "bytes": 171360
       }
     }
   ],
