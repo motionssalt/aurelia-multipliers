@@ -873,13 +873,55 @@ new Chart(sizeCanvas('chartMacd'), {
 }
 
 /* ─────────────────────────────────────────────────────────────────
+   Internal: fetch candles with one auto-reconnect retry if the WS
+   went stale while the caller was doing slow work (e.g. waiting on a
+   reasoning AI provider, or right after a `buy` reply when Deriv has
+   closed the OTP session). The chart fetch is purely a READ — there
+   is no side-effect risk in retrying on a fresh socket. Returns the
+   (possibly new) ws plus the candles, so the caller can rebind ws and
+   keep using it for the screenshot lifecycle's remaining calls.
+
+   `connOpts` is OPTIONAL. When absent we behave exactly as before:
+   one shot, throw on failure. This keeps every existing call site
+   (including smoke tests and the binary path) byte-equivalent.
+   ───────────────────────────────────────────────────────────────── */
+async function _fetchCandlesResilient(ws, symbol, gran, count, connOpts, label) {
+    try {
+        const candles = await Deriv.ticksHistory(ws, symbol, gran, count);
+        return { ws, candles };
+    } catch (e) {
+        // Only auto-heal when caller actually supplied connection
+        // credentials. The error surface from Deriv.request() on a
+        // closed socket is the literal string "WebSocket closed" (see
+        // _attachHandlers) plus "WS not open (state=...)" from the
+        // synchronous pre-send guard. Match those + the generic close
+        // codes so genuine schema / data errors are NOT retried.
+        const msg = String(e && e.message || e);
+        const isClosed = /WebSocket closed|WS not open|state=(?:2|3)|ECONNRESET|EPIPE|opcode|1006|1001/i.test(msg);
+        if (!isClosed || !connOpts) throw e;
+        Logger.warn(`[chart${label ? '-' + label : ''}] candle fetch failed on closed WS — reconnecting once`, {
+            symbol, error: msg.slice(0, 160),
+        });
+        const fresh = await Deriv.ensureOpen(ws, connOpts, {
+            context:   `chart candle fetch (${label || 'binary'})`,
+            timeoutMs: 8000,
+        });
+        const candles = await Deriv.ticksHistory(fresh, symbol, gran, count);
+        return { ws: fresh, candles };
+    }
+}
+
+/* ─────────────────────────────────────────────────────────────────
    Main exports
    ───────────────────────────────────────────────────────────────── */
-async function generateChart(ws, symbol, tf = '1m') {
-    const tfCfg = TF_MAP[tf] || TF_MAP['1m'];
+async function generateChart(ws, symbol, tf = '1m', opts) {
+    const tfCfg    = TF_MAP[tf] || TF_MAP['1m'];
+    const connOpts = (opts && opts.connOpts) || null;
     Logger.info(`[chart] fetching ${tfCfg.count} candles for ${symbol} @ ${tf}`);
 
-    const candles = await Deriv.ticksHistory(ws, symbol, tfCfg.gran, tfCfg.count);
+    const fetched = await _fetchCandlesResilient(ws, symbol, tfCfg.gran, tfCfg.count, connOpts, 'binary');
+    ws = fetched.ws;
+    const candles = fetched.candles;
     if (!candles || candles.length < 5) {
         throw new Error(`Not enough candle data for ${symbol} (got ${candles ? candles.length : 0})`);
     }
@@ -924,11 +966,19 @@ async function generateChart(ws, symbol, tf = '1m') {
    persist for the next tick.
    ───────────────────────────────────────────────────────────────── */
 async function renderMultiplierSnapshot(opts) {
-    const ws            = opts && opts.ws;
+    let   ws            = opts && opts.ws;
     const symbol        = opts && opts.symbol;
     const tf            = (opts && opts.tf) || '5m';
     const openSiblings  = (opts && opts.openSiblings) || [];
     const prevWindow    = (opts && opts.chartWindow) || null;
+    // `connOpts` is optional. When supplied we can auto-heal a stale
+    // socket exactly once before failing — this is the common
+    // post-trade case where the AI's slow reasoning closed the OTP
+    // socket out from under the cycle (same root cause that `ensureOpen`
+    // already addresses on the place-trade path; here we extend the
+    // same recovery to the chart-fetch read path so the chart actually
+    // makes it to Telegram instead of silently going missing).
+    const connOpts     = (opts && opts.connOpts) || null;
 
     if (!ws || !symbol) {
         throw new Error('renderMultiplierSnapshot: ws and symbol are required');
@@ -939,9 +989,12 @@ async function renderMultiplierSnapshot(opts) {
     Logger.info(`[chart-mult] fetching ${tfCfg.count} candles for ${symbol} @ ${tf}`, {
         siblings: openSiblings.length,
         prevWindow: prevWindow ? { min: prevWindow.min, max: prevWindow.max } : null,
+        recoverable: !!connOpts,
     });
 
-    const candles = await Deriv.ticksHistory(ws, symbol, tfCfg.gran, tfCfg.count);
+    const fetched = await _fetchCandlesResilient(ws, symbol, tfCfg.gran, tfCfg.count, connOpts, 'mult');
+    ws = fetched.ws;
+    const candles = fetched.candles;
     if (!candles || candles.length < 5) {
         throw new Error(`Not enough candle data for ${symbol} (got ${candles ? candles.length : 0})`);
     }
@@ -978,6 +1031,12 @@ async function renderMultiplierSnapshot(opts) {
             buffer,
             nextWindow,
             renderMs: dtMs,
+            // Surface the (possibly fresh) ws so callers that thread
+            // it through a longer chain — runMultiplierCycle, runManual
+            // — can rebind their local `ws` after a recovery and avoid
+            // re-hitting the same stale-socket failure on the next
+            // request in the same cycle.
+            ws,
         };
     } finally {
         await browser.close();
