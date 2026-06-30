@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T11:50:30.396Z",
+  "last_cycle": "2026-06-30T11:52:14.779Z",
   "balance": 9969.71,
   "currency": "USD",
   "account_mode": "demo",
@@ -1055,175 +1055,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T10:45:38.332Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782787200000,
-          "max": 1782822900000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T10:45:40.308Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2140,
-        "bytes": 175896
-      }
-    },
-    {
-      "ts": "2026-06-30T10:50:23.990Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T10:50:23.990Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:50:23.992Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:50:24.548Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=LNubu54Y"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:50:24.772Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:50:24.846Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T10:50:24.846Z",
-        "symbol": "cryBTCUSD",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T10:50:25.797Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T10:50:39.250Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
-      "meta": {
-        "action": "open",
-        "symbol": "cryBTCUSD",
-        "conf": 0.7
-      }
-    },
-    {
-      "ts": "2026-06-30T10:50:39.251Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "dec-btc-dwn-01",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T10:50:39.346Z",
-      "level": "warn",
-      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
-      "meta": {
-        "symbol": "cryBTCUSD",
-        "multiplier": 300,
-        "stake": 1,
-        "adjustments": {
-          "take_profit": {
-            "from": 0.5,
-            "to": 1.06,
-            "range": {
-              "min": 0.1,
-              "max": 48.5
-            },
-            "reason": "validation_params.take_profit"
-          }
-        },
-        "vp": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 48.5
-          },
-          "stop_loss": {
-            "min": 0.12,
-            "max": 0.97
-          }
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T10:50:39.449Z",
-      "level": "trade",
-      "msg": "Multiplier proposal accepted cryBTCUSD MULTDOWN ×300",
-      "meta": {
-        "stake": 1,
-        "ask_price": 1,
-        "spot": 59292.247,
-        "commission": 0.08,
-        "limit_order": {
-          "stop_loss": {
-            "display_name": "Stop loss",
-            "display_order_amount": "-0.30",
-            "order_amount": -0.3,
-            "order_date": 1782816639,
-            "value": "59330.728"
-          },
-          "stop_out": {
-            "display_name": "Stop out",
-            "display_order_amount": "-1.00",
-            "order_amount": -1,
-            "order_date": 1782816639,
-            "value": "59473.355"
-          },
-          "take_profit": {
-            "display_name": "Take profit",
-            "display_order_amount": "1.06",
-            "order_amount": 1.06,
-            "order_date": 1782816639,
-            "value": "59053.622"
-          }
-        },
-        "validation_params": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 48.5
-          },
-          "stop_loss": {
-            "min": 0.12,
-            "max": 0.97
-          }
-        },
-        "reclamp_iterations": 0
-      }
-    },
     {
       "ts": "2026-06-30T10:50:39.560Z",
       "level": "trade",
@@ -3732,6 +3563,101 @@
       "meta": {
         "ms": 2046,
         "bytes": 179135
+      }
+    },
+    {
+      "ts": "2026-06-30T11:52:10.089Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T11:52:10.088Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:52:10.091Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:52:10.532Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Y5eIOSZ9"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:52:10.638Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:52:10.683Z",
+      "level": "info",
+      "msg": "Manual scan tick",
+      "meta": {
+        "symbol": "cryETHUSD"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:52:11.624Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:52:11.624Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:52:11.624Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T11:52:11.625Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "No AI providers configured with keys"
+      }
+    },
+    {
+      "ts": "2026-06-30T11:52:11.626Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryETHUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782790500000,
+          "max": 1782826200000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T11:52:11.768Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782790500000,
+          "max": 1782826200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T11:52:13.846Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2220,
+        "bytes": 180403
       }
     }
   ],
