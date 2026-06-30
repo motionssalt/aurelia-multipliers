@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T17:44:48.956Z",
+  "last_cycle": "2026-06-30T17:45:38.301Z",
   "balance": 9936.89,
   "currency": "USD",
   "account_mode": "demo",
@@ -1222,50 +1222,6 @@
     "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-06-30T16:25:16.536Z",
-      "level": "info",
-      "msg": "Detected TP/SL revert between ticks",
-      "meta": {
-        "contract_id": 3741799659,
-        "prev": {
-          "tp": 2,
-          "sl": 0.3
-        },
-        "live": {
-          "tp": 2,
-          "sl": -0.3
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T16:25:17.600Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:25:17.600Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:25:17.600Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T16:25:21.855Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
-      "meta": {
-        "action": "hold",
-        "symbol": "frxEURCHF",
-        "conf": 0.6
-      }
-    },
     {
       "ts": "2026-06-30T16:25:21.855Z",
       "level": "info",
@@ -3210,6 +3166,44 @@
         "reason": "manual_close_all",
         "symbols": [],
         "position_count": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T17:45:37.767Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T17:45:37.767Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:45:37.769Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:45:38.141Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=3b22r9Ze"
+      }
+    },
+    {
+      "ts": "2026-06-30T17:45:38.257Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T17:45:38.300Z",
+      "level": "info",
+      "msg": "Multiplier cycle: overlap guard — previous tick too recent, skipping",
+      "meta": {
+        "cycle_id": "2026-06-30T17:45:38.300Z",
+        "ms_since_last": 49344,
+        "interval_ms": 90000
       }
     }
   ],
