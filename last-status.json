@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T12:55:22.609Z",
+  "last_cycle": "2026-06-30T13:00:02.535Z",
   "balance": 9960.17,
   "currency": "USD",
   "account_mode": "demo",
@@ -1035,87 +1035,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T11:40:33.279Z",
-      "level": "warn",
-      "msg": "open: TP/SL clamped into broker range (v5 pre-flight)",
-      "meta": {
-        "symbol": "cryETHUSD",
-        "multiplier": 300,
-        "requested_stake": 1,
-        "final_stake": 1,
-        "requested_take_profit": 0.5,
-        "requested_stop_loss": 0.5,
-        "final_take_profit": 1.06,
-        "final_stop_loss": 0.5,
-        "kind": "tp_sl_clamp",
-        "adjustments": {
-          "take_profit": {
-            "from": 0.5,
-            "to": 1.06,
-            "range": {
-              "min": 0.1,
-              "max": 48.5
-            },
-            "reason": "validation_params.take_profit"
-          },
-          "stop_loss": null
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T11:40:33.279Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T11:40:19.654Z",
-        "symbol": "cryETHUSD",
-        "decision_action": "open",
-        "decision_id": "eth-bounce-01",
-        "rationale": "The market is in a strong downtrend with price below EMA(20) and EMA(50) on M5, M10, and M15. However, RSI is 36.64 (M5), 35.06 (M10), 31.44 (M15), and Stochastics K is 29.76 (M5), 28.94 (M10), 21.90 ",
-        "executed_count": 1,
-        "just_closed": 1,
-        "open_now": 1,
-        "session_pnl": -4.05,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T11:40:33.281Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryETHUSD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782790500000,
-          "max": 1782826200000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T11:40:33.392Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782790500000,
-          "max": 1782826200000,
-          "justOpened": false
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T11:40:35.568Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2287,
-        "bytes": 178214
-      }
-    },
     {
       "ts": "2026-06-30T11:45:18.793Z",
       "level": "info",
@@ -3051,6 +2970,40 @@
         "halted": false,
         "session_active": true
       }
+    },
+    {
+      "ts": "2026-06-30T13:00:00.449Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T13:00:00.449Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:00:00.452Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:00:01.008Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=8EN1LJOC"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:00:01.746Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:00:01.964Z",
+      "level": "warn",
+      "msg": "Manual scan blocked — config.trading_enabled=false",
+      "meta": {}
     }
   ],
   "daily_stats": {
