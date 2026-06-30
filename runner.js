@@ -115,7 +115,7 @@ function isCryptoSymbol(sym) {
    unavailable) is logged but does NOT block the tick. The AI sees
    `tp_sl_ranges: null` and falls back to its default sizing rules.
    ────────────────────────────────────────────────────────────── */
-async function _probeTpSlRanges(ws, config, state, symbol) {
+async function _probeTpSlRanges(ws, config, state, symbol, connOpts) {
     try {
         const validMults = AIClient.MULTIPLIER_RANGE_BY_SYMBOL[symbol]
             || (AIClient.MULTIPLIER_RANGE_BY_CATEGORY[
@@ -129,12 +129,17 @@ async function _probeTpSlRanges(ws, config, state, symbol) {
             // Probe only MULTUP — MULTUP and MULTDOWN share identical
             // validation_params at the same spot, so probing both would
             // just double the WS bandwidth without adding information.
+            // v5.1: pass connOpts so each probe can self-heal a stale
+            // OTP socket. Without this the pre-AI probe loop returns
+            // null and the AI is given no ranges, which silently
+            // disables the AI-side TP/SL sizing constraint.
             const r = await Deriv.probeMultiplierRanges(ws, {
                 symbol,
                 direction:  'up',
                 stake:      probeStake,
                 multiplier: m,
                 currency:   (state && state.currency) || 'USD',
+                connOpts,
             });
             if (r) probes[String(m)] = r;
         }
@@ -1321,6 +1326,15 @@ async function openSibling(ws, config, state, symbol, decision, openSpec, cycleI
                 multiplier: mult,
                 takeProfit: openSpec.take_profit != null ? Number(openSpec.take_profit) : undefined,
                 stopLoss:   openSpec.stop_loss   != null ? Number(openSpec.stop_loss)   : undefined,
+                // v5.1 fix — thread connOpts INTO placeMultiplier so its
+                // inner probe / proposal / buy round-trips can each
+                // self-heal a stale OTP socket. Without this, the only
+                // ensureOpen() guard is on the OUTER call (right above),
+                // and the socket can still die between deriv.js's probe
+                // and its real proposal — in which case the TP/SL clamp
+                // is computed but never sent, and the buy is rejected
+                // with the AI's raw out-of-range TP/SL.
+                connOpts,
             });
             const contractId = placed.buy && placed.buy.contract_id;
             if (!contractId) {
@@ -1611,7 +1625,13 @@ async function executeReviseList(ws, state, symbol, reviseArr, decisionId, connO
                 });
             }
             const currency = state.currency || 'USD';
-            const cu = await Deriv.reviseMultiplierLimits(ws, cid, changes, currency);
+            // v5.1 fix — thread connOpts so the inner POC + range probe +
+            // contract_update round-trips inside reviseMultiplierLimits()
+            // can each self-heal a stale OTP socket. Without this, a
+            // socket that closes after the POC fetch silently disables
+            // the TP/SL clamp (probeMultiplierRanges swallows the error
+            // and returns null) and the raw TP/SL hits the broker.
+            const cu = await Deriv.reviseMultiplierLimits(ws, cid, changes, currency, connOpts);
             // Use the ACTUAL values Deriv accepted (from contract_update
             // reply), not the AI-requested ones. If the values were clamped
             // to fit the broker's live range, this records the clamped
@@ -2166,7 +2186,7 @@ async function runMultiplierCycle(ws, config, state, connOpts) {
     // v4 fix: pre-flight TP/SL range probe. Gated on canOpenNew — if we
     // can't open new positions this tick, the probe is wasted bandwidth.
     const tpSlRanges = canOpenNew
-        ? await _probeTpSlRanges(ws, config, state, symbol)
+        ? await _probeTpSlRanges(ws, config, state, symbol, connOpts)
         : null;
 
     const aiInput = {
@@ -2697,7 +2717,7 @@ async function runManual(ws, config, state, connOpts) {
     }
 
     // v4 fix: live TP/SL range probe (manual path always allowed to open).
-    const tpSlRanges = await _probeTpSlRanges(ws, config, state, symbol);
+    const tpSlRanges = await _probeTpSlRanges(ws, config, state, symbol, connOpts);
 
     // --- 4. Assemble aiInput in the SAME shape as the cycle ----------
     const exposure = State.aggregateSiblingExposure(state, symbol);
