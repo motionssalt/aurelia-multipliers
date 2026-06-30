@@ -1,23 +1,23 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T13:46:25.463Z",
-  "balance": 9940.17,
+  "last_cycle": "2026-06-30T13:55:29.693Z",
+  "balance": 9947.95,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-30T13:50:55.740Z",
     "capital_start": 20,
-    "capital_remaining": 20,
+    "capital_remaining": 27.78,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 0,
+    "trades": 2,
     "wins": 0,
-    "losses": 0,
-    "pnl": 0,
+    "losses": 2,
+    "pnl": -2.22,
     "win_streak": 0,
-    "loss_streak": 0,
+    "loss_streak": 2,
     "halted": false,
     "halt_reason": null
   },
@@ -25,74 +25,7 @@
   "cycle_open_siblings": {
     "cryBTCUSD": [],
     "frxEURUSD": [],
-    "frxGBPJPY": [
-      {
-        "contract_id": 3725059059,
-        "stake": 5,
-        "multiplier": 300,
-        "direction": "down",
-        "entry_spot": 214.722,
-        "entry_time": "2026-06-30T13:15:13.000Z",
-        "take_profit": 10,
-        "stop_loss": -4,
-        "floating_pnl": -0.84,
-        "floating_pnl_pct": -16.8,
-        "current_spot": 214.771,
-        "last_polled_at": "2026-06-30T13:45:18.142Z",
-        "cycle_id": "2026-06-30T13:10:22.570Z",
-        "decision_id": "dec-gbpjpy-300-dn",
-        "sibling_index": 0,
-        "sibling_count": 2,
-        "rationale": "GBPJPY shows a consistent bearish trend across M5/M10/M15: EMA20 below EMA50 on all timeframes, MACD histogram negative and widening (M5 -0.00465, M10 -0.01585, M15 -0.02077), ADX > 23 confirming trend strength with -DI > +DI (M5 36.6 vs 13.5). RSI 45.9/44.9/43.8 not oversold, giving room for further downside. Price at 214.68 sits below M5 resistances 214.752/214.819/214.838. Other candidates reje",
-        "opened_at": "2026-06-30T13:15:13.795Z",
-        "revision_history": [
-          {
-            "ts": "2026-06-30T13:20:24.526Z",
-            "outcome": "reverted",
-            "requested": {
-              "stop_loss": 4
-            },
-            "applied": {
-              "stop_loss": -4
-            },
-            "error": "broker-side TP/SL diverged from last persisted values between ticks"
-          }
-        ]
-      },
-      {
-        "contract_id": 3725059439,
-        "stake": 5,
-        "multiplier": 300,
-        "direction": "down",
-        "entry_spot": 214.722,
-        "entry_time": "2026-06-30T13:15:13.000Z",
-        "take_profit": 10,
-        "stop_loss": -4,
-        "floating_pnl": -1.17,
-        "floating_pnl_pct": -23.4,
-        "current_spot": 214.771,
-        "last_polled_at": "2026-06-30T13:45:18.234Z",
-        "cycle_id": "2026-06-30T13:10:22.570Z",
-        "decision_id": "dec-gbpjpy-300-dn",
-        "sibling_index": 1,
-        "sibling_count": 2,
-        "rationale": "GBPJPY shows a consistent bearish trend across M5/M10/M15: EMA20 below EMA50 on all timeframes, MACD histogram negative and widening (M5 -0.00465, M10 -0.01585, M15 -0.02077), ADX > 23 confirming trend strength with -DI > +DI (M5 36.6 vs 13.5). RSI 45.9/44.9/43.8 not oversold, giving room for further downside. Price at 214.68 sits below M5 resistances 214.752/214.819/214.838. Other candidates reje",
-        "opened_at": "2026-06-30T13:15:14.192Z",
-        "revision_history": [
-          {
-            "ts": "2026-06-30T13:20:24.645Z",
-            "outcome": "reverted",
-            "requested": {
-              "stop_loss": 4
-            },
-            "applied": {
-              "stop_loss": -4
-            },
-            "error": "broker-side TP/SL diverged from last persisted values between ticks"
-          }
-        ]
-      }
-    ],
+    "frxGBPJPY": [],
     "R_50": [],
     "R_25": [],
     "frxEURAUD": [],
@@ -101,23 +34,11 @@
     "cryETHUSD": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 1,
-    "positions": 2,
-    "total_stake": 10,
-    "total_floating_pnl": -2.01,
-    "per_symbol": [
-      {
-        "symbol": "frxGBPJPY",
-        "count": 2,
-        "total_stake": 10,
-        "total_floating_pnl": -2.01,
-        "net_position": 7.99,
-        "direction_mix": {
-          "up": 0,
-          "down": 2
-        }
-      }
-    ]
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
+    "total_floating_pnl": null,
+    "per_symbol": []
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -1082,6 +1003,58 @@
       "opened_at": "2026-06-30T11:40:33.279Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-30T09:38:58.110Z"
+    },
+    {
+      "ts": "2026-06-30T13:53:14.907Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxGBPJPY",
+      "contract_id": 3725059059,
+      "direction": "down",
+      "stake": 5,
+      "multiplier": 300,
+      "take_profit": 10,
+      "stop_loss": -4,
+      "outcome": "loss",
+      "pnl": -0.94,
+      "entry": 214.721,
+      "exit": 214.787,
+      "close_reason": "sold_externally",
+      "settled": true,
+      "cycle_id": "2026-06-30T13:10:22.570Z",
+      "decision_id": "dec-gbpjpy-300-dn",
+      "sibling_index": 0,
+      "sibling_count": 2,
+      "rationale": "GBPJPY shows a consistent bearish trend across M5/M10/M15: EMA20 below EMA50 on all timeframes, MACD histogram negative and widening (M5 -0.00465, M10 -0.01585, M15 -0.02077), ADX > 23 confirming trend strength with -DI > +DI (M5 36.6 vs 13.5). RSI 45.9/44.9/43.8 not oversold, giving room for further downside. Price at 214.68 sits below M5 resistances 214.752/214.819/214.838. Other candidates reje",
+      "opened_at": "2026-06-30T13:15:13.795Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T13:50:55.740Z"
+    },
+    {
+      "ts": "2026-06-30T13:53:15.011Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxGBPJPY",
+      "contract_id": 3725059439,
+      "direction": "down",
+      "stake": 5,
+      "multiplier": 300,
+      "take_profit": 10,
+      "stop_loss": -4,
+      "outcome": "loss",
+      "pnl": -1.28,
+      "entry": 214.722,
+      "exit": 214.787,
+      "close_reason": "sold_externally",
+      "settled": true,
+      "cycle_id": "2026-06-30T13:10:22.570Z",
+      "decision_id": "dec-gbpjpy-300-dn",
+      "sibling_index": 1,
+      "sibling_count": 2,
+      "rationale": "GBPJPY shows a consistent bearish trend across M5/M10/M15: EMA20 below EMA50 on all timeframes, MACD histogram negative and widening (M5 -0.00465, M10 -0.01585, M15 -0.02077), ADX > 23 confirming trend strength with -DI > +DI (M5 36.6 vs 13.5). RSI 45.9/44.9/43.8 not oversold, giving room for further downside. Price at 214.68 sits below M5 resistances 214.752/214.819/214.838. Other candidates reje",
+      "opened_at": "2026-06-30T13:15:14.192Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T13:50:55.740Z"
     }
   ],
   "trade_history_manual": [
@@ -1114,266 +1087,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T12:36:12.117Z",
-      "level": "warn",
-      "msg": "renderMultiplierSnapshot failed",
-      "meta": {
-        "symbol": "frxUSDJPY",
-        "error": "WS not open (state=3)"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:40:21.433Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T12:40:21.433Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:40:21.435Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:40:21.743Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=HqUMee24"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:40:21.866Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:40:21.898Z",
-      "level": "warn",
-      "msg": "Multiplier cycle: TRADING DISABLED (config.trading_enabled=false) â settle/poll only",
-      "meta": {
-        "open_siblings": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T12:40:21.898Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:40:21.898Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T12:40:21.898Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T12:40:22.443Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T12:40:21.898Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T12:40:22.443Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T12:40:21.898Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-30T12:45:20.152Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T12:45:20.151Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:45:20.154Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:45:20.602Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=EJBcJQCA"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:45:20.883Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:45:20.996Z",
-      "level": "warn",
-      "msg": "Multiplier cycle: TRADING DISABLED (config.trading_enabled=false) â settle/poll only",
-      "meta": {
-        "open_siblings": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T12:45:20.996Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:45:20.996Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T12:45:20.996Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
-    {
-      "ts": "2026-06-30T12:45:21.754Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T12:45:20.996Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-06-30T12:45:21.754Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings â skipping AI call",
-      "meta": {
-        "cycle_id": "2026-06-30T12:45:20.996Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-06-30T12:50:18.142Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T12:50:18.142Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:50:18.144Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:50:18.658Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Uogb0V2x"
-      }
-    },
-    {
-      "ts": "2026-06-30T12:50:19.340Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:50:19.373Z",
-      "level": "warn",
-      "msg": "Multiplier cycle: TRADING DISABLED (config.trading_enabled=false) â settle/poll only",
-      "meta": {
-        "open_siblings": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T12:50:19.373Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T12:50:19.373Z",
-      "level": "info",
-      "msg": "Multiplier cycle: multi-candidate scan",
-      "meta": {
-        "cycle_id": "2026-06-30T12:50:19.373Z",
-        "candidates": [
-          "frxEURUSD",
-          "frxGBPUSD",
-          "frxUSDJPY",
-          "frxAUDUSD",
-          "frxUSDCAD",
-          "frxUSDCHF",
-          "frxNZDUSD",
-          "frxEURJPY",
-          "frxEURGBP",
-          "frxGBPJPY",
-          "frxAUDJPY",
-          "frxEURAUD",
-          "frxEURCAD",
-          "frxEURCHF",
-          "frxXAUUSD",
-          "cryBTCUSD",
-          "cryETHUSD"
-        ]
-      }
-    },
     {
       "ts": "2026-06-30T12:50:20.738Z",
       "level": "info",
@@ -3024,14 +2737,249 @@
         "symbol": "frxGBPJPY",
         "error": "WS not open (state=3)"
       }
+    },
+    {
+      "ts": "2026-06-30T13:53:13.967Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T13:53:13.967Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:53:13.969Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:53:14.421Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=tRS1CwoR"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:53:14.706Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:53:14.782Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T13:53:14.782Z",
+        "symbol": "frxGBPJPY",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T13:53:16.194Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:53:16.194Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:53:16.194Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:55:24.348Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "open",
+        "symbol": "frxGBPJPY",
+        "conf": 0.65
+      }
+    },
+    {
+      "ts": "2026-06-30T13:55:24.349Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "open",
+        "decision_id": "dec-7f02b1",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:55:24.350Z",
+      "level": "warn",
+      "msg": "Deriv: WS was stale before trade placement (multiplier) (state=3) — reconnecting before placing order",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:55:24.350Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:55:24.768Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=h2vGueXs"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:55:25.024Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:55:25.024Z",
+      "level": "network",
+      "msg": "Deriv: WS reconnected before trade placement (multiplier) (recovered from state=3)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:55:25.207Z",
+      "level": "warn",
+      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
+      "meta": {
+        "symbol": "frxGBPJPY",
+        "multiplier": 300,
+        "stake": 1.5,
+        "adjustments": {
+          "take_profit": {
+            "from": 1.5,
+            "to": 1.54,
+            "range": {
+              "min": 0.1,
+              "max": 72.5
+            },
+            "reason": "validation_params.take_profit"
+          }
+        },
+        "vp": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 72.5
+          },
+          "stop_loss": {
+            "min": 0.37,
+            "max": 1.45
+          }
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T13:55:25.394Z",
+      "level": "error",
+      "msg": "placeMultiplier failed",
+      "meta": {
+        "symbol": "frxGBPJPY",
+        "error": "ContractBuyValidationError: Enter an amount equal to or higher than 0.68."
+      }
+    },
+    {
+      "ts": "2026-06-30T13:55:25.395Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T13:53:14.782Z",
+        "symbol": "frxGBPJPY",
+        "decision_action": "open",
+        "decision_id": "dec-7f02b1",
+        "rationale": "M5/M10/M15 Stochastics are overbought (k=90.4/91.8/81.2) with price at 214.787 pressing against M5 upper Bollinger Band (214.831) and resistance cluster 214.807-214.819. ADX shows trending strength (3",
+        "executed_count": 1,
+        "just_closed": 2,
+        "open_now": 0,
+        "session_pnl": -2.22,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T13:55:25.396Z",
+      "level": "warn",
+      "msg": "Deriv: WS was stale before chart render (cycle) (state=3) — reconnecting before placing order",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:55:25.396Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:55:25.635Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=UWu0RUrv"
+      }
+    },
+    {
+      "ts": "2026-06-30T13:55:25.943Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:55:25.943Z",
+      "level": "network",
+      "msg": "Deriv: WS reconnected before chart render (cycle) (recovered from state=3)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T13:55:25.944Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxGBPJPY @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": null,
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T13:55:26.098Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782792000000,
+          "max": 1782827700000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T13:55:28.178Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2234,
+        "bytes": 150972
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 16,
+    "trades": 18,
     "wins": 2,
-    "losses": 14,
-    "pnl": -4.59,
+    "losses": 16,
+    "pnl": -6.81,
     "by_symbol": {
       "cryBTCUSD": {
         "trades": 7,
@@ -3062,6 +3010,12 @@
         "wins": 0,
         "losses": 2,
         "pnl": -1.06
+      },
+      "frxGBPJPY": {
+        "trades": 2,
+        "wins": 0,
+        "losses": 2,
+        "pnl": -2.22
       }
     }
   },
