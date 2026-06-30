@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T14:55:21.141Z",
+  "last_cycle": "2026-06-30T14:58:08.409Z",
   "balance": 9922.26,
   "currency": "USD",
   "account_mode": "demo",
@@ -1172,179 +1172,10 @@
     "GEMINI_KEY_3": 1782815123137,
     "GEMINI_KEY_4": 1782815123137,
     "GEMINI_KEY_1": 1782819027062,
-    "CLOUDFLARE_KEY_1": 1782820226730
+    "CLOUDFLARE_KEY_1": 1782820226730,
+    "OPENROUTER_KEY_1": 1782831414021
   },
   "logs": [
-    {
-      "ts": "2026-06-30T13:53:14.421Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=tRS1CwoR"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:53:14.706Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:53:14.782Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T13:53:14.782Z",
-        "symbol": "frxGBPJPY",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T13:53:16.194Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:53:16.194Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:53:16.194Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:55:24.348Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
-      "meta": {
-        "action": "open",
-        "symbol": "frxGBPJPY",
-        "conf": 0.65
-      }
-    },
-    {
-      "ts": "2026-06-30T13:55:24.349Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "open",
-        "decision_id": "dec-7f02b1",
-        "keyUsed": "OPENROUTER_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:55:24.350Z",
-      "level": "warn",
-      "msg": "Deriv: WS was stale before trade placement (multiplier) (state=3) â reconnecting before placing order",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:55:24.350Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:55:24.768Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=h2vGueXs"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:55:25.024Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:55:25.024Z",
-      "level": "network",
-      "msg": "Deriv: WS reconnected before trade placement (multiplier) (recovered from state=3)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:55:25.207Z",
-      "level": "warn",
-      "msg": "placeMultiplier: clamping TP/SL into broker ranges (v5 pre-flight)",
-      "meta": {
-        "symbol": "frxGBPJPY",
-        "multiplier": 300,
-        "stake": 1.5,
-        "adjustments": {
-          "take_profit": {
-            "from": 1.5,
-            "to": 1.54,
-            "range": {
-              "min": 0.1,
-              "max": 72.5
-            },
-            "reason": "validation_params.take_profit"
-          }
-        },
-        "vp": {
-          "stake": {
-            "min": 1,
-            "max": 2000
-          },
-          "take_profit": {
-            "min": 0.1,
-            "max": 72.5
-          },
-          "stop_loss": {
-            "min": 0.37,
-            "max": 1.45
-          }
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T13:55:25.394Z",
-      "level": "error",
-      "msg": "placeMultiplier failed",
-      "meta": {
-        "symbol": "frxGBPJPY",
-        "error": "ContractBuyValidationError: Enter an amount equal to or higher than 0.68."
-      }
-    },
-    {
-      "ts": "2026-06-30T13:55:25.395Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T13:53:14.782Z",
-        "symbol": "frxGBPJPY",
-        "decision_action": "open",
-        "decision_id": "dec-7f02b1",
-        "rationale": "M5/M10/M15 Stochastics are overbought (k=90.4/91.8/81.2) with price at 214.787 pressing against M5 upper Bollinger Band (214.831) and resistance cluster 214.807-214.819. ADX shows trending strength (3",
-        "executed_count": 1,
-        "just_closed": 2,
-        "open_now": 0,
-        "session_pnl": -2.22,
-        "floating_pnl": null,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T13:55:25.396Z",
-      "level": "warn",
-      "msg": "Deriv: WS was stale before chart render (cycle) (state=3) â reconnecting before placing order",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:55:25.396Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
     {
       "ts": "2026-06-30T13:55:25.635Z",
       "level": "network",
@@ -3167,6 +2998,142 @@
         "cycle_id": "2026-06-30T14:55:21.140Z",
         "ms_since_last": 70501,
         "interval_ms": 90000
+      }
+    },
+    {
+      "ts": "2026-06-30T14:56:51.436Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T14:56:51.436Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:56:51.440Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:56:51.990Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=YYd0wQNs"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:56:52.314Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:56:52.431Z",
+      "level": "info",
+      "msg": "Manual scan tick",
+      "meta": {
+        "symbol": "frxUSDCAD"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:56:54.020Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:56:54.021Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:56:54.021Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:58:02.542Z",
+      "level": "warn",
+      "msg": "Provider \"openrouter\" key \"OPENROUTER_KEY_1\" failed — flagged",
+      "meta": {
+        "error": "AI returned non-JSON: The user wants me to act as AURELIA-Multipliers, an AI decision engine for a Deriv MULTUP/MULTDOWN bot. I need to analyze the current market data and open posit"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:58:02.543Z",
+      "level": "warn",
+      "msg": "askMultiplierDecision: all providers failed; defaulting to hold",
+      "meta": {
+        "error": "All AI providers/keys failed; last error: AI returned non-JSON: The user wants me to act as AURELIA-Multipliers, an AI decision engine for a Deriv MULTUP/MULTDOWN bot. I need to analyze the current market data and open posit"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:58:02.544Z",
+      "level": "warn",
+      "msg": "Deriv: WS was stale before chart render (manual) (state=3) — reconnecting before placing order",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:58:02.544Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:58:03.097Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=v0OVxyfk"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:58:03.432Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:58:03.432Z",
+      "level": "network",
+      "msg": "Deriv: WS reconnected before chart render (manual) (recovered from state=3)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:58:03.433Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxUSDCAD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782802500000,
+          "max": 1782838200000
+        },
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T14:58:03.595Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782802500000,
+          "max": 1782838200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T14:58:06.911Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 3478,
+        "bytes": 167105
       }
     }
   ],
