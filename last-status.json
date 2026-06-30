@@ -1,23 +1,23 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T10:40:55.103Z",
-  "balance": 9972.23,
+  "last_cycle": "2026-06-30T10:45:41.493Z",
+  "balance": 9972.26,
   "currency": "USD",
   "account_mode": "demo",
   "cycle_session": {
     "active": true,
     "started_at": "2026-06-30T09:38:58.110Z",
     "capital_start": 20,
-    "capital_remaining": 17.5,
+    "capital_remaining": 17.31,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 7,
+    "trades": 8,
     "wins": 2,
-    "losses": 5,
-    "pnl": -1.5,
-    "win_streak": 1,
-    "loss_streak": 0,
+    "losses": 6,
+    "pnl": -1.69,
+    "win_streak": 0,
+    "loss_streak": 1,
     "halted": false,
     "halt_reason": null
   },
@@ -25,24 +25,24 @@
   "cycle_open_siblings": {
     "cryBTCUSD": [
       {
-        "contract_id": 3711996879,
+        "contract_id": 3712430159,
         "stake": 1,
         "multiplier": 500,
         "direction": "down",
-        "entry_spot": 59291.209,
-        "entry_time": "2026-06-30T10:40:51.000Z",
+        "entry_spot": 59294.377,
+        "entry_time": "2026-06-30T10:45:37.000Z",
         "take_profit": 2,
         "stop_loss": 0.5,
         "floating_pnl": null,
         "floating_pnl_pct": null,
         "current_spot": null,
         "last_polled_at": null,
-        "cycle_id": "2026-06-30T10:40:26.318Z",
-        "decision_id": "btc-reopen-bear",
+        "cycle_id": "2026-06-30T10:45:16.333Z",
+        "decision_id": "btc-close-reopen-bear",
         "sibling_index": 0,
         "sibling_count": 1,
-        "rationale": "The existing position has a critically low stop_out_distance_pct of 0.002111, indicating high risk of forced liquidation despite a small floating profit of $0.02. A new MULTDOWN position is justified by the M15 ADX (36.05) showing a strong bearish trend with -Di (23.83) significantly above +Di (10.40), and price consistently below EMA20/EMA50 across M5, M10, and M15.",
-        "opened_at": "2026-06-30T10:40:51.672Z",
+        "rationale": "The existing position (3711996879) has a critically low stop_out_distance_pct of 0.001616 and a floating loss of -0.22, indicating high risk of forced liquidation. A new MULTDOWN position is justified by the M15 ADX (36.35) showing a strong bearish trend with -Di (23.72) significantly above +Di (10.35), and price consistently below EMA20/EMA50 across M5, M10, and M15.",
+        "opened_at": "2026-06-30T10:45:38.166Z",
         "revision_history": []
       }
     ],
@@ -801,6 +801,32 @@
       "opened_at": "2026-06-30T10:35:46.165Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-30T09:38:58.110Z"
+    },
+    {
+      "ts": "2026-06-30T10:45:37.843Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "cryBTCUSD",
+      "contract_id": 3711996879,
+      "direction": "down",
+      "stake": 1,
+      "multiplier": 500,
+      "take_profit": 2,
+      "stop_loss": -0.5,
+      "outcome": "loss",
+      "pnl": -0.19,
+      "entry": 59291.209,
+      "exit": 59294.377,
+      "close_reason": "Critically low stop_out_distance_pct and floating loss",
+      "settled": true,
+      "cycle_id": "2026-06-30T10:40:26.318Z",
+      "decision_id": "btc-reopen-bear",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "The existing position has a critically low stop_out_distance_pct of 0.002111, indicating high risk of forced liquidation despite a small floating profit of $0.02. A new MULTDOWN position is justified by the M15 ADX (36.05) showing a strong bearish trend with -Di (23.83) significantly above +Di (10.40), and price consistently below EMA20/EMA50 across M5, M10, and M15.",
+      "opened_at": "2026-06-30T10:40:51.672Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T09:38:58.110Z"
     }
   ],
   "trade_history_manual": [
@@ -833,157 +859,6 @@
     "CLOUDFLARE_KEY_1": 1782815420472
   },
   "logs": [
-    {
-      "ts": "2026-06-30T09:39:43.619Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
-      "meta": {
-        "siblings": 1,
-        "prevWindow": {
-          "min": 1782734400000,
-          "max": 1782770100000
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T09:39:43.721Z",
-      "level": "info",
-      "msg": "[chart-mult] launching Puppeteer",
-      "meta": {
-        "window": {
-          "min": 1782738000000,
-          "max": 1782773700000,
-          "justOpened": true
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T09:39:45.801Z",
-      "level": "info",
-      "msg": "[chart-mult] screenshot captured",
-      "meta": {
-        "ms": 2182,
-        "bytes": 64353
-      }
-    },
-    {
-      "ts": "2026-06-30T09:40:18.096Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T09:40:18.096Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:40:18.098Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:40:18.504Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=Sh6nbdAz"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:40:18.655Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:40:18.702Z",
-      "level": "info",
-      "msg": "Multiplier cycle: overlap guard — previous tick too recent, skipping",
-      "meta": {
-        "cycle_id": "2026-06-30T09:40:18.702Z",
-        "ms_since_last": 31910,
-        "interval_ms": 90000
-      }
-    },
-    {
-      "ts": "2026-06-30T09:45:22.108Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T09:45:22.108Z"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:45:22.110Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:45:22.463Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=gd6nX6zX"
-      }
-    },
-    {
-      "ts": "2026-06-30T09:45:22.749Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:45:22.852Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T09:45:22.852Z",
-        "symbol": "cryBTCUSD",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T09:45:22.978Z",
-      "level": "info",
-      "msg": "Detected TP/SL revert between ticks",
-      "meta": {
-        "contract_id": 3706574619,
-        "prev": {
-          "tp": 15,
-          "sl": 4.5
-        },
-        "live": {
-          "tp": 15,
-          "sl": -4.5
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T09:45:24.112Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T09:45:36.161Z",
-      "level": "info",
-      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
-      "meta": {
-        "action": "close",
-        "symbol": "cryBTCUSD",
-        "conf": 0.8
-      }
-    },
-    {
-      "ts": "2026-06-30T09:45:36.162Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "close",
-        "decision_id": "btc-close-stopout-risk",
-        "keyUsed": "GEMINI_KEY_1"
-      }
-    },
     {
       "ts": "2026-06-30T09:45:36.321Z",
       "level": "trade",
@@ -3316,20 +3191,239 @@
         "ms": 2187,
         "bytes": 174710
       }
+    },
+    {
+      "ts": "2026-06-30T10:45:15.529Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T10:45:15.529Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:15.531Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:45:15.950Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=UMDQljYy"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:16.161Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:45:16.333Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T10:45:16.333Z",
+        "symbol": "cryBTCUSD",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:16.427Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3711996879,
+        "prev": {
+          "tp": 2,
+          "sl": 0.5
+        },
+        "live": {
+          "tp": 2,
+          "sl": -0.5
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:17.497Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T10:45:37.654Z",
+      "level": "info",
+      "msg": "AI decision via \"gemini\" key \"GEMINI_KEY_1\"",
+      "meta": {
+        "action": "multi",
+        "symbol": "cryBTCUSD",
+        "conf": 0.65
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:37.655Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "multi",
+        "decision_id": "btc-close-reopen-bear",
+        "keyUsed": "GEMINI_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:37.746Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3711996879",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:37.843Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3711996879",
+      "meta": {
+        "sold_for": 0.81,
+        "balance_after": 9973.07,
+        "transaction_id": 7281728059
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:38.054Z",
+      "level": "trade",
+      "msg": "Multiplier proposal accepted cryBTCUSD MULTDOWN ×500",
+      "meta": {
+        "stake": 1,
+        "ask_price": 1,
+        "spot": 59294.377,
+        "commission": 0.14,
+        "limit_order": {
+          "stop_loss": {
+            "display_name": "Stop loss",
+            "display_order_amount": "-0.50",
+            "order_amount": -0.5,
+            "order_date": 1782816337,
+            "value": "59335.304"
+          },
+          "stop_out": {
+            "display_name": "Stop out",
+            "display_order_amount": "-1.00",
+            "order_amount": -1,
+            "order_date": 1782816337,
+            "value": "59396.432"
+          },
+          "take_profit": {
+            "display_name": "Take profit",
+            "display_order_amount": "2.00",
+            "order_amount": 2,
+            "order_date": 1782816337,
+            "value": "59029.662"
+          }
+        },
+        "validation_params": {
+          "stake": {
+            "min": 1,
+            "max": 2000
+          },
+          "take_profit": {
+            "min": 0.1,
+            "max": 48.5
+          },
+          "stop_loss": {
+            "min": 0.18,
+            "max": 0.97
+          }
+        },
+        "reclamp_iterations": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:38.166Z",
+      "level": "trade",
+      "msg": "Multiplier placed: contract_id=3712430159",
+      "meta": {
+        "symbol": "cryBTCUSD",
+        "direction": "down",
+        "contract_type": "MULTDOWN",
+        "multiplier": 500,
+        "stake": 1,
+        "final_limit_order": {
+          "take_profit": 2,
+          "stop_loss": 0.5
+        },
+        "tp_sl_clamped": false,
+        "transaction_id": 7281728279,
+        "longcode": "If you select 'Down', your total profit/loss will be the percentage decrease in BTC/USD, multiplied by 485, minus commissions."
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:38.167Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T10:45:16.333Z",
+        "symbol": "cryBTCUSD",
+        "decision_action": "multi",
+        "decision_id": "btc-close-reopen-bear",
+        "rationale": "The existing position (3711996879) has a critically low stop_out_distance_pct of 0.001616 and a floating loss of -0.22, indicating high risk of forced liquidation. A new MULTDOWN position is justified",
+        "executed_count": 2,
+        "just_closed": 0,
+        "open_now": 1,
+        "session_pnl": -1.69,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:38.168Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for cryBTCUSD @ 5m",
+      "meta": {
+        "siblings": 1,
+        "prevWindow": {
+          "min": 1782787200000,
+          "max": 1782822900000
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:38.332Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782787200000,
+          "max": 1782822900000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T10:45:40.308Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 2140,
+        "bytes": 175896
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 7,
+    "trades": 8,
     "wins": 2,
-    "losses": 5,
-    "pnl": -1.5,
+    "losses": 6,
+    "pnl": -1.69,
     "by_symbol": {
       "cryBTCUSD": {
-        "trades": 2,
+        "trades": 3,
         "wins": 2,
-        "losses": 0,
-        "pnl": 0.28
+        "losses": 1,
+        "pnl": 0.09
       },
       "frxEURAUD": {
         "trades": 3,
