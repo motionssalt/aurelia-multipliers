@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-06-30T14:17:54.464Z",
+  "last_cycle": "2026-06-30T14:21:09.563Z",
   "balance": 9941.95,
   "currency": "USD",
   "account_mode": "demo",
@@ -9,15 +9,15 @@
     "active": true,
     "started_at": "2026-06-30T13:50:55.740Z",
     "capital_start": 20,
-    "capital_remaining": 26.78,
+    "capital_remaining": 27.71,
     "take_profit": 5,
     "stop_loss": 5,
-    "trades": 2,
+    "trades": 3,
     "wins": 0,
-    "losses": 2,
-    "pnl": -2.22,
+    "losses": 3,
+    "pnl": -2.29,
     "win_streak": 0,
-    "loss_streak": 2,
+    "loss_streak": 3,
     "halted": false,
     "halt_reason": null
   },
@@ -32,60 +32,14 @@
     "frxEURCHF": [],
     "frxAUDJPY": [],
     "cryETHUSD": [],
-    "frxEURGBP": [
-      {
-        "contract_id": 3729929859,
-        "stake": 1,
-        "multiplier": 100,
-        "direction": "up",
-        "entry_spot": 0.86193,
-        "entry_time": "2026-06-30T14:09:16.000Z",
-        "take_profit": null,
-        "stop_loss": 0.35,
-        "floating_pnl": -0.06,
-        "floating_pnl_pct": -6,
-        "current_spot": 0.86187,
-        "last_polled_at": "2026-06-30T14:15:21.710Z",
-        "cycle_id": "2026-06-30T14:00:24.060Z",
-        "decision_id": "dec-7f02b1",
-        "sibling_index": 0,
-        "sibling_count": 1,
-        "rationale": "frxEURGBP M5 shows a hammer candle at the lower Bollinger Band (0.861796) with price at 0.86199, in an uptrend (EMA20 0.86202 > EMA50 0.86178). RSI 50.9 neutral, Stoch 32 not oversold. MACD histogram -0.00004 slightly negative but M15 histogram positive 0.000036. The hammer at support in a trending market (ADX 26.4) signals a high-probability bullish bounce. Other candidates rejected: frxEURAUD ex",
-        "opened_at": "2026-06-30T14:09:16.774Z",
-        "revision_history": [
-          {
-            "ts": "2026-06-30T14:17:49.279Z",
-            "outcome": "ok",
-            "requested": {
-              "stop_loss": 0.35
-            },
-            "applied": {
-              "stop_loss": 0.35
-            },
-            "decision_id": "dec-rev-001"
-          }
-        ]
-      }
-    ]
+    "frxEURGBP": []
   },
   "cycle_open_siblings_summary": {
-    "symbols": 1,
-    "positions": 1,
-    "total_stake": 1,
-    "total_floating_pnl": -0.06,
-    "per_symbol": [
-      {
-        "symbol": "frxEURGBP",
-        "count": 1,
-        "total_stake": 1,
-        "total_floating_pnl": -0.06,
-        "net_position": 0.94,
-        "direction_mix": {
-          "up": 1,
-          "down": 0
-        }
-      }
-    ]
+    "symbols": 0,
+    "positions": 0,
+    "total_stake": 0,
+    "total_floating_pnl": null,
+    "per_symbol": []
   },
   "next_cycle_eligible_at": 0,
   "trade_history_cycle": [
@@ -1102,6 +1056,32 @@
       "opened_at": "2026-06-30T13:15:14.192Z",
       "ai_outcome_note": null,
       "session_started_at": "2026-06-30T13:50:55.740Z"
+    },
+    {
+      "ts": "2026-06-30T14:21:06.816Z",
+      "path": "cycle",
+      "engine": "multipliers",
+      "symbol": "frxEURGBP",
+      "contract_id": 3729929859,
+      "direction": "up",
+      "stake": 1,
+      "multiplier": 100,
+      "take_profit": null,
+      "stop_loss": -0.35,
+      "outcome": "loss",
+      "pnl": -0.07,
+      "entry": 0.86193,
+      "exit": 0.86181,
+      "close_reason": "Bearish M5 momentum, SL revert loop, stop-out distance <1%",
+      "settled": true,
+      "cycle_id": "2026-06-30T14:00:24.060Z",
+      "decision_id": "dec-7f02b1",
+      "sibling_index": 0,
+      "sibling_count": 1,
+      "rationale": "frxEURGBP M5 shows a hammer candle at the lower Bollinger Band (0.861796) with price at 0.86199, in an uptrend (EMA20 0.86202 > EMA50 0.86178). RSI 50.9 neutral, Stoch 32 not oversold. MACD histogram -0.00004 slightly negative but M15 histogram positive 0.000036. The hammer at support in a trending market (ADX 26.4) signals a high-probability bullish bounce. Other candidates rejected: frxEURAUD ex",
+      "opened_at": "2026-06-30T14:09:16.774Z",
+      "ai_outcome_note": null,
+      "session_started_at": "2026-06-30T13:50:55.740Z"
     }
   ],
   "trade_history_manual": [
@@ -1134,172 +1114,6 @@
     "CLOUDFLARE_KEY_1": 1782820226730
   },
   "logs": [
-    {
-      "ts": "2026-06-30T13:20:24.330Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:20:24.404Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-06-30T13:20:24.403Z",
-        "symbol": "frxGBPJPY",
-        "multi_candidate": false
-      }
-    },
-    {
-      "ts": "2026-06-30T13:20:24.526Z",
-      "level": "info",
-      "msg": "Detected TP/SL revert between ticks",
-      "meta": {
-        "contract_id": 3725059059,
-        "prev": {
-          "tp": 10,
-          "sl": 4
-        },
-        "live": {
-          "tp": 10,
-          "sl": -4
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T13:20:24.645Z",
-      "level": "info",
-      "msg": "Detected TP/SL revert between ticks",
-      "meta": {
-        "contract_id": 3725059439,
-        "prev": {
-          "tp": 10,
-          "sl": 4
-        },
-        "live": {
-          "tp": 10,
-          "sl": -4
-        }
-      }
-    },
-    {
-      "ts": "2026-06-30T13:20:25.869Z",
-      "level": "warn",
-      "msg": "Provider \"cloudflare\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:20:25.869Z",
-      "level": "warn",
-      "msg": "Provider \"gemini\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:20:25.869Z",
-      "level": "warn",
-      "msg": "Provider \"openai\" has no keys configured",
-      "meta": {}
-    },
-    {
-      "ts": "2026-06-30T13:22:27.442Z",
-      "level": "info",
-      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
-      "meta": {
-        "action": "close",
-        "symbol": "frxGBPJPY",
-        "conf": 0.85
-      }
-    },
-    {
-      "ts": "2026-06-30T13:22:27.443Z",
-      "level": "info",
-      "msg": "askMultiplierDecision: validated",
-      "meta": {
-        "action": "close",
-        "decision_id": "dec-gbpjpy-close-both",
-        "keyUsed": "OPENROUTER_KEY_1"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:22:27.443Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3725059059",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T13:22:27.443Z",
-      "level": "error",
-      "msg": "AI close failed",
-      "meta": {
-        "contract_id": 3725059059,
-        "error": "WS not open (state=3)"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:22:27.443Z",
-      "level": "trade",
-      "msg": "Closing multiplier contract 3725059439",
-      "meta": {
-        "min_price": 0
-      }
-    },
-    {
-      "ts": "2026-06-30T13:22:27.444Z",
-      "level": "error",
-      "msg": "AI close failed",
-      "meta": {
-        "contract_id": 3725059439,
-        "error": "WS not open (state=3)"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:22:27.444Z",
-      "level": "info",
-      "msg": "multiplier tick summary",
-      "meta": {
-        "cycle_id": "2026-06-30T13:20:24.403Z",
-        "symbol": "frxGBPJPY",
-        "decision_action": "close",
-        "decision_id": "dec-gbpjpy-close-both",
-        "rationale": "Both DOWN x300 siblings have stop_out_distance_pct < 0.3% (0.27% and 0.25%), placing them one tick from forced liquidation at -$10 total vs current -$2.43 floating loss. Price at 214.802 sits at M5 up",
-        "executed_count": 2,
-        "just_closed": 0,
-        "open_now": 2,
-        "session_pnl": 0,
-        "floating_pnl": -2.43,
-        "halted": false,
-        "halt_reason": null,
-        "risk_breach": null
-      }
-    },
-    {
-      "ts": "2026-06-30T13:22:27.445Z",
-      "level": "info",
-      "msg": "[chart-mult] fetching 120 candles for frxGBPJPY @ 5m",
-      "meta": {
-        "siblings": 2,
-        "prevWindow": null
-      }
-    },
-    {
-      "ts": "2026-06-30T13:22:27.445Z",
-      "level": "warn",
-      "msg": "renderMultiplierSnapshot failed",
-      "meta": {
-        "symbol": "frxGBPJPY",
-        "error": "WS not open (state=3)"
-      }
-    },
-    {
-      "ts": "2026-06-30T13:25:17.738Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-06-30T13:25:17.737Z"
-      }
-    },
     {
       "ts": "2026-06-30T13:25:17.740Z",
       "level": "network",
@@ -2929,14 +2743,178 @@
         "ms": 3481,
         "bytes": 161951
       }
+    },
+    {
+      "ts": "2026-06-30T14:20:17.531Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-06-30T14:20:17.531Z"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:20:17.533Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:20:17.909Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=4ZUootsw"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:20:18.018Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:20:18.051Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-06-30T14:20:18.051Z",
+        "symbol": "frxEURGBP",
+        "multi_candidate": false
+      }
+    },
+    {
+      "ts": "2026-06-30T14:20:18.134Z",
+      "level": "info",
+      "msg": "Detected TP/SL revert between ticks",
+      "meta": {
+        "contract_id": 3729929859,
+        "prev": {
+          "tp": null,
+          "sl": 0.35
+        },
+        "live": {
+          "tp": null,
+          "sl": -0.35
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T14:20:19.101Z",
+      "level": "warn",
+      "msg": "Provider \"cloudflare\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:20:19.101Z",
+      "level": "warn",
+      "msg": "Provider \"gemini\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:20:19.102Z",
+      "level": "warn",
+      "msg": "Provider \"openai\" has no keys configured",
+      "meta": {}
+    },
+    {
+      "ts": "2026-06-30T14:21:06.639Z",
+      "level": "info",
+      "msg": "AI decision via \"openrouter\" key \"OPENROUTER_KEY_1\"",
+      "meta": {
+        "action": "close",
+        "symbol": "frxEURGBP",
+        "conf": 0.75
+      }
+    },
+    {
+      "ts": "2026-06-30T14:21:06.640Z",
+      "level": "info",
+      "msg": "askMultiplierDecision: validated",
+      "meta": {
+        "action": "close",
+        "decision_id": "dec-close-001",
+        "keyUsed": "OPENROUTER_KEY_1"
+      }
+    },
+    {
+      "ts": "2026-06-30T14:21:06.737Z",
+      "level": "trade",
+      "msg": "Closing multiplier contract 3729929859",
+      "meta": {
+        "min_price": 0
+      }
+    },
+    {
+      "ts": "2026-06-30T14:21:06.816Z",
+      "level": "trade",
+      "msg": "Multiplier closed: contract_id=3729929859",
+      "meta": {
+        "sold_for": 0.93,
+        "balance_after": 9942.88,
+        "transaction_id": 7317825579
+      }
+    },
+    {
+      "ts": "2026-06-30T14:21:06.817Z",
+      "level": "info",
+      "msg": "multiplier tick summary",
+      "meta": {
+        "cycle_id": "2026-06-30T14:20:18.051Z",
+        "symbol": "frxEURGBP",
+        "decision_action": "close",
+        "decision_id": "dec-close-001",
+        "rationale": "M5 MACD histogram -0.000061 and ADX -DI 23.1 > +DI 16.8 confirm bearish momentum; price 0.86179 sits below EMA20 0.861956 and just 0.00001 above support 0.86178. Stop-out distance only 0.96% with SL r",
+        "executed_count": 1,
+        "just_closed": 0,
+        "open_now": 0,
+        "session_pnl": -2.29,
+        "floating_pnl": null,
+        "halted": false,
+        "halt_reason": null,
+        "risk_breach": null
+      }
+    },
+    {
+      "ts": "2026-06-30T14:21:06.818Z",
+      "level": "info",
+      "msg": "[chart-mult] fetching 120 candles for frxEURGBP @ 5m",
+      "meta": {
+        "siblings": 0,
+        "prevWindow": {
+          "min": 1782799800000,
+          "max": 1782835500000
+        },
+        "recoverable": true
+      }
+    },
+    {
+      "ts": "2026-06-30T14:21:06.898Z",
+      "level": "info",
+      "msg": "[chart-mult] launching Puppeteer",
+      "meta": {
+        "window": {
+          "min": 1782793500000,
+          "max": 1782829200000,
+          "justOpened": false
+        }
+      }
+    },
+    {
+      "ts": "2026-06-30T14:21:08.686Z",
+      "level": "info",
+      "msg": "[chart-mult] screenshot captured",
+      "meta": {
+        "ms": 1868,
+        "bytes": 159909
+      }
     }
   ],
   "daily_stats": {
     "date": "2026-06-30",
-    "trades": 18,
+    "trades": 19,
     "wins": 2,
-    "losses": 16,
-    "pnl": -6.81,
+    "losses": 17,
+    "pnl": -6.88,
     "by_symbol": {
       "cryBTCUSD": {
         "trades": 7,
@@ -2973,6 +2951,12 @@
         "wins": 0,
         "losses": 2,
         "pnl": -2.22
+      },
+      "frxEURGBP": {
+        "trades": 1,
+        "wins": 0,
+        "losses": 1,
+        "pnl": -0.07
       }
     }
   },
@@ -3008,10 +2992,5 @@
   },
   "_notified_halt_reason": null,
   "_notified_session_summary": null,
-  "chart_windows": {
-    "frxEURGBP": {
-      "min": 1782799800000,
-      "max": 1782835500000
-    }
-  }
+  "chart_windows": {}
 }
