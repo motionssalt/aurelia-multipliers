@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-07-20T22:30:26.974Z",
+  "last_cycle": "2026-07-20T22:35:26.045Z",
   "balance": 9854.47,
   "currency": "USD",
   "account_mode": "demo",
@@ -1222,34 +1222,6 @@
     "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-07-20T20:30:30.224Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-07-20T20:30:30.224Z"
-      }
-    },
-    {
-      "ts": "2026-07-20T20:30:30.225Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-07-20T20:30:30.805Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=bw0WE7JX"
-      }
-    },
-    {
-      "ts": "2026-07-20T20:30:31.148Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
     {
       "ts": "2026-07-20T20:30:31.312Z",
       "level": "info",
@@ -3295,6 +3267,37 @@
         "cycle_running": false,
         "halted": false,
         "session_active": true
+      }
+    },
+    {
+      "ts": "2026-07-20T22:35:23.528Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-07-20T22:35:23.528Z"
+      }
+    },
+    {
+      "ts": "2026-07-20T22:35:23.530Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-07-20T22:35:25.006Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=GXM8CB6T"
+      }
+    },
+    {
+      "ts": "2026-07-20T22:35:25.511Z",
+      "level": "error",
+      "msg": "Tick failed",
+      "meta": {
+        "error": "",
+        "stack": "AggregateError [ETIMEDOUT]: \n    at internalConnectMultiple (node:net:1135:18)\n    at internalConnectMultiple (node:net:1211:5)\n    at Timeout.internalConnectMultipleTimeout (node:net:1743:5)\n    at listOnTimeout (node:internal/timers:587:11)\n    at process.processTimers (node:internal/timers:521:7)"
       }
     }
   ],
