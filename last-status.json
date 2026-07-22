@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-07-22T18:55:18.654Z",
+  "last_cycle": "2026-07-22T19:00:27.455Z",
   "balance": 9854.47,
   "currency": "USD",
   "account_mode": "demo",
@@ -1222,68 +1222,6 @@
     "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-07-22T16:35:23.675Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-07-22T16:35:23.675Z"
-      }
-    },
-    {
-      "ts": "2026-07-22T16:35:23.676Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-07-22T16:35:24.203Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=X8tnmSb7"
-      }
-    },
-    {
-      "ts": "2026-07-22T16:35:44.212Z",
-      "level": "error",
-      "msg": "Tick failed",
-      "meta": {
-        "error": "WS open timeout",
-        "stack": "Error: WS open timeout\n    at Timeout.<anonymous> (/home/runner/work/aurelia-multipliers/aurelia-multipliers/deriv.js:305:20)\n    at listOnTimeout (node:internal/timers:585:17)\n    at process.processTimers (node:internal/timers:521:7)"
-      }
-    },
-    {
-      "ts": "2026-07-22T16:40:18.288Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-07-22T16:40:18.288Z"
-      }
-    },
-    {
-      "ts": "2026-07-22T16:40:18.290Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-07-22T16:40:18.797Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=wqK4vN2N"
-      }
-    },
-    {
-      "ts": "2026-07-22T16:40:38.804Z",
-      "level": "error",
-      "msg": "Tick failed",
-      "meta": {
-        "error": "WS open timeout",
-        "stack": "Error: WS open timeout\n    at Timeout.<anonymous> (/home/runner/work/aurelia-multipliers/aurelia-multipliers/deriv.js:305:20)\n    at listOnTimeout (node:internal/timers:585:17)\n    at process.processTimers (node:internal/timers:521:7)"
-      }
-    },
     {
       "ts": "2026-07-22T16:45:22.603Z",
       "level": "info",
@@ -3207,6 +3145,89 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-07-22T18:55:18.024Z",
+        "symbol": "frxEURUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-07-22T19:00:26.026Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-07-22T19:00:26.026Z"
+      }
+    },
+    {
+      "ts": "2026-07-22T19:00:26.029Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-07-22T19:00:26.368Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=waE2oFJF"
+      }
+    },
+    {
+      "ts": "2026-07-22T19:00:26.564Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-07-22T19:00:26.618Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-07-22T19:00:26.619Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-07-22T19:00:26.618Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-07-22T19:00:27.454Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-07-22T19:00:26.618Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-07-22T19:00:27.454Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-07-22T19:00:26.618Z",
         "symbol": "frxEURUSD",
         "cycle_running": false,
         "halted": false,
