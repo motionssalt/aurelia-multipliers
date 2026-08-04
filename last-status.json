@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-08-04T15:05:34.206Z",
+  "last_cycle": "2026-08-04T15:10:25.106Z",
   "balance": 9854.47,
   "currency": "USD",
   "account_mode": "demo",
@@ -1222,74 +1222,6 @@
     "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-08-04T12:55:27.698Z",
-      "level": "info",
-      "msg": "Multiplier cycle tick",
-      "meta": {
-        "cycle_id": "2026-08-04T12:55:26.810Z",
-        "symbol": "frxEURUSD",
-        "multi_candidate": true
-      }
-    },
-    {
-      "ts": "2026-08-04T12:55:27.699Z",
-      "level": "info",
-      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
-      "meta": {
-        "cycle_id": "2026-08-04T12:55:26.810Z",
-        "symbol": "frxEURUSD",
-        "cycle_running": false,
-        "halted": false,
-        "session_active": true
-      }
-    },
-    {
-      "ts": "2026-08-04T13:00:26.396Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-08-04T13:00:26.396Z"
-      }
-    },
-    {
-      "ts": "2026-08-04T13:00:26.398Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-08-04T13:02:31.662Z",
-      "level": "error",
-      "msg": "Tick failed",
-      "meta": {
-        "error": "otp 524: {\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-524/\",\"title\":\"Error 524: A timeout occurred\",\"status\":524,\"detail\":\"The origin web ser",
-        "stack": "Error: otp 524: {\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-524/\",\"title\":\"Error 524: A timeout occurred\",\"status\":524,\"detail\":\"The origin web ser\n    at getOtpUrl (/home/runner/work/aurelia-multipliers/aurelia-multipliers/deriv.js:153:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async Object.connect (/home/runner/work/aurelia-multipliers/aurelia-multipliers/deriv.js:327:17)\n    at async main (/home/runner/work/aurelia-multipliers/aurelia-multipliers/runner.js:3075:16)"
-      }
-    },
-    {
-      "ts": "2026-08-04T13:05:23.111Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-08-04T13:05:23.111Z"
-      }
-    },
-    {
-      "ts": "2026-08-04T13:05:23.113Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-08-04T13:07:28.476Z",
-      "level": "error",
-      "msg": "Tick failed",
-      "meta": {
-        "error": "otp 524: {\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-524/\",\"title\":\"Error 524: A timeout occurred\",\"status\":524,\"detail\":\"The origin web ser",
-        "stack": "Error: otp 524: {\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-524/\",\"title\":\"Error 524: A timeout occurred\",\"status\":524,\"detail\":\"The origin web ser\n    at getOtpUrl (/home/runner/work/aurelia-multipliers/aurelia-multipliers/deriv.js:153:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async Object.connect (/home/runner/work/aurelia-multipliers/aurelia-multipliers/deriv.js:327:17)\n    at async main (/home/runner/work/aurelia-multipliers/aurelia-multipliers/runner.js:3075:16)"
-      }
-    },
     {
       "ts": "2026-08-04T13:10:25.890Z",
       "level": "info",
@@ -3276,6 +3208,89 @@
       "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
       "meta": {
         "cycle_id": "2026-08-04T15:05:33.439Z",
+        "symbol": "frxEURUSD",
+        "cycle_running": false,
+        "halted": false,
+        "session_active": true
+      }
+    },
+    {
+      "ts": "2026-08-04T15:10:22.719Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-08-04T15:10:22.719Z"
+      }
+    },
+    {
+      "ts": "2026-08-04T15:10:22.721Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-08-04T15:10:23.346Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=DVEY6MPY"
+      }
+    },
+    {
+      "ts": "2026-08-04T15:10:23.720Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-08-04T15:10:23.838Z",
+      "level": "info",
+      "msg": "Multiplier cycle paused (config.cycle.running=false)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-08-04T15:10:23.839Z",
+      "level": "info",
+      "msg": "Multiplier cycle: multi-candidate scan",
+      "meta": {
+        "cycle_id": "2026-08-04T15:10:23.838Z",
+        "candidates": [
+          "frxEURUSD",
+          "frxGBPUSD",
+          "frxUSDJPY",
+          "frxAUDUSD",
+          "frxUSDCAD",
+          "frxUSDCHF",
+          "frxNZDUSD",
+          "frxEURJPY",
+          "frxEURGBP",
+          "frxGBPJPY",
+          "frxAUDJPY",
+          "frxEURAUD",
+          "frxEURCAD",
+          "frxEURCHF",
+          "frxXAUUSD",
+          "cryBTCUSD",
+          "cryETHUSD"
+        ]
+      }
+    },
+    {
+      "ts": "2026-08-04T15:10:25.104Z",
+      "level": "info",
+      "msg": "Multiplier cycle tick",
+      "meta": {
+        "cycle_id": "2026-08-04T15:10:23.838Z",
+        "symbol": "frxEURUSD",
+        "multi_candidate": true
+      }
+    },
+    {
+      "ts": "2026-08-04T15:10:25.105Z",
+      "level": "info",
+      "msg": "Multiplier cycle: paused/halted with no open siblings — skipping AI call",
+      "meta": {
+        "cycle_id": "2026-08-04T15:10:23.838Z",
         "symbol": "frxEURUSD",
         "cycle_running": false,
         "halted": false,
