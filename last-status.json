@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-08-04T01:15:18.113Z",
+  "last_cycle": "2026-08-04T01:22:34.426Z",
   "balance": 9854.47,
   "currency": "USD",
   "account_mode": "demo",
@@ -1222,28 +1222,6 @@
     "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-08-03T23:15:21.347Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-08-03T23:15:21.347Z"
-      }
-    },
-    {
-      "ts": "2026-08-03T23:15:21.349Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-08-03T23:15:21.747Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=tKaC2iJS"
-      }
-    },
     {
       "ts": "2026-08-03T23:15:21.838Z",
       "level": "network",
@@ -3295,6 +3273,29 @@
         "cycle_running": false,
         "halted": false,
         "session_active": true
+      }
+    },
+    {
+      "ts": "2026-08-04T01:20:28.857Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-08-04T01:20:28.857Z"
+      }
+    },
+    {
+      "ts": "2026-08-04T01:20:28.859Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-08-04T01:22:33.992Z",
+      "level": "error",
+      "msg": "Tick failed",
+      "meta": {
+        "error": "otp 524: {\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-524/\",\"title\":\"Error 524: A timeout occurred\",\"status\":524,\"detail\":\"The origin web ser",
+        "stack": "Error: otp 524: {\"type\":\"https://developers.cloudflare.com/support/troubleshooting/http-status-codes/cloudflare-5xx-errors/error-524/\",\"title\":\"Error 524: A timeout occurred\",\"status\":524,\"detail\":\"The origin web ser\n    at getOtpUrl (/home/runner/work/aurelia-multipliers/aurelia-multipliers/deriv.js:153:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)\n    at async Object.connect (/home/runner/work/aurelia-multipliers/aurelia-multipliers/deriv.js:327:17)\n    at async main (/home/runner/work/aurelia-multipliers/aurelia-multipliers/runner.js:3075:16)"
       }
     }
   ],
