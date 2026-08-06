@@ -1,7 +1,7 @@
 {
   "_schema_version": "aurelia-multipliers-1.0",
   "_state_shape_doc": "See STATE_SHAPE.md for the authoritative shape of this file.",
-  "last_cycle": "2026-08-06T21:54:29.831Z",
+  "last_cycle": "2026-08-06T21:55:30.850Z",
   "balance": 9854.47,
   "currency": "USD",
   "account_mode": "demo",
@@ -1222,40 +1222,6 @@
     "GEMINI_KEY_2": 1782840630673
   },
   "logs": [
-    {
-      "ts": "2026-08-06T14:05:26.121Z",
-      "level": "info",
-      "msg": "Tick start",
-      "meta": {
-        "ts": "2026-08-06T14:05:26.121Z"
-      }
-    },
-    {
-      "ts": "2026-08-06T14:05:26.123Z",
-      "level": "network",
-      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
-      "meta": {}
-    },
-    {
-      "ts": "2026-08-06T14:05:26.568Z",
-      "level": "network",
-      "msg": "Deriv: opening WebSocket",
-      "meta": {
-        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=yUnycWNt"
-      }
-    },
-    {
-      "ts": "2026-08-06T14:05:26.807Z",
-      "level": "network",
-      "msg": "Deriv: WebSocket open",
-      "meta": {}
-    },
-    {
-      "ts": "2026-08-06T14:05:26.864Z",
-      "level": "info",
-      "msg": "Multiplier cycle paused (config.cycle.running=false)",
-      "meta": {}
-    },
     {
       "ts": "2026-08-06T14:05:26.865Z",
       "level": "info",
@@ -3295,6 +3261,44 @@
         "cycle_running": false,
         "halted": false,
         "session_active": true
+      }
+    },
+    {
+      "ts": "2026-08-06T21:55:29.823Z",
+      "level": "info",
+      "msg": "Tick start",
+      "meta": {
+        "ts": "2026-08-06T21:55:29.822Z"
+      }
+    },
+    {
+      "ts": "2026-08-06T21:55:29.825Z",
+      "level": "network",
+      "msg": "Deriv: requesting OTP for DOT93176227 (demo)",
+      "meta": {}
+    },
+    {
+      "ts": "2026-08-06T21:55:30.441Z",
+      "level": "network",
+      "msg": "Deriv: opening WebSocket",
+      "meta": {
+        "url": "wss://api.derivws.com/trading/v1/options/ws/demo?otp=xVQjwRCK"
+      }
+    },
+    {
+      "ts": "2026-08-06T21:55:30.748Z",
+      "level": "network",
+      "msg": "Deriv: WebSocket open",
+      "meta": {}
+    },
+    {
+      "ts": "2026-08-06T21:55:30.849Z",
+      "level": "info",
+      "msg": "Multiplier cycle: overlap guard — previous tick too recent, skipping",
+      "meta": {
+        "cycle_id": "2026-08-06T21:55:30.849Z",
+        "ms_since_last": 61018,
+        "interval_ms": 90000
       }
     }
   ],
